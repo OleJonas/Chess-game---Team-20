@@ -31,4 +31,22 @@ public class Board {
         this.position[3][7] = new Queen(false, 3, 7);
         this.position[4][7] = new King(false, 4, 7);
     }
+    public String toString(){
+        String a = "";
+        for(int i = 0; i<position.length; i++) {
+            for (int j = 0; j < position[i].length; j++) {
+                if(position[i][j]==null){
+                    a+= "empty, ";
+                }else {
+                    a += position[i][j].getNotation() + ", ";
+                }
+            }
+            a+="\n";
+        }
+        return a;
+    }
+    public static void main(String[] args){
+        Board board = new Board();
+        System.out.println(board);
+    }
 }
