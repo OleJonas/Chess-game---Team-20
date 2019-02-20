@@ -7,10 +7,8 @@ public class Board {
 
         //add pawns
         for (int i = 0; i < 8; i++) {
-            this.position[i][1] = new Pawn(true);
-            this.position[i][6] = new Pawn(false);
-
-
+            this.position[i][1] = new Pawn(true, i, 1);
+            this.position[i][6] = new Pawn(false, i, 6);
         }
         this.position[0] = {new Rook(true, 0, 0), new Knight(true, 1, 0), new Bishop(true, 2, 0),  new Queen(true, 3, 0),
                 new King(true, 4, 0), new Bishop(true, 5, 0), new Knight(true, 6, 0),  new Rook(true, 7, 0)};
