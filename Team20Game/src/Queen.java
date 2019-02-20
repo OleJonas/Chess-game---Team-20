@@ -1,4 +1,4 @@
-public class Queen extends Pieces {
+public class Queen extends Piece {
     public Queen(boolean color) {
 
     }

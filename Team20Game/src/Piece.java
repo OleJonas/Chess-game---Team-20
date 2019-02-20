@@ -1,9 +1,9 @@
-public abstract class Pieces {
+public abstract class Piece {
     private boolean color;
     private int x;
     private int y;
 
-    public Pieces(boolean color, int x, int y) {
+    public Piece(boolean color, int x, int y) {
         this.color = color;
         this.x = this.y;
     }
