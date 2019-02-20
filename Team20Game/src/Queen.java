@@ -1,5 +1,11 @@
 public class Queen extends Piece {
-    public Queen(boolean color) {
+    private char notation;
+    public Queen(boolean color, int x, int y, char notation) {
+        super(color, x, y);
+        this.notation = notation;
+    }
 
+    public char getNotation() {
+        return 'Q';
     }
 }
