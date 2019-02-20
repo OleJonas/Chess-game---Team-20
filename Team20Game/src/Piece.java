@@ -5,7 +5,8 @@ public abstract class Piece {
 
     public Piece(boolean color, int x, int y) {
         this.color = color;
-        this.x = this.y;
+        this.x = x;
+        this.y = y;
     }
 
     public boolean getColor() {
@@ -35,6 +36,6 @@ public abstract class Piece {
     public abstract char getNotation();
 
     public String toString() {
-        return getNotation() + "" + (getX() + 'A') + "" + (getY() + 1);
+        return getNotation() + "" + ((char) (getX() + 'A')) + "" + (getY() + 1);
     }
 }
