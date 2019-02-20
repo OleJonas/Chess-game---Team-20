@@ -6,4 +6,8 @@ public class King extends Piece {
     public char getNotation() {
         return 'K';
     }
+
+    public String toString() {
+        return super.toString();
+    }
 }
