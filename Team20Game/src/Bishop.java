@@ -10,7 +10,7 @@ public class Bishop extends Piece {
     }
 
     public String toString() {
-        return "" + getNotation() + ;
+        return "" + getNotation();
     }
 }
 
