@@ -6,4 +6,8 @@ public class Queen extends Piece {
     public char getNotation() {
         return 'Q';
     }
+
+    public String toString() {
+        return super.toString();
+    }
 }

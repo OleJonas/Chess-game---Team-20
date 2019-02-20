@@ -7,4 +7,8 @@ public class Bishop extends Piece {
     public char getNotation() {
         return 'B';
     }
+
+    public String toString() {
+        return super.toString();
+    }
 }

@@ -33,4 +33,8 @@ public abstract class Piece {
     }
 
     public abstract char getNotation();
+
+    public String toString() {
+        return getNotation() + "" + (getX() + 'A') + "" + (getY() + 1);
+    }
 }
