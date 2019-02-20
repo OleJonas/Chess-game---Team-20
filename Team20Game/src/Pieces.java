@@ -1,4 +1,4 @@
-public class Pieces {
+public abstract class Pieces {
     private boolean color;
 
     public Pieces(boolean color) {
