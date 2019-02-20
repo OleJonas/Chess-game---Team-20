@@ -1,7 +1,7 @@
 public class Board {
     private Piece[][] position;
 
-    public Board(){
+    public Board() {
         //Default constructor with no arguments will create the starting position of a standard chess game
         this.position = new Piece[8][8];
 
