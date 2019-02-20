@@ -4,11 +4,11 @@ public class Pawn extends Piece {
     }
 
     public char getNotation() {
-        return ' ';
+        return 'P';
     }
 
     @Override
     public String toString() {
-        return (super.getX() + 'A') + "" + (super.getY() + 1);
+        return super.toString();
     }
 }

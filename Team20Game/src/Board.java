@@ -7,8 +7,8 @@ public class Board {
 
         //add pawns
         for (int i = 0; i < 8; i++) {
-            position[i][1] = new Pawn(true, i, 1);
-            position[i][6] = new Pawn(false, i, 6);
+            position[1][i] = new Pawn(true, i, 1);
+            position[6][i] = new Pawn(false, i, 6);
         }
 
         position[0] = new Piece[]{new Rook(true, 0, 0), new Knight(true, 1, 0), new Bishop(true, 2, 0), new Queen(true, 3, 0),
@@ -18,12 +18,12 @@ public class Board {
     }
     public String toString(){
         String a = "";
-        for(int j = 0; j<position.length; j++) {
-            for (int i = 0; i < position[j].length; i++) {
+        for(int i = 0; i<position.length; i++) {
+            for (int j = 0; j < position[i].length; j++) {
                 if(position[i][j]==null){
-                    a+= "empty, ";
+                    a+= "*** ";
                 }else {
-                    a += position[i][j] + ", ";
+                    a += position[i][j] + " ";
                 }
             }
             a+="\n";
