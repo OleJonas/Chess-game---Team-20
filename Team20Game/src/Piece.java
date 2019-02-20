@@ -29,10 +29,6 @@ public abstract class Piece {
         this.y = y;
     }
 
-    public void setColor(boolean color) {
-        this.color = color;
-    }
-
     public abstract char getNotation();
 
     public String toString() {
