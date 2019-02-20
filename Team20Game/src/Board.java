@@ -33,12 +33,12 @@ public class Board {
     }
     public String toString(){
         String a = "";
-        for(int i = 0; i<position.length; i++) {
-            for (int j = 0; j < position[i].length; j++) {
+        for(int j = 0; j<position.length; j++) {
+            for (int i = 0; i < position[j].length; i++) {
                 if(position[i][j]==null){
                     a+= "empty, ";
                 }else {
-                    a += position[i][j].getNotation() + ", ";
+                    a += position[i][j] + ", ";
                 }
             }
             a+="\n";
@@ -48,5 +48,8 @@ public class Board {
     public static void main(String[] args){
         Board board = new Board();
         System.out.println(board);
+
+        Rook rook = new Rook(true, 0, 0);
+        System.out.println(rook);
     }
 }
