@@ -16,6 +16,22 @@ public class Board {
         position[7] = new Piece[]{new Rook(false, 0, 7), new Knight(false, 1, 7), new Bishop(false, 2, 7), new Queen(false, 3, 7),
                 new King(false, 4, 7), new Bishop(false, 5, 7), new Knight(false, 6, 7), new Rook(false, 7, 7)};
     }
+
+    public Board(Piece[][] positions){
+        this.position = positions;
+    }
+
+    public Piece[][] getBoardState(){
+        Piece[][] out = new Piece[position.length][];
+        for(int i = 0; i < position.length; i++){
+            Piece[] aPosition = position[i];
+            int aLength = aPosition.length;
+            out[i] = new Piece[aLength];
+            System.arraycopy(aPosition, 0, out[i], 0, aLength);
+        }
+        return out;
+    }
+
     public String toString(){
         String a = "";
         for(int i = 0; i<position.length; i++) {
@@ -30,11 +46,18 @@ public class Board {
         }
         return a;
     }
+
     public static void main(String[] args){
         Board board = new Board();
         System.out.println(board);
 
         Rook rook = new Rook(true, 0, 0);
         System.out.println(rook);
+        System.out.println(board.toString());
+
+        Piece[][] boardstate = board.getBoardState();
+
+        Board board2 = new Board(boardstate);
+        System.out.println(board2.toString());
     }
 }
