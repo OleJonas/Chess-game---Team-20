@@ -10,14 +10,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.sql.*;
-import java.util.*;
-import java.io.*;
-import javafx.scene.layout.StackPane;
-import javafx.embed.swing.JFXPanel;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 
 public class Login extends Application{
     Stage window;
