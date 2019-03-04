@@ -54,8 +54,11 @@ public class Login extends Application{
             }
         });
         //signupButton
-        signUpButton = new Button("Not registrated?");
-        signUpButton.setOnAction(e -> window.setScene(signUpScene));
+        signUpButton = new Button("Not registered?");
+        signUpButton.setOnAction(e -> {
+            window.setScene(signUpScene);
+            loginComment.setText("");
+        });
         //loginLayout
         GridPane loginLayout = new GridPane(); //Creates grid
         loginLayout.getColumnConstraints().add(new ColumnConstraints(80)); //Setting columnconstraint for left column
@@ -86,26 +89,36 @@ public class Login extends Application{
             String registerPasswordInput = registerPasswordField.getText();
             String registerEmailInput = registerEmailField.getText();
 
-            boolean registrationOK = false;
-            try {
-                registrationOK = register(registerUsernameInput, registerPasswordInput, registerEmailInput);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            if (registrationOK) {
-                window.setScene(startScene);
-                registerUsernameField.clear();
-                registerPasswordField.clear();
-                registerEmailField.clear();
-                registerComment.setText(""); //CLearing the label for next time
+            if(registerUsernameInput.equals("") || registerUsernameInput.equals(" ")){
+                registerComment.setText("Username cannot be blank");
+            }else if(registerPasswordInput.equals("") || registerPasswordInput.equals(" ")){
+                registerComment.setText("Password cannot be blank");
+            } else if(registerEmailInput.equals("") || registerEmailInput.equals(" ")){
+                registerComment.setText("Email cannot be blank");
             } else {
-                System.out.println("User already exist!");
-                registerUsernameField.clear();
-                registerPasswordField.clear();
-                registerEmailField.clear();
-                registerComment.setText("User already exist");
+                boolean registrationOK = false;
+                try {
+                    registrationOK = register(registerUsernameInput, registerPasswordInput, registerEmailInput);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                if (registrationOK) {
+                    window.setScene(startScene);
+                    registerUsernameField.clear();
+                    registerPasswordField.clear();
+                    registerEmailField.clear();
+                    registerComment.setText(""); //CLearing the label for next time
+                    loginComment.setText("");
+                } else {
+                    System.out.println("User already exist!");
+                    registerUsernameField.clear();
+                    registerPasswordField.clear();
+                    registerEmailField.clear();
+                    registerComment.setText("User already exist");
+                }
             }
         });
+
         //signUpAlreadyAccountButton
         signUpalreadyAccountButton = new Button("Already registered?");
         signUpalreadyAccountButton.setOnAction(e -> window.setScene(startScene));
