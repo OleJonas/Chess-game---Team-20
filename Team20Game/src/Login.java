@@ -1,3 +1,4 @@
+import com.mysql.cj.protocol.Resultset;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,10 +9,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.*;
 import java.io.*;
 import javafx.scene.layout.StackPane;
@@ -21,14 +19,16 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 
-public class Login extends Application {
+public class Login extends Application{
     Stage window;
     Button loginButton, signUpButton, signUpalreadyAccountButton, signUpRegisterButton;
     Scene startScene, signUpScene, loggedInScene;
     TextField loginUsernameField, registerUsernameField, registerEmailField;
     PasswordField loginPasswordField, registerPasswordField;
+    Label registerComment;
 
-    public static void main(String[] args){
+
+    public static void main(String[] args) throws SQLException{
         launch(args);
     }
 
@@ -78,23 +78,33 @@ public class Login extends Application {
         registerUsernameField = new TextField();
         registerPasswordField = new PasswordField();
         registerEmailField = new TextField();
+        //Label
+        registerComment = new Label();
         //signUpRegisterButton
         signUpRegisterButton = new Button("Sign up");
         signUpRegisterButton.setOnAction(e -> {
             String registerUsernameInput = registerUsernameField.getText();
             String registerPasswordInput = registerPasswordField.getText();
             String registerEmailInput = registerEmailField.getText();
-            boolean registrationOK = register(registerUsernameInput, registerPasswordInput, registerEmailInput);
+
+            boolean registrationOK = false;
+            try {
+                registrationOK = register(registerUsernameInput, registerPasswordInput, registerEmailInput);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             if (registrationOK) {
-                window.setScene(startScene);
+                //window.setScene(startScene);
                 registerUsernameField.clear();
                 registerPasswordField.clear();
                 registerEmailField.clear();
+                registerComment.setText("Registered!");
             } else {
                 System.out.println("User already exist!");
                 registerUsernameField.clear();
                 registerPasswordField.clear();
                 registerEmailField.clear();
+                registerComment.setText("User already exist");
             }
         });
         //signUpAlreadyAccountButton
@@ -114,7 +124,8 @@ public class Login extends Application {
         signUpLayout.add(registerEmailField, 1, 3);
         signUpLayout.add(signUpRegisterButton, 0, 4);
         signUpLayout.add(signUpalreadyAccountButton, 1, 4);
-        signUpScene = new Scene(signUpLayout, 400,150);
+        signUpLayout.add(registerComment, 1, 5);
+        signUpScene = new Scene(signUpLayout, 400,170);
 
 
         //loggedInScene
@@ -148,7 +159,7 @@ public class Login extends Application {
             System.out.println("SQL-Feil: " + sq);
         }
         if(matchingUsername.equals("")) {
-            System.out.println("This username does not exist");
+            //System.out.println("This username does not exist");
             return false;
         }
         if(matchingUsername.equals(username)){
@@ -183,17 +194,36 @@ public class Login extends Application {
         return false;
     }
 
-    private boolean register(String username, String password, String email){
+    private boolean register(String username, String password, String email) throws SQLException {
         String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
 
+            /*
+            //Checks if username already exists
+            String sqlQuery = "SELECT username FROM ProsjektDatabase where username=\""+username+"\"";
+            ResultSet res = stmt.executeQuery(sqlQuery);
+            if(res != null)return false;
+            */
+
+            /*
             //Checks if username already exists
             String sqlQuery = "SELECT username FROM ProsjektDatabase where username=\""+username+"\"";
             ResultSet res = stmt.executeQuery(sqlQuery);
             if(res.next())return false;
+            */
 
-            sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email) values(" + username + "," + password + "," + email + ");";
+            /*
+            //Checks if username already exists
+            String sqlQuery = "SELECT username FROM ProsjektDatabase";
+            ResultSet res = stmt.executeQuery(sqlQuery);
+            while(res.next()){
+                if(username.equals(res.getString("username"))) return false;
+            }
+            */
+
+            if(checkUsername(username)) return false;
+            String sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email) values('" + username + "','" + password + "','" + email + "');";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
