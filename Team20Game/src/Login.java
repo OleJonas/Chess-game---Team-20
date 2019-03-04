@@ -46,6 +46,7 @@ public class Login extends Application{
                 window.setScene(loggedInScene);
                 loginUsernameField.clear();
                 loginPasswordField.clear();
+                loginComment.setText(""); //CLearing the label for next time
             } else {
                 loginUsernameField.clear();
                 loginPasswordField.clear();
@@ -53,7 +54,7 @@ public class Login extends Application{
             }
         });
         //signupButton
-        signUpButton = new Button("Signup");
+        signUpButton = new Button("Not registrated?");
         signUpButton.setOnAction(e -> window.setScene(signUpScene));
         //loginLayout
         GridPane loginLayout = new GridPane(); //Creates grid
@@ -92,11 +93,11 @@ public class Login extends Application{
                 e1.printStackTrace();
             }
             if (registrationOK) {
-                //window.setScene(startScene);
+                window.setScene(startScene);
                 registerUsernameField.clear();
                 registerPasswordField.clear();
                 registerEmailField.clear();
-                registerComment.setText("Registered!");
+                registerComment.setText(""); //CLearing the label for next time
             } else {
                 System.out.println("User already exist!");
                 registerUsernameField.clear();
