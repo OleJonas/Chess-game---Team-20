@@ -28,7 +28,7 @@ public class Login extends Application{
     Label registerComment;
 
 
-    public static void main(String[] args) throws SQLException{
+    public static void main(String[] args){
         launch(args);
     }
 
