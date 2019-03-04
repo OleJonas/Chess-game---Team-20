@@ -1,8 +1,9 @@
-import com.mysql.cj.protocol.Resultset;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -121,13 +122,17 @@ public class Login extends Application{
 
 
         //loggedInScene
+        Image CarreyGif = new Image("/Images/CarreyGif.gif");
         Label loggedin = new Label("You're logged in");
         Button backToStart = new Button("Back to start");
         backToStart.setOnAction(e -> window.setScene(startScene));
         //layout
         GridPane loggedInLayout = new GridPane();
+        loginLayout.getColumnConstraints().add(new ColumnConstraints(80)); //Setting columnconstraint for left column
+        loginLayout.getColumnConstraints().add(new ColumnConstraints(400)); //Setting columnconstraint for second column
         loggedInLayout.add(loggedin, 0, 0);
         loggedInLayout.add(backToStart, 0, 3);
+        loggedInLayout.add(new ImageView(CarreyGif), 1, 2);
         loggedInScene = new Scene(loggedInLayout, 400, 400);
 
         //Display scene 1 at first
@@ -190,30 +195,6 @@ public class Login extends Application{
         String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
-
-            /*
-            //Checks if username already exists
-            String sqlQuery = "SELECT username FROM ProsjektDatabase where username=\""+username+"\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-            if(res != null)return false;
-            */
-
-            /*
-            //Checks if username already exists
-            String sqlQuery = "SELECT username FROM ProsjektDatabase where username=\""+username+"\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-            if(res.next())return false;
-            */
-
-            /*
-            //Checks if username already exists
-            String sqlQuery = "SELECT username FROM ProsjektDatabase";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-            while(res.next()){
-                if(username.equals(res.getString("username"))) return false;
-            }
-            */
-
             if(checkUsername(username)) return false;
             String sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email) values('" + username + "','" + password + "','" + email + "');";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
