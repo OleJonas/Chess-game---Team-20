@@ -18,7 +18,7 @@ public class Login extends Application{
     Scene startScene, signUpScene, loggedInScene;
     TextField loginUsernameField, registerUsernameField, registerEmailField;
     PasswordField loginPasswordField, registerPasswordField;
-    Label registerComment;
+    Label loginComment, registerComment;
 
 
     public static void main(String[] args){
@@ -33,6 +33,8 @@ public class Login extends Application{
         //Textfields
         loginUsernameField = new TextField();
         loginPasswordField = new PasswordField();
+        //Label
+        loginComment = new Label();
         //loginButton
         loginButton = new Button("Login");
         loginButton.setOnAction(e -> { //Actions of clicking the loginbutton
@@ -46,7 +48,9 @@ public class Login extends Application{
                 loginPasswordField.clear();
             } else {
                 loginUsernameField.clear();
-                loginPasswordField.clear();}
+                loginPasswordField.clear();
+                loginComment.setText("Feil Brukernavn/Passord");
+            }
         });
         //signupButton
         signUpButton = new Button("Signup");
@@ -63,7 +67,8 @@ public class Login extends Application{
         loginLayout.add(loginPasswordField, 1, 2);
         loginLayout.add(loginButton, 0, 3);
         loginLayout.add(signUpButton, 1, 3);
-        startScene = new Scene(loginLayout, 400,130);
+        loginLayout.add(loginComment, 1, 4);
+        startScene = new Scene(loginLayout, 400,140);
 
 
         //signUpScene
@@ -128,12 +133,12 @@ public class Login extends Application{
         backToStart.setOnAction(e -> window.setScene(startScene));
         //layout
         GridPane loggedInLayout = new GridPane();
-        loginLayout.getColumnConstraints().add(new ColumnConstraints(80)); //Setting columnconstraint for left column
+        loginLayout.getColumnConstraints().add(new ColumnConstraints(150)); //Setting columnconstraint for left column
         loginLayout.getColumnConstraints().add(new ColumnConstraints(400)); //Setting columnconstraint for second column
         loggedInLayout.add(loggedin, 0, 0);
-        loggedInLayout.add(backToStart, 0, 3);
+        loggedInLayout.add(backToStart, 0, 1);
         loggedInLayout.add(new ImageView(CarreyGif), 1, 2);
-        loggedInScene = new Scene(loggedInLayout, 400, 400);
+        loggedInScene = new Scene(loggedInLayout, 500, 400);
 
         //Display scene 1 at first
         window.setScene(startScene);
