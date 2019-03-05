@@ -12,6 +12,10 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.*;
 import javafx.geometry.Pos;
 
@@ -209,11 +213,14 @@ public class Login extends Application{
         String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT password FROM ProsjektDatabase WHERE username=\"" + username + "\"";
+            String sqlQuery = "SELECT password, SALT FROM ProsjektDatabase WHERE username=\"" + username + "\"";
             ResultSet res = stmt.executeQuery(sqlQuery);
 
             while (res.next()) {
                 matchingPassword = res.getString("password");
+                String saltString = res.getString("SALT");
+                System.out.println(matchingPassword);
+                System.out.println(saltString.trim());
             }
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
@@ -235,7 +242,12 @@ public class Login extends Application{
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
             if(checkUsername(username)) return false;
-            String sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email) values('" + username + "','" + password + "','" + email + "');";
+            //Create salt hash password
+            byte[] salt = createSalt();
+            String passwordHash = generateHash(password, salt);
+            String saltString = bytesToStringHex(salt);
+            //Insert into database
+            String sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email, SALT) values('" + username + "','" + passwordHash + "','" + email + "','" + saltString + "');";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
@@ -243,33 +255,42 @@ public class Login extends Application{
         }
         return false;
     }
-}
 
-/*
-    private boolean register(String username, String password, String email) {
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
-        try(Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
-
-            //Checks if username already exists
-            String sqlQuery = "SELECT username FROM ProsjektDatabase where username=\""+username+"\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-            if(res.next())return false;
-
-        }catch (SQLSyntaxErrorException e){ //Denne kommer kun om den navnet ikke eksisterer
-            try(Connection con = DriverManager.getConnection(url)){
-                Statement stmt = con.createStatement();
-                String sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email) values(" + username + "," + password + "," + email + ");";
-                int rowsAffected = stmt.executeUpdate(sqlQuery);
-                if(rowsAffected==1) return true;
-                return true;
-            }catch (Exception sq) {
-                System.out.println("SQL-Feil: " + sq);
-            }
-        } catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
-        }
-        return false;
+    private static String generateHash(String data, byte[] salt) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        digest.reset();
+        digest.update(salt);
+        byte[] hash = digest.digest(data.getBytes());
+        return bytesToStringHex(hash);
     }
 
-*/
+    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    public static String bytesToStringHex(byte[] bytes){
+        char[] hexChars = new char[bytes.length * 2];
+        for(int i = 0; i < bytes.length; i++){
+            int j = bytes[i] & 0xFF;
+            hexChars[i * 2] = hexArray[j >>> 4];
+            hexChars[i * 2 + 1] = hexArray[j & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
+    public static byte[] createSalt() {
+        byte[] bytes = new byte[20];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(bytes);
+        return bytes;
+    }
+
+
+
+
+
+
+
+
+}
+
+
+
