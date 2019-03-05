@@ -54,7 +54,12 @@ public class Login extends Application{
             String loginUsernameInput = loginUsernameField.getText();
             String loginPasswordInput = loginPasswordField.getText();
             boolean UsernameOK = checkUsername(loginUsernameInput);
-            boolean PasswordOK = checkPassword(loginPasswordInput, loginUsernameInput);
+            boolean PasswordOK = false;
+            try {
+                PasswordOK = checkPassword(loginPasswordInput, loginUsernameInput);
+            } catch (NoSuchAlgorithmException e1) {
+                e1.printStackTrace();
+            }
             if(UsernameOK && PasswordOK) {
                 window.setScene(loggedInScene);
                 loginUsernameField.clear();
@@ -180,7 +185,7 @@ public class Login extends Application{
 
         //Display scene 1 at first
         window.setScene(startScene);
-        window.setTitle("Login");
+        window.setTitle("Login/Register");
         window.show();
     }
 
@@ -208,19 +213,21 @@ public class Login extends Application{
         return false;
     }
 
-    private boolean checkPassword(String password, String username){
+    private boolean checkPassword(String password, String username) throws NoSuchAlgorithmException{
         String matchingPassword = "";
         String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
+        byte[] saltByte = new byte[20];
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
             String sqlQuery = "SELECT password, SALT FROM ProsjektDatabase WHERE username=\"" + username + "\"";
             ResultSet res = stmt.executeQuery(sqlQuery);
-
             while (res.next()) {
                 matchingPassword = res.getString("password");
                 String saltString = res.getString("SALT");
-                System.out.println(matchingPassword);
-                System.out.println(saltString.trim());
+                //System.out.println(matchingPassword);
+                //System.out.println(saltString);
+                saltByte = hexStringToByteArray(saltString);
+                //System.out.println(bytesToStringHex(saltByte));
             }
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
@@ -229,7 +236,7 @@ public class Login extends Application{
             System.out.println("This username does not exist");
             return false;
         }
-        if(matchingPassword.equals(password)){
+        if(matchingPassword.equals(generateHash(password, saltByte))){
             return true;
         }
 
@@ -256,6 +263,7 @@ public class Login extends Application{
         return false;
     }
 
+    //Arpit Shah on Youtube, SALT Hashing
     private static String generateHash(String data, byte[] salt) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         digest.reset();
@@ -274,6 +282,17 @@ public class Login extends Application{
             hexChars[i * 2 + 1] = hexArray[j & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    //From Stackoverflow, Dave L.
+    private static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 
     public static byte[] createSalt() {
