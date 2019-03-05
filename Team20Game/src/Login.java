@@ -274,7 +274,7 @@ public class Login extends Application{
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    public static String bytesToStringHex(byte[] bytes){
+    private static String bytesToStringHex(byte[] bytes){
         char[] hexChars = new char[bytes.length * 2];
         for(int i = 0; i < bytes.length; i++){
             int j = bytes[i] & 0xFF;
@@ -295,7 +295,7 @@ public class Login extends Application{
         return data;
     }
 
-    public static byte[] createSalt() {
+    private static byte[] createSalt() {
         byte[] bytes = new byte[20];
         SecureRandom random = new SecureRandom();
         random.nextBytes(bytes);
