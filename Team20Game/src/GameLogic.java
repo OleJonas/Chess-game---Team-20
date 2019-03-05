@@ -1,4 +1,4 @@
-public class GameLogic{
+public static class GameLogic{
     boolean inCheck(Piece[][] board, boolean color){
         int x = 0, y = 2;
         //find position of king
