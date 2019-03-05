@@ -6,11 +6,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import java.sql.*;
+import javafx.geometry.Pos;
+
 
 public class Login extends Application{
     Stage window;
@@ -35,6 +39,11 @@ public class Login extends Application{
         loginPasswordField = new PasswordField();
         //Label
         loginComment = new Label();
+        Label loginLabel = new Label("Login");
+        loginLabel.setFont(Font.font("Calibri", 32));
+        //loginComment.setTextFill(Color.web("#0076a3")); //For Hexvalues
+        loginComment.setTextFill(Color.RED);
+        //loginLabel.setAlignment(Pos.CENTER);
         //loginButton
         loginButton = new Button("Login");
         loginButton.setOnAction(e -> { //Actions of clicking the loginbutton
@@ -50,7 +59,7 @@ public class Login extends Application{
             } else {
                 loginUsernameField.clear();
                 loginPasswordField.clear();
-                loginComment.setText("Feil Brukernavn/Passord");
+                loginComment.setText("Wrong Username/Password");
             }
         });
         //signupButton
@@ -60,11 +69,14 @@ public class Login extends Application{
             loginComment.setText("");
         });
         //loginLayout
-        GridPane loginLayout = new GridPane(); //Creates grid
+        GridPane loginLayout = new GridPane(); //Creates grid, thinking 3 in width, 100|200|100
         loginLayout.getColumnConstraints().add(new ColumnConstraints(80)); //Setting columnconstraint for left column
         loginLayout.getColumnConstraints().add(new ColumnConstraints(200)); //Setting columnconstraint for second column
+        loginLayout.getColumnConstraints().add(new ColumnConstraints(100)); //Setting columnconstraint for left column
+        loginLayout.setVgap(8);
+        loginLayout.setHgap(15);
         loginLayout.setPadding(new Insets(10,5,10,10));
-        loginLayout.add(new Label("Login"), 0, 0);
+        loginLayout.add(loginLabel, 1, 0, 4, 1);
         loginLayout.add(new Label("Username:"), 0, 1);
         loginLayout.add(loginUsernameField, 1, 1);
         loginLayout.add(new Label("Password:"), 0, 2);
@@ -72,8 +84,7 @@ public class Login extends Application{
         loginLayout.add(loginButton, 0, 3);
         loginLayout.add(signUpButton, 1, 3);
         loginLayout.add(loginComment, 1, 4);
-        startScene = new Scene(loginLayout, 400,140);
-
+        startScene = new Scene(loginLayout, 400,190);
 
         //signUpScene
         //Textfields
@@ -82,6 +93,9 @@ public class Login extends Application{
         registerEmailField = new TextField();
         //Label
         registerComment = new Label();
+        Label signupLabel = new Label("Register");
+        signupLabel.setFont(Font.font("Calibri",32));
+        registerComment.setTextFill(Color.RED);
         //signUpRegisterButton
         signUpRegisterButton = new Button("Sign up");
         signUpRegisterButton.setOnAction(e -> {
@@ -121,13 +135,19 @@ public class Login extends Application{
 
         //signUpAlreadyAccountButton
         signUpalreadyAccountButton = new Button("Already registered?");
-        signUpalreadyAccountButton.setOnAction(e -> window.setScene(startScene));
+        signUpalreadyAccountButton.setOnAction(e -> {
+            window.setScene(startScene);
+            registerUsernameField.clear();
+            registerPasswordField.clear();
+            registerEmailField.clear();
+            registerComment.setText("");
+        });
         //signUpLayout
         GridPane signUpLayout = new GridPane();
         signUpLayout.getColumnConstraints().add(new ColumnConstraints(80));
         signUpLayout.getColumnConstraints().add(new ColumnConstraints(200));
         signUpLayout.setPadding(new Insets(10,5,10,10));
-        signUpLayout.add(new Label("Register"), 0, 0);
+        signUpLayout.add(signupLabel, 1, 0);
         signUpLayout.add(new Label("Username:"), 0, 1);
         signUpLayout.add(registerUsernameField, 1, 1);
         signUpLayout.add(new Label("Password:"), 0, 2);
@@ -137,7 +157,7 @@ public class Login extends Application{
         signUpLayout.add(signUpRegisterButton, 0, 4);
         signUpLayout.add(signUpalreadyAccountButton, 1, 4);
         signUpLayout.add(registerComment, 1, 5);
-        signUpScene = new Scene(signUpLayout, 400,170);
+        signUpScene = new Scene(signUpLayout, 400,190);
 
 
         //loggedInScene
