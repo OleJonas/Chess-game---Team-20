@@ -2,10 +2,12 @@ public class GameEngine {
    private Board board;
    private int increment;
    private boolean color;
+   //private double time;
 
    public GameEngine(int time, int increment, boolean color) {
       board = new Board();
       this.color = color;
+      //this.time = time;
 
       //Sett opp timer. https://stackoverflow.com/questions/14393423/how-to-make-a-countdown-timer-in-java?fbclid=IwAR3TbZbgbxu1SXY3mC8EQVcmvMp1KCMb3yIWaYwWBzU13i8BWSADYCFpQoM
 
@@ -28,9 +30,9 @@ public class GameEngine {
       return GameLogic.isDone(board);
    }
 
-   public double getTime() {
+   /*public double getTime() {
       return time;
-   }
+   }*/
 
 
 

@@ -32,6 +32,10 @@ public class Board {
         return out;
     }
 
+    public boolean move(int fromX, int fromY, int toX, int toY){
+        return true;
+    }
+
     public String toString(){
         String a = "";
         for(int i = 0; i<position.length; i++) {
