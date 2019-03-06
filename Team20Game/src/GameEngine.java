@@ -18,12 +18,16 @@ public class GameEngine {
       this.color = color;
    }
 
+   public Board getBoard(){
+       return board;
+   }
+
    public int[] validMoves(int x, int y) {
       return GameLogic.validMoves(x, y, board);
    }
 
-   public void move(int fromX, int fromY, int toX, int toY) {
-      board.move(fromX, fromY, toX, toY);
+   public boolean move(int fromX, int fromY, int toX, int toY) {
+      return board.move(fromX, fromY, toX, toY);
    }
 
    public boolean isDone() {

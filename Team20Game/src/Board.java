@@ -33,6 +33,14 @@ public class Board {
     }
 
     public boolean move(int fromX, int fromY, int toX, int toY){
+        if(position[fromX][fromY]==null){
+            return false;
+        }
+        Piece temp = position[fromX][fromY];
+        position[fromX][fromY] = null;
+        position[toX][toY]=temp;
+        position[toX][toY].setX(toX);
+        position[toX][toY].setY(toY);
         return true;
     }
 
@@ -63,5 +71,11 @@ public class Board {
 
         Board board2 = new Board(boardstate);
         System.out.println(board2.toString());
+
+        GameEngine ge = new GameEngine(15, true);
+        if(ge.move(0,0,1,3)){
+            System.out.println("true");
+        }
+        System.out.println(ge.getBoard());
     }
 }
