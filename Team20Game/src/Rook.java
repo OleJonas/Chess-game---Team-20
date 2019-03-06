@@ -4,7 +4,7 @@ public class Rook extends Piece {
     }
 
     public char getNotation() {
-        return 'N';
+        return 'R';
     }
 
     public String toString() {
