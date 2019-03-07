@@ -19,36 +19,157 @@ public class GameLogic{
 
         // check threats from cardinal directions
         for (int i = 1; i < 8; i++){
-            if (x + i < 8) {
+            boolean right = true, down = true, left = true, up = true;
+
+            if (x + i < 8 && right) {
                 if (board[x + i][y] != null) {
-                    if (board[x + i][y].getColor() != color && (board[x + 1][y] instanceof Queen || board[x + i][y] instanceof Rook)) {
+                    if (board[x + i][y].getColor() == color){
+                        right = false;
+                    }
+                    else ((board[x + i][y] instanceof Queen || board[x + i][y] instanceof Rook)) {
                         return true;
                     }
                 }
             }
-            if (x - i >= 0) {
+            if (x - i >= 0 && left) {
                 if (board[x - i][y] != null) {
-                    if (board[x - i][y].getColor() != color && (board[x - i][y] instanceof Queen || board[x - i][y] instanceof Rook)) {
+                    if (board[x - i][y].getColor() == color){
+                        left = false;
+                    }
+                    else if ((board[x - i][y] instanceof Queen || board[x - i][y] instanceof Rook)) {
                         return true;
                     }
                 }
             }
-            if (y + i < 8) {
+            if (y + i < 8 && up) {
                 if (board[x][y + i] != null) {
-                    if (board[x][y + i].getColor() != color && (board[x][y + i] instanceof Queen || board[x + i][y] instanceof Rook)) {
+                    if (board[x][y + i].getColor() == color){
+                        up = false;
+                    }
+                    else if ((board[x][y + i] instanceof Queen || board[x + i][y] instanceof Rook)) {
                         return true;
                     }
                 }
             }
-            if (y - i >= 0) {
+            if (y - i >= 0 && down) {
                 if (board[x][y - i] != null) {
-                    if (board[x][y - i].getColor() != color && (board[x][y - i] instanceof Queen || board[x][y - i] instanceof Rook)) {
+                    if (board[x][y - i].getColor() == color){
+                        down = false;
+                    }
+                    else if ((board[x][y - i] instanceof Queen || board[x][y - i] instanceof Rook)) {
                         return true;
                     }
                 }
             }
         }
 
+        for (int i = 1; i < 8; i++){
+        boolean upright = true, downright = true, upleft = true, downleft = true;
+
+            if (x + i < 8 && y + i < 8 && upright) {
+                if (board[x + i][y + i] != null) {
+                    if (board[x + i][y + i].getColor() == color){
+                        upright = false;
+                    }
+                    else if ((board[x + i][y + i] instanceof Queen || board[x + i][y + i] instanceof Bishop)) {
+                        return true;
+                    }
+                    else if (i == 1 && board[x + i][y + i] instanceof Pawn){
+                        return true;
+                    }
+                }
+            }
+            if (x + i < 8 && y - i >= 0 && downright) {
+                if (board[x + i][y - i] != null) {
+                    if (board[x + i][y - i].getColor() == color){
+                        downright = false;
+                    }
+                    else if ((board[x + i][y - i] instanceof Queen || board[x + i][y - i] instanceof Bishop)) {
+                        return true;
+                    }
+                }
+            }
+            if (x - i >= 0 && y + i < 8 && upleft) {
+                if (board[x - i][y + i] != null) {
+                    if (board[x - i][y + i].getColor() == color){
+                        upleft = false;
+                    }
+                    else if ((board[x - i][y + i] instanceof Queen || board[x - i][y + i] instanceof Bishop)) {
+                        return true;
+                    }
+                    else if (i == 1 && board[x - i][y + i] instanceof Pawn){
+                        return true;
+                    }
+                }
+            }
+            if (x - i >= 0 && y  - i >= 0 && downleft) {
+                if (board[x - i][y - i] != null) {
+                    if (board[x - i][y - i].getColor() == color){
+                        downleft = false;
+                    }
+                    else if ((board[x - i][y - i] instanceof Queen || board[x - i][y - i] instanceof Bishop)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if (x - 1 >= 0 && y - 2 >= 0){
+            if (board[x - 1][ y - 2] instanceof Knight){
+                if (board[x - 1][y - 2].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x - 2 >= 0 && y - 1 >= 0){
+            if (board[x - 2][ y - 1] instanceof Knight){
+                if (board[x - 2][y - 1].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x + 1 < 8 && y - 2 >= 0){
+            if (board[x + 1][ y - 2] instanceof Knight){
+                if (board[x + 1][y - 2].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x + 2 < 8 && y - 1 >= 0){
+            if (board[x  + 2][ y - 1] instanceof Knight){
+                if (board[x + 2][y - 1].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x - 1 >= 0 && y + 2 < 8){
+            if (board[x - 1][ y + 2] instanceof Knight){
+                if (board[x - 1][y + 2].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x - 2 >= 0 && y + 1 < 8){
+            if (board[x - 2][ y  + 1] instanceof Knight){
+                if (board[x - 2][y + 1].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x + 1 < 8 && y + 2 < 8){
+            if (board[x + 1][ y + 2] instanceof Knight){
+                if (board[x + 1][y + 2].getColor() != color){
+                    return true;
+                }
+            }
+        }
+        if (x + 2 < 9 && y + 1 < 8){
+            if (board[x + 2][ y  + 1] instanceof Knight){
+                if (board[x + 2][y + 1].getColor() != color){
+                    return true;
+                }
+            }
+        }
         return false;
     }
     public static boolean isDone(Board board){

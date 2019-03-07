@@ -1,4 +1,8 @@
-public abstract class Piece {
+import javafx.scene.image.Image;
+
+import javafx.scene.image.ImageView;
+
+public abstract class Piece{
     private boolean color;
     private int x;
     private int y;
@@ -31,11 +35,7 @@ public abstract class Piece {
 
     public abstract char getNotation();
 
-    /*
-    public int moveCounter() {
-        counter = 0;
-        return counter; //denne metoden skal inkrementere counter hvis spørring til database er vellykket
-    }
+    public abstract ImageView getImageView();
 
     public String toString() {
         return getNotation() + "" + ((char) (getX() + 'A')) + "" + (getY() + 1);
@@ -44,6 +44,4 @@ public abstract class Piece {
     //public abstract boolean move(int x, int y); //Takes chosen coordinates as arguments and compares them to the array returned from legalMove.
 
     //public abstract int[][] legalMove(int a, int b); //Takes the coordinates of the desired piece as arguments. Returns array of legal moves
-*/
 }
-

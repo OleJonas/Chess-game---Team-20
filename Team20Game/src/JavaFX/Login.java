@@ -1,4 +1,8 @@
+package JavaFX;
+
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -7,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -45,6 +50,7 @@ public class Login extends Application{
         loginComment = new Label();
         Label loginLabel = new Label("Login");
         loginLabel.setFont(Font.font("Calibri", 32));
+
         //loginComment.setTextFill(Color.web("#0076a3")); //For Hexvalues
         loginComment.setTextFill(Color.RED);
         //loginLabel.setAlignment(Pos.CENTER);
@@ -86,6 +92,7 @@ public class Login extends Application{
         loginLayout.setHgap(15);
         loginLayout.setPadding(new Insets(10,5,10,10));
         loginLayout.add(loginLabel, 1, 0, 4, 1);
+        //loginLayout.setHalignment(loginLabel, HPos.CENTER);
         loginLayout.add(new Label("Username:"), 0, 1);
         loginLayout.add(loginUsernameField, 1, 1);
         loginLayout.add(new Label("Password:"), 0, 2);
@@ -180,10 +187,17 @@ public class Login extends Application{
         loginLayout.getColumnConstraints().add(new ColumnConstraints(400)); //Setting columnconstraint for second column
         loggedInLayout.add(loggedin, 0, 0);
         loggedInLayout.add(backToStart, 0, 1);
-        loggedInLayout.add(new ImageView(CarreyGif), 1, 2);
-        loggedInScene = new Scene(loggedInLayout, 500, 400);
+        loggedInLayout.add(new ImageView(CarreyGif), 10, 20);
+        loggedInScene = new Scene(loggedInLayout, 1400, 800);
 
         //Display scene 1 at first
+
+        /*
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2);
+        primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 2);
+        */
+        primaryStage.centerOnScreen();
         window.setScene(startScene);
         window.setTitle("Login/Register");
         window.show();
@@ -310,6 +324,3 @@ public class Login extends Application{
 
 
 }
-
-
-
