@@ -281,7 +281,8 @@ public class GameLogic{
                     }
                 }
             }
+            return validMoves;
         }
-        return validMoves;
+        return null;
     }
 }
