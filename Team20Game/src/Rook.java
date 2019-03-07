@@ -2,7 +2,8 @@ import javafx.scene.image.*;
 
 public class Rook extends Piece {
     private ImageView imageView;
-    public Rook(boolean color, int x, int y) {
+    private boolean canCastle;
+    public Rook(boolean color, int x, int y, boolean canCastle) {
         super(color, x, y);
         try {
             Image image = color?
@@ -13,6 +14,7 @@ public class Rook extends Piece {
         }catch(Exception e){
             imageView = null;
         }
+        this.canCastle = true;
 
     }
     public ImageView getImageView(){
@@ -26,5 +28,7 @@ public class Rook extends Piece {
         return super.toString();
     }
 
-
+    public void setCanCastle(boolean newVal) {
+        this.canCastle = newVal;
+    }
 }
