@@ -1,4 +1,8 @@
-public abstract class Piece {
+import javafx.scene.image.Image;
+
+import javafx.scene.image.ImageView;
+
+public abstract class Piece{
     private boolean color;
     private int x;
     private int y;
@@ -30,6 +34,8 @@ public abstract class Piece {
     }
 
     public abstract char getNotation();
+
+    public abstract ImageView getImageView();
 
     public String toString() {
         return getNotation() + "" + ((char) (getX() + 'A')) + "" + (getY() + 1);

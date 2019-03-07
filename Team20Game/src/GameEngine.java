@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class GameEngine {
    private Board board;
    private int increment;
@@ -22,7 +24,7 @@ public class GameEngine {
        return board;
    }
 
-   public int[] validMoves(int x, int y) {
+   public ArrayList<Integer> validMoves(int x, int y) {
       return GameLogic.validMoves(x, y, board);
    }
 
