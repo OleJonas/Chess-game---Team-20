@@ -70,7 +70,7 @@ public class GameLogic{
                         validMoves.add(y+2);
                     }
                 }
-                if (boardState[x+1][y+1] != null && (x + 1 < 8) {
+                if (boardState[x+1][y+1] != null && (x + 1 < 8)) {
                     validMoves.add(x+1);
                     validMoves.add(y+1);
                 }
@@ -90,7 +90,7 @@ public class GameLogic{
                         validMoves.add(y-2);
                     }
                 }
-                if (boardState[x+1][y-1] != null && (x + 1 < 8) {
+                if (boardState[x+1][y-1] != null && (x + 1 < 8)) {
                     validMoves.add(x+1);
                     validMoves.add(y-1);
                 }
@@ -106,7 +106,7 @@ public class GameLogic{
             for (int i = 1; i < 8; i++) {
                boolean xLeft = true;
                boolean xRight = true;
-               boolean xUp = true;
+               boolean yDown = true;
                boolean yUp = true;
 
                if (x + i < 8) {
@@ -154,35 +154,35 @@ public class GameLogic{
         }
 
         if (boardState[x][y] instanceof Knight) {
-            if ((boardState[x+2][y+1].getColor() != boardState[x][y].getColor() || null)  && (x+2 < 8) && (y+1 < 8)) {
+            if ((boardState[x+2][y+1].getColor() != boardState[x][y].getColor() || boardState[x+2][y+1] == null)  && (x+2 < 8) && (y+1 < 8)) {
                 validMoves.add(x+2);
                 validMoves.add(y+1);
             }
-            if ((boardState[x-2][y+1].getColor() != boardState[x][y].getColor() || null) && (x-2 >= 0) && (y+1 < 8)) {
+            if ((boardState[x-2][y+1].getColor() != boardState[x][y].getColor() || boardState[x-2][y+1] == null) && (x-2 >= 0) && (y+1 < 8)) {
                 validMoves.add(x-2);
                 validMoves.add(y+1);
             }
-            if ((boardState[x+2][y-1].getColor() != boardState[x][y].getColor()|| null) && (x+2 < 8) && (y-1 >= 0)) {
+            if ((boardState[x+2][y-1].getColor() != boardState[x][y].getColor()|| boardState[x+2][y-1] == null) && (x+2 < 8) && (y-1 >= 0)) {
                 validMoves.add(x+2);
                 validMoves.add(y-1);
             }
-            if ((boardState[x-2][y-1].getColor() != boardState[x][y].getColor()|| null) && (x-2 >= 0) && (y-1 >= 0)) {
+            if ((boardState[x-2][y-1].getColor() != boardState[x][y].getColor()|| boardState[x-2][y-1] == null) && (x-2 >= 0) && (y-1 >= 0)) {
                 validMoves.add(x-2);
                 validMoves.add(y-1);
             }
-            if ((boardState[x+1][y+2].getColor() != boardState[x][y].getColor()|| null) && (x+1 < 8) && (y+2 < 8)) {
+            if ((boardState[x+1][y+2].getColor() != boardState[x][y].getColor()|| boardState[x+1][y+2] == null) && (x+1 < 8) && (y+2 < 8)) {
                 validMoves.add(x+1);
                 validMoves.add(y+2);
             }
-            if ((boardState[x-1][y+2].getColor() != boardState[x][y].getColor()|| null) && (x-1 >= 0) && (y+2 < 8)) {
+            if ((boardState[x-1][y+2].getColor() != boardState[x][y].getColor()|| boardState[x-1][y+2] == null) && (x-1 >= 0) && (y+2 < 8)) {
                 validMoves.add(x-1);
                 validMoves.add(y+2);
             }
-            if ((boardState[x+1][y-2].getColor() != boardState[x][y].getColor()|| null) && (x+1 < 8) && (y-2 >= 0)) {
+            if ((boardState[x+1][y-2].getColor() != boardState[x][y].getColor()|| boardState[x+1][y-2] == null) && (x+1 < 8) && (y-2 >= 0)) {
                 validMoves.add(x+1);
                 validMoves.add(y-2);
             }
-            if ((boardState[x-1][y-2].getColor() != boardState[x][y].getColor()|| null) && (x-1 >= 0) && (y-2 >= 0)) {
+            if ((boardState[x-1][y-2].getColor() != boardState[x][y].getColor()|| boardState[x-1][y-2] == null) && (x-1 >= 0) && (y-2 >= 0)) {
                 validMoves.add(x-1);
                 validMoves.add(y-2);
             }
@@ -190,35 +190,35 @@ public class GameLogic{
         }
 
         if (boardState[x][y] instanceof King) {
-            if ((boardState[x-1][y+1].getColor() != boardState[x][y].getColor() || null)  && (x-1 >= 0) && (y+1 < 8)) {
+            if ((boardState[x-1][y+1].getColor() != boardState[x][y].getColor() || boardState[x-1][y+1] == null)  && (x-1 >= 0) && (y+1 < 8)) {
                 validMoves.add(x-1);
                 validMoves.add(x+1);
             }
-            if ((boardState[x][y+1].getColor() != boardState[x][y].getColor() || null) && ((y+1 < 8)) {
+            if ((boardState[x][y+1].getColor() != boardState[x][y].getColor() || boardState[x][y+1] == null) && ((y+1 < 8))) {
                 validMoves.add(x);
                 validMoves.add(y+1);
             }
-            if ((boardState[x+1][y+1].getColor() != boardState[x][y].getColor()|| null) && (x+1 < 8) && (y+1 < 8)) {
+            if ((boardState[x+1][y+1].getColor() != boardState[x][y].getColor()|| boardState[x+1][y+1] == null) && (x+1 < 8) && (y+1 < 8)) {
                 validMoves.add(x+1);
                 validMoves.add(y+1);
             }
-            if ((boardState[x-1][y-1].getColor() != boardState[x][y].getColor()|| null) && (x-1 >= 0) && (y-1 >= 0)) {
+            if ((boardState[x-1][y-1].getColor() != boardState[x][y].getColor()|| boardState[x-1][y-1] == null) && (x-1 >= 0) && (y-1 >= 0)) {
                 validMoves.add(x-1);
                 validMoves.add(y-1);
             }
-            if ((boardState[x][y-1].getColor() != boardState[x][y].getColor()|| null) && ((y-1 >= 0)) {
+            if ((boardState[x][y-1].getColor() != boardState[x][y].getColor()|| boardState[x][y-1] == null) && ((y-1 >= 0))) {
                 validMoves.add(x);
                 validMoves.add(y-1);
             }
-            if ((boardState[x+1][y-1].getColor() != boardState[x][y].getColor()|| null) && (x+1 < 8) && (y-1 >= 0)) {
+            if ((boardState[x+1][y-1].getColor() != boardState[x][y].getColor()|| boardState[x+1][y-1] == null) && (x+1 < 8) && (y-1 >= 0)) {
                 validMoves.add(x+1);
                 validMoves.add(y-1);
             }
-            if ((boardState[x-1][y].getColor() != boardState[x][y].getColor()|| null) && (x-1 >= 0)) {
+            if ((boardState[x-1][y].getColor() != boardState[x][y].getColor()|| boardState[x-1][y] == null) && (x-1 >= 0)) {
                 validMoves.add(x-1);
                 validMoves.add(y);
             }
-            if ((boardState[x+1][y].getColor() != boardState[x][y].getColor()|| null) && (x+1 < 8)) {
+            if ((boardState[x+1][y].getColor() != boardState[x][y].getColor()|| boardState[x+1][y] == null) && (x+1 < 8)) {
                 validMoves.add(x+1);
                 validMoves.add(y);
             }
