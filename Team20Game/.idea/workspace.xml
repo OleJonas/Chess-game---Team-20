@@ -2,7 +2,279 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01a2a2f8-f36b-4fdc-96ce-cee5d1a10794" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameEngine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/ChessDemo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Client.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Graphics.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/b_bishop_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/b_king_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/b_knight_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/b_pawn_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/b_queen_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/b_rook_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/square brown dark_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/square brown light_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/square gray dark _png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/square gray light _png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/w_bishop_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/w_king_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/w_knight_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/w_pawn_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/w_queen_png_1024px.png.tmp$$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1024h/w_rook_png_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/b_bishop_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/b_king_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/b_knight_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/b_pawn_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/b_queen_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/b_rook_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/square brown dark_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/square brown light_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/square gray dark _png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/square gray light _png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/w_bishop_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/w_king_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/w_knight_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/w_pawn_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/w_queen_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/128h/w_rook_png_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/b_king_1x_ns.png.tmp$$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/b_knight_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/b_pawn_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/b_queen_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/b_rook_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/square brown dark_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/square brown light_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/square gray dark _1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/square gray light _1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/w_bishop_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/w_king_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/w_knight_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/w_pawn_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/w_queen_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/1x/w_rook_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/b_bishop_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/b_king_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/b_knight_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/b_pawn_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/b_queen_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/b_rook_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/square brown dark_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/square brown light_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/square gray dark _png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/square gray light _png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/w_bishop_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/w_king_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/w_knight_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/w_pawn_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/w_queen_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/256h/w_rook_png_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/b_bishop_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/b_king_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/b_knight_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/b_pawn_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/b_queen_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/b_rook_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/square brown dark_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/square brown light_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/square gray dark _2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/square gray light _2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/w_bishop_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/w_king_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/w_knight_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/w_pawn_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/w_queen_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/2x/w_rook_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/b_bishop_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/b_king_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/b_knight_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/b_pawn_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/b_queen_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/b_rook_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/square brown dark_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/square brown light_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/square gray dark _png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/square gray light _png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/w_bishop_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/w_king_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/w_knight_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/w_pawn_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/w_queen_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/No shadow/512h/w_rook_png_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/b_bishop_png_shadow_1024px.png.tmp$$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/b_king_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/b_knight_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/b_pawn_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/b_queen_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/b_rook_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/square brown dark_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/square brown light_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/square gray dark _png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/square gray light _png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/w_bishop_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/w_king_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/w_knight_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/w_pawn_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/w_queen_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1024px/w_rook_png_shadow_1024px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/b_bishop_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/b_king_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/b_knight_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/b_pawn_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/b_queen_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/b_rook_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/square brown dark_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/square brown light_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/square gray dark _png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/square gray light _png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/w_bishop_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/w_king_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/w_knight_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/w_pawn_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/w_queen_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/128px/w_rook_png_shadow_128px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/b_bishop_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/b_king_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/b_knight_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/b_pawn_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/b_queen_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/b_rook_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/square brown dark_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/square brown light_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/square gray dark _1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/square gray light _1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/w_bishop_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/w_king_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/w_knight_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/w_pawn_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/w_queen_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/1x/w_rook_1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/b_bishop_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/b_king_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/b_knight_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/b_pawn_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/b_queen_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/b_rook_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/square brown dark_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/square brown light_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/square gray dark _png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/square gray light _png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/w_bishop_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/w_king_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/w_knight_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/w_pawn_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/w_queen_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/256px/w_rook_png_shadow_256px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/b_bishop_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/b_king_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/b_knight_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/b_pawn_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/b_queen_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/b_rook_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/square brown dark_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/square brown light_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/square gray dark _2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/square gray light _2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/w_bishop_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/w_king_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/w_knight_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/w_pawn_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/w_queen_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/2x/w_rook_2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/b_bishop_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/b_king_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/b_knight_png_shadow_512px.png.tmp$$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/b_pawn_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/b_queen_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/b_rook_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/square brown dark_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/square brown light_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/square gray dark _png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/square gray light _png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/w_bishop_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/w_king_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/w_knight_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/w_pawn_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/w_queen_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/PNGs/With Shadow/512px/w_rook_png_shadow_512px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/b_bishop_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/b_king_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/b_knight_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/b_pawn_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/b_queen_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/b_rook_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/w_bishop_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/w_king_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/w_knight_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/w_pawn_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/w_queen_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG No shadow/w_rook_svg_NoShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/b_bishop_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/b_king_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/b_knight_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/b_pawn_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/b_queen_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/b_rook_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/w_bishop_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/w_king_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/w_knight_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/w_pawn_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/w_queen_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/SVG with shadow/w_rook_svg_withShadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/board squares/square brown dark_svg.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/board squares/square brown light_svg.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/board squares/square gray dark _svg.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/board squares/square gray light _svg.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/chess pieces 5.ai" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/example board with pieces.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/JohnPablok Cburnett Chess set/example pieces only.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/b_bishop_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/b_king_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/b_knight_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/b_pawn_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/b_queen_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/b_rook_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/w_bishop_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/w_king_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/w_knight_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/w_pawn_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/w_queen_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Images/chessPieces/w_rook_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Player.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Query.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Team20Game/Tile.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ChessDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/b_bishop_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/b_king_2x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/b_knight_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/b_pawn_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/b_queen_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/b_rook_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/w_bishop_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/w_king_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/w_knight_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/w_pawn_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/w_queen_1x_ns.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Images/chessPieces/w_rook_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Bishop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/GameEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/GameEngine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/GameLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/GameLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/King.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/King.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Knight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Piece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Queen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Team20Game/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Team20Game/Rook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rook.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -55,20 +327,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Login.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GameEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+            <state relative-caret-position="98">
+              <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
               <folding>
                 <element signature="e#588#589#0" expanded="true" />
                 <element signature="e#614#615#0" expanded="true" />
@@ -80,8 +343,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GameLogic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="33" column="17" lean-forward="true" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
+            <state relative-caret-position="559">
+              <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
               <folding>
                 <element signature="e#2110#2119#0" expanded="true" />
               </folding>
@@ -93,7 +356,7 @@
         <entry file="file://$PROJECT_DIR$/src/Bishop.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="10" selection-start-line="10" selection-end-line="12" selection-end-column="5" />
+              <caret line="29" selection-start-line="29" selection-end-line="31" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -101,10 +364,9 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Knight.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+            <state relative-caret-position="255">
+              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
               <folding>
-                <element signature="e#83#84#0" expanded="true" />
                 <element signature="e#208#209#0" expanded="true" />
                 <element signature="e#247#248#0" expanded="true" />
               </folding>
@@ -116,11 +378,7 @@
         <entry file="file://$PROJECT_DIR$/src/Pawn.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
-              <folding>
-                <element signature="e#79#80#0" expanded="true" />
-                <element signature="e#113#114#0" expanded="true" />
-              </folding>
+              <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -417,7 +675,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20221000" />
+    <option name="totallyTimeSpent" value="20275000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
@@ -518,7 +776,7 @@
     <entry file="file://$PROJECT_DIR$/src/Bishop.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="10" selection-start-line="10" selection-end-line="12" selection-end-column="5" />
+          <caret line="29" selection-start-line="29" selection-end-line="31" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -532,8 +790,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        <state relative-caret-position="98">
+          <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
           <folding>
             <element signature="e#588#589#0" expanded="true" />
             <element signature="e#614#615#0" expanded="true" />
@@ -551,11 +809,7 @@
     <entry file="file://$PROJECT_DIR$/src/Pawn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
-          <folding>
-            <element signature="e#79#80#0" expanded="true" />
-            <element signature="e#113#114#0" expanded="true" />
-          </folding>
+          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -563,6 +817,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
           <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <folding>
+            <element signature="e#79#80#0" expanded="true" />
+            <element signature="e#113#114#0" expanded="true" />
+            <element signature="e#146#147#0" expanded="true" />
+            <element signature="e#172#173#0" expanded="true" />
+            <element signature="e#204#205#0" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -575,10 +837,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Knight.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        <state relative-caret-position="255">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
           <folding>
-            <element signature="e#83#84#0" expanded="true" />
             <element signature="e#208#209#0" expanded="true" />
             <element signature="e#247#248#0" expanded="true" />
           </folding>
@@ -612,8 +873,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GameLogic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="33" column="17" lean-forward="true" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
+        <state relative-caret-position="559">
+          <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
           <folding>
             <element signature="e#2110#2119#0" expanded="true" />
           </folding>
