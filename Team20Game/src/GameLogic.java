@@ -56,27 +56,76 @@ public class GameLogic{
     }
     public static ArrayList<Integer> validMoves(int x, int y, Board board) {
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        if (board.getBoardState()[x][y] instanceof Pawn) {
+        Piece[][] boardState = board.getBoardState();
+
+        if (boardState[x][y] instanceof Pawn) {
 
         }
 
-        if (board.getBoardState()[x][y] instanceof Rook) {
+        if (boardState[x][y] instanceof Rook) {
+            for (int i = 0; i < 8; i++) {
+               boolean xLeft = true;
+               boolean xRight = true;
+               boolean xUp = true;
+               boolean yUp = true;
+
+               if (x + i < 8) {
+                   if (boardState[x + i][y] == null && xRight) {
+                        validMoves.add(x+i);
+                        validMoves.add(y);
+                   } else {
+                       validMoves.add(x+i);
+                       validMoves.add(y);
+                       xRight = false;
+                   }
+               }
+               if (x - i >= 0) {
+                   if (boardState[x - i][y] == null && xLeft) {
+                       validMoves.add(x-i);
+                       validMoves.add(y);
+                   } else {
+                       validMoves.add(x-i);
+                       validMoves.add(y);
+                       xLeft = false;
+                   }
+               }
+               if (y + i < 8) {
+                   if (boardState[x][y + i] == null && yUp) {
+                       validMoves.add(x);
+                       validMoves.add(y+i);
+                   } else {
+                       validMoves.add(x);
+                       validMoves.add(y+i);
+                       yUp = false;
+                   }
+               }
+               if (y - i >= 0) {
+                   if (boardState[x][y - i] == null && yDown) {
+                       validMoves.add(x);
+                       validMoves.add(y-i);
+                   } else {
+                       validMoves.add(x);
+                       validMoves.add(y-i);
+                       yDown = false;
+                   }
+               }
+            }
+            return validMoves;
+        }
+
+        if (boardState[x][y] instanceof Knight) {
 
         }
 
-        if (board.getBoardState()[x][y] instanceof Knight) {
+        if (boardState[x][y] instanceof King) {
 
         }
 
-        if (board.getBoardState()[x][y] instanceof King) {
+        if (boardState[x][y] instanceof Queen) {
 
         }
 
-        if (board.getBoardState()[x][y] instanceof Queen) {
-
-        }
-
-        if (board.getBoardState()[x][y] instanceof Bishop) {
+        if (boardState[x][y] instanceof Bishop) {
 
         }
         return validMoves;
