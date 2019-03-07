@@ -59,6 +59,46 @@ public class GameLogic{
         Piece[][] boardState = board.getBoardState();
 
         if (boardState[x][y] instanceof Pawn) {
+            if (boardState[x][y].getColor()) {
+                if (boardState[x][y+1] == null) {
+                    validMoves.add(x);
+                    validMoves.add(y+1);
+                }
+                if (y == 6) {
+                    if (boardState[x][y+2] == null) {
+                        validMoves.add(x);
+                        validMoves.add(y+2);
+                    }
+                }
+                if (boardState[x+1][y+1] != null && (x + 1 < 8) {
+                    validMoves.add(x+1);
+                    validMoves.add(y+1);
+                }
+                if (boardState[x-1][y+1] != null && (x - 1 >= 0)) {
+                    validMoves.add(x-1);
+                    validMoves.add(y+1);
+                }
+            }
+            else {
+                if (boardState[x][y-1] == null) {
+                    validMoves.add(x);
+                    validMoves.add(y-1);
+                }
+                if (y == 1) {
+                    if (boardState[x][y-2] == null) {
+                        validMoves.add(x);
+                        validMoves.add(y-2);
+                    }
+                }
+                if (boardState[x+1][y-1] != null && (x + 1 < 8) {
+                    validMoves.add(x+1);
+                    validMoves.add(y-1);
+                }
+                if (boardState[x-1][y-1] != null && (x - 1 >= 0)) {
+                    validMoves.add(x-1);
+                    validMoves.add(y-1);
+                }
+            }
 
         }
 
@@ -73,7 +113,7 @@ public class GameLogic{
                    if (boardState[x + i][y] == null && xRight) {
                         validMoves.add(x+i);
                         validMoves.add(y);
-                   } else {
+                   } else if(boardState[x][y].getColor() != boardState[x + i][y].getColor()) {
                        validMoves.add(x+i);
                        validMoves.add(y);
                        xRight = false;
@@ -83,7 +123,7 @@ public class GameLogic{
                    if (boardState[x - i][y] == null && xLeft) {
                        validMoves.add(x-i);
                        validMoves.add(y);
-                   } else {
+                   } else if if(boardState[x][y].getColor() != boardState[x - i][y].getColor()){
                        validMoves.add(x-i);
                        validMoves.add(y);
                        xLeft = false;
@@ -93,7 +133,7 @@ public class GameLogic{
                    if (boardState[x][y + i] == null && yUp) {
                        validMoves.add(x);
                        validMoves.add(y+i);
-                   } else {
+                   } else if(boardState[x][y].getColor() != boardState[x][y+i].getColor()){
                        validMoves.add(x);
                        validMoves.add(y+i);
                        yUp = false;
@@ -103,7 +143,7 @@ public class GameLogic{
                    if (boardState[x][y - i] == null && yDown) {
                        validMoves.add(x);
                        validMoves.add(y-i);
-                   } else {
+                   } else if(boardState[x][y].getColor() != boardState[x][y-i].getColor()) {
                        validMoves.add(x);
                        validMoves.add(y-i);
                        yDown = false;
