@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class GameLogic{
     boolean inCheck(Piece[][] board, boolean color){
         int x = 0, y = 2;
@@ -52,7 +54,31 @@ public class GameLogic{
     public static boolean isDone(Board board){
         return false;
     }
-    public static int[] validMoves(int x, int y, Board board){
-        return null;
+    public static ArrayList<Integer> validMoves(int x, int y, Board board) {
+        ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        if (board.getBoardState()[x][y] instanceof Pawn) {
+
+        }
+
+        if (board.getBoardState()[x][y] instanceof Rook) {
+
+        }
+
+        if (board.getBoardState()[x][y] instanceof Knight) {
+
+        }
+
+        if (board.getBoardState()[x][y] instanceof King) {
+
+        }
+
+        if (board.getBoardState()[x][y] instanceof Queen) {
+
+        }
+
+        if (board.getBoardState()[x][y] instanceof Bishop) {
+
+        }
+        return validMoves;
     }
 }

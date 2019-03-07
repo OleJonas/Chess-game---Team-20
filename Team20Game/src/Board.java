@@ -1,3 +1,6 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 public class Board {
     private Piece[][] position = new Piece[8][8];
 
@@ -77,5 +80,17 @@ public class Board {
             System.out.println("true");
         }
         System.out.println(ge.getBoard());
+    }
+
+    public static class Graphics extends Application {
+
+        public static void main(String[] args) {
+            launch(args);
+        }
+
+        @Override
+        public void start(Stage primaryStage) {
+
+        }
     }
 }
