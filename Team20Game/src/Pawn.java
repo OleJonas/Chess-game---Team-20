@@ -1,8 +1,6 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.FileInputStream;
-
 public class Pawn extends Piece {
     private ImageView imageView;
     public Pawn(boolean color, int x, int y) {
