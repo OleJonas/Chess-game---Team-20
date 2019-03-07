@@ -103,7 +103,7 @@ public class GameLogic{
         }
 
         if (boardState[x][y] instanceof Rook) {
-            for (int i = 0; i < 8; i++) {
+            for (int i = 1; i < 8; i++) {
                boolean xLeft = true;
                boolean xRight = true;
                boolean xUp = true;
@@ -123,7 +123,7 @@ public class GameLogic{
                    if (boardState[x - i][y] == null && xLeft) {
                        validMoves.add(x-i);
                        validMoves.add(y);
-                   } else if if(boardState[x][y].getColor() != boardState[x - i][y].getColor()){
+                   } else if(boardState[x][y].getColor() != boardState[x - i][y].getColor()){
                        validMoves.add(x-i);
                        validMoves.add(y);
                        xLeft = false;
@@ -231,7 +231,56 @@ public class GameLogic{
         }
 
         if (boardState[x][y] instanceof Bishop) {
+            for (int i = 1; i < 8; i++)  {
+                boolean RightUp = true;
+                boolean RightDown = true;
+                boolean LeftUp = true;
+                boolean LeftDown = true;
 
+                if (x+i < 8 && y+i<8) {
+                    if (boardState[x+i][y+i] == null && RightUp) {
+                        validMoves.add(x+i);
+                        validMoves.add(y+i);
+                    } else if (boardState[x][y].getColor() != boardState[x+i][y+i].getColor()) {
+                        validMoves.add(x+i);
+                        validMoves.add(y+i);
+                        RightUp = false;
+                    }
+                }
+
+                if (x - i >= 0 && y - i >= 0) {
+                    if (boardState[x-i][y-i] == null && LeftDown) {
+                        validMoves.add(x-i);
+                        validMoves.add(x-i);
+                    } else if (boardState[x][y].getColor() != boardState[x-i][y-i].getColor()) {
+                        validMoves.add(x-i);
+                        validMoves.add(y-i);
+                        LeftDown = false;
+                    }
+                }
+
+                if (x-i >= 0 && y+i < 8) {
+                    if (boardState[x-i][y+i] == null && LeftUp) {
+                        validMoves.add(x-i);
+                        validMoves.add(y+i);
+                    } else if (boardState[x][y].getColor() != boardState[x-i][y+1].getColor()) {
+                        validMoves.add(x-i);
+                        validMoves.add(y+i);
+                        LeftUp = false;
+                    }
+                }
+
+                if (x+i < 8 && y-i < 0) {
+                    if (boardState[x+i][y-i] == null && RightDown) {
+                        validMoves.add(x+i);
+                        validMoves.add(y-i);
+                    } else if (boardState[x][y].getColor() != boardState[x+i][y-i].getColor()) {
+                        validMoves.add(x+i);
+                        validMoves.add(y-i);
+                        RightDown = false;
+                    }
+                }
+            }
         }
         return validMoves;
     }
