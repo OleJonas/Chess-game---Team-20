@@ -26,7 +26,7 @@ public class GameLogic{
                     if (board[x + i][y].getColor() == color){
                         right = false;
                     }
-                    else ((board[x + i][y] instanceof Queen || board[x + i][y] instanceof Rook)) {
+                    else if((board[x + i][y] instanceof Queen || board[x + i][y] instanceof Rook)) {
                         return true;
                     }
                 }
