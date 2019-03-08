@@ -5,7 +5,7 @@ import javafx.scene.image.*;
 public class Rook extends Piece {
     private ImageView imageView;
     private boolean canCastle;
-    public Rook(boolean color, int x, int y, boolean canCastle) {
+    public Rook(boolean color, int x, int y) {
         super(color, x, y);
         try {
             Image image = color?
