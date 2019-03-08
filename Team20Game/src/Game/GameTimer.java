@@ -7,30 +7,28 @@ public class GameTimer{
 
     private Timer timer;
     private final int increment;
-    private int gameTime;
+    //private int gameTime;
     private int interval;
-
+    private boolean end = false;
 
     public GameTimer(int gameTime, int increment){
-        this.gameTime = gameTime;
         this.increment = increment;
         this.timer = new Timer();
-        this.interval = gameTime;
-        System.out.println(interval);
+        this.interval = interval;
+        //System.out.println(interval);
         //this.startTime = System.currentTimeMillis();
     }
 
-    public GameTimer(int gameTime){
-        this.gameTime = gameTime;
+    public GameTimer(int interval){
+        this.interval = interval;
         this.increment = 0;
         this.timer = new Timer();
-        this.interval = gameTime;
-        System.out.println(interval);
+        //System.out.println(interval);
         //this.startTime = System.currentTimeMillis();
     }
 
     public int getGameTime(){
-        return gameTime;
+        return interval;
     }
 
     public void clock(){
@@ -40,18 +38,24 @@ public class GameTimer{
         System.out.println(interval);
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
-                gameTime = setInterval();
-                System.out.println(gameTime);
+                setInterval();
+                if(interval > 0) {
+                    System.out.println(interval);
+                }
             }
         }, delay, period);
     }
 
-    private int setInterval(){
-        if(interval == 1){
+    private void setInterval(){
+        // Can swap this interval variable with a boolean so that the timer keeps going as long as one wants it to.
+        // One could also add another attribute to this class so that one gets a separate gameTime attribute.
+        if(end){
             timer.cancel();
             //System.out.println("Tiden er ute!");
         }
-        return --interval;
+        if(interval > 0){
+            --interval;
+        }
     }
 
     public static void main(String[] args){
