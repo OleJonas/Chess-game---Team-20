@@ -182,7 +182,8 @@ public class GameLogic{
             return false;
     }
 
-    // Suggestion for a game over method checking if time's up. Could add a boolean like checkmate later on
+    // Suggestion for a game over method checking if time's up. Could add a boolean like checkmate later on.
+    // Would also suggest moving this method to GameEngine instead
     public static boolean isDone(Board board, GameTimer timer){
         while(timer.getGameTime() > 0){
             return false;
