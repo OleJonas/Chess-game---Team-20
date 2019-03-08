@@ -1,3 +1,4 @@
+package Pieces;
 import javafx.scene.image.*;
 
 public class Rook extends Piece {
