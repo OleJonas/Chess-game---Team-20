@@ -1,5 +1,6 @@
+package JavaFX;
+
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -10,8 +11,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 import javafx.scene.image.ImageView;
-import java.awt.*;
-import java.io.FileInputStream;
 
 public class ChessDemo extends Application {
 
