@@ -1,3 +1,5 @@
+package Game;
+
 import Pieces.*;
 
 import java.util.ArrayList;
