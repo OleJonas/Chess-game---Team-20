@@ -1,3 +1,5 @@
+package Pieces;
+import JavaFX.ChessDemo;
 import javafx.scene.image.*;
 
 public class Rook extends Piece {

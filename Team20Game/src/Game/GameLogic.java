@@ -1,3 +1,5 @@
+package Game;
+
 import Pieces.*;
 import Pieces.Piece;
 
