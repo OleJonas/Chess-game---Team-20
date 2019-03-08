@@ -1,3 +1,5 @@
+import Pieces.*;
+
 public class Board {
     private Piece[][] position = new Piece[8][8];
 
@@ -30,10 +32,10 @@ public class Board {
             position[i][6] = new Pawn(false, i, 6);
         }
 
-        /*position[0] = new Piece[]{new Rook(true, 0, 0), new Knight(true, 1, 0), new Bishop(true, 2, 0), new Queen(true, 3, 0),
-                new King(true, 4, 0), new Bishop(true, 5, 0), new Knight(true, 6, 0), new Rook(true, 7, 0)};
-        position[7] = new Piece[]{new Rook(false, 0, 7), new Knight(false, 1, 7), new Bishop(false, 2, 7), new Queen(false, 3, 7),
-                new King(false, 4, 7), new Bishop(false, 5, 7), new Knight(false, 6, 7), new Rook(false, 7, 7)};
+        /*position[0] = new Pieces.Piece[]{new Pieces.Rook(true, 0, 0), new Pieces.Knight(true, 1, 0), new Pieces.Bishop(true, 2, 0), new Pieces.Queen(true, 3, 0),
+                new Pieces.King(true, 4, 0), new Pieces.Bishop(true, 5, 0), new Pieces.Knight(true, 6, 0), new Pieces.Rook(true, 7, 0)};
+        position[7] = new Pieces.Piece[]{new Pieces.Rook(false, 0, 7), new Pieces.Knight(false, 1, 7), new Pieces.Bishop(false, 2, 7), new Pieces.Queen(false, 3, 7),
+                new Pieces.King(false, 4, 7), new Pieces.Bishop(false, 5, 7), new Pieces.Knight(false, 6, 7), new Pieces.Rook(false, 7, 7)};
     */}
 
     public Board(Piece[][] positions){

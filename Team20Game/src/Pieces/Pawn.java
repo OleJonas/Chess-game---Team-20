@@ -1,14 +1,13 @@
-import JavaFX.ChessDemo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Knight extends Piece {
+public class Pawn extends Piece {
     private ImageView imageView;
-    public Knight(boolean color, int x, int y) {
+    public Pawn(boolean color, int x, int y) {
         super(color, x, y);
         try {
-            Image image = color? new Image("Images/chessPieces/w_knight_1x_ns.png", ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE, true, true):
-                    new Image("Images/chessPieces/b_knight_1x_ns.png", ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE, true, true);
+            Image image = color? new Image("Images/chessPieces/w_pawn_1x_ns.png", ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE, true, true):
+                    new Image("Images/chessPieces/b_pawn_1x_ns.png", ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE, true, true);
             imageView = new ImageView(image);
 
         }catch(Exception e){
@@ -17,13 +16,14 @@ public class Knight extends Piece {
     }
 
     public char getNotation() {
-        return 'N';
+        return 'P';
     }
 
     public ImageView getImageView(){
         return imageView;
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

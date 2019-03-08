@@ -1,12 +1,10 @@
-import JavaFX.ChessDemo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class King extends Piece {
     private ImageView imageView;
     private boolean canCastle;
-
-    public King(boolean color, int x, int y) {
+    public King(boolean color, int x, int y, boolean canCastle) {
         super(color, x, y);
         try {
             Image image = color? new Image("Images/chessPieces/w_king_1x_ns.png", ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE, true, true):
