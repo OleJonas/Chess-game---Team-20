@@ -1,4 +1,5 @@
 import Pieces.*;
+import Pieces.Piece;
 
 import java.util.ArrayList;
 
