@@ -1,25 +1,25 @@
 package Game;
 
+//import JavaFX.GameChatNTimer;
+
 import java.util.ArrayList;
 
 public class GameEngine {
    private Board board;
    private int increment;
    private boolean color;
-   //private double time;
+   //private GameChatNTimer gameChatNTimer;
 
-   public GameEngine(int time, int increment, boolean color) {
+   public GameEngine(int gameTime, int increment, boolean color) {
       board = new Board();
       this.color = color;
-      //this.time = time;
-
-      //Sett opp timer. https://stackoverflow.com/questions/14393423/how-to-make-a-countdown-timer-in-java?fbclid=IwAR3TbZbgbxu1SXY3mC8EQVcmvMp1KCMb3yIWaYwWBzU13i8BWSADYCFpQoM
-
+      //this.gameChatNTimer = new GameChatNTimer(gameTime, increment);
    }
 
    public GameEngine(int time, boolean color) {
       board = new Board();
       this.color = color;
+      //this.gameChatNTimer = new GameChatNTimer(time);
    }
 
    public Board getBoard(){

@@ -178,9 +178,20 @@ public class GameLogic{
         }
         return false;
     }
+
     public static boolean isDone(Board board){
-        return false;
+            return false;
     }
+
+    // Suggestion for a game over method checking if time's up. Could add a boolean like checkmate later on.
+    // Would also suggest moving this method to GameEngine instead
+    public static boolean isDone(Board board, GameTimer timer){
+        while(timer.getGameTime() > 0){
+            return false;
+        }
+        return true;
+    }
+
     static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
 
