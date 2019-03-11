@@ -59,11 +59,11 @@ public class Board {
         if(position[fromX][fromY]==null){
             return false;
         }
-        Piece temp = position[fromY][fromX];
-        position[fromY][fromX] = null;
-        position[toY][toX]=temp;
-        position[toY][toX].setX(toX);
-        position[toY][toX].setY(toY);
+        Piece temp = position[fromX][fromY];
+        position[fromX][fromY] = null;
+        position[toX][toY]=temp;
+        position[toX][toY].setX(toX);
+        position[toX][toY].setY(toY);
         return true;
     }
 

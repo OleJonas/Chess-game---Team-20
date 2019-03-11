@@ -1,6 +1,8 @@
+package JavaFX;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.util.ArrayList;
+import Game.GameEngine;
+
 
 public class ChessDemo extends Application {
 
@@ -26,7 +30,7 @@ public class ChessDemo extends Application {
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
 
-    private Tile[][] board = new Tile[HEIGHT][WIDTH];
+    private Tile[][] board = new Tile[8][8];
 
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
@@ -46,14 +50,20 @@ public class ChessDemo extends Application {
                 square.setFill((x+y)%2==0 ? Color.valueOf(darkTileColor): Color.valueOf(lightTileColor));
                 square.relocate(x*ChessDemo.TILE_SIZE, y*ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
-                if(ge.getBoard().getBoardState()[y][x]!=null){
-                    Tile tile = new Tile(x, y, HEIGHT, ge, hboxGroup);
-                    tile.setImageView(ge.getBoard().getBoardState()[y][x].getImageView());
+                if(ge.getBoard().getBoardState()[x][y]!=null){
+                    Tile tile = new Tile(x, y, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    tile.setImageView(ge.getBoard().getBoardState()[x][y].getImageView());
+                    board[x][y] = tile;
                     tileGroup.getChildren().add(tile);
                 }
             }
         }
         System.out.println(ge.getBoard());
+        Rotate rotate180 = new Rotate(180);
+        /*root.getTransforms().add(rotate180);
+        root.setTranslateX(TILE_SIZE*WIDTH);
+        root.setTranslateY(TILE_SIZE*HEIGHT);
+        */
         return root;
     }
     @Override
@@ -70,17 +80,21 @@ class Tile extends StackPane {
 
     private int height;
 
+    private Group tileGroup;
+
     private int currentPositionX;
     private int currentPositionY;
 
     private double mouseX, mouseY;
     private double oldX, oldY;
 
-    public Tile(int x, int y, int height, GameEngine gameEngine, Group hboxGroup) {
+    public Tile(int x, int y, int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Tile[][] board) {
         super.setWidth(ChessDemo.TILE_SIZE);
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
         currentPositionY=y;
+        this.tileGroup = tileGroup;
+        System.out.println(x +  ", " + y + ",,,");
         this.height = height;
         this.gameEngine = gameEngine;
         relocate(x * ChessDemo.TILE_SIZE /*+ ChessDemo.TILE_SIZE * (ChessDemo.imageSize/16)*/, ((height-1-y) * ChessDemo.TILE_SIZE)) ;
@@ -92,20 +106,14 @@ class Tile extends StackPane {
         setOnMouseClicked(e->{
             if(ChessDemo.myTurn) {
                 hboxGroup.getChildren().clear();
-                ArrayList<Integer> moves = new ArrayList<>();
-                moves.add(3);
-                moves.add(5);
-                moves.add(4);
-                moves.add(6);
-                for (int i = 0; i < moves.size(); i += 2) {
-                    HighlightBox box = new HighlightBox(moves.get(i), moves.get(i + 1), height, this, hboxGroup, gameEngine);
-                /*box.setOnMouseClicked(r->{
-                    move(box.getX()*ChessDemo.TILE_SIZE, (height-1-box.getY())*ChessDemo.TILE_SIZE);
-                    gameEngine.move(x,y, box.getX(), box.getY());
-                    System.out.println("moved piece");
-                });
-                */
-                    hboxGroup.getChildren().add(box);
+                ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
+
+                if(moves!=null&&moves.size()>0) {
+                    for (int i = 0; i < moves.size(); i += 2) {
+                        HighlightBox box = new HighlightBox(moves.get(i), moves.get(i + 1), height,
+                                this, hboxGroup, gameEngine, board);
+                        hboxGroup.getChildren().add(box);
+                    }
                 }
             }
             /*
@@ -138,12 +146,16 @@ class Tile extends StackPane {
         getChildren().add(img);
         return true;
     }
-    public void move(int x, int y){
+    public void move(int x, int y, Tile[][] board){
         oldX = x*ChessDemo.TILE_SIZE;
         oldY = (height-1-y)*ChessDemo.TILE_SIZE;
         gameEngine.move(currentPositionX,currentPositionY,x,y);
-        currentPositionX = x;
-        currentPositionY = y;
+        if(board[x][y]!=null){
+            tileGroup.getChildren().remove(board[x][y]);
+        }
+        board[x][y] = this;
+        board[currentPositionX][currentPositionY] = null;
+        setPos(x,y);
         relocate(oldX, oldY);
     }
 }
@@ -151,7 +163,7 @@ class HighlightBox extends Pane{
     int x;
     int y;
     int height;
-    public HighlightBox(int x, int y, int height, Tile tile, Group hboxGroup, GameEngine gameEngine){
+    public HighlightBox(int x, int y, int height, Tile tile, Group hboxGroup, GameEngine gameEngine, Tile[][] board){
         this.x = x;
         this.y = y;
         this.height = height;
@@ -161,7 +173,7 @@ class HighlightBox extends Pane{
         square.setOpacity(0.8);
         getChildren().add(square);
         setOnMouseClicked(e->{
-            tile.move(x, y);
+            tile.move(x, y, board);
             System.out.println("moved piece");
             System.out.println(gameEngine.getBoard());
             hboxGroup.getChildren().clear();
