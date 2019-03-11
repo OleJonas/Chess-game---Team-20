@@ -1,6 +1,8 @@
+package Pieces;
+
+import JavaFX.ChessDemo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.FileInputStream;
 
 public class Bishop extends Piece {

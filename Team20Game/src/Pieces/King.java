@@ -1,8 +1,11 @@
+package Pieces;
+import JavaFX.ChessDemo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class King extends Piece {
     private ImageView imageView;
+    private boolean canCastle;
     public King(boolean color, int x, int y) {
         super(color, x, y);
         try {
@@ -15,6 +18,7 @@ public class King extends Piece {
         }catch(Exception e){
 
         }
+        this.canCastle = true;
     }
 
     public ImageView getImageView(){
@@ -29,5 +33,7 @@ public class King extends Piece {
         return super.toString();
     }
 
-
+    public void setCanCastle(boolean newVal) {
+        this.canCastle = newVal;
+    }
 }
