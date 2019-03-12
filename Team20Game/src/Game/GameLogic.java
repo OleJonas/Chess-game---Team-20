@@ -97,7 +97,7 @@ public class GameLogic{
                 }
             }
             if (y == 1) {
-                if (boardState[x][y+2] == null) {
+                if (boardState[x][y+2] == null && boardState[x][y+1] == null) {
                     validMoves.add(x);
                     validMoves.add(y+2);
                 }
@@ -124,7 +124,7 @@ public class GameLogic{
                 }
             }
             if (y == 6) {
-                if (boardState[x][y-2] == null) {
+                if (boardState[x][y-2] == null && boardState[x][y-1] == null) {
                     validMoves.add(x);
                     validMoves.add(y-2);
                 }
