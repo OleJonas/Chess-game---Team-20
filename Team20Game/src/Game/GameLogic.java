@@ -112,6 +112,7 @@ public class GameLogic{
                 if (boardState[x - 1][y + 1] != null && !boardState[x - 1][y + 1].getColor()) {
                     validMoves.add(x - 1);
                     validMoves.add(y + 1);
+
                 }
             }
         }
@@ -122,7 +123,6 @@ public class GameLogic{
                     validMoves.add(y-1);
                 }
             }
-
             if (y == 6) {
                 if (boardState[x][y-2] == null) {
                     validMoves.add(x);
@@ -151,18 +151,51 @@ public class GameLogic{
         for (int i = 0; i < move.length; i += 2){
             if (x + move[i] < 8 && x + move[i] >= 0 && y + move[i + 1] >= 0 && y + move[i + 1] < 8){
                 //if (!willBeCheck(x, y, x+move[i], y+move[i+1], boardState)) {
-                if (boardState[x + move[i]][y + move[i + 1]] == null) {
-                    validMoves.add(x + move[i]);
-                    validMoves.add(y + move[i + 1]);
-
-                } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x][y].getColor()) {
-                    validMoves.add(x + move[i]);
-                    validMoves.add(y + move[i + 1]);
-                }
+                private_method(x, y, boardState, validMoves, move, i);
                 //}
             }
         }
+        King king = (King) boardState[x][y];
+        if (king.getCanCastle()) {
+            if (boardState[x][y].getColor()) {
+                if (boardState[0][0] instanceof Rook || boardState[7][0] instanceof Rook) {
+                    boolean[] castle = castle(boardState[x][y].getColor(), boardState);
+                    if (castle[0]) {
+                        validMoves.add(6);
+                        validMoves.add(0);
+                    }
+                    if (castle[1]) {
+                        validMoves.add(2);
+                        validMoves.add(0);
+                    }
+                }
+            }
+            else {
+                if (boardState[7][0] instanceof Rook || boardState[7][7] instanceof Rook) {
+                    boolean[] castle = castle(boardState[x][y].getColor(), boardState);
+                    if (castle[0]) {
+                        validMoves.add(6);
+                        validMoves.add(7);
+                    }
+                    if (castle[1]) {
+                        validMoves.add(2);
+                        validMoves.add(7);
+                    }
+                }
+            }
+        }
         return validMoves;
+    }
+
+    private static void private_method(int x, int y, Piece[][] boardState, ArrayList<Integer> validMoves, int[] move, int i) {
+        if (boardState[x + move[i]][y + move[i + 1]] == null) {
+            validMoves.add(x + move[i]);
+            validMoves.add(y + move[i + 1]);
+
+        } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x][y].getColor()) {
+            validMoves.add(x + move[i]);
+            validMoves.add(y + move[i + 1]);
+        }
     }
 
     private static ArrayList<Integer> validMovesKnight(int x, int y, Piece[][] boardState){
@@ -170,14 +203,7 @@ public class GameLogic{
         int[] move = {2, 1, -2, 1, 2, -1, -2, -1, 1, 2, -1, 2, 1, -2, -1, -2};
         for (int i = 0; i < move.length; i+=2) {
             if (x+move[i] < 8 && x+move[i] >= 0 && y+move[i+1] < 8 && y+move[i+1] >= 0) {
-                if (boardState[x+move[i]][y+move[i+1]] == null) {
-                    validMoves.add(x+move[i]);
-                    validMoves.add(y+move[i+1]);
-                }
-                else if (boardState[x+move[i]][y+move[i+1]].getColor() != boardState[x][y].getColor()) {
-                    validMoves.add(x+move[i]);
-                    validMoves.add(y+move[i+1]);
-                }
+                private_method(x, y, boardState, validMoves, move, i);
             }
         }
         return validMoves;
@@ -276,5 +302,41 @@ public class GameLogic{
             validMoves.addAll(validMovesBishop(x, y, boardState));
         }
         return validMoves;
+    }
+
+    private static boolean[] castle(boolean color, Piece[][] boardState) {
+            boolean[] castle = {true, true};
+            if (color) {
+                for (int i = 1; i < 4; i++) {
+                    if (4 + i < 7) {
+                        if (boardState[4+i][0] != null) {
+                            castle[0] = false;
+                        }
+                    }
+                    if (boardState[4-i][0] != null) {
+                        castle[1] = false;
+                    }
+                }
+            } else {
+                for (int i = 1; i < 4; i++) {
+                    if (4 + i < 7) {
+                        if (boardState[4+i][7] != null) {
+                            castle[0] = false;
+                        }
+                    }
+                    if (boardState[4-i][7] != null) {
+                        castle[1] = false;
+                    }
+                }
+            }
+            return castle;
+    }
+
+    private static boolean isStalemate(int x, int y, Board board) {
+        Piece[][] boardState = board.getBoardState();
+        if (validMovesKing(x, y, boardState).size() != 0) {
+            return false;
+        }
+        return true;
     }
 }

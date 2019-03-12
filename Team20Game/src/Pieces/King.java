@@ -32,7 +32,7 @@ public class King extends Piece {
     public String toString() {
         return super.toString();
     }
-
+    public boolean getCanCastle() { return canCastle; }
     public void setCanCastle(boolean newVal) {
         this.canCastle = newVal;
     }
