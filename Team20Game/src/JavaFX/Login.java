@@ -1,33 +1,26 @@
 package JavaFX;
 
-import javafx.application.Application;
-import javafx.geometry.HPos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
-import javafx.geometry.Pos;
-
 import static JavaFX.Register.runRegistration;
 
 
 class Login{
+    static String USERNAME;
+    static String AVATAR;
+
     static Scene startScene;
     static Button loginButton, signUpButton;
     static TextField loginUsernameField;
@@ -68,6 +61,8 @@ class Login{
                 loginUsernameField.clear();
                 loginPasswordField.clear();
                 loginComment.setText(""); //CLearing the label for next time
+                USERNAME = loginUsernameInput;
+                AVATAR = getAvatar(USERNAME);
                 MainScene.showMainScene();
             } else {
                 loginUsernameField.clear();
@@ -168,7 +163,7 @@ class Login{
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
             //Insert into database
-            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1');";
+            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg');";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
@@ -215,4 +210,24 @@ class Login{
         random.nextBytes(bytes);
         return bytes;
     }
+
+    static String getAvatar(String username) {
+        String avatar = "";
+        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
+        try (Connection con = DriverManager.getConnection(url)) {
+            Statement stmt = con.createStatement();
+            String sqlQuery = "SELECT avatar FROM User WHERE username=\"" + username + "\"";
+            ResultSet res = stmt.executeQuery(sqlQuery);
+
+            while (res.next()) {
+                avatar = res.getString("avatar");
+            }
+        } catch (Exception sq) {
+            System.out.println("SQL-Feil: " + sq);
+        }
+        if(avatar.equals("")) avatar = "avatar1";
+        return avatar;
+    }
+
+
 }
