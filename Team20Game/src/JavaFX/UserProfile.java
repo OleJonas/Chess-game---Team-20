@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -28,11 +29,21 @@ class UserProfile{
     static void showUserProfileScene(){
         GridPane mainScreen = new GridPane();
         avatar = new Image("Images/Avatars/" + AVATAR);
-        String userTitle = "User: " + USERNAME;
+
+        String userTitle = "User Profile";
         Label title = new Label(userTitle);
         title.setFont(Font.font("Calibri", 40));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
+
+        String gamesInfoString = "Username: " + USERNAME + "\nGames Played: " + gamesPlayed
+                + "\nGames Won: " + gamesWon + "\nGames Lost: " + gamesLost
+                + "\nElo-rating: " + ELOrating;
+        Label gamesInfoLabel = new Label(gamesInfoString);
+        gamesInfoLabel.setFont(Font.font("Calibri", 25));
+        gamesInfoLabel.setStyle("-fx-font-weight: bold");
+        gamesInfoLabel.setTextFill(Color.WHITE);
+
 
         //Buttons
         Button backToMain = new Button("Back");
@@ -69,8 +80,8 @@ class UserProfile{
         mainScreen.setVgap(12);
         mainScreen.add(backToMain, 0, 0);
         mainScreen.setHalignment(backToMain, HPos.CENTER);
-        mainScreen.add(title, 1, 1, 3, 1);
-        mainScreen.setHalignment(title, HPos.CENTER);
+        mainScreen.add(title, 1, 1, 4, 1);
+        mainScreen.setHalignment(title, HPos.RIGHT);
         avatarImageview = new ImageView(avatar);
         avatarImageview.setFitHeight(200);
         avatarImageview.setFitWidth(200);
@@ -79,12 +90,13 @@ class UserProfile{
         mainScreen.setHalignment(nextAvatar, HPos.RIGHT);
         mainScreen.add(lastAvatar, 1, 3, 3, 1);
         mainScreen.setHalignment(lastAvatar, HPos.LEFT);
+        mainScreen.add(gamesInfoLabel, 4, 2, 2, 1);
 
 
         //Set backgroudn to a hex-color-value
         mainScreen.setStyle("-fx-background-color: #000000;");
 
-        userProfileScene = new Scene(mainScreen, 800, 800);
+        userProfileScene = new Scene(mainScreen, 550, 450);
         Main.window.setScene(userProfileScene);
     }
 
@@ -140,7 +152,7 @@ class UserProfile{
             Statement stmt = con.createStatement();
             //Insert into database
             String sqlQuery = "UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';";
-            int rowsAffected = stmt.executeUpdate(sqlQuery);
+            stmt.executeUpdate(sqlQuery);
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
         }
