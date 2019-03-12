@@ -1,4 +1,6 @@
 package JavaFX;
+import Pieces.Pawn;
+import Pieces.Queen;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -125,6 +127,7 @@ class Tile extends StackPane {
         System.out.println(x +  ", " + y + ",,,");
         this.height = height;
         this.gameEngine = gameEngine;
+        getChildren().add(new Rectangle());
         relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
 
         setOnMouseClicked(e->{
@@ -172,7 +175,7 @@ class Tile extends StackPane {
             img.setTranslateX(offsetX);
             img.setTranslateY(offsetY);
         }
-        getChildren().add(img);
+        getChildren().set(0,img);
         return true;
     }
     public void move(int x, int y, Tile[][] board){
@@ -205,6 +208,18 @@ class HighlightBox extends Pane{
         square.setOpacity(0.8);
         getChildren().add(square);
         setOnMouseClicked(e->{
+            int top=0;
+            if(ChessDemo.color) {
+                top = height-1;
+            }
+            if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
+                ImageView tempimg = new Queen(ChessDemo.color, 0, 0).getImageView();
+                if(!ChessDemo.color){
+                    tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
+                }
+                tile.setImageView(tempimg,
+                        ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+            }
             tile.move(x, y, board);
             System.out.println("moved piece");
             System.out.println(gameEngine.getBoard());
