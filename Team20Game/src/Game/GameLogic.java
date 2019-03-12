@@ -248,51 +248,58 @@ public class GameLogic{
 
     private static ArrayList<Integer> validMovesRook(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        for (int i = 1; i < 8; i++) {
-            boolean xLeft = true;
-            boolean xRight = true;
-            boolean yDown = true;
-            boolean yUp = true;
+        boolean xLeft = true, xRight = true, yDown = true, yUp = true;
 
-            if (x + i < 8) {
-                if (boardState[x + i][y] == null && xRight) {
+        for (int i = 1; i < 8; i++) {
+            if (x + i < 8 && xRight) {
+                if (boardState[x + i][y] == null) {
                     validMoves.add(x+i);
                     validMoves.add(y);
                 } else if(boardState[x][y].getColor() != boardState[x + i][y].getColor()) {
                     validMoves.add(x+i);
                     validMoves.add(y);
                     xRight = false;
+                } else {
+                    xRight = false;
                 }
             }
-            if (x - i >= 0) {
-                if (boardState[x - i][y] == null && xLeft) {
+            if (x - i >= 0 && xLeft) {
+                if (boardState[x - i][y] == null) {
                     validMoves.add(x-i);
                     validMoves.add(y);
                 } else if(boardState[x][y].getColor() != boardState[x - i][y].getColor()){
                     validMoves.add(x-i);
                     validMoves.add(y);
                     xLeft = false;
+                } else {
+                    xLeft = false;
                 }
             }
-            if (y + i < 8) {
-                if (boardState[x][y + i] == null && yUp) {
+            if (y + i < 8 && yUp) {
+                if (boardState[x][y + i] == null) {
                     validMoves.add(x);
                     validMoves.add(y+i);
                 } else if(boardState[x][y].getColor() != boardState[x][y+i].getColor()){
                     validMoves.add(x);
                     validMoves.add(y+i);
                     yUp = false;
+                } else {
+                    yUp = false;
                 }
+
             }
-            if (y - i >= 0) {
-                if (boardState[x][y - i] == null && yDown) {
+            if (y - i >= 0 && yDown) {
+                if (boardState[x][y - i] == null) {
                     validMoves.add(x);
                     validMoves.add(y-i);
                 } else if(boardState[x][y].getColor() != boardState[x][y-i].getColor()) {
                     validMoves.add(x);
                     validMoves.add(y-i);
                     yDown = false;
+                } else {
+                    yDown = false;
                 }
+
             }
         }
         return validMoves;
