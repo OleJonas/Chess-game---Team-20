@@ -49,7 +49,7 @@ class Register {
             }else {
                 boolean registrationOK = false;
                 try {
-                    registrationOK = Login.register(registerUsernameInput, registerPasswordInput, registerPasswordAgainInput);
+                    registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -83,6 +83,8 @@ class Register {
         GridPane signUpLayout = new GridPane();
         signUpLayout.getColumnConstraints().add(new ColumnConstraints(120));
         signUpLayout.getColumnConstraints().add(new ColumnConstraints(200));
+        signUpLayout.setVgap(8);
+        signUpLayout.setHgap(15);
         signUpLayout.setPadding(new Insets(10, 5, 10, 10));
         signUpLayout.add(signupLabel, 1, 0);
         signUpLayout.add(new Label("Username:"), 0, 1);
@@ -94,7 +96,7 @@ class Register {
         signUpLayout.add(signUpRegisterButton, 0, 4);
         signUpLayout.add(signUpalreadyAccountButton, 1, 4);
         signUpLayout.add(registerComment, 1, 5);
-        signUpScene = new Scene(signUpLayout, 400, 190);
+        signUpScene = new Scene(signUpLayout, 370, 200);
         Main.window.setScene(signUpScene);
 
     }
