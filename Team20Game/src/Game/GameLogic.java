@@ -151,14 +151,7 @@ public class GameLogic{
         for (int i = 0; i < move.length; i += 2){
             if (x + move[i] < 8 && x + move[i] >= 0 && y + move[i + 1] >= 0 && y + move[i + 1] < 8){
                 //if (!willBeCheck(x, y, x+move[i], y+move[i+1], boardState)) {
-                if (boardState[x + move[i]][y + move[i + 1]] == null) {
-                    validMoves.add(x + move[i]);
-                    validMoves.add(y + move[i + 1]);
-
-                } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x][y].getColor()) {
-                    validMoves.add(x + move[i]);
-                    validMoves.add(y + move[i + 1]);
-                }
+                private_method(x, y, boardState, validMoves, move, i);
                 //}
             }
         }
@@ -194,19 +187,23 @@ public class GameLogic{
         return validMoves;
     }
 
+    private static void private_method(int x, int y, Piece[][] boardState, ArrayList<Integer> validMoves, int[] move, int i) {
+        if (boardState[x + move[i]][y + move[i + 1]] == null) {
+            validMoves.add(x + move[i]);
+            validMoves.add(y + move[i + 1]);
+
+        } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x][y].getColor()) {
+            validMoves.add(x + move[i]);
+            validMoves.add(y + move[i + 1]);
+        }
+    }
+
     private static ArrayList<Integer> validMovesKnight(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         int[] move = {2, 1, -2, 1, 2, -1, -2, -1, 1, 2, -1, 2, 1, -2, -1, -2};
         for (int i = 0; i < move.length; i+=2) {
             if (x+move[i] < 8 && x+move[i] >= 0 && y+move[i+1] < 8 && y+move[i+1] >= 0) {
-                if (boardState[x+move[i]][y+move[i+1]] == null) {
-                    validMoves.add(x+move[i]);
-                    validMoves.add(y+move[i+1]);
-                }
-                else if (boardState[x+move[i]][y+move[i+1]].getColor() != boardState[x][y].getColor()) {
-                    validMoves.add(x+move[i]);
-                    validMoves.add(y+move[i+1]);
-                }
+                private_method(x, y, boardState, validMoves, move, i);
             }
         }
         return validMoves;
@@ -389,5 +386,13 @@ public class GameLogic{
                 }
             }
             return castle;
+    }
+
+    private static boolean isStalemate(int x, int y, Board board) {
+        Piece[][] boardState = board.getBoardState();
+        if (validMovesKing(x, y, boardState).size() != 0) {
+            return false;
+        }
+        return true;
     }
 }
