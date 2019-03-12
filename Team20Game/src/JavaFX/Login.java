@@ -163,7 +163,7 @@ class Login{
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
             //Insert into database
-            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1');";
+            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg');";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
             if(rowsAffected==1) return true;
         }catch (Exception sq) {

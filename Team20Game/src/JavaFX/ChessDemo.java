@@ -1,4 +1,6 @@
 package JavaFX;
+import Pieces.Pawn;
+import Pieces.Queen;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -19,11 +21,13 @@ import Game.GameEngine;
 
 
 public class ChessDemo extends Application {
+
     public static final int TILE_SIZE = 100 ;
-    public static final double imageSize = 0.85;
-    public static boolean myTurn = true;
+    public static final double imageSize = 0.8;
 
     public static boolean color = true;
+
+    public static boolean myTurn = true;
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
@@ -44,8 +48,13 @@ public class ChessDemo extends Application {
 
     private Parent createContent() {
         Pane root = new Pane();
+        Pane bg = new Pane();
+        bg.setPrefSize(WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
+        bg.setOnMouseClicked(e->{
+            hboxGroup.getChildren().clear();
+        });
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, bg, tileGroup, hboxGroup);
         for(int x = 0; x<WIDTH; x++){
             for(int y = 0; y<HEIGHT; y++){
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
@@ -80,11 +89,11 @@ public class ChessDemo extends Application {
                 }
             }
         }
-        System.out.println(ge.getBoard());
         if(!color) {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
             root.getTransforms().add(rotate180);
         }
+
         return root;
     }
     @Override
@@ -117,11 +126,12 @@ class Tile extends StackPane {
         System.out.println(x +  ", " + y + ",,,");
         this.height = height;
         this.gameEngine = gameEngine;
+        getChildren().add(new Rectangle());
         relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
 
         setOnMouseClicked(e->{
             hboxGroup.getChildren().clear();
-            if(ChessDemo.myTurn) {
+            if(ChessDemo.myTurn&& myColor) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
                 if(moves!=null&&moves.size()>0) {
@@ -164,12 +174,13 @@ class Tile extends StackPane {
             img.setTranslateX(offsetX);
             img.setTranslateY(offsetY);
         }
-        getChildren().add(img);
+        getChildren().set(0,img);
         return true;
     }
     public void move(int x, int y, Tile[][] board){
         oldX = x*ChessDemo.TILE_SIZE;
         oldY = (height-1-y)*ChessDemo.TILE_SIZE;
+        gameEngine.move(currentPositionX,currentPositionY,x,y);
         gameEngine.move(currentPositionX,currentPositionY,x,y);
         if(board[x][y]!=null){
             tileGroup.getChildren().remove(board[x][y]);
@@ -178,6 +189,9 @@ class Tile extends StackPane {
         board[currentPositionX][currentPositionY] = null;
         setPos(x,y);
         relocate(oldX, oldY);
+    }
+    public boolean changeImage(ImageView imageView){
+        return true;
     }
 }
 class HighlightBox extends Pane{
@@ -195,6 +209,20 @@ class HighlightBox extends Pane{
         getChildren().add(square);
         setOnMouseClicked(e->{
             tile.move(x, y, board);
+            int top=0;
+            if(ChessDemo.color) {
+                top = height-1;
+            }
+            if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
+                Queen newPiece = new Queen(ChessDemo.color, x, y);
+                ImageView tempimg = newPiece.getImageView();
+                gameEngine.setPiece(newPiece, x, y);
+                if(!ChessDemo.color){
+                    tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
+                }
+                tile.setImageView(tempimg,
+                        ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+            }
             System.out.println("moved piece");
             System.out.println(gameEngine.getBoard());
             hboxGroup.getChildren().clear();

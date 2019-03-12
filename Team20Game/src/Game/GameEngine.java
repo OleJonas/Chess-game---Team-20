@@ -2,6 +2,8 @@ package Game;
 
 //import JavaFX.GameChatNTimer;
 
+import Pieces.Piece;
+
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -32,6 +34,10 @@ public class GameEngine {
 
    public boolean move(int fromX, int fromY, int toX, int toY) {
       return board.move(fromX, fromY, toX, toY);
+   }
+
+   public void setPiece(Piece piece, int x, int y){
+      board.setPiece(piece, x, y);
    }
 
    public boolean isDone() {
