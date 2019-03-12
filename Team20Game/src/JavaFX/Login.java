@@ -17,9 +17,15 @@ import java.sql.*;
 import static JavaFX.Register.runRegistration;
 
 
+@SuppressWarnings("Duplicates")
 class Login{
     static String USERNAME;
     static String AVATAR;
+    static int gamesPlayed;
+    static int gamesWon;
+    static int gamesLost;
+    static int gamesRemis;
+    static int ELOrating;
 
     static Scene startScene;
     static Button loginButton, signUpButton;
@@ -63,6 +69,7 @@ class Login{
                 loginComment.setText(""); //CLearing the label for next time
                 USERNAME = loginUsernameInput;
                 AVATAR = getAvatar(USERNAME);
+                getGameInfo();
                 MainScene.showMainScene();
             } else {
                 loginUsernameField.clear();
@@ -163,7 +170,7 @@ class Login{
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
             //Insert into database
-            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg');";
+            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg', 0, 0, 0, 0, 1000);";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
@@ -225,9 +232,26 @@ class Login{
         } catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
         }
-        if(avatar.equals("")) avatar = "avatar1";
+        if(avatar.equals("")) avatar = "avatar1.jpg";
         return avatar;
     }
 
+    static void getGameInfo(){
+        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
+        try (Connection con = DriverManager.getConnection(url)) {
+            Statement stmt = con.createStatement();
+            String sqlQuery = "SELECT gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User WHERE username=\"" + USERNAME + "\"";
+            ResultSet res = stmt.executeQuery(sqlQuery);
 
+            while (res.next()) {
+                gamesPlayed = res.getInt("gamesPlayed");
+                gamesWon = res.getInt("gamesWon");
+                gamesLost = res.getInt("gamesLost");
+                gamesRemis = res.getInt("gamesRemis");
+                ELOrating = res.getInt("ELOrating");
+            }
+        } catch (Exception sq) {
+            System.out.println("SQL-Feil: " + sq);
+        }
+    }
 }
