@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,8 +21,10 @@ import Game.GameEngine;
 public class ChessDemo extends Application {
 
     public static final int TILE_SIZE = 100 ;
-    public static final double imageSize = 1;
+    public static final double imageSize = 0.8;
     public static boolean myTurn = true;
+
+    public static boolean color = true;
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
@@ -51,19 +54,38 @@ public class ChessDemo extends Application {
                 square.relocate(x*ChessDemo.TILE_SIZE, y*ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if(ge.getBoard().getBoardState()[x][y]!=null){
-                    Tile tile = new Tile(x, y, HEIGHT, ge, hboxGroup, tileGroup, board);
-                    tile.setImageView(ge.getBoard().getBoardState()[x][y].getImageView());
+                    boolean myColor;
+                    if(color) {
+                        if (ge.getBoard().getBoardState()[x][y].getColor()) {
+                            myColor = true;
+                        }else{
+                            myColor = false;
+                        }
+                    }else{
+                        if(ge.getBoard().getBoardState()[x][y].getColor()){
+                            myColor = false;
+                        }else{
+                            myColor = true;
+                        }
+                    }
+                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    if(!color){
+                        ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
+                        temp.getTransforms().add(new Rotate(180, TILE_SIZE/2, TILE_SIZE/2));
+                        tile.setImageView(temp, TILE_SIZE*(1-imageSize)/2, TILE_SIZE*(1-imageSize)/2);
+                    }else {
+                        tile.setImageView(ge.getBoard().getBoardState()[x][y].getImageView(),TILE_SIZE*(1-imageSize)/2, TILE_SIZE*(1-imageSize)/2);
+                    }
                     board[x][y] = tile;
                     tileGroup.getChildren().add(tile);
                 }
             }
         }
         System.out.println(ge.getBoard());
-        Rotate rotate180 = new Rotate(180);
-        /*root.getTransforms().add(rotate180);
-        root.setTranslateX(TILE_SIZE*WIDTH);
-        root.setTranslateY(TILE_SIZE*HEIGHT);
-        */
+        if(!color) {
+            Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
+            root.getTransforms().add(rotate180);
+        }
         return root;
     }
     @Override
@@ -85,10 +107,9 @@ class Tile extends StackPane {
     private int currentPositionX;
     private int currentPositionY;
 
-    private double mouseX, mouseY;
     private double oldX, oldY;
 
-    public Tile(int x, int y, int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Tile[][] board) {
+    public Tile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Tile[][] board) {
         super.setWidth(ChessDemo.TILE_SIZE);
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
@@ -97,15 +118,11 @@ class Tile extends StackPane {
         System.out.println(x +  ", " + y + ",,,");
         this.height = height;
         this.gameEngine = gameEngine;
-        relocate(x * ChessDemo.TILE_SIZE /*+ ChessDemo.TILE_SIZE * (ChessDemo.imageSize/16)*/, ((height-1-y) * ChessDemo.TILE_SIZE)) ;
-        /*Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-        square.setFill(light ? Color.valueOf("#feb"): Color.valueOf("#582"));
-        square.relocate(x*ChessDemo.TILE_SIZE, (height-1-y)*ChessDemo.TILE_SIZE);
-        getChildren().add(square);
-        */
+        relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
+
         setOnMouseClicked(e->{
-            if(ChessDemo.myTurn) {
-                hboxGroup.getChildren().clear();
+            hboxGroup.getChildren().clear();
+            if(ChessDemo.myTurn && myColor) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
                 if(moves!=null&&moves.size()>0) {
@@ -125,8 +142,6 @@ class Tile extends StackPane {
             /*relocate(e.getSceneX() - mouseX + oldX - (ChessDemo.TILE_SIZE/2), e.getSceneY() - mouseY + oldY -(ChessDemo.TILE_SIZE/2));*/
         });
         setOnMouseReleased(e->{
-           /* oldX = e.getSceneX();
-            oldY = e.getSceneY();*/
         });
     }
     public void setPos(int x, int y){
@@ -139,9 +154,16 @@ class Tile extends StackPane {
     public int getY(){
         return currentPositionY;
     }
-    public boolean setImageView(ImageView img){
+    public boolean setImageView(ImageView img, double offsetX, double offsetY){
         if(img == null){
             return false;
+        }
+        if(!ChessDemo.color){
+            img.setTranslateX(-offsetX);
+            img.setTranslateY(-offsetY);
+        }else{
+            img.setTranslateX(offsetX);
+            img.setTranslateY(offsetY);
         }
         getChildren().add(img);
         return true;
