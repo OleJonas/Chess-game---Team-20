@@ -179,6 +179,12 @@ public class GameLogic{
         return false;
     }
 
+    private static boolean willBeCheck(int fromx, int fromy, int tox, int toy, Piece[][] boardState){
+        boardState[tox][toy] = boardState[fromx][fromy];
+        boardState[fromx][fromy] = null;
+        return inCheck(boardState, boardState[tox][toy].getColor());
+    }
+
     public static boolean isDone(Board board){
             return false;
     }
@@ -219,7 +225,6 @@ public class GameLogic{
                     validMoves.add(y + 1);
                 }
             }
-
         }
         else {
             if (y - 1 >= 0) {
@@ -247,6 +252,63 @@ public class GameLogic{
                     validMoves.add(y - 1);
                 }
             }
+        }
+        return validMoves;
+    }
+
+    private static ArrayList<Integer> validMovesKing(int x, int y, Piece[][] boardState){
+        ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        int[] move = { 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1};
+        for (int i = 0; i < move.length; i += 2){
+            if (x + move[i] < 8 && x + move[i] >= 0 && y + move[i + 1] >= 0 && y + move[i + 1] < 8){
+                //if (!willBeCheck(x, y, x+move[i], y+move[i+1], boardState)) {
+                if (boardState[x + move[i]][y + move[i + 1]] == null) {
+                    validMoves.add(x + move[i]);
+                    validMoves.add(y + move[i + 1]);
+
+                } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x + move[i]][y + move[i + 1]].getColor()) {
+                    validMoves.add(x + move[i]);
+                    validMoves.add(y + move[i + 1]);
+                }
+                //}
+            }
+        }
+        return validMoves;
+    }
+
+    private static ArrayList<Integer> validMovesKnight(int x, int y, Piece[][] boardState){
+        ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        if ((boardState[x+2][y+1].getColor() != boardState[x][y].getColor() || boardState[x+2][y+1] == null)  && (x+2 < 8) && (y+1 < 8)) {
+            validMoves.add(x+2);
+            validMoves.add(y+1);
+        }
+        if ((boardState[x-2][y+1].getColor() != boardState[x][y].getColor() || boardState[x-2][y+1] == null) && (x-2 >= 0) && (y+1 < 8)) {
+            validMoves.add(x-2);
+            validMoves.add(y+1);
+        }
+        if ((boardState[x+2][y-1].getColor() != boardState[x][y].getColor()|| boardState[x+2][y-1] == null) && (x+2 < 8) && (y-1 >= 0)) {
+            validMoves.add(x+2);
+            validMoves.add(y-1);
+        }
+        if ((boardState[x-2][y-1].getColor() != boardState[x][y].getColor()|| boardState[x-2][y-1] == null) && (x-2 >= 0) && (y-1 >= 0)) {
+            validMoves.add(x-2);
+            validMoves.add(y-1);
+        }
+        if ((boardState[x+1][y+2].getColor() != boardState[x][y].getColor()|| boardState[x+1][y+2] == null) && (x+1 < 8) && (y+2 < 8)) {
+            validMoves.add(x+1);
+            validMoves.add(y+2);
+        }
+        if ((boardState[x-1][y+2].getColor() != boardState[x][y].getColor()|| boardState[x-1][y+2] == null) && (x-1 >= 0) && (y+2 < 8)) {
+            validMoves.add(x-1);
+            validMoves.add(y+2);
+        }
+        if ((boardState[x+1][y-2].getColor() != boardState[x][y].getColor()|| boardState[x+1][y-2] == null) && (x+1 < 8) && (y-2 >= 0)) {
+            validMoves.add(x+1);
+            validMoves.add(y-2);
+        }
+        if ((boardState[x-1][y-2].getColor() != boardState[x][y].getColor()|| boardState[x-1][y-2] == null) && (x-1 >= 0) && (y-2 >= 0)) {
+            validMoves.add(x-1);
+            validMoves.add(y-2);
         }
         return validMoves;
     }
@@ -310,118 +372,58 @@ public class GameLogic{
         return validMoves;
     }
 
-    private static ArrayList<Integer> validMovesKnight(int x, int y, Piece[][] boardState){
-        ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        if ((boardState[x+2][y+1].getColor() != boardState[x][y].getColor() || boardState[x+2][y+1] == null)  && (x+2 < 8) && (y+1 < 8)) {
-            validMoves.add(x+2);
-            validMoves.add(y+1);
-        }
-        if ((boardState[x-2][y+1].getColor() != boardState[x][y].getColor() || boardState[x-2][y+1] == null) && (x-2 >= 0) && (y+1 < 8)) {
-            validMoves.add(x-2);
-            validMoves.add(y+1);
-        }
-        if ((boardState[x+2][y-1].getColor() != boardState[x][y].getColor()|| boardState[x+2][y-1] == null) && (x+2 < 8) && (y-1 >= 0)) {
-            validMoves.add(x+2);
-            validMoves.add(y-1);
-        }
-        if ((boardState[x-2][y-1].getColor() != boardState[x][y].getColor()|| boardState[x-2][y-1] == null) && (x-2 >= 0) && (y-1 >= 0)) {
-            validMoves.add(x-2);
-            validMoves.add(y-1);
-        }
-        if ((boardState[x+1][y+2].getColor() != boardState[x][y].getColor()|| boardState[x+1][y+2] == null) && (x+1 < 8) && (y+2 < 8)) {
-            validMoves.add(x+1);
-            validMoves.add(y+2);
-        }
-        if ((boardState[x-1][y+2].getColor() != boardState[x][y].getColor()|| boardState[x-1][y+2] == null) && (x-1 >= 0) && (y+2 < 8)) {
-            validMoves.add(x-1);
-            validMoves.add(y+2);
-        }
-        if ((boardState[x+1][y-2].getColor() != boardState[x][y].getColor()|| boardState[x+1][y-2] == null) && (x+1 < 8) && (y-2 >= 0)) {
-            validMoves.add(x+1);
-            validMoves.add(y-2);
-        }
-        if ((boardState[x-1][y-2].getColor() != boardState[x][y].getColor()|| boardState[x-1][y-2] == null) && (x-1 >= 0) && (y-2 >= 0)) {
-            validMoves.add(x-1);
-            validMoves.add(y-2);
-        }
-        return validMoves;
-    }
-
-    private static ArrayList<Integer> validMovesKing(int x, int y, Piece[][] boardState){
-        ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        int[] move = { 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1};
-        for (int i = 0; i < move.length; i += 2){
-            if (x + move[i] < 8 && x + move[i] >= 0 && y + move[i + 1] >= 0 && y + move[i + 1] < 8){
-                //if (!willBeCheck(x, y, x+move[i], y+move[i+1], boardState)) {
-                    if (boardState[x + move[i]][y + move[i + 1]] == null) {
-                        validMoves.add(x + move[i]);
-                        validMoves.add(y + move[i + 1]);
-
-                    } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x + move[i]][y + move[i + 1]].getColor()) {
-                        validMoves.add(x + move[i]);
-                        validMoves.add(y + move[i + 1]);
-                    }
-                //}
-            }
-        }
-        return validMoves;
-    }
-
-    private static boolean willBeCheck(int fromx, int fromy, int tox, int toy, Piece[][] boardState){
-        boardState[tox][toy] = boardState[fromx][fromy];
-        boardState[fromx][fromy] = null;
-        return inCheck(boardState, boardState[tox][toy].getColor());
-    }
-
     private static ArrayList<Integer> validMovesBishop(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
+        boolean rightUp = true, leftDown = true, rightDown = true, leftUp = true;
         for (int i = 1; i < 8; i++)  {
-            boolean RightUp = true;
-            boolean RightDown = true;
-            boolean LeftUp = true;
-            boolean LeftDown = true;
-
-            if (x+i < 8 && y+i<8) {
-                if (boardState[x+i][y+i] == null && RightUp) {
+            if (x+i < 8 && y+i<8 && rightUp) {
+                if (boardState[x+i][y+i] == null) {
                     validMoves.add(x+i);
                     validMoves.add(y+i);
                 } else if (boardState[x][y].getColor() != boardState[x+i][y+i].getColor()) {
                     validMoves.add(x+i);
                     validMoves.add(y+i);
-                    RightUp = false;
+                    rightUp = false;
+                } else {
+                    rightUp = false;
                 }
             }
-
-            if (x - i >= 0 && y - i >= 0) {
-                if (boardState[x-i][y-i] == null && LeftDown) {
+            if (x - i >= 0 && y - i >= 0 && leftDown) {
+                if (boardState[x-i][y-i] == null) {
                     validMoves.add(x-i);
-                    validMoves.add(x-i);
+                    validMoves.add(y-i);
                 } else if (boardState[x][y].getColor() != boardState[x-i][y-i].getColor()) {
                     validMoves.add(x-i);
                     validMoves.add(y-i);
-                    LeftDown = false;
+                    leftDown = false;
+                } else {
+                    leftDown = false;
                 }
-            }
 
-            if (x-i >= 0 && y+i < 8) {
-                if (boardState[x-i][y+i] == null && LeftUp) {
+            }
+            if (x - i >= 0 && y + i < 8 && leftUp) {
+                if (boardState[x-i][y+i] == null) {
                     validMoves.add(x-i);
                     validMoves.add(y+i);
-                } else if (boardState[x][y].getColor() != boardState[x-i][y+1].getColor()) {
+                } else if (boardState[x][y].getColor() != boardState[x-i][y+i].getColor()) {
                     validMoves.add(x-i);
                     validMoves.add(y+i);
-                    LeftUp = false;
+                    leftUp = false;
+                } else {
+                    leftUp = false;
                 }
             }
-
-            if (x+i < 8 && y-i < 0) {
-                if (boardState[x+i][y-i] == null && RightDown) {
+            if (x+i < 8 && y-i >= 0 && rightDown) {
+                if (boardState[x+i][y-i] == null) {
                     validMoves.add(x+i);
                     validMoves.add(y-i);
                 } else if (boardState[x][y].getColor() != boardState[x+i][y-i].getColor()) {
                     validMoves.add(x+i);
                     validMoves.add(y-i);
-                    RightDown = false;
+                    rightDown = false;
+                }
+                else {
+                    rightDown = false;
                 }
             }
         }
