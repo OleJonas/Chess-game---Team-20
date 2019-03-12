@@ -11,14 +11,16 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import static JavaFX.Login.AVATAR;
 import static JavaFX.Login.runLogin;
+import static JavaFX.UserProfile.setAvatar;
 import static JavaFX.UserProfile.showUserProfileScene;
 
 class MainScene {
     static Scene mainScene;
 
     static void showMainScene(){
-        Image CarreyGif = new Image("/Images/CarreyGif.gif");
+        Image ChessBoardImage = new Image("/Images/ChessBoardImage.jpg");
         Label recessChess = new Label("Recess Chess");
         recessChess.setFont(Font.font("Calibri", 40));
         recessChess.setStyle("-fx-font-weight: bold");
@@ -33,8 +35,11 @@ class MainScene {
 
         Button settings = new Button("Settings");
 
-        Button backToStart = new Button("Back");
-        backToStart.setOnAction(e -> runLogin());
+        Button backToStart = new Button("Log out");
+        backToStart.setOnAction(e -> {
+            setAvatar(AVATAR);
+            runLogin();
+        });
 
         //layout
         GridPane mainScreen = new GridPane();
@@ -53,7 +58,11 @@ class MainScene {
             mainScreen.setHalignment(userProfile, HPos.CENTER);
             mainScreen.add(settings, 1, 5, 3, 1);
             mainScreen.setHalignment(settings, HPos.CENTER);
-            mainScreen.add(new ImageView(CarreyGif), 1, 6, 3, 1);
+            ImageView ChessBoardImageview = new ImageView(ChessBoardImage);
+            ChessBoardImageview.setFitHeight(300);
+            ChessBoardImageview.setFitWidth(300);
+            mainScreen.add(ChessBoardImageview, 1, 6, 3, 1);
+
 
             /*
             ** Set image as background **
@@ -66,7 +75,7 @@ class MainScene {
             //Set backgroudn to a hex-color-value
             mainScreen.setStyle("-fx-background-color: #000000;");
 
-            mainScene = new Scene(mainScreen, 500, 600);
+            mainScene = new Scene(mainScreen, 480, 600);
             Main.window.setScene(mainScene);
     }
 }
