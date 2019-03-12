@@ -1,6 +1,8 @@
 package JavaFX;
+import Pieces.King;
 import Pieces.Pawn;
 import Pieces.Queen;
+import Pieces.Rook;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -13,11 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-
 import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.util.ArrayList;
 import Game.GameEngine;
+import java.math.*;
 
 
 public class ChessDemo extends Application {
@@ -26,7 +28,7 @@ public class ChessDemo extends Application {
 
     public static final double imageSize = 0.8;
 
-    public static boolean color = true;
+    public static boolean color = false;
 
     public static boolean myTurn = true;
     private GameEngine ge = new GameEngine(15, true);
@@ -191,14 +193,12 @@ class Tile extends StackPane {
         setPos(x,y);
         relocate(oldX, oldY);
     }
-    public boolean changeImage(ImageView imageView){
-        return true;
-    }
 }
 class HighlightBox extends Pane{
     int x;
     int y;
     int height;
+    double hboxOpacity = 0.5;
     public HighlightBox(int x, int y, int height, Tile tile, Group hboxGroup, GameEngine gameEngine, Tile[][] board){
         this.x = x;
         this.y = y;
@@ -206,9 +206,19 @@ class HighlightBox extends Pane{
         relocate(x*ChessDemo.TILE_SIZE, (height-1-y)*ChessDemo.TILE_SIZE);
         Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
         square.setFill(Color.valueOf("#582"));
-        square.setOpacity(0.8);
+        square.setOpacity(hboxOpacity);
         getChildren().add(square);
         setOnMouseClicked(e->{
+            if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
+                if(x-tile.getX()>0) {
+                    board[7][y].move(x-1, y, board);
+                }else{
+                    board[0][y].move(x+1, y, board);
+                }
+                King king = (King)gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
+                king.setCanCastle(false);
+                System.out.println("Rokkade");
+            }
             tile.move(x, y, board);
             int top=0;
             if(ChessDemo.color) {
