@@ -41,7 +41,7 @@ class UserProfile{
         });
 
         Button nextAvatar = new Button();
-        Image imageNextAvatar = new Image("Images/ButtonImages/ArrowRight.jpg");
+        Image imageNextAvatar = new Image("Images/ButtonImages/ArrowRight.png");
         ImageView imageViewNextAvatar = new ImageView(imageNextAvatar);
         imageViewNextAvatar.setFitWidth(30);
         imageViewNextAvatar.setFitHeight(30);
@@ -52,7 +52,7 @@ class UserProfile{
         });
 
         Button lastAvatar = new Button();
-        Image imageLastAvatar = new Image("Images/ButtonImages/ArrowLeft.jpg");
+        Image imageLastAvatar = new Image("Images/ButtonImages/ArrowLeft.png");
         ImageView imageViewLastAvatar = new ImageView(imageLastAvatar);
         imageViewLastAvatar.setFitWidth(30);
         imageViewLastAvatar.setFitHeight(30);
@@ -81,10 +81,6 @@ class UserProfile{
         mainScreen.setHalignment(lastAvatar, HPos.LEFT);
 
 
-
-
-
-
         //Set backgroudn to a hex-color-value
         mainScreen.setStyle("-fx-background-color: #000000;");
 
@@ -93,48 +89,46 @@ class UserProfile{
     }
 
     static void increaseAvatar(){
-        String[] avatarArray = AVATAR.split(".");
-        if(avatarArray[1].equals("avatar1")) {
-            AVATAR = "avatar2.jpg";
-        }else if(avatarArray[1].equals("avatar2")) {
-            AVATAR = "avatar3.jpg";
-        }else if(avatarArray[1].equals("avatar3")) {
+        if(AVATAR.equals("avatar1.jpg")) {
+            AVATAR = "avatar2.png";
+        }else if(AVATAR.equals("avatar2.png")) {
+            AVATAR = "avatar3.png";
+        }else if(AVATAR.equals("avatar3.png")) {
             AVATAR = "avatar4.jpg";
-        }else if(avatarArray[1].equals("avatar4")) {
-            AVATAR = "avatar5";
-        }else if(avatarArray[1].equals("avatar5")) {
-            AVATAR = "avatar6";
-        }else if(avatarArray[1].equals("avatar6")) {
-            AVATAR = "avatar7";
-        }else if(avatarArray[1].equals("avatar7")) {
-            AVATAR = "avatar8";
-        }else if(avatarArray[1].equals("avatar8")) {
-            AVATAR = "avatar9";
-        }else if(avatarArray[1].equals("avatar9") || avatarArray[1].equals("avatar10")) {
-            AVATAR = "avatar10";
+        }else if(AVATAR.equals("avatar4.jpg")) {
+            AVATAR = "avatar5.png";
+        }else if(AVATAR.equals("avatar5.png")) {
+            AVATAR = "avatar6.png";
+        }else if(AVATAR.equals("avatar6.png")) {
+            AVATAR = "avatar7.png";
+        }else if(AVATAR.equals("avatar7.png")) {
+            AVATAR = "avatar8.png";
+        }else if(AVATAR.equals("avatar8.png")) {
+            AVATAR = "avatar9.png";
+        }else if(AVATAR.equals("avatar9.png") || AVATAR.equals("avatar10.png")) {
+            AVATAR = "avatar10.png";
         }
     }
 
     static void decreaseAvatar(){
-        String[] avatarArray = AVATAR.split(".");
-        if(avatarArray[1].equals("avatar1") || avatarArray[1].equals("avatar2")) {
-            AVATAR = "avatar1";
-        }else if(avatarArray[1].equals("avatar3")) {
-            AVATAR = "avatar2";
-        }else if(avatarArray[1].equals("avatar4")) {
-            AVATAR = "avatar3";
-        }else if(avatarArray[1].equals("avatar5")) {
-            AVATAR = "avatar4";
-        }else if(avatarArray[1].equals("avatar6")) {
-            AVATAR = "avatar5";
-        }else if(avatarArray[1].equals("avatar7")) {
-            AVATAR = "avatar6";
-        }else if(avatarArray[1].equals("avatar8")) {
-            AVATAR = "avatar7";
-        }else if(avatarArray[1].equals("avatar9")) {
-            AVATAR = "avatar8";
-        }else if(avatarArray[1].equals("avatar10")) {
-            AVATAR = "avatar9";
+        if(AVATAR.equals("avatar1.jpg") || AVATAR.equals("avatar2.png")) {
+            AVATAR = "avatar1.jpg";
+        }else if(AVATAR.equals("avatar3.png")) {
+            AVATAR = "avatar2.png";
+        }else if(AVATAR.equals("avatar4.jpg")) {
+            AVATAR = "avatar3.png";
+        }else if(AVATAR.equals("avatar5.png")) {
+            AVATAR = "avatar4.jpg";
+        }else if(AVATAR.equals("avatar6.png")) {
+            AVATAR = "avatar5.png";
+        }else if(AVATAR.equals("avatar7.png")) {
+            AVATAR = "avatar6.png";
+        }else if(AVATAR.equals("avatar8.png")) {
+            AVATAR = "avatar7.png";
+        }else if(AVATAR.equals("avatar9.png")) {
+            AVATAR = "avatar8.png";
+        }else if(AVATAR.equals("avatar10.png")) {
+            AVATAR = "avatar9.png";
         }
 
     }
