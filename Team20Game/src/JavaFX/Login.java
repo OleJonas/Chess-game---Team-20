@@ -1,33 +1,26 @@
 package JavaFX;
 
-import javafx.application.Application;
-import javafx.geometry.HPos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
-import javafx.geometry.Pos;
-
 import static JavaFX.Register.runRegistration;
 
 
 class Login{
+    static String USERNAME;
+    static String AVATAR;
+
     static Scene startScene;
     static Button loginButton, signUpButton;
     static TextField loginUsernameField;
@@ -36,18 +29,22 @@ class Login{
 
 
     static void runLogin() {
-        //startScene
         //Textfields
         loginUsernameField = new TextField();
         loginPasswordField = new PasswordField();
+
+        //DENNE SETTER BARE INN EN TESTBRUKER FOR Å SLIPPE Å SKRIVE INN BRUKERDETAILS, SLETT FØR PUBLISERING AV APPLIKASJON
+        loginUsernameField.setText("Test");
+        loginPasswordField.setText("12345");
+
         //Label
         loginComment = new Label();
         Label loginLabel = new Label("Login");
         loginLabel.setFont(Font.font("Calibri", 32));
-
         //loginComment.setTextFill(Color.web("#0076a3")); //For Hexvalues
         loginComment.setTextFill(Color.RED);
         //loginLabel.setAlignment(Pos.CENTER);
+
         //loginButton
         loginButton = new Button("Login");
         loginButton.setOnAction(e -> { //Actions of clicking the loginbutton
@@ -64,6 +61,8 @@ class Login{
                 loginUsernameField.clear();
                 loginPasswordField.clear();
                 loginComment.setText(""); //CLearing the label for next time
+                USERNAME = loginUsernameInput;
+                AVATAR = getAvatar(USERNAME);
                 MainScene.showMainScene();
             } else {
                 loginUsernameField.clear();
@@ -94,7 +93,7 @@ class Login{
         loginLayout.add(loginButton, 0, 3);
         loginLayout.add(signUpButton, 1, 3);
         loginLayout.add(loginComment, 1, 4);
-        startScene = new Scene(loginLayout, 400, 190);
+        startScene = new Scene(loginLayout, 350, 170);
         Main.window.setScene(startScene);
     }
 
@@ -103,7 +102,7 @@ class Login{
         String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT username FROM ProsjektDatabase WHERE username=\"" + username + "\"";
+            String sqlQuery = "SELECT username FROM User WHERE username=\"" + username + "\"";
             ResultSet res = stmt.executeQuery(sqlQuery);
 
             while (res.next()) {
@@ -128,7 +127,7 @@ class Login{
         byte[] saltByte = new byte[20];
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT password, SALT FROM ProsjektDatabase WHERE username=\"" + username + "\"";
+            String sqlQuery = "SELECT password, SALT FROM User WHERE username=\"" + username + "\"";
             ResultSet res = stmt.executeQuery(sqlQuery);
             while (res.next()) {
                 matchingPassword = res.getString("password");
@@ -153,7 +152,8 @@ class Login{
         return false;
     }
 
-    static boolean register(String username, String password, String email) throws SQLException {
+    //Denne metoden registrerer en bruker i User-tabellen med brukernavn, passord, SALT, en default avatar og en user_id (AUTO_INCREMENT)
+    static boolean register(String username, String password) throws SQLException {
         String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
         try(Connection con = DriverManager.getConnection(url)) {
             Statement stmt = con.createStatement();
@@ -163,7 +163,7 @@ class Login{
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
             //Insert into database
-            String sqlQuery = "INSERT INTO ProsjektDatabase(username, password, email, SALT) values('" + username + "','" + passwordHash + "','" + email + "','" + saltString + "');";
+            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1');";
             int rowsAffected = stmt.executeUpdate(sqlQuery);
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
@@ -210,4 +210,24 @@ class Login{
         random.nextBytes(bytes);
         return bytes;
     }
+
+    static String getAvatar(String username) {
+        String avatar = "";
+        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
+        try (Connection con = DriverManager.getConnection(url)) {
+            Statement stmt = con.createStatement();
+            String sqlQuery = "SELECT avatar FROM User WHERE username=\"" + username + "\"";
+            ResultSet res = stmt.executeQuery(sqlQuery);
+
+            while (res.next()) {
+                avatar = res.getString("avatar");
+            }
+        } catch (Exception sq) {
+            System.out.println("SQL-Feil: " + sq);
+        }
+        if(avatar.equals("")) avatar = "avatar1";
+        return avatar;
+    }
+
+
 }
