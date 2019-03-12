@@ -27,7 +27,7 @@ class UserProfile{
 
     static void showUserProfileScene(){
         GridPane mainScreen = new GridPane();
-        avatar = new Image("Images/Avatars/" + AVATAR + ".jpg");
+        avatar = new Image("Images/Avatars/" + AVATAR);
         String userTitle = "User: " + USERNAME;
         Label title = new Label(userTitle);
         title.setFont(Font.font("Calibri", 40));
@@ -48,7 +48,7 @@ class UserProfile{
         nextAvatar.setGraphic(imageViewNextAvatar);
         nextAvatar.setOnAction(e -> {
             increaseAvatar();
-            avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR + ".jpg"));
+            avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR));
         });
 
         Button lastAvatar = new Button();
@@ -59,7 +59,7 @@ class UserProfile{
         lastAvatar.setGraphic(imageViewLastAvatar);
         lastAvatar.setOnAction(e -> {
             decreaseAvatar();
-            avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR + ".jpg"));
+            avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR));
         });
 
 
@@ -93,45 +93,47 @@ class UserProfile{
     }
 
     static void increaseAvatar(){
-        if(AVATAR.equals("avatar1")) {
-            AVATAR = "avatar2";
-        }else if(AVATAR.equals("avatar2")) {
-            AVATAR = "avatar3";
-        }else if(AVATAR.equals("avatar3")) {
-            AVATAR = "avatar4";
-        }else if(AVATAR.equals("avatar4")) {
+        String[] avatarArray = AVATAR.split(".");
+        if(avatarArray[1].equals("avatar1")) {
+            AVATAR = "avatar2.jpg";
+        }else if(avatarArray[1].equals("avatar2")) {
+            AVATAR = "avatar3.jpg";
+        }else if(avatarArray[1].equals("avatar3")) {
+            AVATAR = "avatar4.jpg";
+        }else if(avatarArray[1].equals("avatar4")) {
             AVATAR = "avatar5";
-        }else if(AVATAR.equals("avatar5")) {
+        }else if(avatarArray[1].equals("avatar5")) {
             AVATAR = "avatar6";
-        }else if(AVATAR.equals("avatar6")) {
+        }else if(avatarArray[1].equals("avatar6")) {
             AVATAR = "avatar7";
-        }else if(AVATAR.equals("avatar7")) {
+        }else if(avatarArray[1].equals("avatar7")) {
             AVATAR = "avatar8";
-        }else if(AVATAR.equals("avatar8")) {
+        }else if(avatarArray[1].equals("avatar8")) {
             AVATAR = "avatar9";
-        }else if(AVATAR.equals("avatar9") || AVATAR.equals("avatar10")) {
+        }else if(avatarArray[1].equals("avatar9") || avatarArray[1].equals("avatar10")) {
             AVATAR = "avatar10";
         }
     }
 
     static void decreaseAvatar(){
-        if(AVATAR.equals("avatar1") || AVATAR.equals("avatar2")) {
+        String[] avatarArray = AVATAR.split(".");
+        if(avatarArray[1].equals("avatar1") || avatarArray[1].equals("avatar2")) {
             AVATAR = "avatar1";
-        }else if(AVATAR.equals("avatar3")) {
+        }else if(avatarArray[1].equals("avatar3")) {
             AVATAR = "avatar2";
-        }else if(AVATAR.equals("avatar4")) {
+        }else if(avatarArray[1].equals("avatar4")) {
             AVATAR = "avatar3";
-        }else if(AVATAR.equals("avatar5")) {
+        }else if(avatarArray[1].equals("avatar5")) {
             AVATAR = "avatar4";
-        }else if(AVATAR.equals("avatar6")) {
+        }else if(avatarArray[1].equals("avatar6")) {
             AVATAR = "avatar5";
-        }else if(AVATAR.equals("avatar7")) {
+        }else if(avatarArray[1].equals("avatar7")) {
             AVATAR = "avatar6";
-        }else if(AVATAR.equals("avatar8")) {
+        }else if(avatarArray[1].equals("avatar8")) {
             AVATAR = "avatar7";
-        }else if(AVATAR.equals("avatar9")) {
+        }else if(avatarArray[1].equals("avatar9")) {
             AVATAR = "avatar8";
-        }else if(AVATAR.equals("avatar10")) {
+        }else if(avatarArray[1].equals("avatar10")) {
             AVATAR = "avatar9";
         }
 
