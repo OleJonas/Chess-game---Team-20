@@ -2,6 +2,7 @@ package JavaFX;
 import Pieces.King;
 import Pieces.Pawn;
 import Pieces.Queen;
+import Pieces.Rook;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -14,11 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-
 import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.util.ArrayList;
 import Game.GameEngine;
+import java.math.*;
 
 
 public class ChessDemo extends Application {
@@ -192,9 +193,6 @@ class Tile extends StackPane {
         setPos(x,y);
         relocate(oldX, oldY);
     }
-    public boolean changeImage(ImageView imageView){
-        return true;
-    }
 }
 class HighlightBox extends Pane{
     int x;
@@ -211,8 +209,15 @@ class HighlightBox extends Pane{
         square.setOpacity(hboxOpacity);
         getChildren().add(square);
         setOnMouseClicked(e->{
-            if ((x-tile.getX() == 2 ) && gameEngine.getBoard().getBoardState()[x][y] instanceof King){
-                board[7][y].move(x-1, y, board);
+            if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
+                if(x-tile.getX()>0) {
+                    board[7][y].move(x-1, y, board);
+                }else{
+                    board[0][y].move(x+1, y, board);
+                }
+                King king = (King)gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
+                king.setCanCastle(false);
+                System.out.println("Rokkade");
             }
             tile.move(x, y, board);
             int top=0;
