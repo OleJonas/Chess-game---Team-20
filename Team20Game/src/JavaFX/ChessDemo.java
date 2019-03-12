@@ -19,7 +19,6 @@ import Game.GameEngine;
 
 
 public class ChessDemo extends Application {
-
     public static final int TILE_SIZE = 100 ;
     public static final double imageSize = 0.8;
     public static boolean myTurn = true;
@@ -122,7 +121,7 @@ class Tile extends StackPane {
 
         setOnMouseClicked(e->{
             hboxGroup.getChildren().clear();
-            if(ChessDemo.myTurn && myColor) {
+            if(ChessDemo.myTurn) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
                 if(moves!=null&&moves.size()>0) {

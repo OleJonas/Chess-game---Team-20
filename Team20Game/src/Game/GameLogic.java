@@ -213,13 +213,13 @@ public class GameLogic{
                     validMoves.add(y+2);
                 }
             }
-            if (x + 1 < 8) {
+            if (x + 1 < 8 && y + 1 < 8) {
                 if (boardState[x + 1][y + 1] != null && !boardState[x + 1][y + 1].getColor()) {
                     validMoves.add(x + 1);
                     validMoves.add(y + 1);
                 }
             }
-            if (x - 1 >= 0) {
+            if (x - 1 >= 0 && y + 1 < 8) {
                 if (boardState[x - 1][y + 1] != null && !boardState[x - 1][y + 1].getColor()) {
                     validMoves.add(x - 1);
                     validMoves.add(y + 1);
@@ -240,13 +240,13 @@ public class GameLogic{
                     validMoves.add(y-2);
                 }
             }
-            if (x + 1 < 8) {
+            if (x + 1 < 8 && y - 1 >= 0) {
                 if (boardState[x + 1][y - 1] != null && boardState[x + 1][y - 1].getColor()) {
                     validMoves.add(x + 1);
                     validMoves.add(y - 1);
                 }
             }
-            if (x - 1 >= 0) {
+            if (x - 1 >= 0 && y - 1 >= 0) {
                 if (boardState[x - 1][y - 1] != null && boardState[x - 1][y - 1].getColor()) {
                     validMoves.add(x - 1);
                     validMoves.add(y - 1);
