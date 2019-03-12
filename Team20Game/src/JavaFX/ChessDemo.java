@@ -53,11 +53,11 @@ public class ChessDemo extends Application {
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
-        bg.setOnMouseClicked(e->{
+        bg.setOnMouseClicked(r->{
             hboxGroup.getChildren().clear();
+            hboxGroup = new Group();
         });
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        root.getChildren().addAll(boardGroup, bg, tileGroup, hboxGroup);
         for(int x = 0; x<WIDTH; x++){
             for(int y = 0; y<HEIGHT; y++){
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
@@ -96,6 +96,7 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
             root.getTransforms().add(rotate180);
         }
+        root.getChildren().addAll(boardGroup, bg, tileGroup, hboxGroup);
 
         return root;
     }
@@ -236,6 +237,7 @@ class HighlightBox extends Pane{
             }
             System.out.println("moved piece");
             System.out.println(gameEngine.getBoard());
+            getChildren().clear();
             hboxGroup.getChildren().clear();
             //ChessDemo.myTurn = false;
         });
