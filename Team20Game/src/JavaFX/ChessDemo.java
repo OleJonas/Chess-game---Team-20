@@ -20,11 +20,12 @@ import Game.GameEngine;
 
 public class ChessDemo extends Application {
 
-    public static final int TILE_SIZE = 100 ;
-    public static final double imageSize = 0.8;
-    public static boolean myTurn = true;
+    public static final int TILE_SIZE = 50 ;
+    public static final double imageSize = 0.2;
 
-    public static boolean color = true;
+    public static boolean color = false;
+
+    public static boolean myTurn = true;
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
@@ -45,8 +46,13 @@ public class ChessDemo extends Application {
 
     private Parent createContent() {
         Pane root = new Pane();
+        Pane bg = new Pane();
+        bg.setPrefSize(WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
+        bg.setOnMouseClicked(e->{
+            hboxGroup.getChildren().clear();
+        });
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, bg, tileGroup, hboxGroup);
         for(int x = 0; x<WIDTH; x++){
             for(int y = 0; y<HEIGHT; y++){
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
@@ -86,6 +92,7 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
             root.getTransforms().add(rotate180);
         }
+
         return root;
     }
     @Override
