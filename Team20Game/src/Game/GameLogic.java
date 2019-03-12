@@ -364,30 +364,30 @@ public class GameLogic{
     }
 
     private static boolean[] castle(boolean color, Piece[][] boardState) {
-        boolean[] castle = {true, true};
-        if (color) {
-            for (int i = 1; i < 4; i++) {
-                if (4 + i < 7) {
-                    if (boardState[4+i][0] != null) {
-                        castle[0] = false;
+            boolean[] castle = {true, true};
+            if (color) {
+                for (int i = 1; i < 4; i++) {
+                    if (4 + i < 7) {
+                        if (boardState[4+i][0] != null) {
+                            castle[0] = false;
+                        }
+                    }
+                    if (boardState[4-i][0] != null) {
+                        castle[1] = false;
                     }
                 }
-                if (boardState[4-i][0] != null) {
-                    castle[1] = false;
-                }
-            }
-        } else {
-            for (int i = 1; i < 4; i++) {
-                if (4 + i < 7) {
-                    if (boardState[4+i][7] != null) {
-                        castle[0] = false;
+            } else {
+                for (int i = 1; i < 4; i++) {
+                    if (4 + i < 7) {
+                        if (boardState[4+i][7] != null) {
+                            castle[0] = false;
+                        }
+                    }
+                    if (boardState[4-i][7] != null) {
+                        castle[1] = false;
                     }
                 }
-                if (boardState[4-i][7] != null) {
-                    castle[1] = false;
-                }
             }
-        }
-        return castle;
+            return castle;
     }
 }
