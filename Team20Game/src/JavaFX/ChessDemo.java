@@ -1,4 +1,5 @@
 package JavaFX;
+import Pieces.King;
 import Pieces.Pawn;
 import Pieces.Queen;
 import javafx.application.Application;
@@ -25,7 +26,7 @@ public class ChessDemo extends Application {
     public static final int TILE_SIZE = 100 ;
     public static final double imageSize = 0.8;
 
-    public static boolean color = true;
+    public static boolean color = false;
 
     public static boolean myTurn = true;
     private GameEngine ge = new GameEngine(15, true);
@@ -198,6 +199,7 @@ class HighlightBox extends Pane{
     int x;
     int y;
     int height;
+    double hboxOpacity = 0.5;
     public HighlightBox(int x, int y, int height, Tile tile, Group hboxGroup, GameEngine gameEngine, Tile[][] board){
         this.x = x;
         this.y = y;
@@ -205,9 +207,12 @@ class HighlightBox extends Pane{
         relocate(x*ChessDemo.TILE_SIZE, (height-1-y)*ChessDemo.TILE_SIZE);
         Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
         square.setFill(Color.valueOf("#582"));
-        square.setOpacity(0.8);
+        square.setOpacity(hboxOpacity);
         getChildren().add(square);
         setOnMouseClicked(e->{
+            if ((x-tile.getX() == 2 ) && gameEngine.getBoard().getBoardState()[x][y] instanceof King){
+                board[7][y].move(x-1, y, board);
+            }
             tile.move(x, y, board);
             int top=0;
             if(ChessDemo.color) {
