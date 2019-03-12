@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import static JavaFX.Login.runLogin;
+import static JavaFX.UserProfile.showUserProfileScene;
 
 class MainScene {
     static Scene mainScene;
@@ -24,8 +25,12 @@ class MainScene {
         recessChess.setTextFill(Color.WHITE);
 
         Button joinGame = new Button("Join Game");
+
         Button findUser = new Button("Find User");
+
         Button userProfile = new Button("User profile");
+        userProfile.setOnAction(e -> showUserProfileScene());
+
         Button settings = new Button("Settings");
 
         Button backToStart = new Button("Back");
@@ -57,7 +62,9 @@ class MainScene {
                 BackgroundSize.DEFAULT);
             mainScreen.setBackground(new Background(myBI));
             */
-            //mainScreen.setStyle("-fx-background-color: #000000;");
+
+            //Set backgroudn to a hex-color-value
+            mainScreen.setStyle("-fx-background-color: #000000;");
 
             mainScene = new Scene(mainScreen, 500, 600);
             Main.window.setScene(mainScene);
