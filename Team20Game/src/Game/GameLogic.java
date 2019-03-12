@@ -195,9 +195,11 @@ public class GameLogic{
     static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         if (boardState[x][y].getColor()) {
-            if (boardState[x][y+1] == null) {
-                validMoves.add(x);
-                validMoves.add(y+1);
+            if (y + 1 < 8) {
+                if (boardState[x][y+1] == null) {
+                    validMoves.add(x);
+                    validMoves.add(y+1);
+                }
             }
             if (y == 1) {
                 if (boardState[x][y+2] == null) {
@@ -220,10 +222,13 @@ public class GameLogic{
 
         }
         else {
-            if (boardState[x][y-1] == null) {
-                validMoves.add(x);
-                validMoves.add(y-1);
+            if (y - 1 >= 0) {
+                if (boardState[x][y-1] == null) {
+                    validMoves.add(x);
+                    validMoves.add(y-1);
+                }
             }
+
             if (y == 6) {
                 if (boardState[x][y-2] == null) {
                     validMoves.add(x);
@@ -231,13 +236,13 @@ public class GameLogic{
                 }
             }
             if (x + 1 < 8) {
-                if (boardState[x + 1][y - 1] != null && !boardState[x + 1][y - 1].getColor()) {
+                if (boardState[x + 1][y - 1] != null && boardState[x + 1][y - 1].getColor()) {
                     validMoves.add(x + 1);
                     validMoves.add(y - 1);
                 }
             }
             if (x - 1 >= 0) {
-                if (boardState[x - 1][y - 1] != null && !boardState[x - 1][y - 1].getColor()) {
+                if (boardState[x - 1][y - 1] != null && boardState[x - 1][y - 1].getColor()) {
                     validMoves.add(x - 1);
                     validMoves.add(y - 1);
                 }
