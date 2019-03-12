@@ -332,11 +332,34 @@ public class GameLogic{
             return castle;
     }
 
-    private static boolean isStalemate(int x, int y, Board board) {
+    private static boolean isStalemate(int x, int y, Board board, boolean color) {
         Piece[][] boardState = board.getBoardState();
-        if (validMovesKing(x, y, boardState).size() != 0) {
-            return false;
+        int counter = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (boardState[i][j].getColor() == color) {
+                    if (validMoves(x, y, board).size() == 0) {
+                        counter++;
+                    }
+                }
+            }
         }
-        return true;
+        if (counter == myPieces(board, color)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static int myPieces(Board board, boolean myColor) {
+        Piece[][] boardState = board.getBoardState();
+        int counter = 0;
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                if (boardState[x][y].getColor() == myColor) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 }
