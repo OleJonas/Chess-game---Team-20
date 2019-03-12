@@ -1,9 +1,13 @@
 package Game;
 
 import Pieces.*;
+import Pieces.Rook;
+import Pieces.King;
 
 public class Board {
     private Piece[][] position = new Piece[8][8];
+    private boolean castleRook = true;
+    private boolean castleKing = true;
 
     public Board() {
         //Default constructor with no arguments will create the starting position of a standard chess game
@@ -56,6 +60,16 @@ public class Board {
     }
 
     public boolean move(int fromX, int fromY, int toX, int toY){
+        if (castleRook && position[fromX][fromY] instanceof Rook) {
+            Rook rook = (Rook) position[fromX][fromY];
+            rook.setCanCastle(false);
+            castleRook = false;
+        }
+        if (castleKing && position[fromX][fromY] instanceof King) {
+            King king = (King) position[fromX][fromY];
+            king.setCanCastle(false);
+            castleKing = false;
+        }
         if(position[fromX][fromY]==null){
             return false;
         }
