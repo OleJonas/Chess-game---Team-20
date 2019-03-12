@@ -67,6 +67,11 @@ public class Board {
         return true;
     }
 
+    public void setPiece(Piece piece, int x, int y){
+        position[x][y] = piece;
+        System.out.println("altered board, added piece at" + x + ", " + y +" " + piece);
+    }
+
     public String toString(){
         String a = "";
         for(int i = 7; i >= 0; i--) {
