@@ -184,59 +184,22 @@ public class GameLogic{
     }
 
     private static ArrayList<Integer> validMovesRook(int x, int y, Piece[][] boardState){
+        int[]rook = {1, 0, 0, 1, -1, 0, 0, -1};
+        boolean[] dir = {true, true, true, true};
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
-        boolean xLeft = true, xRight = true, yDown = true, yUp = true;
-
-        for (int i = 1; i < 8; i++) {
-            if (x + i < 8 && xRight) {
-                if (boardState[x + i][y] == null) {
-                    validMoves.add(x+i);
-                    validMoves.add(y);
-                } else if(boardState[x][y].getColor() != boardState[x + i][y].getColor()) {
-                    validMoves.add(x+i);
-                    validMoves.add(y);
-                    xRight = false;
-                } else {
-                    xRight = false;
+        for(int i = 1; i < 8; i ++){
+            for (int r = 0; r < rook.length; r += 2){
+                if (x+i*rook[r] < 8 && x+i*rook[r] >= 0 && y+i*rook[r+1] < 8 && y+i*rook[r+1] >= 0 && dir[r/2]){
+                    if (boardState[x+i*rook[r]][y+i*rook[r+1]] == null) {
+                        validMoves.add(x+i*rook[r]);
+                        validMoves.add(y+i*rook[r+1]);
+                    }
+                    else if (boardState[x+i*rook[r]][y+i*rook[r+1]].getColor() != boardState[x][y].getColor()){
+                        validMoves.add(x+i*rook[r]);
+                        validMoves.add(y+i*rook[r+1]);
+                    }
+                    else{ dir[r/2] = false; }
                 }
-            }
-            if (x - i >= 0 && xLeft) {
-                if (boardState[x - i][y] == null) {
-                    validMoves.add(x-i);
-                    validMoves.add(y);
-                } else if(boardState[x][y].getColor() != boardState[x - i][y].getColor()){
-                    validMoves.add(x-i);
-                    validMoves.add(y);
-                    xLeft = false;
-                } else {
-                    xLeft = false;
-                }
-            }
-            if (y + i < 8 && yUp) {
-                if (boardState[x][y + i] == null) {
-                    validMoves.add(x);
-                    validMoves.add(y+i);
-                } else if(boardState[x][y].getColor() != boardState[x][y+i].getColor()){
-                    validMoves.add(x);
-                    validMoves.add(y+i);
-                    yUp = false;
-                } else {
-                    yUp = false;
-                }
-
-            }
-            if (y - i >= 0 && yDown) {
-                if (boardState[x][y - i] == null) {
-                    validMoves.add(x);
-                    validMoves.add(y-i);
-                } else if(boardState[x][y].getColor() != boardState[x][y-i].getColor()) {
-                    validMoves.add(x);
-                    validMoves.add(y-i);
-                    yDown = false;
-                } else {
-                    yDown = false;
-                }
-
             }
         }
         return validMoves;
@@ -303,33 +266,14 @@ public class GameLogic{
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         Piece[][] boardState = board.getBoardState();
 
-        if (boardState[x][y] instanceof Pawn) {
-            validMoves = validMovesPawn(x, y, boardState);
-        }
-
-        else if (boardState[x][y] instanceof Rook) {
-            validMoves = validMovesRook(x, y, boardState);
-        }
-
-        else if (boardState[x][y] instanceof Knight){
-            validMoves = validMovesKnight(x, y, boardState);
-        }
-
-        else if (boardState[x][y] instanceof King) {
-            validMoves = validMovesKing(x, y, boardState);
-        }
-
+        if (boardState[x][y] instanceof Pawn) { validMoves = validMovesPawn(x, y, boardState); }
+        else if (boardState[x][y] instanceof Rook) { validMoves = validMovesRook(x, y, boardState); }
+        else if (boardState[x][y] instanceof Knight){ validMoves = validMovesKnight(x, y, boardState); }
+        else if (boardState[x][y] instanceof King) { validMoves = validMovesKing(x, y, boardState); }
+        else if (boardState[x][y] instanceof Bishop) { validMoves = validMovesBishop(x, y, boardState); }
         else if (boardState[x][y] instanceof Queen) {
             validMoves = validMovesRook(x, y, boardState);
-            ArrayList<Integer> dia = validMovesBishop(x, y, boardState);
-
-            for (int i = 0; i < dia.size(); i++) {
-                validMoves.add(dia.get(i));
-            }
-        }
-
-        else if (boardState[x][y] instanceof Bishop) {
-            validMoves = validMovesBishop(x, y, boardState);
+            validMoves.addAll(validMovesBishop(x, y, boardState));
         }
         return validMoves;
     }
