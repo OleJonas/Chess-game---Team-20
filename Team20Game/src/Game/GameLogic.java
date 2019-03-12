@@ -158,27 +158,35 @@ public class GameLogic{
         King king = (King) boardState[x][y];
         if (king.getCanCastle()) {
             if (boardState[x][y].getColor()) {
-                if (boardState[0][0] instanceof Rook || boardState[7][0] instanceof Rook) {
-                    boolean[] castle = castle(boardState[x][y].getColor(), boardState);
-                    if (castle[0]) {
-                        validMoves.add(6);
+                boolean[] castle = castle(boardState[x][y].getColor(), boardState);
+                if (boardState[0][0] instanceof Rook) {
+                    Rook rookTwo = (Rook) boardState[0][0];
+                    if (castle[1] && rookTwo.getCanCastle()) {
+                        validMoves.add(2);
                         validMoves.add(0);
                     }
-                    if (castle[1]) {
-                        validMoves.add(2);
+                }
+                if (boardState[7][0] instanceof Rook) {
+                    Rook rookOne = (Rook) boardState[7][0];
+                    if (castle[0] && rookOne.getCanCastle()) {
+                        validMoves.add(6);
                         validMoves.add(0);
                     }
                 }
             }
             else {
-                if (boardState[7][0] instanceof Rook || boardState[7][7] instanceof Rook) {
-                    boolean[] castle = castle(boardState[x][y].getColor(), boardState);
-                    if (castle[0]) {
-                        validMoves.add(6);
+                boolean[] castle = castle(boardState[x][y].getColor(), boardState);
+                if (boardState[0][7] instanceof Rook) {
+                    Rook rookOne = (Rook) boardState[0][7];
+                    if (castle[1] && rookOne.getCanCastle()) {
+                        validMoves.add(2);
                         validMoves.add(7);
                     }
-                    if (castle[1]) {
-                        validMoves.add(2);
+                }
+                if (boardState[7][7] instanceof Rook) {
+                    Rook rookTwo = (Rook) boardState[7][7];
+                    if (castle[0] && rookTwo.getCanCastle()) {
+                        validMoves.add(6);
                         validMoves.add(7);
                     }
                 }

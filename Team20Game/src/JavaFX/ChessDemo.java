@@ -28,7 +28,7 @@ public class ChessDemo extends Application {
 
     public static final double imageSize = 0.8;
 
-    public static boolean color = false;
+    public static boolean color = true;
 
     public static boolean myTurn = true;
     private GameEngine ge = new GameEngine(15, true);
