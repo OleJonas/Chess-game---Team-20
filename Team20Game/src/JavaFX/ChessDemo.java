@@ -20,7 +20,7 @@ import Game.GameEngine;
 
 public class ChessDemo extends Application {
     public static final int TILE_SIZE = 100 ;
-    public static final double imageSize = 0.8;
+    public static final double imageSize = 0.85;
     public static boolean myTurn = true;
 
     public static boolean color = true;
