@@ -1,10 +1,13 @@
 package JavaFX;
 
+import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -15,6 +18,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import static JavaFX.Register.runRegistration;
+import static javafx.geometry.Pos.CENTER;
+import static javafx.geometry.Pos.CENTER_RIGHT;
 
 
 @SuppressWarnings("Duplicates")
@@ -44,12 +49,12 @@ class Login{
         loginPasswordField.setText("12345");
 
         //Label
-        loginComment = new Label();
         Label loginLabel = new Label("Login");
-        loginLabel.setFont(Font.font("Calibri", 32));
-        //loginComment.setTextFill(Color.web("#0076a3")); //For Hexvalues
+        loginLabel.setFont(Font.font("Copperplate", 36));
+        loginLabel.setTextFill(Color.WHITE);
+
+        loginComment = new Label();
         loginComment.setTextFill(Color.RED);
-        //loginLabel.setAlignment(Pos.CENTER);
 
         //loginButton
         loginButton = new Button("Login");
@@ -84,23 +89,35 @@ class Login{
             runRegistration();
         });
         //loginLayout
-        GridPane loginLayout = new GridPane(); //Creates grid, thinking 3 in width, 100|200|100
-        loginLayout.getColumnConstraints().add(new ColumnConstraints(80)); //Setting columnconstraint for left column
-        loginLayout.getColumnConstraints().add(new ColumnConstraints(200)); //Setting columnconstraint for second column
-        loginLayout.getColumnConstraints().add(new ColumnConstraints(100)); //Setting columnconstraint for left column
-        loginLayout.setVgap(8);
-        loginLayout.setHgap(15);
-        loginLayout.setPadding(new Insets(10, 5, 10, 10));
-        loginLayout.add(loginLabel, 1, 0, 4, 1);
-        //loginLayout.setHalignment(loginLabel, HPos.CENTER);
-        loginLayout.add(new Label("Username:"), 0, 1);
-        loginLayout.add(loginUsernameField, 1, 1);
-        loginLayout.add(new Label("Password:"), 0, 2);
-        loginLayout.add(loginPasswordField, 1, 2);
-        loginLayout.add(loginButton, 0, 3);
-        loginLayout.add(signUpButton, 1, 3);
-        loginLayout.add(loginComment, 1, 4);
-        startScene = new Scene(loginLayout, 350, 170);
+        GridPane usernamePane = new GridPane();
+        usernamePane.setHgap(15);
+        Label usernameLabel = new Label("Username:");
+        usernameLabel.setFont(Font.font("Copperplate", 18));
+        usernameLabel.setTextFill(Color.WHITE);
+        usernamePane.add(usernameLabel, 0, 0);
+        usernamePane.add(loginUsernameField, 1, 0);
+
+        GridPane passwordPane = new GridPane();
+        passwordPane.setHgap(15);
+        Label passwordLabel = new Label("Password:");
+        passwordLabel.setFont(Font.font("Copperplate", 18));
+        passwordLabel.setTextFill(Color.WHITE);
+        passwordPane.add(passwordLabel, 0, 0);
+        passwordPane.add(loginPasswordField, 1, 0);
+
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(loginButton, signUpButton);
+        buttons.setAlignment(CENTER);
+        buttons.setSpacing(20);
+
+        VBox loginLayout = new VBox(); //Creates grid, thinking 3 in width, 100|200|100
+        loginLayout.setPadding(new Insets(20, 50, 20, 50));
+        loginLayout.setSpacing(20);
+        loginLayout.getChildren().addAll(loginLabel, usernamePane, passwordPane, buttons, loginComment);
+        loginLayout.setAlignment(CENTER);
+        loginLayout.setStyle("-fx-background-color: #404144;");
+
+        startScene = new Scene(loginLayout, 400, 250);
         Main.window.setScene(startScene);
     }
 
@@ -255,3 +272,26 @@ class Login{
         }
     }
 }
+
+
+/*
+GridPane loginLayout = new GridPane(); //Creates grid, thinking 3 in width, 100|200|100
+        loginLayout.setVgap(8);
+        loginLayout.setHgap(15);
+        loginLayout.setPadding(new Insets(20, 20, 20, 20));
+        loginLayout.add(loginLabel, 1, 0, 3, 1);
+        loginLayout.setHalignment(loginLabel, HPos.CENTER);
+        //loginLayout.setHalignment(loginLabel, HPos.CENTER);
+        loginLayout.add(new Label("Username:"), 0, 1);
+        loginLayout.add(loginUsernameField, 1, 1);
+        loginLayout.add(new Label("Password:"), 0, 2);
+        loginLayout.add(loginPasswordField, 1, 2);
+        loginLayout.add(loginButton, 0, 3);
+        loginLayout.add(signUpButton, 1, 3);
+        loginLayout.add(loginComment, 1, 4);
+
+        loginLayout.setStyle("-fx-background-color: #bce5df;");
+
+
+        startScene = new Scene(loginLayout, 400, 300);
+ */
