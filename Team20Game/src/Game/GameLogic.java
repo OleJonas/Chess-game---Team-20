@@ -3,6 +3,7 @@ package Game;
 import Pieces.*;
 import Pieces.Piece;
 
+import java.util.Collections;
 import java.util.ArrayList;
 
 public class GameLogic{
@@ -87,21 +88,21 @@ public class GameLogic{
         return true;
     }
 
-    static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState){
+    static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState) {
         // Maybe implement an int that is either 1 or -1 depending on getColor(). This int is then used to multiply with each move.
         // This way we can avoid having basically the same code twice right after eachother.
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         if (boardState[x][y].getColor()) {
             if (y + 1 < 8) {
-                if (boardState[x][y+1] == null) {
+                if (boardState[x][y + 1] == null) {
                     validMoves.add(x);
-                    validMoves.add(y+1);
+                    validMoves.add(y + 1);
                 }
             }
             if (y == 1) {
-                if (boardState[x][y+2] == null && boardState[x][y+1] == null) {
+                if (boardState[x][y + 2] == null && boardState[x][y + 1] == null) {
                     validMoves.add(x);
-                    validMoves.add(y+2);
+                    validMoves.add(y + 2);
                 }
             }
             if (x + 1 < 8 && y + 1 < 8) {
@@ -121,7 +122,7 @@ public class GameLogic{
             if (x + 1 < 8) {
                 if (boardState[x + 1][y] instanceof Pawn) {
                     if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
-                        Pawn pawn = (Pawn)boardState[x + 1][y];
+                        Pawn pawn = (Pawn) boardState[x + 1][y];
                         if (pawn.getEnPassant()) {
                             validMoves.add(x + 1);
                             validMoves.add(y + 1);
@@ -132,7 +133,7 @@ public class GameLogic{
             if (x - 1 >= 0) {
                 if (boardState[x - 1][y] instanceof Pawn) {
                     if (boardState[x - 1][y].getColor() != boardState[x][y].getColor()) {
-                        Pawn pawn = (Pawn)boardState[x - 1][y];
+                        Pawn pawn = (Pawn) boardState[x - 1][y];
                         if (pawn.getEnPassant()) {
                             validMoves.add(x - 1);
                             validMoves.add(y + 1);
@@ -140,18 +141,17 @@ public class GameLogic{
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (y - 1 >= 0) {
-                if (boardState[x][y-1] == null) {
+                if (boardState[x][y - 1] == null) {
                     validMoves.add(x);
-                    validMoves.add(y-1);
+                    validMoves.add(y - 1);
                 }
             }
             if (y == 6) {
-                if (boardState[x][y-2] == null && boardState[x][y-1] == null) {
+                if (boardState[x][y - 2] == null && boardState[x][y - 1] == null) {
                     validMoves.add(x);
-                    validMoves.add(y-2);
+                    validMoves.add(y - 2);
                 }
             }
             if (x + 1 < 8 && y - 1 >= 0) {
@@ -170,7 +170,7 @@ public class GameLogic{
             if (x + 1 < 8) {
                 if (boardState[x + 1][y] instanceof Pawn) {
                     if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
-                        Pawn pawn = (Pawn)boardState[x + 1][y];
+                        Pawn pawn = (Pawn) boardState[x + 1][y];
                         if (pawn.getEnPassant()) {
                             validMoves.add(x + 1);
                             validMoves.add(y - 1);
@@ -181,7 +181,7 @@ public class GameLogic{
             if (x - 1 >= 0) {
                 if (boardState[x - 1][y] instanceof Pawn) {
                     if (boardState[x - 1][y].getColor() != boardState[x][y].getColor()) {
-                        Pawn pawn = (Pawn)boardState[x - 1][y];
+                        Pawn pawn = (Pawn) boardState[x - 1][y];
                         if (pawn.getEnPassant()) {
                             validMoves.add(x - 1);
                             validMoves.add(y - 1);
@@ -192,6 +192,7 @@ public class GameLogic{
         }
         return validMoves;
     }
+
 
     private static ArrayList<Integer> validMovesKing(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
@@ -243,14 +244,13 @@ public class GameLogic{
         return validMoves;
     }
 
+
     private static void private_method(int x, int y, Piece[][] boardState, ArrayList<Integer> validMoves, int[] move, int i) {
         if (boardState[x + move[i]][y + move[i + 1]] == null) {
-            validMoves.add(x + move[i]);
-            validMoves.add(y + move[i + 1]);
+            Collections.addAll(validMoves,x + move[i], y + move[i + 1]);
 
         } else if (boardState[x + move[i]][y + move[i + 1]].getColor() != boardState[x][y].getColor()) {
-            validMoves.add(x + move[i]);
-            validMoves.add(y + move[i + 1]);
+            Collections.addAll(validMoves,x + move[i], y + move[i + 1]);
         }
     }
 
@@ -279,12 +279,10 @@ public class GameLogic{
             for (int r = 0; r < m.length; r += 2){
                 if (x+i*m[r] < 8 && x+i*m[r] >= 0 && y+i*m[r+1] < 8 && y+i*m[r+1] >= 0 && dir[r/2]){
                     if (boardState[x+i*m[r]][y+i*m[r+1]] == null) {
-                        validMoves.add(x+i*m[r]);
-                        validMoves.add(y+i*m[r+1]);
+                        Collections.addAll(validMoves, x + i * m[r], y + i * m[r + 1]);
                     }
                     else if (boardState[x+i*m[r]][y+i*m[r+1]].getColor() != boardState[x][y].getColor()){
-                        validMoves.add(x+i*m[r]);
-                        validMoves.add(y+i*m[r+1]);
+                        Collections.addAll(validMoves, x + i * m[r], y + i * m[r + 1]);
                         dir[r/2] = false;
                     }
                     else{ dir[r/2] = false; }
