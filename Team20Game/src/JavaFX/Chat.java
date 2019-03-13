@@ -52,6 +52,6 @@ public class Chat extends Application{
     }
 
     public void start(Stage primaryStage){
-
+        // Enter code
     }
 }

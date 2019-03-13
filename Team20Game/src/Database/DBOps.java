@@ -13,17 +13,6 @@ public class DBOps{
         this.stmt = null;
         this.res = null;
     }
-        /*try {
-            this.con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
-            this.stmt = con.createStatement();
-            this.res = null;
-        } catch (SQLException sql) {
-            sql.printStackTrace();
-        }
-    }*/
-
-    /*public Connection getCon(){ return con;}
-    public Statement getStmt(){ return stmt;}*/
 
     public ResultSet exQuery(String sqlString){
         try{

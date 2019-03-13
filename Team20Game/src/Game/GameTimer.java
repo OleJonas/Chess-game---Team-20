@@ -15,7 +15,6 @@ public class GameTimer{
     private final int increment;
     private int interval;
     private boolean end = false;
-    //private int lastChat;
 
     public GameTimer(int interval, int increment){
         this.increment = increment;
@@ -28,9 +27,6 @@ public class GameTimer{
         this.increment = 0;
         this.timer = new Timer(true);
     }
-
-
-    // For use with database and chat functions
 
 
     public int getTime(){
@@ -77,6 +73,7 @@ public class GameTimer{
         }
     }
 
+    // Could be used when someone forfeits the game etc...
     public void endTimer(){
         this.end = true;
     }
