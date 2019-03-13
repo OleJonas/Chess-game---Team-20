@@ -12,9 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import Game.GameEngine;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
+
 
 
 public class ChessDemo extends Application {
@@ -163,3 +163,4 @@ public class ChessDemo extends Application {
         }
     }
 }
+
