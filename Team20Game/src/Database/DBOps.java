@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBOps{
-    private String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/olejlia?user=olejlia&password=YvJwUsj8";
+    private String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/haavasma?user=haavasma&password=eSVol6ey";
     private Connection con;
     private PreparedStatement stmt;
     private ResultSet res;

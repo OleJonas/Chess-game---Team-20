@@ -332,6 +332,47 @@ public class GameLogic{
             }
             inCheck(boardState, boardState[x][y].getColor());
         }
+        boolean color = boardState[x][y].getColor();
+        for (int k = 0; k < validMoves.size(); k += 2) {
+            Piece[][] tmp = new Piece[8][8];
+            for (int i = 0; i <8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    tmp[i][j] = board.getBoardState()[i][j];
+                }
+            }
+            if (tmp[x][y] instanceof Pawn) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Pawn(color, k, k+1);
+            }
+            else if (tmp[x][y] instanceof King) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new King(color, k, k+1);
+            }
+            else if (tmp[x][y] instanceof Rook) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Rook(color, k, k+1);
+            }
+            else if (tmp[x][y] instanceof Bishop) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Bishop(color, k, k+1);
+            }
+            else if (tmp[x][y] instanceof Knight) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Knight(color, k, k+1);
+            }
+            else if (tmp[x][y] instanceof Queen) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Queen(color, k, k+1);
+            }
+            if (inCheck(tmp, color)) {
+                validMoves.remove(k);
+                validMoves.remove(k);
+                k -= 2;
+            }
+        }
+        for (int i = 0; i < validMoves.size(); i++) {
+            System.out.println(validMoves.get(i));
+        }
         return validMoves;
     }
 

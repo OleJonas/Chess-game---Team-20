@@ -1,6 +1,8 @@
 package JavaFX;
 
 import Game.GameEngine;
+import JavaFX.HighlightBox;
+import JavaFX.ChessDemo;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
