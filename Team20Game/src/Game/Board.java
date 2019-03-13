@@ -101,10 +101,9 @@ public class Board {
         return true;
     }
 
-    public ArrayList<Piece> removePiece(int x, int y){
+    public void removePiece(int x, int y){
         removedPieces.add(position[x][y]);
         position[x][y] = null;
-        return removedPieces;
     }
 
     public void setPiece(Piece piece, int x, int y){
