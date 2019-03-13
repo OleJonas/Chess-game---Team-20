@@ -46,12 +46,9 @@ class HighlightBox extends Pane {
             if (tile.getX() + 1 < 8) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()] instanceof Pawn) {
                     if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        System.out.println("Hallo1");
                         Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                         if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                            System.out.println("Hallo2");
                             if (pawn.getEnPassant()) {
-                                System.out.println("Hallo3");
                                 tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                                 gameEngine.removePiece(tile.getX()+1, tile.getY());
                             }
@@ -90,8 +87,10 @@ class HighlightBox extends Pane {
                     }
                 }
             }
-
             tile.move(x, y, board);
+            if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
+                System.out.println("Sjakkmatt");
+            }
             int top=0;
             if(ChessDemo.color) {
                 top = height-1;
@@ -106,8 +105,6 @@ class HighlightBox extends Pane {
                 tile.setImageView(tempimg,
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
-            System.out.println("moved piece");
-            System.out.println(gameEngine.getBoard());
             getChildren().clear();
             hboxGroup.getChildren().clear();
             //ChessDemo.myTurn = false;
