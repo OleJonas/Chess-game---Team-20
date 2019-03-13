@@ -102,7 +102,7 @@ public class Board {
     }
 
     public void removePiece(int x, int y){
-        removedPieces.add(position[x][y]);
+        //removedPieces.add(position[x][y]);
         position[x][y] = null;
     }
 
