@@ -149,7 +149,6 @@ public class ChessDemo extends Application {
                     System.out.println("test" + fromX);
                     enemyMove(fromX, fromY, toX, toY);
                     myTurn=true;
-                    movenr++;
                 }
                 /*if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
