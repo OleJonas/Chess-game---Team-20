@@ -8,11 +8,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.sql.SQLException;
 
+import static javafx.geometry.Pos.CENTER;
+
+@SuppressWarnings("Duplicates")
 class Register {
     static Scene signUpScene;
     static Button signUpalreadyAccountButton, signUpRegisterButton;
@@ -27,9 +32,10 @@ class Register {
         registerPasswordField = new PasswordField();
         registerPasswordAgainField = new PasswordField();
         //Label
-        registerComment = new Label();
         Label signupLabel = new Label("Register");
-        signupLabel.setFont(Font.font("Calibri", 32));
+        signupLabel.setFont(Font.font("Copperplate", 36));
+        signupLabel.setTextFill(Color.WHITE);
+        registerComment = new Label();
         registerComment.setTextFill(Color.RED);
         //signUpRegisterButton
         signUpRegisterButton = new Button("Sign up");
@@ -79,24 +85,45 @@ class Register {
             registerPasswordAgainField.clear();
             registerComment.setText("");
         });
-        //signUpLayout
-        GridPane signUpLayout = new GridPane();
-        signUpLayout.getColumnConstraints().add(new ColumnConstraints(120));
-        signUpLayout.getColumnConstraints().add(new ColumnConstraints(200));
-        signUpLayout.setVgap(8);
-        signUpLayout.setHgap(15);
-        signUpLayout.setPadding(new Insets(10, 5, 10, 10));
-        signUpLayout.add(signupLabel, 1, 0);
-        signUpLayout.add(new Label("Username:"), 0, 1);
-        signUpLayout.add(registerUsernameField, 1, 1);
-        signUpLayout.add(new Label("Password:"), 0, 2);
-        signUpLayout.add(registerPasswordField, 1, 2);
-        signUpLayout.add(new Label("Repeat password:"), 0, 3);
-        signUpLayout.add(registerPasswordAgainField, 1, 3);
-        signUpLayout.add(signUpRegisterButton, 0, 4);
-        signUpLayout.add(signUpalreadyAccountButton, 1, 4);
-        signUpLayout.add(registerComment, 1, 5);
-        signUpScene = new Scene(signUpLayout, 370, 200);
+
+        //signupLayout
+        GridPane usernamePane = new GridPane();
+        usernamePane.setHgap(15);
+        Label usernameLabel = new Label("Username:");
+        usernameLabel.setFont(Font.font("Copperplate", 18));
+        usernameLabel.setTextFill(Color.WHITE);
+        usernamePane.add(usernameLabel, 0, 0);
+        usernamePane.add(registerUsernameField, 1, 0);
+
+        GridPane passwordPane = new GridPane();
+        passwordPane.setHgap(15);
+        Label passwordLabel = new Label("Password:");
+        passwordLabel.setFont(Font.font("Copperplate", 18));
+        passwordLabel.setTextFill(Color.WHITE);
+        passwordPane.add(passwordLabel, 0, 0);
+        passwordPane.add(registerPasswordField, 1, 0);
+
+        GridPane repeatPasswordPane = new GridPane();
+        repeatPasswordPane.setHgap(15);
+        Label repeatPasswordLabel = new Label("Repeat:     ");
+        repeatPasswordLabel.setFont(Font.font("Copperplate", 18));
+        repeatPasswordLabel.setTextFill(Color.WHITE);
+        repeatPasswordPane.add(repeatPasswordLabel, 0, 0);
+        repeatPasswordPane.add(registerPasswordAgainField, 1, 0);
+
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(signUpRegisterButton, signUpalreadyAccountButton);
+        buttons.setAlignment(CENTER);
+        buttons.setSpacing(20);
+
+        VBox signupLayout = new VBox(); //Creates grid, thinking 3 in width, 100|200|100
+        signupLayout.setPadding(new Insets(20, 50, 20, 50));
+        signupLayout.setSpacing(20);
+        signupLayout.getChildren().addAll(signupLabel, usernamePane, passwordPane, repeatPasswordPane, buttons, registerComment);
+        signupLayout.setAlignment(CENTER);
+        signupLayout.setStyle("-fx-background-color: #404144;");
+
+        signUpScene = new Scene(signupLayout, 390, 280);
         Main.window.setScene(signUpScene);
 
     }
