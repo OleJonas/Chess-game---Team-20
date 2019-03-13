@@ -122,7 +122,7 @@ public class ChessDemo extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         new Thread(()->{
-            System.out.println("thread started");
+            //System.out.println("thread started");
             while(!isDone) {
                     try {
                         pollEnemyMove();
@@ -136,7 +136,6 @@ public class ChessDemo extends Application {
 
     public void pollEnemyMove(){
         System.out.println("PollEnemyMove Started, turn: " + movenr);
-            try {
                 DBOps db = new DBOps();
                 System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
                 //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
@@ -156,10 +155,7 @@ public class ChessDemo extends Application {
                     myTurn = true;
                     System.out.println("moved enemy piece");
                 }*/
-                System.out.println("polled database");
-            } catch (Exception e) {
-                System.out.println("something wrong happened");
-        }
+                //System.out.println("polled database");
     }
 }
 
