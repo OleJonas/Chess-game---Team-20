@@ -12,12 +12,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.Login.AVATAR;
 import static JavaFX.Login.runLogin;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.setAvatar;
 import static JavaFX.UserProfile.showUserProfileScene;
 
+@SuppressWarnings("Duplicates")
 class MainScene {
     static Scene mainScene;
 
@@ -33,6 +35,7 @@ class MainScene {
         Button joinGameButton = new Button("Join Game");
 
         Button findUserButton = new Button("Find User");
+        findUserButton.setOnAction(e -> showFindUserScene());
 
         Button userProfileButton = new Button("User profile");
         userProfileButton.setOnAction(e -> showUserProfileScene());
