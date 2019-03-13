@@ -4,11 +4,14 @@ import Pieces.*;
 import Pieces.Rook;
 import Pieces.King;
 
+import java.util.ArrayList;
+
 public class Board {
     private Piece[][] position = new Piece[8][8];
     private boolean castleRook = true;
     private boolean castleKing = true;
     private boolean enPassant = true;
+    private ArrayList<Piece> removedPieces;
 
     public Board() {
         //Default constructor with no arguments will create the starting position of a standard chess game
@@ -98,8 +101,10 @@ public class Board {
         return true;
     }
 
-    public void removePiece(int x, int y){
+    public ArrayList<Piece> removePiece(int x, int y){
+        removedPieces.add(position[x][y]);
         position[x][y] = null;
+        return removedPieces;
     }
 
     public void setPiece(Piece piece, int x, int y){
