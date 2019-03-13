@@ -115,6 +115,29 @@ public class GameLogic{
 
                 }
             }
+            //En passant
+            if (x + 1 < 8) {
+                if (boardState[x + 1][y] instanceof Pawn) {
+                    if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
+                        Pawn pawn = (Pawn)boardState[x + 1][y];
+                        if (pawn.getEnPassant()) {
+                            validMoves.add(x + 1);
+                            validMoves.add(y + 1);
+                        }
+                    }
+                }
+            }
+            if (x - 1 >= 0) {
+                if (boardState[x - 1][y] instanceof Pawn) {
+                    if (boardState[x - 1][y].getColor() != boardState[x][y].getColor()) {
+                        Pawn pawn = (Pawn)boardState[x - 1][y];
+                        if (pawn.getEnPassant()) {
+                            validMoves.add(x - 1);
+                            validMoves.add(y + 1);
+                        }
+                    }
+                }
+            }
         }
         else {
             if (y - 1 >= 0) {
@@ -141,6 +164,29 @@ public class GameLogic{
                     validMoves.add(y - 1);
                 }
             }
+            //En passant
+            if (x + 1 < 8) {
+                if (boardState[x + 1][y] instanceof Pawn) {
+                    if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
+                        Pawn pawn = (Pawn)boardState[x + 1][y];
+                        if (pawn.getEnPassant()) {
+                            validMoves.add(x + 1);
+                            validMoves.add(y - 1);
+                        }
+                    }
+                }
+            }
+            if (x - 1 >= 0) {
+                if (boardState[x - 1][y] instanceof Pawn) {
+                    if (boardState[x - 1][y].getColor() != boardState[x][y].getColor()) {
+                        Pawn pawn = (Pawn)boardState[x - 1][y];
+                        if (pawn.getEnPassant()) {
+                            validMoves.add(x - 1);
+                            validMoves.add(y - 1);
+                        }
+                    }
+                }
+            }
         }
         return validMoves;
     }
@@ -159,17 +205,17 @@ public class GameLogic{
         if (king.getCanCastle()) {
             if (boardState[x][y].getColor()) {
                 boolean[] castle = castle(boardState[x][y].getColor(), boardState);
-                if (boardState[0][0] instanceof Rook) {
-                    Rook rookTwo = (Rook) boardState[0][0];
-                    if (castle[1] && rookTwo.getCanCastle()) {
-                        validMoves.add(2);
+                if (boardState[7][0] instanceof Rook) {
+                    Rook rook = (Rook) boardState[7][0];
+                    if (castle[0] && rook.getCanCastle()) {
+                        validMoves.add(6);
                         validMoves.add(0);
                     }
                 }
-                if (boardState[7][0] instanceof Rook) {
-                    Rook rookOne = (Rook) boardState[7][0];
-                    if (castle[0] && rookOne.getCanCastle()) {
-                        validMoves.add(6);
+                if (boardState[0][0] instanceof Rook) {
+                    Rook rook = (Rook) boardState[0][0];
+                    if (castle[1] && rook.getCanCastle()) {
+                        validMoves.add(2);
                         validMoves.add(0);
                     }
                 }
@@ -177,15 +223,15 @@ public class GameLogic{
             else {
                 boolean[] castle = castle(boardState[x][y].getColor(), boardState);
                 if (boardState[0][7] instanceof Rook) {
-                    Rook rookOne = (Rook) boardState[0][7];
-                    if (castle[1] && rookOne.getCanCastle()) {
+                    Rook rook = (Rook) boardState[0][7];
+                    if (castle[1] && rook.getCanCastle()) {
                         validMoves.add(2);
                         validMoves.add(7);
                     }
                 }
                 if (boardState[7][7] instanceof Rook) {
-                    Rook rookTwo = (Rook) boardState[7][7];
-                    if (castle[0] && rookTwo.getCanCastle()) {
+                    Rook rook = (Rook) boardState[7][7];
+                    if (castle[0] && rook.getCanCastle()) {
                         validMoves.add(6);
                         validMoves.add(7);
                     }

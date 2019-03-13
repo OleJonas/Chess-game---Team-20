@@ -8,6 +8,7 @@ public class Board {
     private Piece[][] position = new Piece[8][8];
     private boolean castleRook = true;
     private boolean castleKing = true;
+    private boolean enPassant = true;
 
     public Board() {
         //Default constructor with no arguments will create the starting position of a standard chess game
@@ -63,13 +64,26 @@ public class Board {
         if (castleRook && position[fromX][fromY] instanceof Rook) {
             Rook rook = (Rook) position[fromX][fromY];
             rook.setCanCastle(false);
-            castleRook = false;
+            //castleRook = false;
         }
         if (castleKing && position[fromX][fromY] instanceof King) {
             King king = (King) position[fromX][fromY];
             king.setCanCastle(false);
             castleKing = false;
         }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (position[i][j] instanceof Pawn) {
+                    if (position[fromX][fromY] != null) {
+                        if (position[i][j].getColor() != position[fromX][fromY].getColor()) {
+                            Pawn pawn = (Pawn) position[i][j];
+                            pawn.setEnPassant(false);
+                        }
+                    }
+                }
+            }
+        }
+
         if(position[fromX][fromY]==null){
             return false;
         }
