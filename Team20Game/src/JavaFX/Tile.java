@@ -34,7 +34,7 @@ class Tile extends StackPane {
 
         setOnMouseClicked(e->{
             hboxGroup.getChildren().clear();
-            if(ChessDemo.myTurn) {
+            if(ChessDemo.myTurn && myColor) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
                 if(moves!=null&&moves.size()>0) {

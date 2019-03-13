@@ -1,4 +1,5 @@
 package JavaFX;
+import Database.DBOps;
 import javafx.application.Application;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
@@ -11,6 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import Game.GameEngine;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 
 public class ChessDemo extends Application {
 
@@ -22,13 +26,18 @@ public class ChessDemo extends Application {
 
     public static boolean myTurn = true;
 
+    public static int movenr = 0;
+
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
+    private int gameID = 4;
 
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
+
+    private boolean isDone = false;
 
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
@@ -106,5 +115,36 @@ public class ChessDemo extends Application {
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
+        new Thread(()->{
+            System.out.println("thread started");
+            while(!isDone) {
+                try {
+                    pollEnemyMove();
+                    Thread.sleep(5000);
+                }catch(Exception e){
+
+                }
+            }
+        }).start();
+    }
+
+    public void pollEnemyMove(){
+        System.out.println("PollEnemyMove Started, turn: " + movenr);
+            try {
+                DBOps db = new DBOps();
+                System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
+                ResultSet res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
+                System.out.println(res.getInt("fromX") + res.getInt("fromY") +" test");
+                System.out.println("test");
+                /*if (true) {
+                    enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
+                    movenr++;
+                    myTurn = true;
+                    System.out.println("moved enemy piece");
+                }*/
+                System.out.println("polled database");
+            } catch (Exception e) {
+                System.out.println("something wrong happened");
+        }
     }
 }

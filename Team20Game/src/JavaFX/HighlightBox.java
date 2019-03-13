@@ -118,9 +118,10 @@ class HighlightBox extends Pane {
             }
             System.out.println("moved piece");
             System.out.println(gameEngine.getBoard());
+            ChessDemo.movenr++;
             getChildren().clear();
             hboxGroup.getChildren().clear();
-            //ChessDemo.myTurn = false;
+            ChessDemo.myTurn = false;
         });
     }
 
