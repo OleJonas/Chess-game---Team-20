@@ -111,6 +111,5 @@ public class ChessDemo extends Application {
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
-        removePiece(0, 0);
     }
 }
