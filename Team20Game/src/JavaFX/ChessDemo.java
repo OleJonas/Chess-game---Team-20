@@ -1,13 +1,6 @@
 package JavaFX;
-import Pieces.King;
-import Pieces.Pawn;
-import Pieces.Queen;
-import Pieces.Rook;
 import javafx.application.Application;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,10 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-import java.awt.*;
-import java.util.ArrayList;
 import Game.GameEngine;
-import java.math.*;
 
 
 public class ChessDemo extends Application {
@@ -31,6 +21,7 @@ public class ChessDemo extends Application {
     public static boolean color = true;
 
     public static boolean myTurn = true;
+
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
@@ -61,7 +52,7 @@ public class ChessDemo extends Application {
         for(int x = 0; x<WIDTH; x++){
             for(int y = 0; y<HEIGHT; y++){
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-                square.setFill((x+y)%2==0 ? Color.valueOf(darkTileColor): Color.valueOf(lightTileColor));
+                square.setFill((x+y)%2==0 ? Color.valueOf(lightTileColor): Color.valueOf(darkTileColor));
                 square.relocate(x*ChessDemo.TILE_SIZE, y*ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if(ge.getBoard().getBoardState()[x][y]!=null){
@@ -96,7 +87,7 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
             root.getTransforms().add(rotate180);
         }
-        root.getChildren().addAll(boardGroup, bg, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
 
         return root;
     }
@@ -104,6 +95,10 @@ public class ChessDemo extends Application {
     public void removePiece(int x, int y){
         tileGroup.getChildren().remove(board[x][y]);
         ge.removePiece(x, y);
+    }
+
+    public void enemyMove(int fromX, int fromY, int toX, int toY){
+        board[fromX][fromY].move(toX, toY, board);
     }
     @Override
     public void start(Stage primaryStage) {

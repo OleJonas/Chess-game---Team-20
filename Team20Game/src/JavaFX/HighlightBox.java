@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import sun.java2d.windows.GDIRenderer;
@@ -16,16 +17,26 @@ class HighlightBox extends Pane {
     int x;
     int y;
     int height;
-    double hboxOpacity = 0.5;
+    double hboxOpacity = 0.7;
+    String shapeOfBox = "circle";
     public HighlightBox(int x, int y, int height, Tile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, Tile[][] board){
         this.x = x;
         this.y = y;
         this.height = height;
-        relocate(x*ChessDemo.TILE_SIZE, (height-1-y)*ChessDemo.TILE_SIZE);
-        Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-        square.setFill(Color.valueOf("#582"));
-        square.setOpacity(hboxOpacity);
-        getChildren().add(square);
+        relocate(x * ChessDemo.TILE_SIZE, (height - 1 - y) * ChessDemo.TILE_SIZE);
+        if(shapeOfBox.equalsIgnoreCase("rectangle")) {
+            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            square.setFill(Color.valueOf("#582"));
+            square.setOpacity(hboxOpacity);
+            getChildren().add(square);
+        }else{
+            Circle circle = new Circle(ChessDemo.TILE_SIZE / 4);
+            circle.setFill(Color.valueOf("582"));
+            circle.setOpacity(hboxOpacity);
+            circle.setTranslateX(ChessDemo.TILE_SIZE/2);
+            circle.setTranslateY(ChessDemo.TILE_SIZE/2);
+            getChildren().add(circle);
+        }
         setOnMouseClicked(e->{
             if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
                 if(x-tile.getX()>0) {
