@@ -20,6 +20,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import Game.GameEngine;
 import java.math.*;
+import JavaFX.Tile;
 
 
 public class ChessDemo extends Application {
@@ -113,3 +114,4 @@ public class ChessDemo extends Application {
         primaryStage.show();
     }
 }
+

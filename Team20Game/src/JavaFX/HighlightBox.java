@@ -1,5 +1,6 @@
 package JavaFX;
-
+import JavaFX.ChessDemo;
+import JavaFX.Tile;
 import Game.GameEngine;
 import Pieces.King;
 import Pieces.Pawn;
