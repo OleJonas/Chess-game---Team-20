@@ -100,6 +100,7 @@ class HighlightBox extends Pane {
                     }
                 }
             }
+            ChessDemo.myTurn = false;
             uploadMove(tile.getX(), tile.getY(), x, y);
             tile.move(x, y, board);
             int top=0;
@@ -121,7 +122,6 @@ class HighlightBox extends Pane {
             ChessDemo.movenr+=2;
             getChildren().clear();
             hboxGroup.getChildren().clear();
-            ChessDemo.myTurn = false;
         });
     }
 

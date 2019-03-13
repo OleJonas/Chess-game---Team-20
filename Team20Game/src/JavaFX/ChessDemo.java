@@ -33,7 +33,7 @@ public class ChessDemo extends Application {
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID = new Random().nextInt(500000);
+    public static int gameID = 28;
 
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
@@ -41,6 +41,9 @@ public class ChessDemo extends Application {
     private boolean isDone = false;
 
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
+
+    int tempX=0;
+    int tempY=0;
 
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
@@ -52,12 +55,7 @@ public class ChessDemo extends Application {
 
     private Parent createContent() {
         Pane root = new Pane();
-        Pane bg = new Pane();
-        bg.setPrefSize(WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
-        bg.setOnMouseClicked(r->{
-            hboxGroup.getChildren().clear();
-            hboxGroup = new Group();
-        });
+
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         for(int x = 0; x<WIDTH; x++){
             for(int y = 0; y<HEIGHT; y++){
@@ -96,13 +94,10 @@ public class ChessDemo extends Application {
         if(!color) {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
             root.getTransforms().add(rotate180);
-        }
-        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
-
-        if(!color){
             myTurn = false;
             movenr = 1;
         }
+        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
 
         return root;
     }
@@ -114,6 +109,7 @@ public class ChessDemo extends Application {
 
     public void enemyMove(int fromX, int fromY, int toX, int toY){
         board[fromX][fromY].move(toX, toY, board);
+        board[fromX][fromY] = null;
     }
     @Override
     public void start(Stage primaryStage) {
@@ -124,30 +120,37 @@ public class ChessDemo extends Application {
         new Thread(()->{
             //System.out.println("thread started");
             while(!isDone) {
+                //if(!myTurn){
                     try {
                         pollEnemyMove();
                         Thread.sleep(5000);
                     } catch (Exception e) {
-                        System.out.println("something wrong happened");
+                        e.printStackTrace();
                     }
+                //}
             }
         }).start();
     }
 
     public void pollEnemyMove(){
-        System.out.println("PollEnemyMove Started, turn: " + movenr);
+        System.out.println("PollEnemyMove Started, movenr: " + movenr);
                 DBOps db = new DBOps();
                 System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
                 //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
                 ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
                 if(fromXlist.size()>0) {
+                    System.out.println("tried to pull");
                     int fromX = Integer.parseInt(fromXlist.get(0));
                     int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
                     int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
                     int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
-                    System.out.println("test" + fromX);
-                    enemyMove(fromX, fromY, toX, toY);
-                    myTurn=true;
+                    System.out.println("moved from: " + fromX + ", " + fromY);
+                    if(fromX != tempX && fromY != tempY) {
+                        enemyMove(fromX, fromY, toX, toY);
+                        myTurn = true;
+                        tempX = fromX;
+                        tempY = fromY;
+                    }
                 }
                 /*if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
