@@ -12,7 +12,7 @@ public class GameLogic{
         int x = 0, y = 2;
         //find position of king
         for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[i].length; i++){
+            for (int j = 0; j < board[0].length; j++){
                 if (board[i][j] instanceof King){
                     if (board[i][j].getColor() == color){
                         x = i;
@@ -31,12 +31,16 @@ public class GameLogic{
         for (int r = 0; r < 2; r++){
             for (int i = 1; i < 8; i++){
                 for (int k = 0; k < move[r].length; k += 2){
-                    if (x+i*move[r][k] >= 0 && i*x+move[r][k] < 8 && y+i*move[r][k+1] >= 0 && y+i*move[r][k+1] < 8){
+                    if (x+i*move[r][k] >= 0 && x+i*move[r][k] < 8 && y+i*move[r][k+1] >= 0 && y+i*move[r][k+1] < 8){
                         if (dir[r][k/2]){
                             if (board[x+i*move[r][k]][y+i*move[r][k+1]] != null){
                                 if (board[x+i*move[r][k]][y+i*move[r][k+1]].getColor() != color){
-                                    if (board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Queen || board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Rook) {
-                                        System.out.println("Dronning/tårn truer:" + x+i*move[r][i] + " " + y+i*move[r][i+1]);
+                                    if (r == 0 && (board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Queen || board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Rook)) {
+                                        System.out.println("Dronning/tårn trussel:" + (x+i*move[r][k]) + " " + (y+i*move[r][k+1]));
+                                        return true;
+                                    }
+                                    if (r == 1 && (board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Queen || board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Bishop)) {
+                                        System.out.println("Løper/Dronning trussel:" + (x+i*move[r][k]) + " " + (y+i*move[r][k+1]));
                                         return true;
                                     }
                                 }
@@ -52,17 +56,23 @@ public class GameLogic{
             if (x + k[i] < 8 && x + k[i] >= 0 && y + k[i + 1] >= 0 && y + k[i + 1] < 8) {
                 if (board[x+k[i]][y+k[i+1]] != null){
                     if (board[x+k[i]][y+k[i+1]].getColor() != color && board[x+k[i]][y+k[i+1]] instanceof Knight){
-                        System.out.println("Hest truer" + x+k[i] + " " + y+k[i+1]);
+                        System.out.println("Hest trussel:" + (x+k[i]) + " " + (y+k[i+1]));
                         return true;
                     }
                 }
             }
         }
-        int[] p = {-1, 1, 1, 1};
+        int[] p =  new int[4];
+        p[0] = -1;
+        p[1] = board[x][y].getColor() ? 1 : -1;
+        p[2] = 1;
+        p[3] = board[x][y].getColor() ? 1 : -1;
+
         for (int i = 0; i < p.length; i += 2) {
-            if (x + k[i] < 8 && x + k[i] >= 0 && y + k[i + 1] >= 0 && y + k[i + 1] < 8) {
-                if (board[x+k[i]][y+k[i+1]] != null){
-                    if (board[x+k[i]][y+k[i+1]].getColor() != color && board[x+k[i]][y+k[i+1]] instanceof Pawn){
+            if (x + p[i] < 8 && x + p[i] >= 0 && y + p[i + 1] >= 0 && y + p[i + 1] < 8) {
+                if (board[x+p[i]][y+p[i+1]] != null){
+                    if (board[x+p[i]][y+p[i+1]].getColor() != color && board[x+p[i]][y+p[i+1]] instanceof Pawn){
+                        System.out.println("Bonde trussel:" + (x+p[i]) + " " + (y+p[i+1]));
                         return true;
                     }
                 }
@@ -295,15 +305,22 @@ public class GameLogic{
     public static ArrayList<Integer> validMoves(int x, int y, Board board) {
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         Piece[][] boardState = board.getBoardState();
-
-        if (boardState[x][y] instanceof Pawn) { validMoves = validMovesPawn(x, y, boardState); }
-        else if (boardState[x][y] instanceof Rook) { validMoves = validMovesRook(x, y, boardState); }
-        else if (boardState[x][y] instanceof Knight){ validMoves = validMovesKnight(x, y, boardState); }
-        else if (boardState[x][y] instanceof King) { validMoves = validMovesKing(x, y, boardState); }
-        else if (boardState[x][y] instanceof Bishop) { validMoves = validMovesBishop(x, y, boardState); }
-        else if (boardState[x][y] instanceof Queen) {
-            validMoves = validMovesRook(x, y, boardState);
-            validMoves.addAll(validMovesBishop(x, y, boardState));
+        if (boardState[x][y] != null){
+            if (boardState[x][y] instanceof Pawn) {
+                validMoves = validMovesPawn(x, y, boardState);
+            } else if (boardState[x][y] instanceof Rook) {
+                validMoves = validMovesRook(x, y, boardState);
+            } else if (boardState[x][y] instanceof Knight) {
+                validMoves = validMovesKnight(x, y, boardState);
+            } else if (boardState[x][y] instanceof King) {
+                validMoves = validMovesKing(x, y, boardState);
+            } else if (boardState[x][y] instanceof Bishop) {
+                validMoves = validMovesBishop(x, y, boardState);
+            } else if (boardState[x][y] instanceof Queen) {
+                validMoves = validMovesRook(x, y, boardState);
+                validMoves.addAll(validMovesBishop(x, y, boardState));
+            }
+            inCheck(boardState, boardState[x][y].getColor());
         }
         return validMoves;
     }
