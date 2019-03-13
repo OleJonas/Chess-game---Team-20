@@ -119,7 +119,7 @@ class HighlightBox extends Pane {
             }
             System.out.println("moved piece");
             System.out.println(gameEngine.getBoard());
-            ChessDemo.movenr++;
+            ChessDemo.movenr+=2;
             getChildren().clear();
             hboxGroup.getChildren().clear();
             ChessDemo.myTurn = false;
@@ -128,7 +128,7 @@ class HighlightBox extends Pane {
 
     private void uploadMove(int fromX, int fromY, int toX, int toY){
         DBOps db = new DBOps();
-        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + ChessDemo.movenr +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + (ChessDemo.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
     }
 
     public int getX(){
