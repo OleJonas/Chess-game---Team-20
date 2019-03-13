@@ -25,7 +25,6 @@ public class GameLogic{
         }
 
         // check threats from cardinal directions
-        boolean right = true, down = true, left = true, up = true;
         int[][] move =  {{1, 0, 0, 1, -1, 0, 0, -1}, {1, 1, -1, 1, -1, -1, 1, -1}};
         boolean[][] dir = {{true, true, true, true}, {true, true, true, true}};
         for (int r = 0; r < 2; r++){
@@ -57,6 +56,17 @@ public class GameLogic{
                 if (board[x+k[i]][y+k[i+1]] != null){
                     if (board[x+k[i]][y+k[i+1]].getColor() != color && board[x+k[i]][y+k[i+1]] instanceof Knight){
                         System.out.println("Hest trussel:" + (x+k[i]) + " " + (y+k[i+1]));
+                        return true;
+                    }
+                }
+            }
+        }
+        int[] king = { 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1};
+        for (int i = 0; i < king.length; i += 2){
+            if (x + king[i] < 8 && x + king[i] >= 0 && y + king[i + 1] >= 0 && y + king[i + 1] < 8){
+                if (board[x+king[i]][y+king[i+1]] != null){
+                    if (board[x+king[i]][y+king[i+1]] instanceof King){
+                        System.out.println("Konge trussel:" + (x+king[i]) + " " + (y+king[i+1]));
                         return true;
                     }
                 }
