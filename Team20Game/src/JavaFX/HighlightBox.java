@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import sun.java2d.windows.GDIRenderer;
 
 class HighlightBox extends Pane {
     int x;
