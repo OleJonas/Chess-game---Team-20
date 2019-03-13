@@ -81,13 +81,15 @@ public class GameLogic{
     // Suggestion for a game over method checking if time's up. Could add a boolean like checkmate later on.
     // Would also suggest moving this method to GameEngine instead
     public static boolean isDone(Board board, GameTimer timer){
-        while(timer.getGameTime() > 0){
+        while(timer.getTime() > 0){
             return false;
         }
         return true;
     }
 
     static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState){
+        // Maybe implement an int that is either 1 or -1 depending on getColor(). This int is then used to multiply with each move.
+        // This way we can avoid having basically the same code twice right after eachother.
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         if (boardState[x][y].getColor()) {
             if (y + 1 < 8) {
