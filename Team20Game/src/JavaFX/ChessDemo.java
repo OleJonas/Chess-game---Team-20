@@ -226,17 +226,47 @@ class HighlightBox extends Pane{
             }
             if (tile.getX() + 1 < 8) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()] instanceof Pawn) {
-                    System.out.println("Hallo1");
-                    Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
-                    if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        System.out.println("Hallo2");
-                        if (pawn.getEnPassant()) {
-                            System.out.println("Hallo3");
-                            gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()] = null;
+                    if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                        System.out.println("Hallo1");
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            System.out.println("Hallo2");
+                            if (pawn.getEnPassant()) {
+                                System.out.println("Hallo3");
+                            }
+                        }
+                    }
+                    else {
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            if (pawn.getEnPassant()) {
+
+                            }
                         }
                     }
                 }
             }
+            if (tile.getX() - 1 >= 0) {
+                if (gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()] instanceof Pawn) {
+                    if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            if (pawn.getEnPassant()) {
+
+                            }
+                        }
+                    }
+                    else {
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            if (pawn.getEnPassant()) {
+
+                            }
+                        }
+                    }
+                }
+            }
+
             tile.move(x, y, board);
             int top=0;
             if(ChessDemo.color) {
