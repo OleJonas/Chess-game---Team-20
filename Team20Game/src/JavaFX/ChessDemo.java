@@ -1,13 +1,7 @@
 package JavaFX;
-import Pieces.King;
-import Pieces.Pawn;
-import Pieces.Queen;
-import Pieces.Rook;
+import Database.DBOps;
 import javafx.application.Application;
-import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,11 +10,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-import java.awt.*;
-import java.util.ArrayList;
 import Game.GameEngine;
-import java.math.*;
-import JavaFX.Tile;
+
+import java.util.ArrayList;
+import java.util.Random;
+
 
 
 public class ChessDemo extends Application {
@@ -32,13 +26,19 @@ public class ChessDemo extends Application {
     public static boolean color = true;
 
     public static boolean myTurn = true;
+
+    public static int movenr = 0;
+
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
+    public static int gameID = new Random().nextInt(500000);
 
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
+
+    private boolean isDone = false;
 
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
@@ -62,7 +62,7 @@ public class ChessDemo extends Application {
         for(int x = 0; x<WIDTH; x++){
             for(int y = 0; y<HEIGHT; y++){
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-                square.setFill((x+y)%2==0 ? Color.valueOf(darkTileColor): Color.valueOf(lightTileColor));
+                square.setFill((x+y)%2==0 ? Color.valueOf(lightTileColor): Color.valueOf(darkTileColor));
                 square.relocate(x*ChessDemo.TILE_SIZE, y*ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if(ge.getBoard().getBoardState()[x][y]!=null){
@@ -97,7 +97,12 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE*WIDTH)/2, (TILE_SIZE*HEIGHT)/2);
             root.getTransforms().add(rotate180);
         }
-        root.getChildren().addAll(boardGroup, bg, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
+
+        if(!color){
+            myTurn = false;
+            movenr = 1;
+        }
 
         return root;
     }
@@ -106,12 +111,55 @@ public class ChessDemo extends Application {
         tileGroup.getChildren().remove(board[x][y]);
         ge.removePiece(x, y);
     }
+
+    public void enemyMove(int fromX, int fromY, int toX, int toY){
+        board[fromX][fromY].move(toX, toY, board);
+    }
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(createContent());
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
+        new Thread(()->{
+            System.out.println("thread started");
+            while(!isDone) {
+                    try {
+                        pollEnemyMove();
+                        Thread.sleep(5000);
+                    } catch (Exception e) {
+                        System.out.println("something wrong happened");
+                    }
+            }
+        }).start();
+    }
+
+    public void pollEnemyMove(){
+        System.out.println("PollEnemyMove Started, turn: " + movenr);
+            try {
+                DBOps db = new DBOps();
+                System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
+                //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
+                ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1);
+                if(fromXlist.size()>0) {
+                    int fromX = Integer.parseInt(fromXlist.get(0));
+                    int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
+                    int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
+                    int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
+                    System.out.println("test" + fromX);
+                    enemyMove(fromX, fromY, toX, toY);
+                    myTurn=true;
+                }
+                /*if (true) {
+                    enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
+                    movenr++;
+                    myTurn = true;
+                    System.out.println("moved enemy piece");
+                }*/
+                System.out.println("polled database");
+            } catch (Exception e) {
+                System.out.println("something wrong happened");
+        }
     }
 }
 

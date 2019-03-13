@@ -1,19 +1,15 @@
-package JavaFX;
+package Database;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Timer;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import Database.DBOps;
 import java.util.TimerTask;
 
-public class Chat extends Application{
+public class ChatDB{
     private DBOps db;
     private Timer refresher;
     private int lastChat = 1;
 
-    public Chat() {
+    public ChatDB() {
         this.db = new DBOps();
         db.createTable("chat");
         db.exUpdate("ALTER TABLE chat ADD msg_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;");
@@ -22,6 +18,7 @@ public class Chat extends Application{
         this.refresher = new Timer(true);
     }
 
+    // AAAAAAAAAAAAAAAAAAA
     public void refreshLoop(){
         int delay = 5000;
         int period = 5000;
@@ -34,7 +31,7 @@ public class Chat extends Application{
 
     public String fetchChat(){
         StringBuilder out = new StringBuilder();
-        ArrayList<String> add = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat);
+        ArrayList<String> add = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat, 1);
 
         for(String s : add){
             lastChat++;
@@ -42,19 +39,15 @@ public class Chat extends Application{
         }
 
         System.out.println(out.toString());
-        return out.toString();
+        return out.toString().trim();
+    }
+
+    public void chatClose(){
+        db.close();
     }
 
     public void writeChat(String input){
         String writeToDB = "INSERT INTO chat VALUES (default, '" + input + "')";
         db.exUpdate(writeToDB);
-    }
-
-    public static void main(String[] args){
-        launch(args);
-    }
-
-    public void start(Stage primaryStage){
-        // Enter code
     }
 }
