@@ -27,7 +27,6 @@ class Tile extends StackPane {
         currentPositionX=x;
         currentPositionY=y;
         this.tileGroup = tileGroup;
-        System.out.println(x +  ", " + y + ",,,");
         this.height = height;
         this.gameEngine = gameEngine;
         getChildren().add(new Rectangle());
@@ -41,18 +40,14 @@ class Tile extends StackPane {
                 if(moves!=null&&moves.size()>0) {
                     for (int i = 0; i < moves.size(); i += 2) {
                         HighlightBox box = new HighlightBox(moves.get(i), moves.get(i + 1), height,
-                                this, hboxGroup, gameEngine, board);
+                                this, hboxGroup, tileGroup, gameEngine, board);
                         hboxGroup.getChildren().add(box);
                     }
                 }
             }
-            /*
-            mouseX = e.getSceneX();
-            mouseY = e.getSceneY();
-            */
+
         });
         setOnMouseDragged(e->{
-            /*relocate(e.getSceneX() - mouseX + oldX - (ChessDemo.TILE_SIZE/2), e.getSceneY() - mouseY + oldY -(ChessDemo.TILE_SIZE/2));*/
         });
         setOnMouseReleased(e->{
         });
