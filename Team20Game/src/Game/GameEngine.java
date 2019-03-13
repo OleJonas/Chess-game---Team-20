@@ -36,6 +36,10 @@ public class GameEngine {
       return board.move(fromX, fromY, toX, toY);
    }
 
+   public void removePiece(int x, int y){
+       board.removePiece(x, y);
+   }
+
    public void setPiece(Piece piece, int x, int y){
       board.setPiece(piece, x, y);
    }

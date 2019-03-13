@@ -98,6 +98,10 @@ public class Board {
         return true;
     }
 
+    public void removePiece(int x, int y){
+        position[x][y] = null;
+    }
+
     public void setPiece(Piece piece, int x, int y){
         position[x][y] = piece;
         System.out.println("altered board, added piece at" + x + ", " + y +" " + piece);
