@@ -77,7 +77,10 @@ public class Board {
                     if (position[fromX][fromY] != null) {
                         if (position[i][j].getColor() != position[fromX][fromY].getColor()) {
                             Pawn pawn = (Pawn) position[i][j];
-                            pawn.setEnPassant(false);
+                            if (pawn.getEnPassant()) {
+                                pawn.setEnPassant(false);
+                                break;
+                            }
                         }
                     }
                 }
@@ -113,25 +116,5 @@ public class Board {
             a+="\n";
         }
         return a;
-    }
-
-    public static void main(String[] args){
-        Board board = new Board();
-        System.out.println(board);
-
-        Rook rook = new Rook(true, 0, 0);
-        System.out.println(rook);
-        System.out.println(board.toString());
-
-        Piece[][] boardstate = board.getBoardState();
-
-        Board board2 = new Board(boardstate);
-        System.out.println(board2.toString());
-
-        GameEngine ge = new GameEngine(15, true);
-        if(ge.move(0,0,1,3)){
-            System.out.println("true");
-        }
-        System.out.println(ge.getBoard());
     }
 }
