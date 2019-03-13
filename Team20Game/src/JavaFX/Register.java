@@ -89,7 +89,7 @@ class Register {
         //signupLayout
         GridPane usernamePane = new GridPane();
         usernamePane.setHgap(15);
-        Label usernameLabel = new Label("Username:");
+        Label usernameLabel = new Label("Username:             ");
         usernameLabel.setFont(Font.font("Copperplate", 18));
         usernameLabel.setTextFill(Color.WHITE);
         usernamePane.add(usernameLabel, 0, 0);
@@ -97,7 +97,7 @@ class Register {
 
         GridPane passwordPane = new GridPane();
         passwordPane.setHgap(15);
-        Label passwordLabel = new Label("Password:");
+        Label passwordLabel = new Label("Password:             ");
         passwordLabel.setFont(Font.font("Copperplate", 18));
         passwordLabel.setTextFill(Color.WHITE);
         passwordPane.add(passwordLabel, 0, 0);
@@ -105,7 +105,7 @@ class Register {
 
         GridPane repeatPasswordPane = new GridPane();
         repeatPasswordPane.setHgap(15);
-        Label repeatPasswordLabel = new Label("Repeat:     ");
+        Label repeatPasswordLabel = new Label("Repeat password: ");
         repeatPasswordLabel.setFont(Font.font("Copperplate", 18));
         repeatPasswordLabel.setTextFill(Color.WHITE);
         repeatPasswordPane.add(repeatPasswordLabel, 0, 0);
@@ -123,7 +123,7 @@ class Register {
         signupLayout.setAlignment(CENTER);
         signupLayout.setStyle("-fx-background-color: #404144;");
 
-        signUpScene = new Scene(signupLayout, 390, 280);
+        signUpScene = new Scene(signupLayout, 450, 280);
         Main.window.setScene(signUpScene);
 
     }
