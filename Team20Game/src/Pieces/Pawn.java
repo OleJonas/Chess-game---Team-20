@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Pawn extends Piece {
     private ImageView imageView;
+    private boolean enPassant = false;
     public Pawn(boolean color, int x, int y) {
         super(color, x, y);
         try {
@@ -18,6 +19,8 @@ public class Pawn extends Piece {
 
         }
     }
+    public boolean getEnPassant() { return enPassant; }
+    public void setEnPassant(boolean newValue) { enPassant = newValue; }
 
     public char getNotation() {
         return 'P';
