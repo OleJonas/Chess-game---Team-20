@@ -31,7 +31,7 @@ public class ChatDB{
 
     public String fetchChat(){
         StringBuilder out = new StringBuilder();
-        ArrayList<String> add = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat);
+        ArrayList<String> add = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat, 1);
 
         for(String s : add){
             lastChat++;

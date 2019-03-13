@@ -82,6 +82,9 @@ class FindUser{
         MenuItem userProfileMenuItem = new MenuItem("User profile");
         userProfileMenuItem.setOnAction(e -> showUserProfileScene());
         userMenu.getItems().add(userProfileMenuItem);
+        MenuItem findUserMenuItem = new MenuItem("Find User");
+        findUserMenuItem.setOnAction(e -> showFindUserScene());
+        userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
             setAvatar(AVATAR);
@@ -123,11 +126,19 @@ class FindUser{
 
         //Left GridPane
         GridPane leftGrid = new GridPane();
-        leftGrid.setPadding(new Insets(20, 20, 20, 20));
+        leftGrid.setPadding(new Insets(30, 50, 20, 50));
+        leftGrid.setHgap(10);
+        leftGrid.setVgap(10);
+        Label usernameLabel = new Label("Username: ");
+        usernameLabel.setFont(Font.font("Copperplate", 30));
+        usernameLabel.setStyle("-fx-font-weight: bold");
+        usernameLabel.setTextFill(Color.WHITE);
         TextField searchField = new TextField();
+        searchField.setPrefSize(200, 30);
         Label searchComment = new Label("");
         searchComment.setTextFill(Color.RED);
         Button searchButton = new Button("Search");
+        searchButton.setPrefSize(100, 30);
         searchButton.setOnAction(e -> {
             if(searchForUser(searchField.getText())){
                 setUserPane();
@@ -135,9 +146,10 @@ class FindUser{
                 searchComment.setText("User doesn't exist");
             }
         });
-        leftGrid.add(searchField, 0, 0);
-        leftGrid.add(searchButton, 1, 0);
-        leftGrid.add(searchComment, 0, 1, 2, 1);
+        leftGrid.add(usernameLabel, 0,0,2,1);
+        leftGrid.add(searchField, 0, 1);
+        leftGrid.add(searchButton, 1, 1);
+        leftGrid.add(searchComment, 0, 2, 2, 1);
 
         //mainLayout
         mainLayout.setPadding(new Insets(20, 50, 20, 50));

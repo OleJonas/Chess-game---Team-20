@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.Login.*;
 import static JavaFX.MainScene.showMainScene;
 import static JavaFX.Settings.settingsScene;
@@ -95,6 +96,9 @@ class UserProfile{
         MenuItem userProfileMenuItem = new MenuItem("User profile");
         userProfileMenuItem.setOnAction(e -> showUserProfileScene());
         userMenu.getItems().add(userProfileMenuItem);
+        MenuItem findUserMenuItem = new MenuItem("Find User");
+        findUserMenuItem.setOnAction(e -> showFindUserScene());
+        userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
             setAvatar(AVATAR);
