@@ -23,7 +23,7 @@ public class ChessDemo extends Application {
 
     public static final double imageSize = 0.8;
 
-    public static boolean color = false;
+    public static boolean color = true;
 
     public static boolean myTurn = true;
 
@@ -101,7 +101,7 @@ public class ChessDemo extends Application {
 
         if(!color){
             myTurn = false;
-            movenr = -1;
+            movenr = 1;
         }
 
         return root;
@@ -138,18 +138,17 @@ public class ChessDemo extends Application {
         System.out.println("PollEnemyMove Started, turn: " + movenr);
             try {
                 DBOps db = new DBOps();
-                System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
+                System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
                 //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
-                ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
+                ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
                 if(fromXlist.size()>0) {
                     int fromX = Integer.parseInt(fromXlist.get(0));
-                    int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr + 1) + ";").get(0));
-                    int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr + 1) + ";").get(0));
-                    int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr + 1) + ";").get(0));
+                    int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
+                    int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
+                    int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
                     System.out.println("test" + fromX);
                     enemyMove(fromX, fromY, toX, toY);
                     myTurn=true;
-                    movenr++;
                 }
                 /*if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
