@@ -1,5 +1,6 @@
 package JavaFX;
 
+import Database.DBOps;
 import Game.GameEngine;
 import Pieces.King;
 import Pieces.Pawn;
@@ -100,7 +101,7 @@ class HighlightBox extends Pane {
                     }
                 }
             }
-
+            uploadMove(tile.getX(), tile.getY(), x, y);
             tile.move(x, y, board);
             int top=0;
             if(ChessDemo.color) {
@@ -123,6 +124,11 @@ class HighlightBox extends Pane {
             hboxGroup.getChildren().clear();
             ChessDemo.myTurn = false;
         });
+    }
+
+    private void uploadMove(int fromX, int fromY, int toX, int toY){
+        DBOps db = new DBOps();
+        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + ChessDemo.movenr +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
     }
 
     public int getX(){
