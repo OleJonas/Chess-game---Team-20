@@ -18,6 +18,7 @@ public class ChatDB{
         this.refresher = new Timer(true);
     }
 
+    // AAAAAAAAAAAAAAAAAAA
     public void refreshLoop(){
         int delay = 5000;
         int period = 5000;
