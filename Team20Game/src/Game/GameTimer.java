@@ -1,14 +1,8 @@
 package Game;
 
-import java.lang.reflect.Method;
 import java.util.TimerTask;
 import java.util.Timer;
 
-import javafx.geometry.Pos;
-
-import static javafx.application.Application.launch;
-
-// Will probably need to run this in a separate thread since it will be running in parallell with the program.
 public class GameTimer{
 
     private Timer timer;
