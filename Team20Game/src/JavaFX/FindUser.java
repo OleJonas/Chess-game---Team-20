@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import java.util.ArrayList;
 import static JavaFX.MainScene.showMainScene;
 
-
 @SuppressWarnings("Duplicates")
 class FindUser{
     static Scene findProfileScene;
@@ -42,7 +41,6 @@ class FindUser{
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-
         //Buttons
         Button backToMainButton = new Button("Back");
         Image imageBackToMain = new Image("Images/ButtonImages/ArrowLeft.png");
@@ -53,9 +51,6 @@ class FindUser{
         backToMainButton.setOnAction(e -> {
             showMainScene();
         });
-
-        //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
-        //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -118,7 +113,6 @@ class FindUser{
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
-
 
         BorderPane layout = new BorderPane();
         layout.setTop(new WindowMenuBar().getWindowMenuBar());

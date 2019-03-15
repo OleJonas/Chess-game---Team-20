@@ -24,12 +24,14 @@ class UserProfile{
         GridPane mainLayout = new GridPane();
         avatar = new Image("Images/Avatars/" + AVATAR);
 
+        //Title
         String userTitle = "User Profile";
         Label title = new Label(userTitle);
         title.setFont(Font.font("Copperplate", 40));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
+        //GamesInfo
         String gamesInfoString = "User: " + USERNAME + "\nGames Played: " + gamesPlayed
                 + "\nGames Won: " + gamesWon + "\nGames Lost: " + gamesLost
                 + "\nRemis: " + gamesRemis + "\nElo-rating: " + ELOrating;
@@ -37,7 +39,6 @@ class UserProfile{
         gamesInfoLabel.setFont(Font.font("Copperplate", 25));
         gamesInfoLabel.setStyle("-fx-font-weight: bold");
         gamesInfoLabel.setTextFill(Color.WHITE);
-
 
         //Buttons
         Button backToMainButton = new Button("Back");
@@ -72,9 +73,6 @@ class UserProfile{
             avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR));
         });
 
-        
-        //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
-        //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -126,7 +124,6 @@ class UserProfile{
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
 
-        
         BorderPane layout = new BorderPane();
         layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);

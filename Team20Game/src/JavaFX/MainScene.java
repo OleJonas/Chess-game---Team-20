@@ -60,12 +60,9 @@ class MainScene {
         leftGrid.add(settingsButton, 0, 4);
         leftGrid.setHalignment(settingsButton, HPos.CENTER);
 
-
         //Right GridPane
         GridPane rightGrid = new GridPane();
         rightGrid.setPadding(new Insets(50, 100, 100, 50));
-
-
 
         //mainLayout
         GridPane mainLayout = new GridPane();

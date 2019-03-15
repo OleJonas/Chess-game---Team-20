@@ -15,16 +15,15 @@ import static JavaFX.MainScene.showMainScene;
 class Settings{
     static Scene settingsScene;
 
-
     static void showSettings(){
         GridPane mainLayout = new GridPane();
 
+        //Title
         String settingsTitle = "Settings";
         Label title = new Label(settingsTitle);
         title.setFont(Font.font("Copperplate", 40));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
-
 
         //Buttons
         Button backToMainButton = new Button("Back");
@@ -37,10 +36,6 @@ class Settings{
             showMainScene();
             //Here you shuld later on create a method for storing the settings to a table in the database called userSettings
         });
-
-
-        //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
-        //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -74,7 +69,6 @@ class Settings{
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
-
 
         BorderPane layout = new BorderPane();
         layout.setTop(new WindowMenuBar().getWindowMenuBar());

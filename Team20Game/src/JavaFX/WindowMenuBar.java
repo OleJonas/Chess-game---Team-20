@@ -55,7 +55,7 @@ public class WindowMenuBar {
         windowMenuBar.getMenus().addAll(homeMenu, gameMenu, userMenu, settingsMenu, helpMenu);
     }
 
-    public WindowMenuBar(String dersomHome){
+    public WindowMenuBar(String onlyOnMainScreen){
         Menu gameMenu = new Menu("Game");
         MenuItem newGameItem = new MenuItem("New Game");
         newGameItem.setOnAction(e -> System.out.println("Launch new game"));
