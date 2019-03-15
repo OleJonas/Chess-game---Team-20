@@ -22,8 +22,12 @@ public class ChatDB{
         int delay = 5000;
         int period = 5000;
         refresher.scheduleAtFixedRate(new TimerTask(){
+            String chatOut = null;
             public void run(){
-                fetchChat();
+                chatOut = fetchChat();
+                if(chatOut != "" && chatOut != " " && chatOut != "\n" && chatOut != null) {
+                    System.out.println(chatOut);
+                }
             }
         }, delay, period);
     }
@@ -37,7 +41,7 @@ public class ChatDB{
             out.append(s + "\n");
         }
 
-        System.out.println(out.toString());
+        //System.out.println(out.toString().trim());
         return out.toString().trim();
     }
 

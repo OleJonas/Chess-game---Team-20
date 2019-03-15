@@ -1,13 +1,11 @@
 package Database;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.*;
 import java.util.ArrayList;
 
-//Håvards database:       jdbc:mysql://mysql.stud.idi.ntnu.no:3306/haavasma?user=haavasma&password=eSVol6ey
-//Martins database:       jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w
-
 public class DBOps{
-    private String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
     private Connection con;
     private PreparedStatement stmt;
     private ResultSet res;
@@ -28,7 +26,7 @@ public class DBOps{
     public ArrayList<String> exQuery(String sqlString, int amountOfColumns){
         ArrayList<String> out = new ArrayList<>();
         try{
-            con = DriverManager.getConnection(url);
+            con = HikariCP.getCon();
             stmt = con.prepareStatement(sqlString);
             res = stmt.executeQuery();
 
@@ -48,7 +46,7 @@ public class DBOps{
     public int exUpdate(String sqlString) {
         int affectedRows = 0;
         try {
-            con = DriverManager.getConnection(url);
+            con = HikariCP.getCon();
             stmt = con.prepareStatement(sqlString);
             affectedRows = stmt.executeUpdate();
             /*if(affectedRows == 0){
