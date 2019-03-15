@@ -30,7 +30,7 @@ public class ChessDemo extends Application {
 
     public static final double imageSize = 0.8;
 
-    public static boolean color = true;
+    public static boolean color = false;
 
     public static boolean myTurn = true;
 
@@ -40,7 +40,7 @@ public class ChessDemo extends Application {
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID = 44;//new Random().nextInt(500000);
+    public static int gameID = 47;//new Random().nextInt(500000);
 
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";

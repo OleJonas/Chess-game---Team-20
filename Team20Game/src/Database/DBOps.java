@@ -7,7 +7,7 @@ import java.util.ArrayList;
 //Martins database:       jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w
 
 public class DBOps{
-    private String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/haavasma?user=haavasma&password=eSVol6ey";
+    private String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
     private Connection con;
     private PreparedStatement stmt;
     private ResultSet res;

@@ -1,5 +1,5 @@
 package JavaFX;
-
+import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -9,16 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
-import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.Login.*;
 import static JavaFX.MainScene.showMainScene;
-import static JavaFX.Settings.settingsScene;
-import static JavaFX.Settings.showSettings;
+
 
 @SuppressWarnings("Duplicates")
 class UserProfile{
@@ -79,47 +72,6 @@ class UserProfile{
             avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR));
         });
 
-        //Menubar
-        Menu homeMenu = new Menu("Home");
-        MenuItem homeMenuItem = new MenuItem("Go to Main Screen");
-        homeMenuItem.setOnAction(e -> showMainScene());
-        homeMenu.getItems().add(homeMenuItem);
-
-        Menu gameMenu = new Menu("Game");
-        MenuItem newGameItem = new MenuItem("New Game");
-        newGameItem.setOnAction(e -> System.out.println("Launch new game"));
-        MenuItem joinGameItem = new MenuItem("Join Game");
-        joinGameItem.setOnAction(e -> System.out.println("Joining game"));
-        gameMenu.getItems().addAll(newGameItem, joinGameItem);
-
-        Menu userMenu = new Menu("User");
-        MenuItem userProfileMenuItem = new MenuItem("User profile");
-        userProfileMenuItem.setOnAction(e -> showUserProfileScene());
-        userMenu.getItems().add(userProfileMenuItem);
-        MenuItem findUserMenuItem = new MenuItem("Find User");
-        findUserMenuItem.setOnAction(e -> showFindUserScene());
-        userMenu.getItems().add(findUserMenuItem);
-        MenuItem logOutMenuItem = new MenuItem("Log out");
-        logOutMenuItem.setOnAction(e -> {
-            setAvatar(AVATAR);
-            runLogin();
-        });
-        userMenu.getItems().add(logOutMenuItem);
-
-        Menu settingsMenu = new Menu("Settings");
-        MenuItem openSettings = new MenuItem("Go to settings");
-        openSettings.setOnAction(e -> showSettings());
-        settingsMenu.getItems().add(openSettings);
-
-        Menu helpMenu = new Menu("Help");
-        MenuItem howToLogIn = new MenuItem("How to log in");
-        howToLogIn.setOnAction(e -> System.out.println("To log in you have to..."));
-        helpMenu.getItems().add(howToLogIn);
-
-        //Mainmenu bar
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(homeMenu, gameMenu, userMenu, settingsMenu, helpMenu);
-
         
         //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
         //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
@@ -157,8 +109,8 @@ class UserProfile{
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550)); // column 0 is 400 wide
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550)); // column 1 is 800 wide
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
         mainLayout.add(backToMainButton, 0, 0, 2, 1);
         mainLayout.setHalignment(backToMainButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
@@ -169,14 +121,14 @@ class UserProfile{
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
 
         //Set image as background
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,800,false,true),
+        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
 
         
         BorderPane layout = new BorderPane();
-        layout.setTop(menuBar);
+        layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
         userProfileScene = new Scene(layout, 1200, 800);
         Main.window.setScene(userProfileScene);
@@ -229,15 +181,8 @@ class UserProfile{
 
     static void setAvatar(String avatar){
         AVATAR = avatar;
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
-        try(Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
-            //Insert into database
-            String sqlQuery = "UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';";
-            stmt.executeUpdate(sqlQuery);
-        }catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
-        }
+        DBOps conncetion = new DBOps();
+        conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
     }
 
 
