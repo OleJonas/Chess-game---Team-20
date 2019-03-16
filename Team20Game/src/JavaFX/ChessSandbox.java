@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 
 public class ChessSandbox {
-    public static final int TILE_SIZE = 60;
-    public static final double imageSize = 0.6;
+    public static final int TILE_SIZE = 80;
+    public static final double imageSize = 0.8;
 
     private GameEngine ge = new GameEngine(15, true);
 
@@ -50,7 +50,6 @@ public class ChessSandbox {
                 square.relocate(x * ChessSandbox.TILE_SIZE, y * ChessSandbox.TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if (ge.getBoard().getBoardState()[x][y] != null) {
-                    boolean myColor;
                     SandboxTile tile = new SandboxTile(x, y,HEIGHT, ge, hboxGroup, tileGroup, board);
                     tile.setImageView(ge.getBoard().getBoardState()[x][y].getImageView(), TILE_SIZE * (1 - imageSize) / 2, TILE_SIZE * (1 - imageSize) / 2);
                     board[x][y] = tile;
@@ -164,7 +163,7 @@ class SandboxHighlightBox extends Pane {
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                 System.out.println("Sjakkmatt");
             }
-            int top=0;
+            int top = 0;
             //if(ChessSandbox.color) top = height-1;
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 Queen newPiece = new Queen(true, x, y);

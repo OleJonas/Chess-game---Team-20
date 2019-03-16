@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import static JavaFX.FindUser.showFindUserScene;
+import static JavaFX.GameScene.showGameScene;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.showUserProfileScene;
 
@@ -19,11 +20,12 @@ class MainScene {
     static void showMainScene(){
         Image ChessBoardImage = new Image("/Images/ChessBoardImage.jpg");
         Label title = new Label("Recess Chess");
-        title.setFont(Font.font("Copperplate", 60));
+        title.setFont(Font.font("Copperplate", 70));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
         Button newGameButton = new Button("New Game");
+        newGameButton.setOnAction(e -> showGameScene());
 
         Button joinGameButton = new Button("Join Game");
 
@@ -42,13 +44,13 @@ class MainScene {
         //Left GridPane
         GridPane leftGrid = new GridPane();
         leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(100, 200, 100, 250));
+        leftGrid.setPadding(new Insets(90, 150, 100, 250));
         //Set buttonsize
-        newGameButton.setPrefSize(100, 50);
-        joinGameButton.setPrefSize(100,50);
-        findUserButton.setPrefSize(100, 50);
-        userProfileButton.setPrefSize(100, 50);
-        settingsButton.setPrefSize(100, 50);
+        newGameButton.setPrefSize(150, 80);
+        joinGameButton.setPrefSize(150,80);
+        findUserButton.setPrefSize(150, 80);
+        userProfileButton.setPrefSize(150, 80);
+        settingsButton.setPrefSize(150, 80);
 
         leftGrid.add(newGameButton, 0, 0);
         leftGrid.setHalignment(newGameButton, HPos.CENTER);
@@ -63,17 +65,17 @@ class MainScene {
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(50, 100, 100, 50));
+        rightGrid.setPadding(new Insets(60, 150, 100, 0));
         Parent chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame,0,0);
 
         //mainLayout
         GridPane mainLayout = new GridPane();
-        mainLayout.setPadding(new Insets(20, 50, 20, 50));
+        mainLayout.setPadding(new Insets(30, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(625));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
@@ -93,7 +95,7 @@ class MainScene {
         layout.setTop(new WindowMenuBar("Home").getWindowMenuBar());
         layout.setCenter(mainLayout);
 
-        mainScene = new Scene(layout, 1200, 800);
+        mainScene = new Scene(layout, 1450, 950);
         Main.window.setScene(mainScene);
     }
 }
