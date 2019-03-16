@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import static JavaFX.Login.runLogin;
+import static JavaFX.MainScene.showMainScene;
 
 public class Main extends Application {
 
@@ -15,7 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage){
         window = primaryStage;
-        runLogin();
+        //runLogin();
+        showMainScene();
         primaryStage.centerOnScreen();
         window.setTitle("Recess Chess");
         window.show();

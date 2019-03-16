@@ -1,6 +1,7 @@
 package JavaFX;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -63,6 +64,8 @@ class MainScene {
         //Right GridPane
         GridPane rightGrid = new GridPane();
         rightGrid.setPadding(new Insets(50, 100, 100, 50));
+        Parent chessGame = new ChessSandbox().createContent();
+        rightGrid.add(chessGame,0,0);
 
         //mainLayout
         GridPane mainLayout = new GridPane();
