@@ -199,7 +199,7 @@ class SandboxTile extends StackPane {
     private int currentPositionX;
     private int currentPositionY;
     private double oldX, oldY;
-    
+
     public SandboxTile(int x, int y, int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, SandboxTile[][] board) {
         super.setWidth(ChessSandbox.TILE_SIZE);
         setHeight(ChessSandbox.TILE_SIZE);
@@ -243,10 +243,10 @@ class SandboxTile extends StackPane {
         if(img == null){
             return false;
         }
-        
+
         img.setTranslateX(offsetX);
         img.setTranslateY(offsetY);
-        
+
         getChildren().set(0,img);
         return true;
     }

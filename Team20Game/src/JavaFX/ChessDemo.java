@@ -123,7 +123,7 @@ public class ChessDemo extends Application {
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
-        clockDBThings();
+        //clockDBThings();
         /*new Thread(()->{
             System.out.println("thread started");
             while(!isDone) {
@@ -137,7 +137,7 @@ public class ChessDemo extends Application {
         }).start();*/
     }
 
-    public void clockDBThings(){
+    /*public void clockDBThings(){
         timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -145,9 +145,9 @@ public class ChessDemo extends Application {
                 serviceDBThings();
             }
         }, 2000, 2000);
-    }
+    }*/
 
-    public void serviceDBThings() {
+    /*public void serviceDBThings() {
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -174,11 +174,11 @@ public class ChessDemo extends Application {
             }
         };
         service.start();
-    }
+    }*/
 
 
 
-    public void pollEnemyMove(){
+    /*public void pollEnemyMove(){
         System.out.println("PollEnemyMove Started, turn: " + movenr);
             try {
                 DBOps db = new DBOps();
@@ -199,11 +199,12 @@ public class ChessDemo extends Application {
                     movenr++;
                     myTurn = true;
                     System.out.println("moved enemy piece");
-                }*/
+                }
                 System.out.println("polled database");
             } catch (Exception e) {
                 e.printStackTrace();
         }
     }
+    */
 }
 
