@@ -1,5 +1,4 @@
 package JavaFX;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -18,7 +17,7 @@ public class Main extends Application {
         window = primaryStage;
         runLogin();
         primaryStage.centerOnScreen();
-        window.setTitle("Login/Register");
+        window.setTitle("Recess Chess");
         window.show();
     }
 }

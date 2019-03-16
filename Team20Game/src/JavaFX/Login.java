@@ -1,5 +1,6 @@
 package JavaFX;
 
+import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +18,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.util.ArrayList;
+
 import static JavaFX.Register.runRegistration;
 import static javafx.geometry.Pos.CENTER;
 import static javafx.geometry.Pos.CENTER_RIGHT;
@@ -123,21 +126,15 @@ class Login{
 
     static boolean checkUsername(String username){
         String matchingUsername = "";
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
-        try(Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT username FROM User WHERE username=\"" + username + "\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
+        DBOps connection = new DBOps();
+        try{
+            ArrayList<String> result = connection.exQuery("SELECT username FROM User WHERE username=\"" + username + "\"",1);
 
-            while (res.next()) {
-                matchingUsername = res.getString("username");
+            if(result.size() > 0){
+                matchingUsername = result.get(0);
             }
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
-        }
-        if(matchingUsername.equals("")) {
-            //System.out.println("This username does not exist");
-            return false;
         }
         if(matchingUsername.equals(username)){
             return true;
@@ -147,48 +144,38 @@ class Login{
 
     static boolean checkPassword(String password, String username) throws NoSuchAlgorithmException{
         String matchingPassword = "";
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
+        DBOps connection = new DBOps();
         byte[] saltByte = new byte[20];
-        try(Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT password, SALT FROM User WHERE username=\"" + username + "\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-            while (res.next()) {
-                matchingPassword = res.getString("password");
-                String saltString = res.getString("SALT");
-                //System.out.println(matchingPassword);
-                //System.out.println(saltString);
+        try{
+            ArrayList<String> result = connection.exQuery("SELECT password, SALT FROM User WHERE username=\"" + username + "\"",2);
+            if(result.size() > 0){
+                matchingPassword = result.get(0);
+                String saltString = result.get(1);
                 saltByte = hexStringToByteArray(saltString);
-                //System.out.println(bytesToStringHex(saltByte));
+            } else {
+                return false;
             }
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
         }
-        if(matchingPassword.equals("")) {
-            System.out.println("This username does not exist");
-            return false;
-        }
         if(matchingPassword.equals(generateHash(password, saltByte))){
             return true;
         }
-
         System.out.println("Wrong password!");
         return false;
     }
 
     //Denne metoden registrerer en bruker i User-tabellen med brukernavn, passord, SALT, en default avatar og en user_id (AUTO_INCREMENT)
     static boolean register(String username, String password) throws SQLException {
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
-        try(Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
+        DBOps connection = new DBOps();
+        try{
             if(checkUsername(username)) return false;
             //Create salt hash password
             byte[] salt = createSalt();
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
             //Insert into database
-            String sqlQuery = "INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg', 0, 0, 0, 0, 1000);";
-            int rowsAffected = stmt.executeUpdate(sqlQuery);
+            int rowsAffected = connection.exUpdate("INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg', 0, 0, 0, 0, 1000);");
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
@@ -236,39 +223,26 @@ class Login{
     }
 
     static String getAvatar(String username) {
-        String avatar = "";
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
-        try (Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT avatar FROM User WHERE username=\"" + username + "\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-
-            while (res.next()) {
-                avatar = res.getString("avatar");
-            }
-        } catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
+        String avatar;
+        DBOps connection = new DBOps();
+        ArrayList<String> result = connection.exQuery("SELECT avatar FROM User WHERE username=\"" + username + "\"",1);
+        if(result.size() > 0){
+            avatar = result.get(0);
+        }else{
+            avatar = "avatar1.jpg";
         }
-        if(avatar.equals("")) avatar = "avatar1.jpg";
         return avatar;
     }
 
     static void getGameInfo(){
-        String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w";
-        try (Connection con = DriverManager.getConnection(url)) {
-            Statement stmt = con.createStatement();
-            String sqlQuery = "SELECT gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User WHERE username=\"" + USERNAME + "\"";
-            ResultSet res = stmt.executeQuery(sqlQuery);
-
-            while (res.next()) {
-                gamesPlayed = res.getInt("gamesPlayed");
-                gamesWon = res.getInt("gamesWon");
-                gamesLost = res.getInt("gamesLost");
-                gamesRemis = res.getInt("gamesRemis");
-                ELOrating = res.getInt("ELOrating");
-            }
-        } catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
+        DBOps connection = new DBOps();
+        ArrayList<String> result = connection.exQuery("SELECT gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User WHERE username=\"" + USERNAME + "\"",5);
+        if(result.size() > 0){
+            gamesPlayed = Integer.parseInt(result.get(0));
+            gamesWon = Integer.parseInt(result.get(1));
+            gamesLost = Integer.parseInt(result.get(2));
+            gamesRemis = Integer.parseInt(result.get(3));
+            ELOrating = Integer.parseInt(result.get(4));
         }
     }
 }

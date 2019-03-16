@@ -103,6 +103,9 @@ class HighlightBox extends Pane {
             ChessDemo.myTurn = false;
             uploadMove(tile.getX(), tile.getY(), x, y);
             tile.move(x, y, board);
+            if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
+                System.out.println("Sjakkmatt");
+            }
             int top=0;
             if(ChessDemo.color) {
                 top = height-1;

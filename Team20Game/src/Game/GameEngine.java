@@ -40,6 +40,10 @@ public class GameEngine {
        board.removePiece(x, y);
    }
 
+   public boolean isCheckmate(Board board, boolean color) {
+      return GameLogic.isCheckmate(board, color);
+   }
+
    public void setPiece(Piece piece, int x, int y){
       board.setPiece(piece, x, y);
    }

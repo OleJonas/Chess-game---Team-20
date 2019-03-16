@@ -1,10 +1,11 @@
 package Database;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DBOps{
-    private String url = "jdbc:mysql://mysql.stud.idi.ntnu.no:3306/haavasma?user=haavasma&password=eSVol6ey";
     private Connection con;
     private PreparedStatement stmt;
     private ResultSet res;
@@ -22,17 +23,17 @@ public class DBOps{
         exUpdate(in2);
     }
 
-    public ArrayList<String> exQuery(String sqlString){
+    public ArrayList<String> exQuery(String sqlString, int amountOfColumns){
         ArrayList<String> out = new ArrayList<>();
-        int colNr = 1;
         try{
-            con = DriverManager.getConnection(url);
+            con = HikariCP.getCon();
             stmt = con.prepareStatement(sqlString);
             res = stmt.executeQuery();
 
             while(res.next()){
-                out.add(res.getString(colNr));
-                colNr++;
+                for(int i = 0; i < amountOfColumns; i++){
+                    out.add(res.getString(i+1));
+                }
             }
         } catch(SQLException sql){
             sql.printStackTrace();
@@ -45,7 +46,7 @@ public class DBOps{
     public int exUpdate(String sqlString) {
         int affectedRows = 0;
         try {
-            con = DriverManager.getConnection(url);
+            con = HikariCP.getCon();
             stmt = con.prepareStatement(sqlString);
             affectedRows = stmt.executeUpdate();
             /*if(affectedRows == 0){
