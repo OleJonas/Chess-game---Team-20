@@ -393,8 +393,6 @@ class FinishedGameResetAlert{
         window.setScene(scene);
         window.showAndWait();
     }
-
-
 }
 
 
