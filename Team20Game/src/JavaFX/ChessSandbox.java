@@ -1,7 +1,13 @@
 package JavaFX;
-import Pieces.King;
-import Pieces.Pawn;
-import Pieces.Queen;
+import Pieces.*;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.Group;
@@ -11,9 +17,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import Game.GameEngine;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
+
+import static JavaFX.MainScene.showMainScene;
 
 
 public class ChessSandbox {
@@ -160,19 +171,49 @@ class SandboxHighlightBox extends Pane {
                     }
                 }
             }
+
+            //Checkmate
             tile.move(x, y, board);
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
-                System.out.println("Sjakkmatt");
+                FinishedGameResetAlert.Display();
             }
+
+            //Promotion black Pawn
             if(y==0 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
-                Queen newPiece = new Queen(false, x, y);
+                Piece newPiece = new Pawn(false, x, y);
+
+                PawnChangeChoiceBox.Display();
+                if(PawnChangeChoiceBox.choice.equals("Bishop")){
+                    newPiece = new Bishop(false, x, y);
+                } else if(PawnChangeChoiceBox.choice.equals("Knight")) {
+                    newPiece = new Knight(false, x, y);
+                } else if(PawnChangeChoiceBox.choice.equals("Queen")) {
+                    newPiece = new Queen(false, x, y);
+                } else if(PawnChangeChoiceBox.choice.equals("Rook")) {
+                    newPiece = new Rook(false, x, y);
+                }
+
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
                 tile.setImageView(tempimg,
                         ChessSandbox.TILE_SIZE*(1-ChessSandbox.imageSize)/2, ChessSandbox.TILE_SIZE*(1-ChessSandbox.imageSize)/2);
             }
+
+            //promotion white Pawn
             if(y==height-1 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
-                Queen newPiece = new Queen(true, x, y);
+                Piece newPiece = new Pawn(true, x, y);
+
+                PawnChangeChoiceBox.Display();
+                if(PawnChangeChoiceBox.choice.equals("Bishop")){
+                    newPiece = new Bishop(true, x, y);
+                } else if(PawnChangeChoiceBox.choice.equals("Knight")) {
+                    newPiece = new Knight(true, x, y);
+                } else if(PawnChangeChoiceBox.choice.equals("Queen")) {
+                    newPiece = new Queen(true, x, y);
+                } else if(PawnChangeChoiceBox.choice.equals("Rook")) {
+                    newPiece = new Rook(true, x, y);
+                }
+
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
                 tile.setImageView(tempimg,
@@ -191,6 +232,7 @@ class SandboxHighlightBox extends Pane {
     }
 }
 
+@SuppressWarnings("Duplicates")
 class SandboxTile extends StackPane {
     private ImageView imageView;
     private GameEngine gameEngine;
@@ -263,6 +305,96 @@ class SandboxTile extends StackPane {
         setPos(x,y);
         relocate(oldX, oldY);
     }
+}
+
+
+class PawnChangeChoiceBox{
+    static String choice;
+
+    public static void Display(){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Promotion");
+
+        Label label = new Label("Choose your new piece:");
+        label.setFont(Font.font("Copperplate", 18));
+        label.setStyle("-fx-font-weight: bold");
+        label.setTextFill(Color.WHITE);
+
+        ListView<String> pieces = new ListView<>();
+        pieces.getItems().addAll("Bishop", "Knight", "Queen", "Rook");
+
+        Label comment = new Label("");
+        comment.setTextFill(Color.RED);
+
+        Button choosePieceButton = new Button("Choose");
+        choosePieceButton.setOnAction(e -> {
+            choice = pieces.getSelectionModel().getSelectedItem();
+            if(choice == null) {
+                comment.setText("You have to choose one!");
+            }else{
+                window.close();
+            }
+        });
+
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(10);
+        mainLayout.setVgap(10);
+        mainLayout.setPadding(new Insets(10, 20, 10, 10));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(115));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(115));
+        mainLayout.add(label, 0, 0, 2, 1);
+        mainLayout.setHalignment(label, HPos.CENTER);
+        mainLayout.add(pieces, 0, 1, 2, 1);
+        mainLayout.add(comment, 0, 2, 2, 1);
+        mainLayout.add(choosePieceButton, 1, 2);
+        mainLayout.setHalignment(choosePieceButton, HPos.RIGHT);
+        mainLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(mainLayout, 260, 190);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+}
+
+@SuppressWarnings("Duplicates")
+class FinishedGameResetAlert{
+
+    public static void Display(){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("");
+
+        Label label = new Label("Checkmate!");
+        label.setFont(Font.font("Copperplate", 24));
+        label.setStyle("-fx-font-weight: bold");
+        label.setTextFill(Color.WHITE);
+
+        Button startOverButton = new Button("Start over");
+        startOverButton.setOnAction(e -> {
+            showMainScene();
+            window.close();
+        });
+
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(10);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 60, 30, 60));
+        mainLayout.add(label, 0, 0);
+        mainLayout.setHalignment(label, HPos.CENTER);
+        mainLayout.add(startOverButton, 0, 1);
+        mainLayout.setHalignment(startOverButton, HPos.CENTER);
+        mainLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(mainLayout, 260, 150);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+
 }
 
 

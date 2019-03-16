@@ -16,6 +16,11 @@ import static JavaFX.UserProfile.showUserProfileScene;
 class GameScene {
     static Scene gameScene;
 
+    //Stats which will be initialized with DBOps while starting a game
+    static int GAMEID = 0;
+    static String player1 = "Jonas";
+    static String player2 = "MKarlsen";
+
     static void showGameScene(){
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 60));
@@ -34,6 +39,19 @@ class GameScene {
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
+        rightGrid.setPadding(new Insets(70, 50, 50, 50));
+        rightGrid.setHgap(10);
+        rightGrid.setVgap(10);
+        Label gameidLabel = new Label("GameID: " + GAMEID);
+        gameidLabel.setFont(Font.font("Copperplate", 40));
+        gameidLabel.setStyle("-fx-font-weight: bold");
+        gameidLabel.setTextFill(Color.WHITE);
+        rightGrid.add(gameidLabel, 0, 0);
+        Label playersLabel = new Label(player1 + " vs " + player2);
+        playersLabel.setFont(Font.font("Copperplate", 40));
+        playersLabel.setStyle("-fx-font-weight: bold");
+        playersLabel.setTextFill(Color.LIGHTSKYBLUE);
+        rightGrid.add(playersLabel, 0, 1);
 
 
         //mainLayout

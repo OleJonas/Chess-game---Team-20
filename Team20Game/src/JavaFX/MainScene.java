@@ -18,7 +18,6 @@ class MainScene {
     static Scene mainScene;
 
     static void showMainScene(){
-        Image ChessBoardImage = new Image("/Images/ChessBoardImage.jpg");
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 70));
         title.setStyle("-fx-font-weight: bold");

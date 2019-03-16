@@ -7,7 +7,6 @@ import static JavaFX.Login.runLogin;
 import static JavaFX.MainScene.showMainScene;
 
 public class Main extends Application {
-
     static Stage window;
 
     public static void main(String[] args){
@@ -19,7 +18,7 @@ public class Main extends Application {
         window = primaryStage;
         //runLogin();           //Denne vil brukes til det endelige spillet
         showMainScene();      //Denne kan brukes for å hoppe over login
-        //showGameScene();      //Denne kan brukes for å kjøre gameScene
+        //showGameScene();      //Denne kan brukes for å gå rett til gameScene
         primaryStage.centerOnScreen();
         window.setTitle("Recess Chess");
         window.show();
