@@ -1,4 +1,5 @@
 package JavaFX;
+import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -8,8 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.Random;
+
 import static JavaFX.FindUser.showFindUserScene;
-import static JavaFX.GameScene.showGameScene;
+import static JavaFX.GameScene.*;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.showUserProfileScene;
 
@@ -24,9 +31,13 @@ class MainScene {
         title.setTextFill(Color.WHITE);
 
         Button newGameButton = new Button("New Game");
-        newGameButton.setOnAction(e -> showGameScene());
+        newGameButton.setOnAction(e -> {
+            gameSetup();
+            showGameScene();
+        });
 
         Button joinGameButton = new Button("Join Game");
+        joinGameButton.setOnAction(e -> JoinGamePopup.Display());
 
         Button findUserButton = new Button("Find User");
         findUserButton.setOnAction(e -> showFindUserScene());
@@ -102,4 +113,102 @@ class MainScene {
         mainScene = new Scene(layout, 1450, 950);
         Main.window.setScene(mainScene);
     }
+
+    static boolean gameSetup(){
+        try{
+            DBOps connection = new DBOps();
+            int number = 0;
+            boolean distinctGameId = false;
+            while(!distinctGameId){
+                number = new Random().nextInt(500000);
+                if (!JoinGamePopup.checkGameId(number)) distinctGameId = true;
+            }
+            int rowsAffected = connection.exUpdate("INSERT INTO ........."); //Change this SQLQuery to match the database
+            if(rowsAffected > 0){
+                player1 = Login.USERNAME;
+                ChessGame.gameID = number;
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }
+
+
+@SuppressWarnings("Duplicates")
+class JoinGamePopup{
+
+    public static void Display(){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Join Game");
+
+        Label label = new Label("GameID:");
+        label.setFont(Font.font("Copperplate", 24));
+        label.setStyle("-fx-font-weight: bold");
+        label.setTextFill(Color.WHITE);
+
+        Label comment = new Label("");
+        comment.setTextFill(Color.RED);
+
+        TextField gameIDInputField = new TextField();
+        gameIDInputField.setPrefWidth(260);
+
+        Button connectButton = new Button("Connect");
+        connectButton.setOnAction(e -> {
+            String gameIDInputString = gameIDInputField.getText();
+            if(isInt(gameIDInputString)){
+                int inputInt = Integer.parseInt(gameIDInputString);
+                if (checkGameId(inputInt)){
+                    ChessGame.gameID = inputInt;
+                    window.close();
+                    showGameScene();
+                }
+            } else {comment.setText("Not a valid number!");}
+        });
+
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(10);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 30, 30, 30));
+        mainLayout.add(label, 0, 0, 2, 1);
+        mainLayout.setHalignment(label, HPos.CENTER);
+        mainLayout.add(gameIDInputField, 0, 1);
+        mainLayout.add(comment, 0, 2);
+        mainLayout.add(connectButton, 0, 2);
+        mainLayout.setHalignment(connectButton, HPos.RIGHT);
+        mainLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(mainLayout, 330, 180);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    static boolean isInt(String string){
+        try{
+            int out = Integer.parseInt(string);
+        } catch (Exception a){
+            return false;
+        }
+        return true;
+    }
+
+    static boolean checkGameId(int gameid){ //Here you have to check if the GameID exists!
+        DBOps connection = new DBOps();
+        ArrayList matchingGameIDs = connection.exQuery("SELECT .......", 1); //Change this SQLQuery to match the database
+        if(matchingGameIDs.size() > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+

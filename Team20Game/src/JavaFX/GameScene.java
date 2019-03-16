@@ -17,7 +17,6 @@ class GameScene {
     static Scene gameScene;
 
     //Stats which will be initialized with DBOps while starting a game
-    static int GAMEID = 0;
     static String player1 = "Jonas";
     static String player2 = "MKarlsen";
 
@@ -42,7 +41,7 @@ class GameScene {
         rightGrid.setPadding(new Insets(70, 50, 50, 50));
         rightGrid.setHgap(10);
         rightGrid.setVgap(10);
-        Label gameidLabel = new Label("GameID: " + GAMEID);
+        Label gameidLabel = new Label("GameID: " + ChessGame.gameID);
         gameidLabel.setFont(Font.font("Copperplate", 40));
         gameidLabel.setStyle("-fx-font-weight: bold");
         gameidLabel.setTextFill(Color.WHITE);

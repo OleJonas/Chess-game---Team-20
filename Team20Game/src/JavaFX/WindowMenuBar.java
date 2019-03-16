@@ -2,9 +2,14 @@ package JavaFX;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import java.util.Random;
+
 import static JavaFX.FindUser.showFindUserScene;
+import static JavaFX.GameScene.showGameScene;
 import static JavaFX.Login.AVATAR;
 import static JavaFX.Login.runLogin;
+import static JavaFX.MainScene.gameSetup;
 import static JavaFX.MainScene.showMainScene;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.setAvatar;
@@ -21,9 +26,12 @@ public class WindowMenuBar {
 
         Menu gameMenu = new Menu("Game");
         MenuItem newGameItem = new MenuItem("New Game");
-        newGameItem.setOnAction(e -> System.out.println("Launch new game"));
+        newGameItem.setOnAction(e -> {
+            gameSetup();
+            showGameScene();
+        });
         MenuItem joinGameItem = new MenuItem("Join Game");
-        joinGameItem.setOnAction(e -> System.out.println("Joining game"));
+        joinGameItem.setOnAction(e -> JoinGamePopup.Display());
         gameMenu.getItems().addAll(newGameItem, joinGameItem);
 
         Menu userMenu = new Menu("User");
@@ -58,9 +66,12 @@ public class WindowMenuBar {
     public WindowMenuBar(String onlyOnMainScreen){
         Menu gameMenu = new Menu("Game");
         MenuItem newGameItem = new MenuItem("New Game");
-        newGameItem.setOnAction(e -> System.out.println("Launch new game"));
+        newGameItem.setOnAction(e -> {
+            gameSetup();
+            showGameScene();
+        });
         MenuItem joinGameItem = new MenuItem("Join Game");
-        joinGameItem.setOnAction(e -> System.out.println("Joining game"));
+        joinGameItem.setOnAction(e -> JoinGamePopup.Display());
         gameMenu.getItems().addAll(newGameItem, joinGameItem);
 
         Menu userMenu = new Menu("User");
