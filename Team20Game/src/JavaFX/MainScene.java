@@ -65,9 +65,14 @@ class MainScene {
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(60, 150, 100, 0));
+        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setVgap(20);
         Parent chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame,0,0);
+        Button clearBoard = new Button("Clear Board");
+        clearBoard.setOnAction(e -> showMainScene());
+        rightGrid.add(clearBoard, 0,1);
+        rightGrid.setHalignment(clearBoard, HPos.RIGHT);
 
         //mainLayout
         GridPane mainLayout = new GridPane();

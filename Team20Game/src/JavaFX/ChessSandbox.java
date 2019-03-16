@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import Game.GameEngine;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 
@@ -163,13 +164,17 @@ class SandboxHighlightBox extends Pane {
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                 System.out.println("Sjakkmatt");
             }
-            int top = 0;
-            //if(ChessSandbox.color) top = height-1;
-            if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
+            if(y==0 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
+                Queen newPiece = new Queen(false, x, y);
+                ImageView tempimg = newPiece.getImageView();
+                gameEngine.setPiece(newPiece, x, y);
+                tile.setImageView(tempimg,
+                        ChessSandbox.TILE_SIZE*(1-ChessSandbox.imageSize)/2, ChessSandbox.TILE_SIZE*(1-ChessSandbox.imageSize)/2);
+            }
+            if(y==height-1 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 Queen newPiece = new Queen(true, x, y);
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
-                //if(!ChessSandbox.color) tempimg.getTransforms().add(new Rotate(180, ChessSandbox.TILE_SIZE/2, ChessSandbox.TILE_SIZE/2));
                 tile.setImageView(tempimg,
                         ChessSandbox.TILE_SIZE*(1-ChessSandbox.imageSize)/2, ChessSandbox.TILE_SIZE*(1-ChessSandbox.imageSize)/2);
             }
