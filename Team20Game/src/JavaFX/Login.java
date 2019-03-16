@@ -1,11 +1,9 @@
 package JavaFX;
 
 import Database.DBOps;
-import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 
 import static JavaFX.Register.runRegistration;
 import static javafx.geometry.Pos.CENTER;
-import static javafx.geometry.Pos.CENTER_RIGHT;
 
 
 @SuppressWarnings("Duplicates")
@@ -247,25 +244,3 @@ class Login{
     }
 }
 
-
-/*
-GridPane loginLayout = new GridPane(); //Creates grid, thinking 3 in width, 100|200|100
-        loginLayout.setVgap(8);
-        loginLayout.setHgap(15);
-        loginLayout.setPadding(new Insets(20, 20, 20, 20));
-        loginLayout.add(loginLabel, 1, 0, 3, 1);
-        loginLayout.setHalignment(loginLabel, HPos.CENTER);
-        //loginLayout.setHalignment(loginLabel, HPos.CENTER);
-        loginLayout.add(new Label("Username:"), 0, 1);
-        loginLayout.add(loginUsernameField, 1, 1);
-        loginLayout.add(new Label("Password:"), 0, 2);
-        loginLayout.add(loginPasswordField, 1, 2);
-        loginLayout.add(loginButton, 0, 3);
-        loginLayout.add(signUpButton, 1, 3);
-        loginLayout.add(loginComment, 1, 4);
-
-        loginLayout.setStyle("-fx-background-color: #bce5df;");
-
-
-        startScene = new Scene(loginLayout, 400, 300);
- */

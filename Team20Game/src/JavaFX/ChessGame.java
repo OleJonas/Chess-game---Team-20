@@ -1,3 +1,7 @@
+/*
+** This is the class used for creating the chessboard in GameScene
+ */
+
 package JavaFX;
 import Database.DBOps;
 import javafx.application.Application;
@@ -21,42 +25,28 @@ import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
 
-public class ChessDemo extends Application {
+@SuppressWarnings("Duplicates")
+public class ChessGame{
 
     private Timer timer;
-
     public static final int TILE_SIZE = 80;
-
     public static final double imageSize = 0.8;
-
     public static boolean color = true;
-
     public static boolean myTurn = true;
-
     public static int movenr = 0;
-
     private GameEngine ge = new GameEngine(15, true);
-
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID = 51;              //new Random().nextInt(500000);
-
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
-
     private boolean isDone = false;
-
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
-
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
     private Group hboxGroup = new Group();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    private Parent createContent() {
+    public Parent setupBoard(){
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
@@ -110,6 +100,7 @@ public class ChessDemo extends Application {
             movenr = 1;
         }
 
+        clockDBThings();
         return root;
     }
 
@@ -120,26 +111,6 @@ public class ChessDemo extends Application {
 
     public void enemyMove(int fromX, int fromY, int toX, int toY) {
         board[fromX][fromY].move(toX, toY, board);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        Scene scene = new Scene(createContent());
-        primaryStage.setTitle("Chess Demo");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        clockDBThings();
-        /*new Thread(()->{
-            System.out.println("thread started");
-            while(!isDone) {
-                    try {
-                        pollEnemyMove();
-                        Thread.sleep(5000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-            }
-        }).start();*/
     }
 
     public void clockDBThings(){
@@ -180,35 +151,33 @@ public class ChessDemo extends Application {
         };
         service.start();
     }
-
-
-
     public void pollEnemyMove(){
         System.out.println("PollEnemyMove Started, turn: " + movenr);
-            try {
-                DBOps db = new DBOps();
-                System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
-                //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
-                ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1);
-                if(fromXlist.size()>0) {
-                    int fromX = Integer.parseInt(fromXlist.get(0));
-                    int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
-                    int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
-                    int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
-                    System.out.println("test" + fromX);
-                    enemyMove(fromX, fromY, toX, toY);
-                    myTurn=true;
-                }
+        try {
+            DBOps db = new DBOps();
+            System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
+            //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
+            ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1);
+            if(fromXlist.size()>0) {
+                int fromX = Integer.parseInt(fromXlist.get(0));
+                int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
+                int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
+                int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
+                System.out.println("test" + fromX);
+                enemyMove(fromX, fromY, toX, toY);
+                myTurn=true;
+            }
                 /*if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
                     movenr++;
                     myTurn = true;
                     System.out.println("moved enemy piece");
                 }*/
-                System.out.println("polled database");
-            } catch (Exception e) {
-                e.printStackTrace();
+            System.out.println("polled database");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
+
 

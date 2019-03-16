@@ -107,8 +107,8 @@ class UserProfile{
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
         mainLayout.add(backToMainButton, 0, 0, 2, 1);
         mainLayout.setHalignment(backToMainButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
@@ -127,7 +127,7 @@ class UserProfile{
         BorderPane layout = new BorderPane();
         layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
-        userProfileScene = new Scene(layout, 1200, 800);
+        userProfileScene = new Scene(layout, 1450, 950);
         Main.window.setScene(userProfileScene);
     }
 
