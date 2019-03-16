@@ -1,6 +1,9 @@
 package JavaFX;
 import Database.DBOps;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -14,7 +17,7 @@ import Game.GameEngine;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.util.concurrent.CountDownLatch;
 
 
 public class ChessDemo extends Application {
@@ -33,14 +36,14 @@ public class ChessDemo extends Application {
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID = 28;
+    public static int gameID = 41;
 
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
 
     private boolean isDone = false;
 
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private Tile[][] board = new Tile[8][8];
 
     int tempX=0;
     int tempY=0;
@@ -108,8 +111,10 @@ public class ChessDemo extends Application {
     }
 
     public void enemyMove(int fromX, int fromY, int toX, int toY){
+        if(board[toX][toY]!=null){
+            removePiece(toX, toY);
+        }
         board[fromX][fromY].move(toX, toY, board);
-        board[fromX][fromY] = null;
     }
     @Override
     public void start(Stage primaryStage) {
@@ -117,23 +122,50 @@ public class ChessDemo extends Application {
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        //Background work
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                    try {
+                                        pollEnemyMove();
+                                    } finally {
+                                        latch.countDown();
+                                    }
+
+                            }
+                        });
+                        latch.await();
+                        //Keep with the background work
+                        return null;
+                    }
+                };
+            }
+        };
         new Thread(()->{
             //System.out.println("thread started");
             while(!isDone) {
-                //if(!myTurn){
-                    try {
-                        pollEnemyMove();
-                        Thread.sleep(5000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                //}
+                service.start();
+                try {
+                    Thread.sleep(5000);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }).start();
     }
 
-    public void pollEnemyMove(){
+    public boolean pollEnemyMove(){
         System.out.println("PollEnemyMove Started, movenr: " + movenr);
+
                 DBOps db = new DBOps();
                 System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
                 //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
@@ -144,14 +176,16 @@ public class ChessDemo extends Application {
                     int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
                     int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
                     int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";").get(0));
-                    System.out.println("moved from: " + fromX + ", " + fromY);
-                    if(fromX != tempX && fromY != tempY) {
+                    if(fromX != tempX || fromY != tempY) {
+                        System.out.println("moved from: " + fromX + ", " + fromY);
                         enemyMove(fromX, fromY, toX, toY);
                         myTurn = true;
                         tempX = fromX;
                         tempY = fromY;
+                        return true;
                     }
                 }
+                return false;
                 /*if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
                     movenr++;
