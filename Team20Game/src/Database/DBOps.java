@@ -25,8 +25,8 @@ public class DBOps{
     public ArrayList<String> exQuery(String sqlString, int amountOfColumns){
         ArrayList<String> out = new ArrayList<>();
         try{
-            //con = HikariCP.getCon();
-            con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
+            con = HikariCP.getCon();
+            //con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
             stmt = con.prepareStatement(sqlString);
             res = stmt.executeQuery();
 
@@ -46,8 +46,8 @@ public class DBOps{
     public int exUpdate(String sqlString) {
         int affectedRows = 0;
         try {
-            //con = HikariCP.getCon();
-            con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
+            con = HikariCP.getCon();
+            //con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
             stmt = con.prepareStatement(sqlString);
             affectedRows = stmt.executeUpdate();
             /*if(affectedRows == 0){

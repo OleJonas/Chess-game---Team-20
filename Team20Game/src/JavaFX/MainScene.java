@@ -83,6 +83,10 @@ class MainScene {
         clearBoard.setOnAction(e -> showMainScene());
         rightGrid.add(clearBoard, 0,1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
+        Label sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
+        sandboxLabel.setFont(Font.font("Calibri", 20));
+        sandboxLabel.setTextFill(Color.WHITE);
+        rightGrid.add(sandboxLabel, 0, 1);
 
         //mainLayout
         GridPane mainLayout = new GridPane();
