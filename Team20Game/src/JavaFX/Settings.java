@@ -21,10 +21,6 @@ class Settings{
     static String darkTileColor = "#8B4513";
     static String lightTileColor = "#FFEBCD";
 
-
-
-
-
     static void showSettings(){
         GridPane mainLayout = new GridPane();
 

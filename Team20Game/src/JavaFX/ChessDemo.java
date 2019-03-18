@@ -45,7 +45,6 @@ public class ChessDemo extends Application {
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID = 58;              //new Random().nextInt(500000);
 
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
@@ -131,7 +130,9 @@ public class ChessDemo extends Application {
     }
 
     public void enemyMove(int fromX, int fromY, int toX, int toY) {
+        //if(toX != null && toY != null) {
         board[fromX][fromY].move(toX, toY, board);
+        //}
     }
 
     @Override
