@@ -496,6 +496,7 @@ public class GameLogic{
                 }
             }
         }
+
         return false;
     }
     //NEW
