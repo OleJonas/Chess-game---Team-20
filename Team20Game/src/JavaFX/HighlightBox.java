@@ -1,15 +1,12 @@
 package JavaFX;
 
 import Database.DBOps;
-import JavaFX.Tile;
-import JavaFX.ChessDemo;
 import Game.GameEngine;
 import Pieces.King;
 import Pieces.Pawn;
 import Pieces.Queen;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -26,45 +23,38 @@ class HighlightBox extends Pane {
         this.x = x;
         this.y = y;
         this.height = height;
-        relocate(x * ChessDemo.TILE_SIZE, (height - 1 - y) * ChessDemo.TILE_SIZE);
+        relocate(x * ChessGame.TILE_SIZE, (height - 1 - y) * ChessGame.TILE_SIZE);
         if(shapeOfBox.equalsIgnoreCase("rectangle")) {
-            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            Rectangle square = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
             square.setFill(Color.valueOf("#582"));
             square.setOpacity(hboxOpacity);
             getChildren().add(square);
         }else{
-            HBox square = new HBox();
-            square.setPrefSize(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-            getChildren().add(square);
-
-            Circle circle = new Circle(ChessDemo.TILE_SIZE / 5);
+            Circle circle = new Circle(ChessGame.TILE_SIZE / 4);
             circle.setFill(Color.valueOf("582"));
             circle.setOpacity(hboxOpacity);
-            circle.setTranslateX(ChessDemo.TILE_SIZE/2);
-            circle.setTranslateY(ChessDemo.TILE_SIZE/2);
+            circle.setTranslateX(ChessGame.TILE_SIZE/2);
+            circle.setTranslateY(ChessGame.TILE_SIZE/2);
             getChildren().add(circle);
-
-
-
         }
         setOnMouseClicked(e->{
             specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
-            ChessDemo.myTurn = false;
+            ChessGame.myTurn = false;
             uploadMove(tile.getX(), tile.getY(), x, y);
             tile.move(x, y, board);
             int top=0;
-            if(ChessDemo.color) {
+            if(ChessGame.color) {
                 top = height-1;
             }
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
-                Queen newPiece = new Queen(ChessDemo.color, x, y);
+                Queen newPiece = new Queen(ChessGame.color, x, y);
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
-                if(!ChessDemo.color){
-                    tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
+                if(!ChessGame.color){
+                    tempimg.getTransforms().add(new Rotate(180, ChessGame.TILE_SIZE/2, ChessGame.TILE_SIZE/2));
                 }
                 tile.setImageView(tempimg,
-                        ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+                        ChessGame.TILE_SIZE*(1-ChessGame.imageSize)/2, ChessGame.TILE_SIZE*(1-ChessGame.imageSize)/2);
             }
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
@@ -85,12 +75,12 @@ class HighlightBox extends Pane {
             }
             else if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
                 System.out.println("Remis");
-                int[] elo = gameEngine.getElo(1000, 1000, 2);
+                int[] elo = gameEngine.getElo(1200, 1000, 2);
                 System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
             }
             //System.out.println("moved piece");
             //System.out.println(gameEngine.getBoard());
-            ChessDemo.movenr+=2;
+            ChessGame.movenr+=2;
             getChildren().clear();
             hboxGroup.getChildren().clear();
         });
@@ -108,8 +98,8 @@ class HighlightBox extends Pane {
 
     private void uploadMove(int fromX, int fromY, int toX, int toY){
         DBOps db = new DBOps();
-        System.out.println("uploaded movenr: " + (ChessDemo.movenr +1));
-        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + (ChessDemo.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+        System.out.println("uploaded movenr: " + (ChessGame.movenr +1));
+        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessGame.gameID + ", " + (ChessGame.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
     }
 
 

@@ -146,27 +146,18 @@ class MainScene {
         Main.window.setScene(mainScene);
     }
 
-    static boolean gameSetup(){
-        try{
-            DBOps connection = new DBOps();
-            int number = 0;
-            boolean distinctGameId = false;
-            while(!distinctGameId){
-                number = new Random().nextInt(500000);
-                if (!JoinGamePopup.checkGameId(number)) distinctGameId = true;
-            }
-            int rowsAffected = connection.exUpdate("INSERT INTO ........."); //Change this SQLQuery to match the database
-            if(rowsAffected > 0){
-                player1 = Login.USERNAME;
-                ChessGame.gameID = number;
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e){
-            e.printStackTrace();
+    static void gameSetup(){
+        ChessGame.gameID = newGameID();
+    }
+
+    static int newGameID(){
+        DBOps connection = new DBOps();
+        ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(GameID) from GameIDMove group by GameID", 1); //Change this SQLQuery to match the database
+        if(matchingGameIDs.size() == 0){
+            return 1;
         }
-        return false;
+        int out = Integer.parseInt( (String) matchingGameIDs.get(0));
+        return out + 1;
     }
 
 
@@ -197,11 +188,16 @@ class JoinGamePopup{
             String gameIDInputString = gameIDInputField.getText();
             if(isInt(gameIDInputString)){
                 int inputInt = Integer.parseInt(gameIDInputString);
+            /*
                 if (checkGameId(inputInt)){
                     ChessGame.gameID = inputInt;
                     window.close();
                     showGameScene();
                 }
+            */
+                ChessGame.gameID = inputInt;
+                window.close();
+                showGameScene();
             } else {comment.setText("Not a valid number!");}
         });
 
@@ -233,7 +229,7 @@ class JoinGamePopup{
 
     static boolean checkGameId(int gameid){ //Here you have to check if the GameID exists!
         DBOps connection = new DBOps();
-        ArrayList matchingGameIDs = connection.exQuery("SELECT .......", 1); //Change this SQLQuery to match the database
+        ArrayList matchingGameIDs = connection.exQuery("SELECT GameID from GameIDMove where GameID = '" + gameid + "'", 1); //Change this SQLQuery to match the database
         if(matchingGameIDs.size() > 0){
             return true;
         } else {

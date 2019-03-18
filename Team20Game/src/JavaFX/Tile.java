@@ -2,7 +2,7 @@ package JavaFX;
 
 import Game.GameEngine;
 import JavaFX.HighlightBox;
-import JavaFX.ChessDemo;
+import JavaFX.ChessGame;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -24,27 +24,27 @@ class Tile extends StackPane {
 
     private double oldX, oldY;
 
-    public Tile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Tile[][] board) {
-        super.setWidth(ChessDemo.TILE_SIZE);
-        setHeight(ChessDemo.TILE_SIZE);
+    public Tile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Group selectedGroup, Tile[][] board) {
+        super.setWidth(ChessGame.TILE_SIZE);
+        setHeight(ChessGame.TILE_SIZE);
         currentPositionX=x;
         currentPositionY=y;
         this.tileGroup = tileGroup;
         this.height = height;
         this.gameEngine = gameEngine;
         getChildren().add(new Rectangle());
-        relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
+        relocate(x * ChessGame.TILE_SIZE , (height-1-y) * ChessGame.TILE_SIZE) ;
 
         setOnMouseClicked(e->{
             hboxGroup.getChildren().clear();
-            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            selectedGroup.getChildren().clear();
+            Rectangle square = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
             square.setFill(Color.valueOf("#582"));
-            square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
-            square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
-            square.setOpacity(0.7);
-            hboxGroup.getChildren().add(square);
-
-            if(ChessDemo.myTurn) {
+            square.setOpacity(0.5);
+            square.setTranslateX(currentPositionX*ChessGame.TILE_SIZE);
+            square.setTranslateY((height-1-currentPositionY)*ChessGame.TILE_SIZE);
+            selectedGroup.getChildren().add(square);
+            if(ChessGame.myTurn) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
                 if(moves!=null&&moves.size()>0) {
@@ -80,7 +80,7 @@ class Tile extends StackPane {
         if(img == null){
             return false;
         }
-        if(!ChessDemo.color){
+        if(!ChessGame.color){
             img.setTranslateX(-offsetX);
             img.setTranslateY(-offsetY);
         }else{
@@ -91,8 +91,8 @@ class Tile extends StackPane {
         return true;
     }
     public void move(int x, int y, Tile[][] board){
-        oldX = x*ChessDemo.TILE_SIZE;
-        oldY = (height-1-y)*ChessDemo.TILE_SIZE;
+        oldX = x*ChessGame.TILE_SIZE;
+        oldY = (height-1-y)*ChessGame.TILE_SIZE;
         gameEngine.move(currentPositionX,currentPositionY,x,y);
         gameEngine.move(currentPositionX,currentPositionY,x,y);
         if(board[x][y]!=null){
