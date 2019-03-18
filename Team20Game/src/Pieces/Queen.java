@@ -8,8 +8,8 @@ public class Queen extends Piece {
     public Queen(boolean color, int x, int y) {
         super(color, x, y);
         try {
-            Image image = color?new Image("Images/chessPieces/w_queen_1x_ns.png", ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, true, true) :
-                    new Image("Images/chessPieces/b_queen_1x_ns.png", ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE * ChessDemo.imageSize, true, true);
+            Image image = color?new Image("Images/chessPieces/Standard/w_queen_1x_ns.png", ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, true, true) :
+                    new Image("Images/chessPieces/Standard/b_queen_1x_ns.png", ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE * ChessDemo.imageSize, true, true);
             imageView = new ImageView(image);
 
         }catch(Exception e){
