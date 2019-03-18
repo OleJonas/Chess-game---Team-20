@@ -3,7 +3,7 @@ package Database;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
+/*
 public class ChatDB{
     private DBOps db;
     private Timer refresher;
@@ -54,3 +54,4 @@ public class ChatDB{
         db.exUpdate(writeToDB);
     }
 }
+*/

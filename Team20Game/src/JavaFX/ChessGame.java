@@ -3,6 +3,7 @@
  */
 
 package JavaFX;
+import JavaFX.ChessDemo;
 import Database.DBOps;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -27,7 +28,6 @@ import java.util.concurrent.CountDownLatch;
 
 @SuppressWarnings("Duplicates")
 public class ChessGame{
-
     private Timer timer;
     public static final int TILE_SIZE = 80;
     public static final double imageSize = 0.8;
@@ -41,7 +41,7 @@ public class ChessGame{
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
     private boolean isDone = false;
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private JavaFX.Tile[][] board = new JavaFX.Tile[WIDTH][HEIGHT];
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
     private Group hboxGroup = new Group();
@@ -76,7 +76,7 @@ public class ChessGame{
                             myColor = true;
                         }
                     }
-                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    JavaFX.Tile tile = new JavaFX.Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));

@@ -19,6 +19,7 @@ import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.showUserProfileScene;
+import JavaFX.ChessSandbox;
 
 @SuppressWarnings("Duplicates")
 class MainScene {

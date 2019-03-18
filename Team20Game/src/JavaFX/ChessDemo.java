@@ -1,4 +1,5 @@
 package JavaFX;
+import JavaFX.Tile;
 import Database.DBOps;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -109,7 +110,7 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE * WIDTH) / 2, (TILE_SIZE * HEIGHT) / 2);
             root.getTransforms().add(rotate180);
         }
-        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, hboxGroup, tileGroup);
 
         if (!color) {
             myTurn = false;

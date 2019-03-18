@@ -1,12 +1,15 @@
 package JavaFX;
 
 import Database.DBOps;
+import JavaFX.Tile;
+import JavaFX.ChessDemo;
 import Game.GameEngine;
 import Pieces.King;
 import Pieces.Pawn;
 import Pieces.Queen;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -30,12 +33,19 @@ class HighlightBox extends Pane {
             square.setOpacity(hboxOpacity);
             getChildren().add(square);
         }else{
-            Circle circle = new Circle(ChessDemo.TILE_SIZE / 4);
+            HBox square = new HBox();
+            square.setPrefSize(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            getChildren().add(square);
+
+            Circle circle = new Circle(ChessDemo.TILE_SIZE / 5);
             circle.setFill(Color.valueOf("582"));
             circle.setOpacity(hboxOpacity);
             circle.setTranslateX(ChessDemo.TILE_SIZE/2);
             circle.setTranslateY(ChessDemo.TILE_SIZE/2);
             getChildren().add(circle);
+
+
+
         }
         setOnMouseClicked(e->{
             specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
@@ -75,7 +85,7 @@ class HighlightBox extends Pane {
             }
             else if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
                 System.out.println("Remis");
-                int[] elo = gameEngine.getElo(1200, 1000, 2);
+                int[] elo = gameEngine.getElo(1000, 1000, 2);
                 System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
             }
             //System.out.println("moved piece");

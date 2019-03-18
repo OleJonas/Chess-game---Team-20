@@ -436,14 +436,35 @@ public class GameLogic{
         return false;
     }
     //NEW
-    private static int myPieces(Board board, boolean myColor) {
+    private static int[] myPieces(Board board, boolean myColor) {
         Piece[][] boardState = board.getBoardState();
-        int counter = 0;
+        int[] counter = new int[7];
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 if (boardState[x][y] != null) {
-                    if (boardState[x][y].getColor() == myColor) {
-                        counter++;
+                    if (boardState[x][y] instanceof Pawn && boardState[x][y].getColor() == myColor) {
+                        counter[0]++;
+                        counter[6]++;
+                    }
+                    if (boardState[x][y] instanceof King && boardState[x][y].getColor() == myColor) {
+                        counter[1]++;
+                        counter[6]++;
+                    }
+                    if (boardState[x][y] instanceof Queen && boardState[x][y].getColor() == myColor) {
+                        counter[2]++;
+                        counter[6]++;
+                    }
+                    if (boardState[x][y] instanceof Rook && boardState[x][y].getColor() == myColor) {
+                        counter[3]++;
+                        counter[6]++;
+                    }
+                    if (boardState[x][y] instanceof Bishop && boardState[x][y].getColor() == myColor) {
+                        counter[4]++;
+                        counter[6]++;
+                    }
+                    if (boardState[x][y] instanceof Knight && boardState[x][y].getColor() == myColor) {
+                        counter[5]++;
+                        counter[6]++;
                     }
                 }
             }
@@ -452,11 +473,28 @@ public class GameLogic{
     }
     //NEW
     public static boolean notEnoughPieces(Board board) {
-        if (myPieces(board, true) == 1 && myPieces(board, false) == 1) {
+        if (myPieces(board, true)[6] == 1 && myPieces(board, false)[6] == 1) {
             return true;
         }
-        else if (myPieces(board, true) == 2) {
-
+        else if (myPieces(board, true)[6] == 2) {
+            if (myPieces(board, false)[6] == 1) {
+                if (myPieces(board, true)[4] == 1) {
+                    return true;
+                }
+                if (myPieces(board, true)[5] == 1) {
+                    return true;
+                }
+            }
+        }
+        else if (myPieces(board, false)[6] == 2) {
+            if (myPieces(board, true)[6] == 1) {
+                if (myPieces(board, false)[4] == 1) {
+                    return true;
+                }
+                if (myPieces(board, false)[5] == 1) {
+                    return true;
+                }
+            }
         }
         return false;
     }

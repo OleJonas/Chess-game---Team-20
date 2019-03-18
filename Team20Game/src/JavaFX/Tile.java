@@ -6,6 +6,7 @@ import JavaFX.ChessDemo;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -36,6 +37,13 @@ class Tile extends StackPane {
 
         setOnMouseClicked(e->{
             hboxGroup.getChildren().clear();
+            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            square.setFill(Color.valueOf("#582"));
+            square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
+            square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
+            square.setOpacity(0.7);
+            hboxGroup.getChildren().add(square);
+
             if(ChessDemo.myTurn) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
