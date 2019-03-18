@@ -264,7 +264,7 @@ class TestTile extends StackPane {
                 if(moves!=null&&moves.size()>0) {
                     for (int i = 0; i < moves.size(); i += 2) {
                         TestHighlightBox box = new TestHighlightBox(moves.get(i), moves.get(i + 1), height,
-                                this, hboxGroup, tileGroup, gameEngine, board);
+                                this, hboxGroup, tileGroup, selectedGroup, gameEngine, board);
                         hboxGroup.getChildren().add(box);
                     }
                 }
@@ -325,7 +325,7 @@ class TestHighlightBox extends Pane{
         int height;
         double hboxOpacity = 0.7;
         String shapeOfBox = "circle";
-        public TestHighlightBox(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, TestTile[][] board){
+        public TestHighlightBox(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, GameEngine gameEngine, TestTile[][] board){
             this.x = x;
             this.y = y;
             this.height = height;
@@ -389,6 +389,7 @@ class TestHighlightBox extends Pane{
                 ChessDemo.movenr+=2;
                 getChildren().clear();
                 hboxGroup.getChildren().clear();
+                selectedGroup.getChildren().clear();
             });
         }
 
