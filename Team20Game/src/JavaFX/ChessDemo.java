@@ -125,7 +125,9 @@ public class ChessDemo extends Application {
     }
 
     public void enemyMove(int fromX, int fromY, int toX, int toY) {
+        //if(toX != null && toY != null) {
         board[fromX][fromY].move(toX, toY, board);
+        //}
     }
 
     @Override

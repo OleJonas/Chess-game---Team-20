@@ -1,5 +1,5 @@
 /*
-** This is the class used for creating the chessboard in GameScene
+ ** This is the class used for creating the chessboard in GameScene
  */
 
 package JavaFX;
@@ -37,7 +37,7 @@ public class ChessGame{
     private GameEngine ge = new GameEngine(15, true);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID = 51;              //new Random().nextInt(500000);
+    public static int gameID = 52;              //new Random().nextInt(500000);
     private final String darkTileColor = "#8B4513";
     private final String lightTileColor = "#FFEBCD";
     private boolean isDone = false;
@@ -151,6 +151,7 @@ public class ChessGame{
         };
         service.start();
     }
+
     public void pollEnemyMove(){
         System.out.println("PollEnemyMove Started, turn: " + movenr);
         try {

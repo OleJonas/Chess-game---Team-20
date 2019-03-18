@@ -1,4 +1,5 @@
 package Database;
+
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
@@ -26,7 +27,6 @@ public class DBOps{
         ArrayList<String> out = new ArrayList<>();
         try{
             con = HikariCP.getCon();
-            //con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
             stmt = con.prepareStatement(sqlString);
             res = stmt.executeQuery();
 
@@ -47,7 +47,6 @@ public class DBOps{
         int affectedRows = 0;
         try {
             con = HikariCP.getCon();
-            //con = DriverManager.getConnection("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w");
             stmt = con.prepareStatement(sqlString);
             affectedRows = stmt.executeUpdate();
             /*if(affectedRows == 0){

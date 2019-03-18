@@ -6,9 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,18 +20,18 @@ public class HikariCP {
 
     static{
 
-        HikariConfig config1 = new HikariConfig();
-        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/haavasma");
-        config1.setUsername("haavasma");
-        config1.setPassword("eSVol6ey");
-        config1.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        config1.addDataSourceProperty("cachePrepStmts", "true");
-        config1.addDataSourceProperty("prepStmtCacheSize", "250");
-        config1.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        config1.setPoolName("Chess Pool");
-        config1.setMaxLifetime(30000);
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/olejlia");
+        config.setUsername("olejlia");
+        config.setPassword("YvJwUsj8");
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.setPoolName("Chess Pool");
+        config.setMaxLifetime(30000);
 
-        ds = new HikariDataSource(config1);
+        ds = new HikariDataSource(config);
     }
 
     public static Connection getCon() throws SQLException {
