@@ -47,7 +47,7 @@ public class ChessDemo extends Application {
 
     private boolean isDone = false;
 
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private SandboxTile[][] board = new SandboxTile[WIDTH][HEIGHT];
 
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
@@ -92,7 +92,7 @@ public class ChessDemo extends Application {
                             myColor = true;
                         }
                     }
-                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    SandboxTile tile = new SandboxTile(x, y, HEIGHT, ge, hboxGroup, tileGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
