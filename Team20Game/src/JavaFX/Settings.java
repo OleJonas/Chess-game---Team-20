@@ -37,6 +37,8 @@ class Settings{
             //Here you shuld later on create a method for storing the settings to a table in the database called userSettings
         });
 
+
+/*
         //Right GridPane
         GridPane rightGrid = new GridPane();
         rightGrid.setVgap(10);
@@ -48,6 +50,7 @@ class Settings{
         leftGrid.setVgap(10);
         leftGrid.setHgap(10);
         leftGrid.setPadding(new Insets(20, 20, 20, 20));
+*/
 
         //mainLayout
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
@@ -59,10 +62,12 @@ class Settings{
         mainLayout.setHalignment(backToMainButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
-        mainLayout.add(leftGrid, 0, 1);
-        mainLayout.setHalignment(leftGrid, HPos.CENTER);
-        mainLayout.add(rightGrid, 1,1);
-        mainLayout.setHalignment(rightGrid, HPos.CENTER);
+        Label settingLabel = new Label("Setting 1");
+        settingLabel.setFont(Font.font("Copperplate", 14));
+        mainLayout.add(settingLabel, 0, 1);
+        Slider slider1 = new Slider(4, 8, 0.5);
+        mainLayout.add(slider1, 1, 1);
+
 
         //Set image as background
         BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
