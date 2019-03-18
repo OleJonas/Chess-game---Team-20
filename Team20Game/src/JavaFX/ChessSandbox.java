@@ -36,8 +36,8 @@ public class ChessSandbox {
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
 
-    private final String darkSandboxTileColor = "#8B4513";
-    private final String lightSandboxTileColor = "#FFEBCD";
+    private String darkSandboxTileColor = Settings.darkTileColor;
+    private String lightSandboxTileColor = Settings.lightTileColor;
     private boolean isDone = false;
 
     private SandboxTile[][] board = new SandboxTile[WIDTH][HEIGHT];

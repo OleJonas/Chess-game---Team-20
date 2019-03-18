@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
 import static JavaFX.Settings.showSettings;
@@ -23,6 +22,12 @@ import static JavaFX.UserProfile.showUserProfileScene;
 @SuppressWarnings("Duplicates")
 class MainScene {
     static Scene mainScene;
+    static GridPane leftGrid;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
+
+
+
+
 
     static void showMainScene(){
         Label title = new Label("Recess Chess");
@@ -30,48 +35,74 @@ class MainScene {
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-        Button newGameButton = new Button("New Game");
-        newGameButton.setOnAction(e -> {
+        //buttons for newGameOption
+        createGameButton = new Button("Create Game");
+        createGameButton.setOnAction(e -> {
             gameSetup();
             showGameScene();
         });
-
-        Button joinGameButton = new Button("Join Game");
+        joinGameButton = new Button("Join Game");
         joinGameButton.setOnAction(e -> JoinGamePopup.Display());
 
-        Button findUserButton = new Button("Find User");
-        findUserButton.setOnAction(e -> showFindUserScene());
-
-        Button userProfileButton = new Button("User profile");
-        userProfileButton.setOnAction(e -> showUserProfileScene());
-
-        Button settingsButton = new Button("Settings");
-        settingsButton.setOnAction(e -> showSettings());
-
-        //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
-        //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
-
         //Left GridPane
-        GridPane leftGrid = new GridPane();
+        leftGrid = new GridPane();
         leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(90, 150, 100, 250));
-        //Set buttonsize
+        leftGrid.setPadding(new Insets(150, 150, 100, 250));
+        newGameButton = new Button("New Game");
+        newGameButton.setOnAction(e -> {
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            backButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0,0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
+            leftGrid.add(backButton, 0, 3);
+            leftGrid.setHalignment(backButton, HPos.CENTER);
+
+        });
+        findUserButton = new Button("Find User");
+        findUserButton.setOnAction(e -> showFindUserScene());
+        userProfileButton = new Button("User profile");
+        userProfileButton.setOnAction(e -> showUserProfileScene());
+        settingsButton = new Button("Settings");
+        settingsButton.setOnAction(e -> showSettings());
         newGameButton.setPrefSize(150, 80);
-        joinGameButton.setPrefSize(150,80);
         findUserButton.setPrefSize(150, 80);
         userProfileButton.setPrefSize(150, 80);
         settingsButton.setPrefSize(150, 80);
-
         leftGrid.add(newGameButton, 0, 0);
         leftGrid.setHalignment(newGameButton, HPos.CENTER);
-        leftGrid.add(joinGameButton, 0, 1);
-        leftGrid.setHalignment(joinGameButton, HPos.CENTER);
-        leftGrid.add(findUserButton, 0, 2);
+        leftGrid.add(findUserButton, 0, 1);
         leftGrid.setHalignment(findUserButton, HPos.CENTER);
-        leftGrid.add(userProfileButton, 0, 3);
+        leftGrid.add(userProfileButton, 0, 2);
         leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-        leftGrid.add(settingsButton, 0, 4);
+        leftGrid.add(settingsButton, 0, 3);
         leftGrid.setHalignment(settingsButton, HPos.CENTER);
+
+
+        //updated leftGrid
+        inviteFriendButton = new Button("Invite Friend");
+        inviteFriendButton.setOnAction(e -> {});
+        backButton = new Button("Back to Main");
+        backButton.setOnAction(e -> {
+            leftGrid.getChildren().clear();
+            leftGrid.add(newGameButton, 0, 0);
+            leftGrid.setHalignment(newGameButton, HPos.CENTER);
+            leftGrid.add(findUserButton, 0, 1);
+            leftGrid.setHalignment(findUserButton, HPos.CENTER);
+            leftGrid.add(userProfileButton, 0, 2);
+            leftGrid.setHalignment(userProfileButton, HPos.CENTER);
+            leftGrid.add(settingsButton, 0, 3);
+            leftGrid.setHalignment(settingsButton, HPos.CENTER);
+        });
+
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -111,7 +142,7 @@ class MainScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar("Home").getWindowMenuBar());
+        layout.setTop(new WindowMenuBar("home").getWindowMenuBar());
         layout.setCenter(mainLayout);
 
         mainScene = new Scene(layout, 1450, 950);
@@ -143,7 +174,6 @@ class MainScene {
 
 
 }
-
 
 @SuppressWarnings("Duplicates")
 class JoinGamePopup{
@@ -214,5 +244,8 @@ class JoinGamePopup{
         }
     }
 }
+
+
+
 
 
