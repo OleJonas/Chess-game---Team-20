@@ -26,11 +26,11 @@ public class ChessDemo extends Application {
 
     private Timer timer;
 
-    public static final int TILE_SIZE = 100;
+    public static final int TILE_SIZE = 50;
 
     public static final double imageSize = 0.8;
 
-    public static boolean color = false;
+    public static boolean color = true;
 
     public static boolean myTurn = true;
 
@@ -47,7 +47,7 @@ public class ChessDemo extends Application {
 
     private boolean isDone = false;
 
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private SandboxTile[][] board = new SandboxTile[WIDTH][HEIGHT];
 
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
@@ -69,6 +69,11 @@ public class ChessDemo extends Application {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                square.setOnMouseClicked(r -> {
+                    hboxGroup.getChildren().clear();
+                    JavaFX.HighlightBox box = new JavaFX.HighlightBox();
+                    hboxGroup.getChildren().add(box);
+                });
                 square.setFill((x + y) % 2 == 0 ? Color.valueOf(lightTileColor) : Color.valueOf(darkTileColor));
                 square.relocate(x * ChessDemo.TILE_SIZE, y * ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
@@ -87,7 +92,7 @@ public class ChessDemo extends Application {
                             myColor = true;
                         }
                     }
-                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    SandboxTile tile = new SandboxTile(x, y, HEIGHT, ge, hboxGroup, tileGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
