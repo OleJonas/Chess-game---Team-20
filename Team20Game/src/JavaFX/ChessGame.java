@@ -38,8 +38,8 @@ public class ChessGame{
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID = 51;              //new Random().nextInt(500000);
-    private final String darkTileColor = "#8B4513";
-    private final String lightTileColor = "#FFEBCD";
+    private String darkTileColor = Settings.darkTileColor;
+    private String lightTileColor = Settings.lightTileColor;
     private boolean isDone = false;
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
     private Group boardGroup = new Group();

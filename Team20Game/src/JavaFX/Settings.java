@@ -15,6 +15,16 @@ import static JavaFX.MainScene.showMainScene;
 class Settings{
     static Scene settingsScene;
 
+    //Settingvariables
+
+    //Color - this have to be updated at login!
+    static String darkTileColor = "#8B4513";
+    static String lightTileColor = "#FFEBCD";
+
+
+
+
+
     static void showSettings(){
         GridPane mainLayout = new GridPane();
 
@@ -55,30 +65,102 @@ class Settings{
         //mainLayout
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
-        mainLayout.setVgap(12);
+        mainLayout.setVgap(20);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(100));
         mainLayout.add(backToMainButton, 0, 0, 2, 1);
         mainLayout.setHalignment(backToMainButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
-        Label settingLabel = new Label("Setting 1");
-        settingLabel.setFont(Font.font("Copperplate", 14));
-        mainLayout.add(settingLabel, 0, 1);
-        Slider slider1 = new Slider(4, 8, 0.5);
-        mainLayout.add(slider1, 1, 1);
+        Label emptylabel = new Label("");
+        mainLayout.add(emptylabel, 0, 1);
+
+        Label boardColorLabel = new Label("Board Color");
+        boardColorLabel.setFont(Font.font("Copperplate", 25));
+        boardColorLabel.setTextFill(Color.WHITE);
+        mainLayout.add(boardColorLabel, 0, 2);
+
+
+
+        ChoiceBox<String> boardColorChoiceBox = new ChoiceBox<>();
+        boardColorChoiceBox.getItems().add("Brown");
+        boardColorChoiceBox.getItems().add("Black");
+        boardColorChoiceBox.getItems().add("Blue");
+        boardColorChoiceBox.getItems().add("Red");
+        boardColorChoiceBox.getItems().add("Orange");
+        boardColorChoiceBox.getItems().add("Yellow");
+        boardColorChoiceBox.getItems().add("Green");
+        boardColorChoiceBox.getItems().add("Pink");
+        boardColorChoiceBox.setValue("Brown");
+
+        mainLayout.add(boardColorChoiceBox, 1,2);
+
+        //Bottomlayout
+        GridPane bottomLayout = new GridPane();
+        Button resetChangesButton = new Button("Reset");
+        resetChangesButton.setOnAction(e -> {
+            //reset color
+            darkTileColor = "#8B4513";
+            lightTileColor = "#FFEBCD";
+            showSettings();});
+        Button applyChangesButton = new Button("Apply");
+        applyChangesButton.setOnAction(e -> {
+
+            //Save colorchanges
+            String colorchoice = boardColorChoiceBox.getValue();
+            if(colorchoice.equals("Brown")){
+                darkTileColor = "#8B4513";
+                lightTileColor = "#FFEBCD";
+            } else if(colorchoice.equals("Black")){
+                darkTileColor = "#000000";
+                lightTileColor = "#FFFFFF";
+            } else if(colorchoice.equals("Blue")){
+                darkTileColor = "#010b7a";
+                lightTileColor = "eeedd5";
+            } else if(colorchoice.equals("Red")){
+                darkTileColor = "#680101";
+                lightTileColor = "eeedd5";
+            } else if(colorchoice.equals("Orange")){
+                darkTileColor = "#ef9921";
+                lightTileColor = "eeedd5";
+            } else if(colorchoice.equals("Yellow")){
+                darkTileColor = "#f2f20c";
+                lightTileColor = "eeedd5";
+            } else if(colorchoice.equals("Green")){
+                darkTileColor = "#7d945d";
+                lightTileColor = "#eeedd5";
+            } else if(colorchoice.equals("Pink")){
+                darkTileColor = "#ff00b2";
+                lightTileColor = "#faff00";
+            }
+        });
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
+        bottomLayout.setPadding(new Insets(0, 25, 25, 0));
+        bottomLayout.setHgap(20);
+        bottomLayout.add(resetChangesButton, 1, 0);
+        bottomLayout.add(applyChangesButton, 2, 0 );
+
+
+
+
+
+
+
+
 
 
         //Set image as background
         BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
-        mainLayout.setBackground(new Background(myBI));
+        //mainLayout.setBackground(new Background(myBI));
 
         BorderPane layout = new BorderPane();
+        layout.setBackground(new Background(myBI));
         layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
-        settingsScene = new Scene(layout, 600, 500);
+        layout.setBottom(bottomLayout);
+        settingsScene = new Scene(layout, 455, 500);
         Main.window.setScene(settingsScene);
     }
 }

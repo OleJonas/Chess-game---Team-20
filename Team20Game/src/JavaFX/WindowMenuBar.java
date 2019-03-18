@@ -1,4 +1,6 @@
 package JavaFX;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -9,8 +11,7 @@ import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.showGameScene;
 import static JavaFX.Login.AVATAR;
 import static JavaFX.Login.runLogin;
-import static JavaFX.MainScene.gameSetup;
-import static JavaFX.MainScene.showMainScene;
+import static JavaFX.MainScene.*;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.setAvatar;
 import static JavaFX.UserProfile.showUserProfileScene;
@@ -27,12 +28,24 @@ public class WindowMenuBar {
         Menu gameMenu = new Menu("Game");
         MenuItem newGameItem = new MenuItem("New Game");
         newGameItem.setOnAction(e -> {
-            gameSetup();
-            showGameScene();
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            backButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0,0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
+            leftGrid.add(backButton, 0, 3);
+            leftGrid.setHalignment(backButton, HPos.CENTER);
+            showMainScene();
         });
-        MenuItem joinGameItem = new MenuItem("Join Game");
-        joinGameItem.setOnAction(e -> JoinGamePopup.Display());
-        gameMenu.getItems().addAll(newGameItem, joinGameItem);
+        gameMenu.getItems().addAll(newGameItem);
 
         Menu userMenu = new Menu("User");
         MenuItem userProfileMenuItem = new MenuItem("User profile");
@@ -67,12 +80,23 @@ public class WindowMenuBar {
         Menu gameMenu = new Menu("Game");
         MenuItem newGameItem = new MenuItem("New Game");
         newGameItem.setOnAction(e -> {
-            gameSetup();
-            showGameScene();
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            backButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0,0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
+            leftGrid.add(backButton, 0, 3);
+            leftGrid.setHalignment(backButton, HPos.CENTER);
         });
-        MenuItem joinGameItem = new MenuItem("Join Game");
-        joinGameItem.setOnAction(e -> JoinGamePopup.Display());
-        gameMenu.getItems().addAll(newGameItem, joinGameItem);
+        gameMenu.getItems().addAll(newGameItem);
 
         Menu userMenu = new Menu("User");
         MenuItem userProfileMenuItem = new MenuItem("User profile");
