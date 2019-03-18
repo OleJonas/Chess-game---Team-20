@@ -31,9 +31,9 @@ public class ChessDemo extends Application {
 
     private Timer timer;
 
-    public static final int TILE_SIZE = 100;
+    public static final int TILE_SIZE = ChessGame.TILE_SIZE;
 
-    public static final double imageSize = 0.7;
+    public static final double imageSize = ChessGame.imageSize;
 
     public static boolean color = true;
 
