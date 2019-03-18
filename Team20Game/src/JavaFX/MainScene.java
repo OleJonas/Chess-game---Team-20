@@ -25,10 +25,6 @@ class MainScene {
     static GridPane leftGrid;
     static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
 
-
-
-
-
     static void showMainScene(){
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 70));

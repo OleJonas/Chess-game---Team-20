@@ -98,7 +98,11 @@ class Settings{
         //Bottomlayout
         GridPane bottomLayout = new GridPane();
         Button resetChangesButton = new Button("Reset");
-        resetChangesButton.setOnAction(e -> {showSettings();});
+        resetChangesButton.setOnAction(e -> {
+            //reset color
+            darkTileColor = "#8B4513";
+            lightTileColor = "#FFEBCD";
+            showSettings();});
         Button applyChangesButton = new Button("Apply");
         applyChangesButton.setOnAction(e -> {
 
