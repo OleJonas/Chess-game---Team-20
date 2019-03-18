@@ -37,7 +37,7 @@ public class ChessGame{
     private GameEngine ge = new GameEngine(15, true);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID = 51;              //new Random().nextInt(500000);
+    public static int gameID;              //new Random().nextInt(500000);
     private String darkTileColor = Settings.darkTileColor;
     private String lightTileColor = Settings.lightTileColor;
     private boolean isDone = false;
@@ -58,9 +58,9 @@ public class ChessGame{
         root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                Rectangle square = new Rectangle(TILE_SIZE, TILE_SIZE);
                 square.setFill((x + y) % 2 == 0 ? Color.valueOf(lightTileColor) : Color.valueOf(darkTileColor));
-                square.relocate(x * ChessDemo.TILE_SIZE, y * ChessDemo.TILE_SIZE);
+                square.relocate(x * TILE_SIZE, y * TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if (ge.getBoard().getBoardState()[x][y] != null) {
                     boolean myColor;

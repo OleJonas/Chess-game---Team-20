@@ -151,11 +151,11 @@ class MainScene {
 
     static int newGameID(){
         DBOps connection = new DBOps();
-        ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(GameID) from GameIDMove", 1); //Change this SQLQuery to match the database
-        if(matchingGameIDs.get(0) == null || matchingGameIDs.get(0) == null){
+        ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(GameID) from GameIDMove group by GameID", 1); //Change this SQLQuery to match the database
+        if(matchingGameIDs.size() == 0){
             return 1;
         }
-        int out = Integer.parseInt((String) matchingGameIDs.get(0));
+        int out = Integer.parseInt( (String) matchingGameIDs.get(0));
         return out + 1;
     }
 
