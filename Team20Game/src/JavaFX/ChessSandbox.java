@@ -285,10 +285,8 @@ class SandboxTile extends StackPane {
         if(img == null){
             return false;
         }
-
         img.setTranslateX(offsetX);
         img.setTranslateY(offsetY);
-
         getChildren().set(0,img);
         return true;
     }
