@@ -45,6 +45,7 @@ public class ChessGame{
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
     private Group hboxGroup = new Group();
+    private Group selectedPieceGroup = new Group();
 
     public Parent setupBoard(){
         Pane root = new Pane();
@@ -76,7 +77,7 @@ public class ChessGame{
                             myColor = true;
                         }
                     }
-                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, selectedPieceGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
@@ -93,7 +94,7 @@ public class ChessGame{
             Rotate rotate180 = new Rotate(180, (TILE_SIZE * WIDTH) / 2, (TILE_SIZE * HEIGHT) / 2);
             root.getTransforms().add(rotate180);
         }
-        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup,selectedPieceGroup, tileGroup, hboxGroup);
 
         if (!color) {
             myTurn = false;

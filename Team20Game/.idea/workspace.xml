@@ -3,8 +3,27 @@
   <component name="ChangeListManager">
     <list default="true" id="01a2a2f8-f36b-4fdc-96ce-cee5d1a10794" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/b_bishop_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/b_bishop_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/b_king_2x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/b_king_2x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/b_knight_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/b_knight_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/b_pawn_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/b_pawn_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/b_queen_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/b_queen_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/b_rook_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/b_rook_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/w_bishop_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/w_bishop_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/w_king_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/w_king_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/w_knight_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/w_knight_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/w_pawn_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/w_pawn_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/w_queen_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/w_queen_1x_ns.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Images/chessPieces/w_rook_1x_ns.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/Images/chessPieces/Standard/w_rook_1x_ns.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JavaFX/ChessDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/ChessDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JavaFX/ChessSandbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/ChessSandbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/JavaFX/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/JavaFX/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pieces/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pieces/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pieces/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pieces/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pieces/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pieces/Rook.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,23 +94,25 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="156" />
+          <entry key="java" value="418" />
+          <entry key="txt" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="156" />
+          <entry key="JAVA" value="418" />
+          <entry key="PLAIN_TEXT" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="5" />
+          <entry key="java" value="9" />
           <entry key="sql" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="5" />
+          <entry key="JAVA" value="9" />
           <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
@@ -99,11 +120,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1143">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+            <state relative-caret-position="131">
+              <caret line="100" column="116" selection-start-line="100" selection-start-column="116" selection-end-line="100" selection-end-column="116" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1716#1717#0" expanded="true" />
@@ -125,8 +146,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/HighlightBox.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+            <state relative-caret-position="323">
+              <caret line="30" column="38" lean-forward="true" selection-start-line="27" selection-start-column="12" selection-end-line="30" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -134,8 +155,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="82" column="48" lean-forward="true" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="48" />
+            <state relative-caret-position="187">
+              <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/JavaFX/Tile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Database/HikariCP.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-119">
+              <caret line="16" column="106" lean-forward="true" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="106" />
             </state>
           </provider>
         </entry>
@@ -143,17 +185,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Database/DBOps.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="29" column="51" lean-forward="true" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
+            <state relative-caret-position="-103">
+              <caret line="39" column="18" lean-forward="true" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessSandbox.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="289" column="50" selection-start-line="289" selection-start-column="50" selection-end-line="289" selection-end-column="50" />
+            <state relative-caret-position="-1590">
+              <caret line="290" column="26" selection-start-line="290" selection-start-column="26" selection-end-line="290" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3053#3054#0" expanded="true" />
@@ -185,28 +227,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c552b4a6-7966-4fda-890c-e50d3945bda9/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/JavaFX/FindUser.java">
+        <entry file="file://$PROJECT_DIR$/src/Pieces/Bishop.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/JavaFX/Login.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -247,9 +271,10 @@
         <option value="$PROJECT_DIR$/src/Login.java" />
         <option value="$PROJECT_DIR$/src/GameLogic.java" />
         <option value="$PROJECT_DIR$/src/JavaFX/ChessSandBox.java" />
+        <option value="$PROJECT_DIR$/src/JavaFX/ChessSandbox.java" />
+        <option value="$PROJECT_DIR$/src/JavaFX/Tile.java" />
         <option value="$PROJECT_DIR$/src/JavaFX/ChessGame.java" />
         <option value="$PROJECT_DIR$/src/JavaFX/ChessDemo.java" />
-        <option value="$PROJECT_DIR$/src/JavaFX/ChessSandbox.java" />
       </list>
     </option>
   </component>
@@ -291,6 +316,18 @@
               <item name="Team20Game" type="b2602c69:ProjectViewProjectNode" />
               <item name="Team20Game" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Team20Game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Team20Game" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Images" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Team20Game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Team20Game" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="JavaFX" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -299,13 +336,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="JavaFX" type="462c0819:PsiDirectoryNode" />
               <item name="ChessDemo.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </path>
-            <path>
-              <item name="Team20Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Team20Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="JavaFX" type="462c0819:PsiDirectoryNode" />
-              <item name="ChessSandbox.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
               <item name="Team20Game" type="b2602c69:ProjectViewProjectNode" />
@@ -333,13 +363,18 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552909807704" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552918635789" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\NTNU\Systemutvikling1\team-20---spillprosjekt\Team20Game\src\Images\chessPieces\Standard" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -353,7 +388,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.ChessDemo (1)">
     <configuration name="Board" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Board" />
       <module name="Team20Game" />
@@ -410,8 +445,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.ChessDemo (1)" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.ChessDemo" />
         <item itemvalue="Application.Login" />
         <item itemvalue="Application.Board" />
@@ -435,7 +470,7 @@
       <workItem from="1551694100332" duration="867000" />
       <workItem from="1551953630758" duration="4871000" />
       <workItem from="1552905762539" duration="462000" />
-      <workItem from="1552906513839" duration="3251000" />
+      <workItem from="1552906513839" duration="7885000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Fixed login, now checking if username exists at signup and showing comment (&quot;Registered!&quot; / &quot;User already exists&quot;) in the signupscene&quot;">
       <created>1551694365788</created>
@@ -500,17 +535,24 @@
       <option name="project" value="LOCAL" />
       <updated>1552906831734</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fixed scaling issues">
+      <created>1552909881768</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1552909881768</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23882000" />
+    <option name="totallyTimeSpent" value="28516000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20402685" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20402685" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -519,7 +561,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49798658" visible="true" weight="0.32624114" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49328858" visible="true" weight="0.32624114" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -528,8 +570,8 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49932885" weight="0.32907802" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32890365" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50201344" side_tool="true" visible="true" weight="0.32624114" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.32890365" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5067114" side_tool="true" visible="true" weight="0.32624114" />
+      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.49798658" weight="0.32765958" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -584,7 +626,8 @@
     <MESSAGE value="&quot;Fixed login, now checking if username exists at signup and showing comment (&quot;Registered!&quot; / &quot;User already exists&quot;) in the signupscene&quot;" />
     <MESSAGE value="Fix to last commit" />
     <MESSAGE value="Merge branch 'master' of https://gitlab.stud.idi.ntnu.no/martijni/team-20---spillprosjekt&#10;&#10;# Conflicts:&#10;#&#9;Team20Game/src/JavaFX/ChessDemo.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://gitlab.stud.idi.ntnu.no/martijni/team-20---spillprosjekt&#10;&#10;# Conflicts:&#10;#&#9;Team20Game/src/JavaFX/ChessDemo.java" />
+    <MESSAGE value="fixed scaling issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed scaling issues" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/lang/Object.java" />
@@ -604,16 +647,6 @@
     <entry file="file://$PROJECT_DIR$/src/Rook.java" />
     <entry file="file://$PROJECT_DIR$/src/Login.java" />
     <entry file="file://$PROJECT_DIR$/src/GameLogic.java" />
-    <entry file="file://$PROJECT_DIR$/src/JavaFX/Tile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/JavaFX/GameScene.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -642,27 +675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/ChatDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/DBOps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="29" column="51" lean-forward="true" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/JavaFX/HighlightBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/c552b4a6-7966-4fda-890c-e50d3945bda9/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -670,10 +682,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessGame.java">
+    <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessSandbox.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="82" column="48" lean-forward="true" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="48" />
+        <state relative-caret-position="-1590">
+          <caret line="290" column="26" selection-start-line="290" selection-start-column="26" selection-end-line="290" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3053#3054#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+            <element signature="e#10613#10614#0" expanded="true" />
+            <element signature="e#10637#10638#0" expanded="true" />
+            <element signature="e#10661#10662#0" expanded="true" />
+            <element signature="e#10685#10686#0" expanded="true" />
+            <element signature="e#12279#12280#0" expanded="true" />
+            <element signature="e#12318#12319#0" expanded="true" />
+            <element signature="e#12341#12342#0" expanded="true" />
+            <element signature="e#12380#12381#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Pieces/Bishop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Database/ChatDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Database/HikariCP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-119">
+          <caret line="16" column="106" lean-forward="true" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Database/DBOps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-103">
+          <caret line="39" column="18" lean-forward="true" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JavaFX/HighlightBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="30" column="38" lean-forward="true" selection-start-line="27" selection-start-column="12" selection-end-line="30" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/JavaFX/Tile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -688,34 +758,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessDemo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1143">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        <state relative-caret-position="131">
+          <caret line="100" column="116" selection-start-line="100" selection-start-column="116" selection-end-line="100" selection-end-column="116" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1716#1717#0" expanded="true" />
             <element signature="e#1744#1745#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessSandbox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="289" column="50" selection-start-line="289" selection-start-column="50" selection-end-line="289" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3053#3054#0" expanded="true" />
-            <element signature="e#3110#3111#0" expanded="true" />
-            <element signature="e#10613#10614#0" expanded="true" />
-            <element signature="e#10637#10638#0" expanded="true" />
-            <element signature="e#10661#10662#0" expanded="true" />
-            <element signature="e#10685#10686#0" expanded="true" />
-            <element signature="e#12279#12280#0" expanded="true" />
-            <element signature="e#12318#12319#0" expanded="true" />
-            <element signature="e#12341#12342#0" expanded="true" />
-            <element signature="e#12380#12381#0" expanded="true" />
           </folding>
         </state>
       </provider>

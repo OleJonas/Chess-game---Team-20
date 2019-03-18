@@ -9,9 +9,9 @@ public class Rook extends Piece {
         super(color, x, y);
         try {
             Image image = color?
-                    new Image("Images/chessPieces/w_rook_1x_ns.png",
+                    new Image("Images/chessPieces/Standard/w_rook_1x_ns.png",
                             ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE *ChessDemo.imageSize, true, true):
-                    new Image("Images/chessPieces/b_rook_1x_ns.png",
+                    new Image("Images/chessPieces/Standard/b_rook_1x_ns.png",
                             ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, true, true);
              imageView = new ImageView(image);
 

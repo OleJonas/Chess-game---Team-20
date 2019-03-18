@@ -57,6 +57,7 @@ public class ChessDemo extends Application {
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
     private Group hboxGroup = new Group();
+    private Group selectedPieceGroup = new Group();
 
     public static void main(String[] args) {
         launch(args);
@@ -97,7 +98,7 @@ public class ChessDemo extends Application {
                             myColor = true;
                         }
                     }
-                    TestTile tile = new TestTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    TestTile tile = new TestTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
@@ -114,7 +115,7 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE * WIDTH) / 2, (TILE_SIZE * HEIGHT) / 2);
             root.getTransforms().add(rotate180);
         }
-        root.getChildren().addAll(boardGroup, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, selectedPieceGroup, tileGroup, hboxGroup);
 
         if (!color) {
             myTurn = false;
@@ -237,7 +238,7 @@ class TestTile extends StackPane {
 
     private double oldX, oldY;
 
-    public TestTile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, TestTile[][] board) {
+    public TestTile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Group selectedGroup, TestTile[][] board) {
         super.setWidth(ChessDemo.TILE_SIZE);
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
@@ -249,7 +250,14 @@ class TestTile extends StackPane {
         relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
 
         setOnMouseClicked(e->{
+            selectedGroup.getChildren().clear();
             hboxGroup.getChildren().clear();
+            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            square.setFill(Color.valueOf("#582"));
+            square.setOpacity(0.5);
+            square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
+            square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
+            selectedGroup.getChildren().add(square);
             if(ChessDemo.myTurn) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
