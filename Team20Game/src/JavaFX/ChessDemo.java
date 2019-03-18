@@ -1,10 +1,15 @@
 package JavaFX;
 import JavaFX.Tile;
 import Database.DBOps;
+import Pieces.King;
+import Pieces.Pawn;
+import Pieces.Queen;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -27,9 +32,9 @@ public class ChessDemo extends Application {
 
     private Timer timer;
 
-    public static final int TILE_SIZE = 80;
+    public static final int TILE_SIZE = ChessGame.TILE_SIZE;
 
-    public static final double imageSize = 0.8;
+    public static final double imageSize = ChessGame.imageSize;
 
     public static boolean color = true;
 
@@ -48,7 +53,7 @@ public class ChessDemo extends Application {
 
     private boolean isDone = false;
 
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private TestTile[][] board = new TestTile[WIDTH][HEIGHT];
 
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
@@ -93,7 +98,7 @@ public class ChessDemo extends Application {
                             myColor = true;
                         }
                     }
-                    Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
+                    TestTile tile = new TestTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
@@ -219,3 +224,253 @@ public class ChessDemo extends Application {
      */
     }
 }
+
+class TestTile extends StackPane {
+    private ImageView imageView;
+    private GameEngine gameEngine;
+
+    private int height;
+
+    private Group tileGroup;
+
+    private int currentPositionX;
+    private int currentPositionY;
+
+    private double oldX, oldY;
+
+    public TestTile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, TestTile[][] board) {
+        super.setWidth(ChessDemo.TILE_SIZE);
+        setHeight(ChessDemo.TILE_SIZE);
+        currentPositionX=x;
+        currentPositionY=y;
+        this.tileGroup = tileGroup;
+        this.height = height;
+        this.gameEngine = gameEngine;
+        getChildren().add(new Rectangle());
+        relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
+
+        setOnMouseClicked(e->{
+            hboxGroup.getChildren().clear();
+            if(ChessDemo.myTurn) {
+                ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
+
+                if(moves!=null&&moves.size()>0) {
+                    for (int i = 0; i < moves.size(); i += 2) {
+                        TestHighlightBox box = new TestHighlightBox(moves.get(i), moves.get(i + 1), height,
+                                this, hboxGroup, tileGroup, gameEngine, board);
+                        hboxGroup.getChildren().add(box);
+                    }
+                }
+                else if(moves.size() == 0) {
+                    HighlightBox box = new HighlightBox();
+                    hboxGroup.getChildren().add(box);
+                }
+            }
+
+        });
+        setOnMouseDragged(e->{
+        });
+        setOnMouseReleased(e->{
+        });
+    }
+    public void setPos(int x, int y){
+        currentPositionX = x;
+        currentPositionY = y;
+    }
+    public int getX(){
+        return currentPositionX;
+    }
+    public int getY(){
+        return currentPositionY;
+    }
+    public boolean setImageView(ImageView img, double offsetX, double offsetY){
+        if(img == null){
+            return false;
+        }
+        if(!ChessDemo.color){
+            img.setTranslateX(-offsetX);
+            img.setTranslateY(-offsetY);
+        }else{
+            img.setTranslateX(offsetX);
+            img.setTranslateY(offsetY);
+        }
+        getChildren().set(0,img);
+        return true;
+    }
+    public void move(int x, int y, TestTile[][] board) {
+        oldX = x * ChessDemo.TILE_SIZE;
+        oldY = (height - 1 - y) * ChessDemo.TILE_SIZE;
+        gameEngine.move(currentPositionX, currentPositionY, x, y);
+        gameEngine.move(currentPositionX, currentPositionY, x, y);
+        if (board[x][y] != null) {
+            tileGroup.getChildren().remove(board[x][y]);
+        }
+        board[x][y] = this;
+        board[currentPositionX][currentPositionY] = null;
+        setPos(x, y);
+        relocate(oldX, oldY);
+    }
+}
+
+class TestHighlightBox extends Pane{
+        int x;
+        int y;
+        int height;
+        double hboxOpacity = 0.7;
+        String shapeOfBox = "circle";
+        public TestHighlightBox(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, TestTile[][] board){
+            this.x = x;
+            this.y = y;
+            this.height = height;
+            relocate(x * ChessDemo.TILE_SIZE, (height - 1 - y) * ChessDemo.TILE_SIZE);
+            if(shapeOfBox.equalsIgnoreCase("rectangle")) {
+                Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                square.setFill(Color.valueOf("#582"));
+                square.setOpacity(hboxOpacity);
+                getChildren().add(square);
+            }else{
+                Circle circle = new Circle(ChessDemo.TILE_SIZE / 4);
+                circle.setFill(Color.valueOf("582"));
+                circle.setOpacity(hboxOpacity);
+                circle.setTranslateX(ChessDemo.TILE_SIZE/2);
+                circle.setTranslateY(ChessDemo.TILE_SIZE/2);
+                getChildren().add(circle);
+            }
+            setOnMouseClicked(e->{
+                specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
+                //ChessDemo.myTurn = false;
+                //uploadMove(tile.getX(), tile.getY(), x, y);
+                tile.move(x, y, board);
+                int top=0;
+                if(ChessDemo.color) {
+                    top = height-1;
+                }
+                if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
+                    Queen newPiece = new Queen(ChessDemo.color, x, y);
+                    ImageView tempimg = newPiece.getImageView();
+                    gameEngine.setPiece(newPiece, x, y);
+                    if(!ChessDemo.color){
+                        tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
+                    }
+                    tile.setImageView(tempimg,
+                            ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+                }
+                if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
+                    if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                        System.out.println("Checkmate for White");
+                        int[] elo = gameEngine.getElo(1000, 1000, 0);
+                        System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                    }
+                    else {
+                        System.out.println("Checkmate for Black");
+                        int[] elo = gameEngine.getElo(1000, 1000, 1);
+                        System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                    }
+                }
+                else if (gameEngine.isStalemate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
+                    System.out.println("Stalemate");
+                    int[] elo = gameEngine.getElo(1000, 1000, 2);
+                    System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                }
+                else if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
+                    System.out.println("Remis");
+                    int[] elo = gameEngine.getElo(1200, 1000, 2);
+                    System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                }
+                //System.out.println("moved piece");
+                //System.out.println(gameEngine.getBoard());
+                ChessDemo.movenr+=2;
+                getChildren().clear();
+                hboxGroup.getChildren().clear();
+            });
+        }
+
+        public TestHighlightBox() {
+            if(shapeOfBox.equalsIgnoreCase("rectangle")) {
+                Rectangle square = new Rectangle(0, 0);
+                getChildren().add(square);
+            } else {
+                Circle circle = new Circle(0);
+                getChildren().add(circle);
+            }
+        }
+/*
+    private void uploadMove(int fromX, int fromY, int toX, int toY){
+        DBOps db = new DBOps();
+        System.out.println("uploaded movenr: " + (ChessDemo.movenr +1));
+        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + (ChessDemo.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+    }
+*/
+
+private void specialMoves(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, TestTile[][] board) {
+            if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
+                if(x-tile.getX()>0) {
+                    board[7][y].move(x-1, y, board);
+                }else{
+                    board[0][y].move(x+1, y, board);
+                }
+                King king = (King)gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
+                king.setCanCastle(false);
+                //System.out.println("Rokkade");
+            }
+            if (Math.abs(y-tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) {
+                Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
+                pawn.setEnPassant(true);
+            }
+
+            if (tile.getX() + 1 < 8) {
+                if (gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()] instanceof Pawn) {
+                    if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                        //System.out.println("Hallo1");
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            //System.out.println("Hallo2");
+                            if (pawn.getEnPassant()) {
+                                //System.out.println("Hallo3");
+                                tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
+                                gameEngine.removePiece(tile.getX()+1, tile.getY());
+                            }
+                        }
+                    }
+                    else {
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            if (pawn.getEnPassant()) {
+                                tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
+                                gameEngine.removePiece(tile.getX()+1, tile.getY());
+                            }
+                        }
+                    }
+                }
+            }
+            if (tile.getX() - 1 >= 0) {
+                if (gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()] instanceof Pawn) {
+                    if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            if (pawn.getEnPassant()) {
+                                tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
+                                gameEngine.removePiece(tile.getX()-1, tile.getY());
+                            }
+                        }
+                    }
+                    else {
+                        Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
+                        if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
+                            if (pawn.getEnPassant()) {
+                                tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
+                                gameEngine.removePiece(tile.getX()-1, tile.getY());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public int getX(){
+            return x;
+        }
+
+        public int getY(){
+            return y;
+        }
+    }

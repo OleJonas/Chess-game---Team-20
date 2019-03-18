@@ -28,16 +28,16 @@ import static JavaFX.MainScene.showMainScene;
 
 
 public class ChessSandbox {
-    public static final int TILE_SIZE = 80;
-    public static final double imageSize = 0.8;
+    public static final int TILE_SIZE = ChessGame.TILE_SIZE;
+    public static final double imageSize = ChessGame.imageSize;
 
     private GameEngine ge = new GameEngine(15, true);
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
 
-    private final String darkSandboxTileColor = "#8B4513";
-    private final String lightSandboxTileColor = "#FFEBCD";
+    private String darkSandboxTileColor = Settings.darkTileColor;
+    private String lightSandboxTileColor = Settings.lightTileColor;
     private boolean isDone = false;
 
     private SandboxTile[][] board = new SandboxTile[WIDTH][HEIGHT];
@@ -63,7 +63,9 @@ public class ChessSandbox {
                 boardGroup.getChildren().add(square);
                 if (ge.getBoard().getBoardState()[x][y] != null) {
                     SandboxTile tile = new SandboxTile(x, y,HEIGHT, ge, hboxGroup, tileGroup, board);
-                    tile.setImageView(ge.getBoard().getBoardState()[x][y].getImageView(), TILE_SIZE * (1 - imageSize) / 2, TILE_SIZE * (1 - imageSize) / 2);
+                    tile.setImageView(ge.getBoard().getBoardState()[x][y].getImageView(), (TILE_SIZE * (1 - imageSize)) / 2, (TILE_SIZE * (1 - imageSize)) / 2);
+                    //System.out.println((TILE_SIZE * (1 - imageSize)) / 2);
+                    System.out.println(TILE_SIZE + ", " + imageSize);
                     board[x][y] = tile;
                     tileGroup.getChildren().add(tile);
                 }
@@ -285,10 +287,9 @@ class SandboxTile extends StackPane {
         if(img == null){
             return false;
         }
-
+        System.out.println(offsetX +", "+offsetY);
         img.setTranslateX(offsetX);
         img.setTranslateY(offsetY);
-
         getChildren().set(0,img);
         return true;
     }

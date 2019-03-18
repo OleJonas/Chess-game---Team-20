@@ -49,8 +49,8 @@ class HighlightBox extends Pane {
         }
         setOnMouseClicked(e->{
             specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
-            //ChessDemo.myTurn = false;
-            //uploadMove(tile.getX(), tile.getY(), x, y);
+            ChessDemo.myTurn = false;
+            uploadMove(tile.getX(), tile.getY(), x, y);
             tile.move(x, y, board);
             int top=0;
             if(ChessDemo.color) {
@@ -105,13 +105,13 @@ class HighlightBox extends Pane {
             getChildren().add(circle);
         }
     }
-/*
+
     private void uploadMove(int fromX, int fromY, int toX, int toY){
         DBOps db = new DBOps();
         System.out.println("uploaded movenr: " + (ChessDemo.movenr +1));
         db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + (ChessDemo.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
     }
-*/
+
 
     private void specialMoves(int x, int y, int height, Tile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, Tile[][] board) {
         if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
