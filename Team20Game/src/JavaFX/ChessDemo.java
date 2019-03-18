@@ -129,7 +129,7 @@ public class ChessDemo extends Application {
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
-        clockDBThings();
+        //clockDBThings();
         /*new Thread(()->{
             System.out.println("thread started");
             while(!isDone) {
@@ -140,7 +140,7 @@ public class ChessDemo extends Application {
                         e.printStackTrace();
                     }
             }
-        }).start();*/
+        }).start();
     }
 
     public void clockDBThings(){
@@ -200,15 +200,16 @@ public class ChessDemo extends Application {
                 enemyMove(fromX, fromY, toX, toY);
                 myTurn=true;
             }
-                /*if (true) {
+                if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
                     movenr++;
                     myTurn = true;
                     System.out.println("moved enemy piece");
-                }*/
+
             System.out.println("polled database");
         } catch (Exception e) {
             e.printStackTrace();
         }
+     */
     }
 }
