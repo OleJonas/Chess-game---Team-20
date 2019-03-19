@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.Timer;
 
 import static JavaFX.MainScene.showMainScene;

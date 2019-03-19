@@ -9,8 +9,7 @@ import java.util.Random;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.showGameScene;
-import static JavaFX.Login.AVATAR;
-import static JavaFX.Login.runLogin;
+import static JavaFX.Login.*;
 import static JavaFX.MainScene.*;
 import static JavaFX.Settings.showSettings;
 import static JavaFX.UserProfile.setAvatar;
@@ -108,6 +107,7 @@ public class WindowMenuBar {
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
             setAvatar(AVATAR);
+            storeSettings();
             runLogin();
         });
         userMenu.getItems().add(logOutMenuItem);
