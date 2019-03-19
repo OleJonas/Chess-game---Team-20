@@ -1,4 +1,4 @@
--- For creating the user database
+-- For creating the User table
 Create table User(
                    user_id INT AUTO_INCREMENT,
                    username VARCHAR(20),
@@ -69,3 +69,15 @@ REFERENCES Game(game_id);
 ALTER TABLE Chat
 ADD CONSTRAINT chat_fk2 FOREIGN KEY(user_id)
 REFERENCES User(user_id);
+
+-- For creating the UserSettings table
+Create table UserSettings (
+                  user_id int not null AUTO_INCREMENT,
+                  username VARCHAR(30),
+                  darkTileColor VARCHAR(10),
+                  lightTileColor VARCHAR(10),
+                  skinName VARCHAR(30),
+                  PRIMARY KEY (user_id),
+                  FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+

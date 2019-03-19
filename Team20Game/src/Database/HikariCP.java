@@ -1,5 +1,6 @@
 package Database;
 
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -41,3 +42,4 @@ public class HikariCP {
         return ds.getConnection();
     }
 }
+

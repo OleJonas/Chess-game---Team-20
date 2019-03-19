@@ -3,7 +3,7 @@ package Database;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-/*
+
 public class ChatDB{
     private DBOps db;
     private Timer refresher;
@@ -11,7 +11,7 @@ public class ChatDB{
 
     public ChatDB() {
         this.db = new DBOps();
-        /*db.createTable("chat");
+        db.createTable("chat");
         db.exUpdate("ALTER TABLE chat ADD msg_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;");
         db.exUpdate("ALTER TABLE chat ADD msg VARCHAR(140);");
         db.exUpdate("ALTER TABLE chat DROP def;");
@@ -50,4 +50,3 @@ public class ChatDB{
         db.exUpdate(writeToDB);
     }
 }
-*/

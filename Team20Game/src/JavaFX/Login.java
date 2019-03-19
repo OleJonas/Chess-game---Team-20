@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 import static JavaFX.Register.runRegistration;
 import static javafx.geometry.Pos.CENTER;
@@ -74,6 +75,7 @@ class Login{
                 loginComment.setText(""); //CLearing the label for next time
                 USERNAME = loginUsernameInput;
                 AVATAR = getAvatar(USERNAME);
+                getSettings();
                 getGameInfo();
                 MainScene.showMainScene();
             } else {
@@ -171,8 +173,11 @@ class Login{
             byte[] salt = createSalt();
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
-            //Insert into database
+            //Insert into User
             int rowsAffected = connection.exUpdate("INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg', 0, 0, 0, 0, 1000);");
+            if(rowsAffected==0) return false;
+            //Insert into UserSettings
+            rowsAffected = connection.exUpdate("INSERT INTO UserSettings(username, darkTileColor, lightTileColor, skinName) values('" + username + "','#8B4513','#FFEBCD', 'Standard');");
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
@@ -242,5 +247,24 @@ class Login{
             ELOrating = Integer.parseInt(result.get(4));
         }
     }
+
+    static void getSettings(){
+        DBOps connection = new DBOps();
+        ArrayList<String> result = connection.exQuery("SELECT darkTileColor, lightTileColor, skinName FROM UserSettings WHERE username=\"" + USERNAME + "\"",3);
+        if(result.size() > 0){
+            Settings.darkTileColor = result.get(0);
+            Settings.lightTileColor = result.get(1);
+            Settings.skinName = result.get(2);
+        }
+    }
+
+    static boolean storeSettings(){
+        DBOps connection = new DBOps();
+        int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + Settings.skinName + "' WHERE username = '" + USERNAME + "';");
+        if(rowsAffected==1) return true;
+        return false;
+    }
+
+
 }
 
