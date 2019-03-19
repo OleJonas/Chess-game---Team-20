@@ -40,13 +40,12 @@ class Tile extends StackPane {
             selectedGroup.getChildren().clear();
             Rectangle square = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
             square.setFill(Color.valueOf("#582"));
-            square.setOpacity(0.5);
+            square.setOpacity(0.8);
             square.setTranslateX(currentPositionX*ChessGame.TILE_SIZE);
             square.setTranslateY((height-1-currentPositionY)*ChessGame.TILE_SIZE);
             selectedGroup.getChildren().add(square);
             if(ChessGame.myTurn) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
-
                 if(moves!=null&&moves.size()>0) {
                     for (int i = 0; i < moves.size(); i += 2) {
                         HighlightBox box = new HighlightBox(moves.get(i), moves.get(i + 1), height,
