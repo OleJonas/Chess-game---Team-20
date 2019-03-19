@@ -472,8 +472,8 @@ class PawnChangeChoiceBox{
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Promotion");
 
-        Label label = new Label("Choose your new piece:");
-        label.setFont(Font.font("Copperplate", 18));
+        Label label = new Label("Choose your new \n           piece:");
+        label.setFont(Font.font("Copperplate", 22));
         label.setStyle("-fx-font-weight: bold");
         label.setTextFill(Color.WHITE);
 
@@ -542,7 +542,7 @@ class PawnChangeChoiceBox{
         mainLayout.setHalignment(pickRookButton, HPos.CENTER);
         mainLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(mainLayout, 260, 230);
+        Scene scene = new Scene(mainLayout, 230, 260);
         window.setScene(scene);
         window.showAndWait();
     }
