@@ -3,6 +3,8 @@ package Game;
 //import JavaFX.GameChatNTimer;
 
 import Pieces.Piece;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.ArrayList;
 
@@ -11,6 +13,7 @@ public class GameEngine {
    private int increment;
    private boolean color;
    private int moveCounter = 0;
+   private Map<Piece[][], Integer> rep = new HashMap<Piece[][], Integer>();
    //private GameChatNTimer gameChatNTimer;
 
    public GameEngine(int gameTime, int increment, boolean color) {
@@ -23,6 +26,16 @@ public class GameEngine {
       board = new Board();
       this.color = color;
       //this.gameChatNTimer = new GameChatNTimer(time);
+   }
+
+   public boolean isMoveRepetition(){
+      if (rep.containsKey(board.getBoardState())){
+         rep.put(board.getBoardState(), rep.get(board.getBoardState()) + 1);
+      }
+      else{
+         rep.put(board.getBoardState(), 1);
+      }
+      return rep.get(board.getBoardState()) > 2;
    }
 
    public Board getBoard(){ return board; }

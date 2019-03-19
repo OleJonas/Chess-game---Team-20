@@ -3,7 +3,7 @@ package Database;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-/*
+
 public class ChatDB{
     private DBOps db;
     private Timer refresher;
@@ -18,7 +18,7 @@ public class ChatDB{
         this.refresher = new Timer(true);
     }
 
-    public void refreshLoop(){
+    /*public void refreshLoop(){
         int delay = 5000;
         int period = 5000;
         refresher.scheduleAtFixedRate(new TimerTask(){
@@ -30,7 +30,7 @@ public class ChatDB{
                 }
             }
         }, delay, period);
-    }
+    }*/
 
     public ArrayList<String> fetchChat(){
         ArrayList<String> out = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat, 1);
@@ -50,4 +50,3 @@ public class ChatDB{
         db.exUpdate(writeToDB);
     }
 }
-*/
