@@ -42,4 +42,3 @@ public class HikariCP {
         return ds.getConnection();
     }
 }
-

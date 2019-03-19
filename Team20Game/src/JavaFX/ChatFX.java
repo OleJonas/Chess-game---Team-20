@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-//import Database.ChatDB;
+import Database.ChatDB;
 import javafx.application.Application;
 import javafx.scene.Scene;
 
@@ -45,10 +45,10 @@ public class ChatFX{
     private static ArrayList<Label> messages = new ArrayList<Label>();
     static VBox chatLayout;
 
-    //private static ChatDB chat = new ChatDB();
+    private static ChatDB chat = new ChatDB();
 
-    public static void createChat(){
-        window = new Stage();
+    public static GridPane createChat(){
+        //window = new Stage();
         sendButton = new Button("Send");
         closeButton = new Button("Exit");
 
@@ -56,15 +56,15 @@ public class ChatFX{
 
         sendButton.setOnAction(e -> {
             if(!inText.getText().trim().equals("")){
-                //chat.writeChat(inText.getText().trim());
+                chat.writeChat(inText.getText().trim());
                 inText.clear();
             }
         });
 
-        closeButton.setOnAction(e -> {
-            //chat.chatClose();
+        /*closeButton.setOnAction(e -> {
+            chat.chatClose();
             window.close();
-        });
+        });*/
 
         chatLayout = new VBox(5);
         chatLayout.setPadding(new Insets(20,20,20,20));
@@ -77,11 +77,9 @@ public class ChatFX{
         gridPane.add(container, 0,0);
         gridPane.add(inText,0,1);
         gridPane.add(sendButton, 0,2);
-        gridPane.add(closeButton,1,2);
+        //gridPane.add(closeButton,1,2);
 
-        scene = new Scene(gridPane, 600, 600);
-        window.setScene(scene);
-        window.show();
+        return gridPane;
     }
 
     public static void refresh(){
@@ -106,7 +104,7 @@ public class ChatFX{
                             @Override
                             public void run() {
                                 try {
-                                    //refreshChat();
+                                    refreshChat();
                                 } finally {
                                     latch.countDown();
                                 }
@@ -121,13 +119,12 @@ public class ChatFX{
         };
         service.start();
     }
-/*
+
     public static void refreshChat(){
-        //ArrayList<String> fetch = chat.fetchChat();
+        ArrayList<String> fetch = chat.fetchChat();
         for(String s : fetch){
             chatLayout.getChildren().add(new Label(s));
             messages.add(new Label(s));
         }
     }
-    */
 }

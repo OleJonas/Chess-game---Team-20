@@ -25,8 +25,8 @@ import static javafx.geometry.Pos.CENTER;
 
 
 @SuppressWarnings("Duplicates")
-class Login{
-    static String USERNAME;
+public class Login{
+    public static String USERNAME;
     static String AVATAR;
     static int gamesPlayed;
     static int gamesWon;
@@ -178,10 +178,12 @@ class Login{
             int rowsAffected = connection.exUpdate("INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg', 0, 0, 0, 0, 1000);");
             if(rowsAffected==0) return false;
             //Insert into UserSettings
-            rowsAffected = connection.exUpdate("INSERT INTO UserSettings(username, darkTileColor, lightTileColor, skinName) values('" + username + "','#8B4513','#FFEBCD', 'Standard');");
+            int newID = Integer.parseInt(connection.exQuery(("SELECT MAX(user_id) FROM User"),1).get(0));
+            System.out.println(newID);
+            rowsAffected = connection.exUpdate("INSERT INTO UserSettings(user_id , username, darkTileColor, lightTileColor, skinName) values(" + newID + ", '" + username + "', '#8B4513', '#FFEBCD', 'Standard');");
             if(rowsAffected==1) return true;
         }catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
+            sq.printStackTrace();
         }
         return false;
     }

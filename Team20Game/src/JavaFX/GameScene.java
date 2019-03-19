@@ -51,6 +51,7 @@ class GameScene {
         playersLabel.setStyle("-fx-font-weight: bold");
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
+        rightGrid.add(ChatFX.createChat(), 0, 2);
 
 
         //mainLayout
@@ -81,6 +82,7 @@ class GameScene {
 
         gameScene = new Scene(layout, 1450, 950);
         Main.window.setScene(gameScene);
+        ChatFX.refresh();
     }
 }
 
