@@ -1,10 +1,7 @@
 package JavaFX;
 import Database.DBOps;
 import Game.GameLogic;
-import Pieces.King;
-import Pieces.Pawn;
-import Pieces.Piece;
-import Pieces.Queen;
+import Pieces.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -154,6 +151,7 @@ class TestTile extends StackPane {
     private GameEngine gameEngine;
 
     private int height;
+    private boolean myColor;
 
     private Group tileGroup;
 
@@ -167,6 +165,7 @@ class TestTile extends StackPane {
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
         currentPositionY=y;
+        this.myColor = myColor;
         this.tileGroup = tileGroup;
         this.height = height;
         this.gameEngine = gameEngine;
@@ -177,8 +176,8 @@ class TestTile extends StackPane {
             selectedGroup.getChildren().clear();
             hboxGroup.getChildren().clear();
             Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-            square.setFill(Color.valueOf("#100"));
-            square.setOpacity(0.3);
+            square.setFill(Color.valueOf("#696969"));
+            square.setOpacity(0.4);
             square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
             square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
             selectedGroup.getChildren().add(square);
@@ -204,6 +203,9 @@ class TestTile extends StackPane {
         });
         setOnMouseReleased(e->{
         });
+    }
+    public boolean getMyColor() {
+        return myColor;
     }
     public void setPos(int x, int y){
         currentPositionX = x;
@@ -279,21 +281,43 @@ class TestHighlightBox extends Pane{
                 //uploadMove(tile.getX(), tile.getY(), x, y);
                 int fromX = tile.getX();
                 int fromY = tile.getY();
+                int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
+                int totBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
                 tile.move(x, y, board);
+                int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
+                int updatedBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
                 int top=0;
-                if(ChessDemo.color) {
-                    top = height-1;
+
+                if((tile.getMyColor()&&ChessDemo.color)||!tile.getMyColor() && !ChessDemo.color) {
+                    top = height - 1;
                 }
+
                 if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
-                    Queen newPiece = new Queen(ChessDemo.color, x, y);
+                    PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
+                    pawnChange.Display();
+                    Piece newPiece = null;
+                    boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
+                    if (PawnChangeChoiceBox.choice.equals("Queen")) {
+                        newPiece = new Queen(pieceColor, x, y);
+                    } else if (PawnChangeChoiceBox.choice.equals("Rook")) {
+                        newPiece = new Rook(pieceColor, x, y);
+                    } else if (PawnChangeChoiceBox.choice.equals("Bishop")) {
+                        newPiece = new Bishop(pieceColor, x, y);
+                    } else if (PawnChangeChoiceBox.choice.equals("Knight")) {
+                        newPiece = new Knight(pieceColor, x, y);
+                    }
                     ImageView tempimg = newPiece.getImageView();
                     gameEngine.setPiece(newPiece, x, y);
+
                     if(!ChessDemo.color){
                         tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
                     }
+
                     tile.setImageView(tempimg,
                             ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
                 }
+
+
 
                 if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                     if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
@@ -317,8 +341,9 @@ class TestHighlightBox extends Pane{
                     int[] elo = gameEngine.getElo(1200, 1000, 2);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                 }
-                if (!(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn)) {
+                if (!(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) && ((totWhites+totBlacks) == (updatedWhites+updatedBlacks))) {
                     gameEngine.setMoveCounter(false);
+                    System.out.println(gameEngine.getMoveCounter());
                     if (gameEngine.getMoveCounter() == 100) {
                         System.out.println("Remis");
                         int[] elo = gameEngine.getElo(1000, 1000, 2);
@@ -326,6 +351,7 @@ class TestHighlightBox extends Pane{
                     }
                 } else {
                     gameEngine.setMoveCounter(true);
+                    System.out.println(gameEngine.getMoveCounter());
                 }
 
                 ChessDemo.movenr+=2;
@@ -333,16 +359,19 @@ class TestHighlightBox extends Pane{
                 hboxGroup.getChildren().clear();
                 lastMoveGroup.getChildren().clear();
                 selectedGroup.getChildren().clear();
+
                 Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-                Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
                 squareTo.setFill(Color.valueOf("#582"));
                 squareTo.setOpacity(0.9);
                 squareTo.setTranslateX(x*ChessDemo.TILE_SIZE);
                 squareTo.setTranslateY((height-1-y)*ChessDemo.TILE_SIZE);
+
+                Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
                 squareFrom.setFill(Color.valueOf("#582"));
                 squareFrom.setOpacity(0.5);
                 squareFrom.setTranslateX(fromX*ChessDemo.TILE_SIZE);
                 squareFrom.setTranslateY((height-1-fromY)*ChessDemo.TILE_SIZE);
+
                 Piece[][] boardState = gameEngine.getBoard().getBoardState();
                 if (gameEngine.inCheck(boardState, !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                     for (int i = 0; i < boardState.length; i++){

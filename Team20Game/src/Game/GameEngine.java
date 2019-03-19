@@ -66,9 +66,7 @@ public class GameEngine {
 
    public void setMoveCounter(boolean reset) { if (!reset) moveCounter++; else { moveCounter = 0;}}
 
-   public int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
+   public int[] myPieces(Board board, boolean color) { return GameLogic.myPieces(board, color); }
 
-   /*public double getTime() {
-      return time;
-   }*/
+   public int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
 }
