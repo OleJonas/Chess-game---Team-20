@@ -182,7 +182,7 @@ class SandboxHighlightBox extends Pane{
 
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
-                pawnChange.Display(ChessDemo.color);
+                pawnChange.Display(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor());
                 Piece newPiece = null;
                 boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
@@ -483,9 +483,9 @@ class PawnChangeChoiceBox{
         Button pickRookButton = new Button();
 
         if(color){
-            Image pickBishopImage = new Image("Images/chessPieces/Standard/w_bishop_1x_ns.png",70, 70, true, true);
-            Image pickKnightImage = new Image("Images/chessPieces/Standard/w_knight_1x_ns.png", 70, 70, true, true);
-            Image pickQueenImage = new Image("Images/chessPieces/Standard/w_queen_1x_ns.png", 70, 70, true, true);
+            Image pickBishopImage = new Image("Images/chessPieces/Standard/w_bishop_1x_ns.png",60, 60, true, true);
+            Image pickKnightImage = new Image("Images/chessPieces/Standard/w_knight_1x_ns.png", 60, 60, true, true);
+            Image pickQueenImage = new Image("Images/chessPieces/Standard/w_queen_1x_ns.png", 60, 60, true, true);
             Image pickRookImage = new Image("Images/chessPieces/Standard/w_rook_1x_ns.png", 60, 60, true, true);
 
             ImageView bishopImageView = new ImageView(pickBishopImage);
@@ -498,9 +498,9 @@ class PawnChangeChoiceBox{
             pickQueenButton.setGraphic(queenImageView);
             pickRookButton.setGraphic(rookImageView);
         } else if (!color) {
-            Image pickBishopImage = new Image("Images/chessPieces/Standard/b_bishop_1x_ns.png",70, 70, true, true);
-            Image pickKnightImage = new Image("Images/chessPieces/Standard/b_knight_1x_ns.png", 70, 70, true, true);
-            Image pickQueenImage = new Image("Images/chessPieces/Standard/b_queen_1x_ns.png", 70, 70, true, true);
+            Image pickBishopImage = new Image("Images/chessPieces/Standard/b_bishop_1x_ns.png",60, 60, true, true);
+            Image pickKnightImage = new Image("Images/chessPieces/Standard/b_knight_1x_ns.png", 60, 60, true, true);
+            Image pickQueenImage = new Image("Images/chessPieces/Standard/b_queen_1x_ns.png", 60, 60, true, true);
             Image pickRookImage = new Image("Images/chessPieces/Standard/b_rook_1x_ns.png", 60, 60, true, true);
 
             ImageView bishopImageView = new ImageView(pickBishopImage);
@@ -519,9 +519,6 @@ class PawnChangeChoiceBox{
         pickQueenButton.setPrefSize(80, 80);
         pickRookButton.setPrefSize(80, 80);
 
-
-
-
         pickBishopButton.setOnAction(e -> {choice = "Bishop"; window.close();});
         pickKnightButton.setOnAction(e -> {choice = "Knight"; window.close();});
         pickQueenButton.setOnAction(e -> {choice = "Queen"; window.close();});
@@ -531,16 +528,16 @@ class PawnChangeChoiceBox{
         mainLayout.setHgap(10);
         mainLayout.setVgap(10);
         mainLayout.setPadding(new Insets(10, 20, 10, 10));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(115));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(115));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(100));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(100));
         mainLayout.add(label, 0, 0, 2, 1);
         mainLayout.setHalignment(label, HPos.CENTER);
-        mainLayout.add(pickBishopButton, 0,1);
-        mainLayout.setHalignment(pickBishopButton, HPos.CENTER);
+        mainLayout.add(pickQueenButton, 0,1);
+        mainLayout.setHalignment(pickQueenButton, HPos.CENTER);
         mainLayout.add(pickKnightButton, 1, 1);
         mainLayout.setHalignment(pickKnightButton, HPos.CENTER);
-        mainLayout.add(pickQueenButton, 0,2);
-        mainLayout.setHalignment(pickQueenButton, HPos.CENTER);
+        mainLayout.add(pickBishopButton, 0,2);
+        mainLayout.setHalignment(pickBishopButton, HPos.CENTER);
         mainLayout.add(pickRookButton, 1, 2);
         mainLayout.setHalignment(pickRookButton, HPos.CENTER);
         mainLayout.setStyle("-fx-background-color: #404144;");
