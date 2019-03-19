@@ -18,8 +18,8 @@ class Settings{
     //Settingvariables
 
     //Color
-    static String darkTileColor;
-    static String lightTileColor;
+    static String darkTileColor = "#8B4513";
+    static String lightTileColor = "#FFEBCD";
     //Skin
     static String skinName;
 
@@ -137,14 +137,6 @@ class Settings{
         bottomLayout.setHgap(20);
         bottomLayout.add(resetChangesButton, 1, 0);
         bottomLayout.add(applyChangesButton, 2, 0 );
-
-
-
-
-
-
-
-
 
 
         //Set image as background

@@ -1,4 +1,3 @@
-/*
 package Database;
 
 
@@ -51,7 +50,7 @@ public class DBOps{
             con = HikariCP.getCon();
             stmt = con.prepareStatement(sqlString);
             affectedRows = stmt.executeUpdate();
-            /*if(affectedRows == 0){
+            if(affectedRows == 0){
                 throw new SQLException("Something went wrong while writing to the database!");
             }
         } catch (SQLException sql) {
@@ -78,4 +77,3 @@ public class DBOps{
         }
     }
 }
-*/
