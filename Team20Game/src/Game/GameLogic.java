@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.ArrayList;
 
 public class GameLogic{
-    private static boolean inCheck(Piece[][] state, boolean color){
+    public static boolean inCheck(Piece[][] state, boolean color){
         Piece[][] board = state;
         int x = 0, y = 2;
         outerloop:
@@ -496,7 +496,6 @@ public class GameLogic{
                 }
             }
         }
-
         return false;
     }
     //NEW

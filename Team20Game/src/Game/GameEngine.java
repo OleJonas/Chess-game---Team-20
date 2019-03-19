@@ -10,6 +10,7 @@ public class GameEngine {
    private Board board;
    private int increment;
    private boolean color;
+   private int moveCounter = 0;
    //private GameChatNTimer gameChatNTimer;
 
    public GameEngine(int gameTime, int increment, boolean color) {
@@ -46,11 +47,13 @@ public class GameEngine {
       board.setPiece(piece, x, y);
    }
 
-   public int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
+   public boolean inCheck(Piece[][] board, boolean color) { return GameLogic.inCheck(board, color); }
 
-   public boolean isDone() {
-      return GameLogic.isDone(board);
-   }
+   public int getMoveCounter() { return moveCounter; }
+
+   public void setMoveCounter(boolean reset) { if (!reset) moveCounter++; else { moveCounter = 0;}}
+
+   public int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
 
    /*public double getTime() {
       return time;

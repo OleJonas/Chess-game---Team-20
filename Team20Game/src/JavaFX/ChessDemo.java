@@ -1,7 +1,9 @@
 package JavaFX;
 import Database.DBOps;
+import Game.GameLogic;
 import Pieces.King;
 import Pieces.Pawn;
+import Pieces.Piece;
 import Pieces.Queen;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,9 +33,9 @@ public class ChessDemo extends Application {
 
     private Timer timer;
 
-    public static final int TILE_SIZE = ChessGame.TILE_SIZE;
+    public static final int TILE_SIZE = JavaFX.ChessGame.TILE_SIZE;
 
-    public static final double imageSize = ChessGame.imageSize;
+    public static final double imageSize = JavaFX.ChessGame.imageSize;
 
     public static boolean color = true;
 
@@ -57,6 +59,7 @@ public class ChessDemo extends Application {
     private Group tileGroup = new Group();
     private Group hboxGroup = new Group();
     private Group selectedPieceGroup = new Group();
+    private Group lastMoveGroup = new Group();
 
     public static void main(String[] args) {
         launch(args);
@@ -76,7 +79,9 @@ public class ChessDemo extends Application {
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
                 square.setOnMouseClicked(r -> {
                     hboxGroup.getChildren().clear();
+                    selectedPieceGroup.getChildren().clear();
                     JavaFX.HighlightBox box = new JavaFX.HighlightBox();
+                    selectedPieceGroup.getChildren().add(box);
                     hboxGroup.getChildren().add(box);
                 });
                 square.setFill((x + y) % 2 == 0 ? Color.valueOf(lightTileColor) : Color.valueOf(darkTileColor));
@@ -97,7 +102,7 @@ public class ChessDemo extends Application {
                             myColor = true;
                         }
                     }
-                    TestTile tile = new TestTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, board);
+                    TestTile tile = new TestTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, lastMoveGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
@@ -114,7 +119,7 @@ public class ChessDemo extends Application {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE * WIDTH) / 2, (TILE_SIZE * HEIGHT) / 2);
             root.getTransforms().add(rotate180);
         }
-        root.getChildren().addAll(boardGroup, selectedPieceGroup, tileGroup, hboxGroup);
+        root.getChildren().addAll(boardGroup, selectedPieceGroup, lastMoveGroup, tileGroup, hboxGroup);
 
         if (!color) {
             myTurn = false;
@@ -141,88 +146,6 @@ public class ChessDemo extends Application {
         primaryStage.setTitle("Chess Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
-        //clockDBThings();
-        /*new Thread(()->{
-            System.out.println("thread started");
-            while(!isDone) {
-                    try {
-                        pollEnemyMove();
-                        Thread.sleep(5000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-            }
-        }).start();
-    }
-
-    public void clockDBThings(){
-        timer = new Timer(true);
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                serviceDBThings();
-            }
-        }, 4000, 4000);
-    }
-
-    public void serviceDBThings() {
-        Service<Void> service = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        //Background work
-                        final CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    pollEnemyMove();
-                                } finally {
-                                    latch.countDown();
-                                }
-                            }
-                        });
-                        latch.await();
-                        //Keep with the background work
-                        return null;
-                    }
-                };
-            }
-        };
-        service.start();
-    }
-
-
-
-    public void pollEnemyMove(){
-        System.out.println("PollEnemyMove Started, turn: " + movenr);
-        try {
-            DBOps db = new DBOps();
-            System.out.println("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";");
-            //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
-            ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1);
-            if(fromXlist.size()>0) {
-                int fromX = Integer.parseInt(fromXlist.get(0));
-                int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
-                int toX = Integer.parseInt(db.exQuery("SELECT toX FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
-                int toY = Integer.parseInt(db.exQuery("SELECT toY FROM GameIDMove WHERE GameID =" + gameID + " AND MoveNumber = " + (movenr) + ";", 1).get(0));
-                System.out.println("test" + fromX);
-                enemyMove(fromX, fromY, toX, toY);
-                myTurn=true;
-            }
-                if (true) {
-                    enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
-                    movenr++;
-                    myTurn = true;
-                    System.out.println("moved enemy piece");
-
-            System.out.println("polled database");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-     */
     }
 }
 
@@ -239,7 +162,7 @@ class TestTile extends StackPane {
 
     private double oldX, oldY;
 
-    public TestTile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Group selectedGroup, TestTile[][] board) {
+    public TestTile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, TestTile[][] board) {
         super.setWidth(ChessDemo.TILE_SIZE);
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
@@ -254,8 +177,8 @@ class TestTile extends StackPane {
             selectedGroup.getChildren().clear();
             hboxGroup.getChildren().clear();
             Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-            square.setFill(Color.valueOf("#582"));
-            square.setOpacity(0.5);
+            square.setFill(Color.valueOf("#100"));
+            square.setOpacity(0.3);
             square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
             square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
             selectedGroup.getChildren().add(square);
@@ -265,12 +188,13 @@ class TestTile extends StackPane {
                 if(moves!=null&&moves.size()>0) {
                     for (int i = 0; i < moves.size(); i += 2) {
                         TestHighlightBox box = new TestHighlightBox(moves.get(i), moves.get(i + 1), height,
-                                this, hboxGroup, tileGroup, selectedGroup, gameEngine, board);
+                                this, hboxGroup, tileGroup, selectedGroup, lastMoveGroup, gameEngine, board);
                         hboxGroup.getChildren().add(box);
                     }
                 }
                 else if(moves.size() == 0) {
                     HighlightBox box = new HighlightBox();
+                    selectedGroup.getChildren().add(box);
                     hboxGroup.getChildren().add(box);
                 }
             }
@@ -325,8 +249,9 @@ class TestHighlightBox extends Pane{
         int y;
         int height;
         double hboxOpacity = 0.7;
+
         String shapeOfBox = "circle";
-        public TestHighlightBox(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, GameEngine gameEngine, TestTile[][] board){
+        public TestHighlightBox(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, GameEngine gameEngine, TestTile[][] board){
             this.x = x;
             this.y = y;
             this.height = height;
@@ -337,17 +262,23 @@ class TestHighlightBox extends Pane{
                 square.setOpacity(hboxOpacity);
                 getChildren().add(square);
             }else{
-                Circle circle = new Circle(ChessDemo.TILE_SIZE / 4);
+                Circle circle = new Circle(ChessDemo.TILE_SIZE / 5);
                 circle.setFill(Color.valueOf("582"));
                 circle.setOpacity(hboxOpacity);
                 circle.setTranslateX(ChessDemo.TILE_SIZE/2);
                 circle.setTranslateY(ChessDemo.TILE_SIZE/2);
                 getChildren().add(circle);
+
+                Rectangle square = new Rectangle(ChessDemo.TILE_SIZE*0.7, ChessDemo.TILE_SIZE*0.7);
+                square.setOpacity(0);
+                getChildren().add(square);
             }
             setOnMouseClicked(e->{
                 specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
                 //ChessDemo.myTurn = false;
                 //uploadMove(tile.getX(), tile.getY(), x, y);
+                int fromX = tile.getX();
+                int fromY = tile.getY();
                 tile.move(x, y, board);
                 int top=0;
                 if(ChessDemo.color) {
@@ -363,6 +294,7 @@ class TestHighlightBox extends Pane{
                     tile.setImageView(tempimg,
                             ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
                 }
+
                 if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                     if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                         System.out.println("Checkmate for White");
@@ -380,17 +312,56 @@ class TestHighlightBox extends Pane{
                     int[] elo = gameEngine.getElo(1000, 1000, 2);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                 }
-                else if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
+                if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
                     System.out.println("Remis");
                     int[] elo = gameEngine.getElo(1200, 1000, 2);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                 }
-                //System.out.println("moved piece");
-                //System.out.println(gameEngine.getBoard());
+                if (!(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn)) {
+                    gameEngine.setMoveCounter(false);
+                    if (gameEngine.getMoveCounter() == 100) {
+                        System.out.println("Remis");
+                        int[] elo = gameEngine.getElo(1000, 1000, 2);
+                        System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                    }
+                } else {
+                    gameEngine.setMoveCounter(true);
+                }
+
                 ChessDemo.movenr+=2;
                 getChildren().clear();
                 hboxGroup.getChildren().clear();
+                lastMoveGroup.getChildren().clear();
                 selectedGroup.getChildren().clear();
+                Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                squareTo.setFill(Color.valueOf("#582"));
+                squareTo.setOpacity(0.9);
+                squareTo.setTranslateX(x*ChessDemo.TILE_SIZE);
+                squareTo.setTranslateY((height-1-y)*ChessDemo.TILE_SIZE);
+                squareFrom.setFill(Color.valueOf("#582"));
+                squareFrom.setOpacity(0.5);
+                squareFrom.setTranslateX(fromX*ChessDemo.TILE_SIZE);
+                squareFrom.setTranslateY((height-1-fromY)*ChessDemo.TILE_SIZE);
+                Piece[][] boardState = gameEngine.getBoard().getBoardState();
+                if (gameEngine.inCheck(boardState, !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
+                    for (int i = 0; i < boardState.length; i++){
+                        for (int j = 0; j < boardState[0].length; j++){
+                            if (boardState[i][j] instanceof King){
+                                if (boardState[i][j].getColor() == !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()){
+                                    Rectangle check = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                                    check.setFill(Color.valueOf("#F30000"));
+                                    check.setOpacity(1);
+                                    check.setTranslateX(i*ChessDemo.TILE_SIZE);
+                                    check.setTranslateY((height-1-j)*ChessDemo.TILE_SIZE);
+                                    lastMoveGroup.getChildren().add(check);
+                                }
+                            }
+                        }
+                    }
+                }
+                lastMoveGroup.getChildren().add(squareTo);
+                lastMoveGroup.getChildren().add(squareFrom);
             });
         }
 
@@ -403,19 +374,12 @@ class TestHighlightBox extends Pane{
                 getChildren().add(circle);
             }
         }
-/*
-    private void uploadMove(int fromX, int fromY, int toX, int toY){
-        DBOps db = new DBOps();
-        System.out.println("uploaded movenr: " + (ChessDemo.movenr +1));
-        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessDemo.gameID + ", " + (ChessDemo.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-    }
-*/
 
-private void specialMoves(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, TestTile[][] board) {
+    private void specialMoves(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, TestTile[][] board) {
             if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
                 if(x-tile.getX()>0) {
                     board[7][y].move(x-1, y, board);
-                }else{
+                } else {
                     board[0][y].move(x+1, y, board);
                 }
                 King king = (King)gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
