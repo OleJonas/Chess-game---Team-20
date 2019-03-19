@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.Timer;
 
 import static JavaFX.MainScene.showMainScene;
@@ -48,8 +49,8 @@ public class ChessSandbox {
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
 
-    private final String darkTileColor = "#8B4513";
-    private final String lightTileColor = "#FFEBCD";
+    private final String darkTileColor = Settings.darkTileColor;
+    private final String lightTileColor = Settings.lightTileColor;
 
     private boolean isDone = false;
 

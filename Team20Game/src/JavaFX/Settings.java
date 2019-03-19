@@ -17,9 +17,11 @@ class Settings{
 
     //Settingvariables
 
-    //Color - this have to be updated at login!
-    static String darkTileColor = "#8B4513";
-    static String lightTileColor = "#FFEBCD";
+    //Color
+    static String darkTileColor;
+    static String lightTileColor;
+    //Skin
+    static String skinName;
 
     static void showSettings(){
         GridPane mainLayout = new GridPane();
