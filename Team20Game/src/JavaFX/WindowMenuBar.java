@@ -1,3 +1,4 @@
+/*
 package JavaFX;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -7,13 +8,13 @@ import javafx.scene.control.MenuItem;
 
 import java.util.Random;
 
-import static JavaFX.FindUser.showFindUserScene;
+//import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.showGameScene;
-import static JavaFX.Login.*;
-import static JavaFX.MainScene.*;
+//import static JavaFX.Login.*;
+//import static JavaFX.MainScene.*;
 import static JavaFX.Settings.showSettings;
-import static JavaFX.UserProfile.setAvatar;
-import static JavaFX.UserProfile.showUserProfileScene;
+//import static JavaFX.UserProfile.setAvatar;
+//import static JavaFX.UserProfile.showUserProfileScene;
 
 public class WindowMenuBar {
     MenuBar windowMenuBar;
@@ -51,7 +52,7 @@ public class WindowMenuBar {
         userProfileMenuItem.setOnAction(e -> showUserProfileScene());
         userMenu.getItems().add(userProfileMenuItem);
         MenuItem findUserMenuItem = new MenuItem("Find User");
-        findUserMenuItem.setOnAction(e -> showFindUserScene());
+        //findUserMenuItem.setOnAction(e -> showFindUserScene());
         userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
@@ -102,7 +103,7 @@ public class WindowMenuBar {
         userProfileMenuItem.setOnAction(e -> showUserProfileScene());
         userMenu.getItems().add(userProfileMenuItem);
         MenuItem findUserMenuItem = new MenuItem("Find User");
-        findUserMenuItem.setOnAction(e -> showFindUserScene());
+        //findUserMenuItem.setOnAction(e -> showFindUserScene());
         userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
@@ -131,3 +132,4 @@ public class WindowMenuBar {
         return windowMenuBar;
     }
 }
+*/

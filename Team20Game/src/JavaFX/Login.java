@@ -1,6 +1,7 @@
+/*
 package JavaFX;
 
-import Database.DBOps;
+//import Database.DBOps;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -268,3 +269,4 @@ class Login{
 
 }
 
+*/

@@ -1,3 +1,4 @@
+/*
 package JavaFX;
 import Database.DBOps;
 import javafx.geometry.HPos;
@@ -194,7 +195,7 @@ class JoinGamePopup{
                     window.close();
                     showGameScene();
                 }
-            */
+
                 ChessGame.gameID = inputInt;
                 window.close();
                 showGameScene();
@@ -239,6 +240,5 @@ class JoinGamePopup{
 }
 
 
-
-
+*/
 

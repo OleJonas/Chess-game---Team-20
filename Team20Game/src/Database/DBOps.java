@@ -1,4 +1,6 @@
+/*
 package Database;
+
 
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -51,7 +53,7 @@ public class DBOps{
             affectedRows = stmt.executeUpdate();
             /*if(affectedRows == 0){
                 throw new SQLException("Something went wrong while writing to the database!");
-            }*/
+            }
         } catch (SQLException sql) {
             sql.printStackTrace();
         } finally {
@@ -76,3 +78,4 @@ public class DBOps{
         }
     }
 }
+*/

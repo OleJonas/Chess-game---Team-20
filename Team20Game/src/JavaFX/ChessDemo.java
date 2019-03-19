@@ -1,5 +1,5 @@
 package JavaFX;
-import Database.DBOps;
+//import Database.DBOps;
 import Game.GameLogic;
 import Pieces.*;
 import javafx.application.Application;
@@ -246,11 +246,12 @@ class TestTile extends StackPane {
     }
 }
 
-class TestHighlightBox extends Pane{
+class   TestHighlightBox extends Pane{
         int x;
         int y;
         int height;
         double hboxOpacity = 0.7;
+        boolean mode = true;
 
         String shapeOfBox = "circle";
         public TestHighlightBox(int x, int y, int height, TestTile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, GameEngine gameEngine, TestTile[][] board){
@@ -336,6 +337,10 @@ class TestHighlightBox extends Pane{
                     int[] elo = gameEngine.getElo(1000, 1000, 2);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                 }
+                if (gameEngine.isMoveRepetition()) {
+                    System.out.println("Repetisjon");
+                }
+
                 if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
                     System.out.println("Remis");
                     int[] elo = gameEngine.getElo(1200, 1000, 2);

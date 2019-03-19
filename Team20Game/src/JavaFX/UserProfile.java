@@ -1,5 +1,6 @@
+/*
 package JavaFX;
-import Database.DBOps;
+//import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -9,8 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import static JavaFX.Login.*;
-import static JavaFX.MainScene.showMainScene;
+//import static JavaFX.Login.*;
+//import static JavaFX.MainScene.showMainScene;
 
 
 @SuppressWarnings("Duplicates")
@@ -178,10 +179,11 @@ class UserProfile{
 
     static void setAvatar(String avatar){
         AVATAR = avatar;
-        DBOps conncetion = new DBOps();
-        conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
+        //DBOps conncetion = new DBOps();
+        //conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
     }
 
 
 
 }
+*/

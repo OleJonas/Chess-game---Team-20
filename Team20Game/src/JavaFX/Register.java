@@ -50,18 +50,18 @@ class Register {
                 registerComment.setText("Passwords not matching");
             }else {
                 boolean registrationOK = false;
-                try {
-                    registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
+               /* try {
+                    //registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
+                } catch (//SQLException e1) {
+                    //e1.printStackTrace();
+                }*/
                 if (registrationOK) {
                     registerUsernameField.clear();
                     registerPasswordField.clear();
                     registerPasswordAgainField.clear();
                     registerComment.setText(""); //CLearing the label for next time
-                    Login.loginComment.setText("");
-                    Login.runLogin();
+                   // Login.loginComment.setText("");
+                    //Login.runLogin();
                 } else {
                     System.out.println("User already exist!");
                     registerUsernameField.clear();
@@ -75,7 +75,7 @@ class Register {
         //signUpAlreadyAccountButton
         signUpalreadyAccountButton = new Button("Already registered?");
         signUpalreadyAccountButton.setOnAction(e -> {
-            Main.window.setScene(Login.startScene);
+            //Main.window.setScene(Login.startScene);
             registerUsernameField.clear();
             registerPasswordField.clear();
             registerPasswordAgainField.clear();

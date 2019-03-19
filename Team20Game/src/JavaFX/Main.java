@@ -3,8 +3,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import static JavaFX.GameScene.showGameScene;
-import static JavaFX.Login.runLogin;
-import static JavaFX.MainScene.showMainScene;
+//import static JavaFX.Login.runLogin;
+//import static JavaFX.MainScene.showMainScene;
 
 public class Main extends Application {
     static Stage window;
@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage){
         window = primaryStage;
-        runLogin();           //Denne vil brukes til det endelige spillet
+        //runLogin();           //Denne vil brukes til det endelige spillet
         //showMainScene();      //Denne kan brukes for å hoppe over login
         //showGameScene();      //Denne kan brukes for å gå rett til gameScene
         primaryStage.centerOnScreen();
