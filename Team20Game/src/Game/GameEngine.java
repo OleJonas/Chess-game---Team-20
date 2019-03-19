@@ -13,7 +13,7 @@ public class GameEngine {
    private int increment;
    private boolean color;
    private int moveCounter = 0;
-   private Map<Piece[][], Integer> rep;
+   private Map<Piece[][], Integer> rep = new HashMap<Piece[][], Integer>();
    //private GameChatNTimer gameChatNTimer;
 
    public GameEngine(int gameTime, int increment, boolean color) {
