@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import static JavaFX.MainScene.showMainScene;
 //import static JavaFX.MainScene.showMainScene;
 
 
@@ -41,7 +43,7 @@ class Settings{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            //showMainScene();
+            showMainScene();
             //Here you shuld later on create a method for storing the settings to a table in the database called userSettings
         });
 
@@ -147,7 +149,7 @@ class Settings{
 
         BorderPane layout = new BorderPane();
         layout.setBackground(new Background(myBI));
-        //layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
         layout.setBottom(bottomLayout);
         settingsScene = new Scene(layout, 455, 500);
