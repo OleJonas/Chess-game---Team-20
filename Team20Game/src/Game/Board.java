@@ -10,7 +10,6 @@ public class Board {
     private Piece[][] position = new Piece[8][8];
     private boolean castleRook = true;
     private boolean castleKing = true;
-    private boolean enPassant = true;
     private ArrayList<Piece> removedPieces;
 
     public Board() {
