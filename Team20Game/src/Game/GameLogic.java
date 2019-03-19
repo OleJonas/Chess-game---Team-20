@@ -436,7 +436,7 @@ public class GameLogic{
         return false;
     }
     //NEW
-    private static int[] myPieces(Board board, boolean myColor) {
+    public static int[] myPieces(Board board, boolean myColor) {
         Piece[][] boardState = board.getBoardState();
         int[] counter = new int[7];
         for (int x = 0; x < 8; x++) {

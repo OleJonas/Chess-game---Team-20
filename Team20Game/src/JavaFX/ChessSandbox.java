@@ -48,8 +48,8 @@ public class ChessSandbox {
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
 
-    private final String darkTileColor = "#8B4513";
-    private final String lightTileColor = "#FFEBCD";
+    private final String darkTileColor = Settings.darkTileColor;
+    private final String lightTileColor = Settings.lightTileColor;
 
     private boolean isDone = false;
 
@@ -142,8 +142,8 @@ class SandboxHighlightBox extends Pane{
     int y;
     int height;
     double hboxOpacity = 0.7;
-
     String shapeOfBox = "circle";
+
     public SandboxHighlightBox(int x, int y, int height, SandboxTile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, GameEngine gameEngine, SandboxTile[][] board){
         this.x = x;
         this.y = y;
@@ -178,12 +178,25 @@ class SandboxHighlightBox extends Pane{
                 top = height-1;
             }
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
-                Queen newPiece = new Queen(ChessDemo.color, x, y);
+                PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
+                pawnChange.Display();
+                Piece newPiece = null;
+                if (PawnChangeChoiceBox.choice.equals("Queen")) {
+                    newPiece = new Queen(ChessDemo.color, x, y);
+                } else if (PawnChangeChoiceBox.choice.equals("Rook")) {
+                    newPiece = new Rook(ChessDemo.color, x, y);
+                } else if (PawnChangeChoiceBox.choice.equals("Bishop")) {
+                    newPiece = new Bishop(ChessDemo.color, x, y);
+                } else if (PawnChangeChoiceBox.choice.equals("Knight")) {
+                    newPiece = new Knight(ChessDemo.color, x, y);
+                }
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
+
                 if(!ChessDemo.color){
                     tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
                 }
+
                 tile.setImageView(tempimg,
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
@@ -444,6 +457,7 @@ class PawnChangeChoiceBox{
 
     public static void Display(){
         Stage window = new Stage();
+        choice = "Queen";
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Promotion");
@@ -454,7 +468,7 @@ class PawnChangeChoiceBox{
         label.setTextFill(Color.WHITE);
 
         ListView<String> pieces = new ListView<>();
-        pieces.getItems().addAll("Bishop", "Knight", "Queen", "Rook");
+        pieces.getItems().addAll("Queen", "Knight", "Bishop", "Rook");
 
         Label comment = new Label("");
         comment.setTextFill(Color.RED);
@@ -483,7 +497,7 @@ class PawnChangeChoiceBox{
         mainLayout.setHalignment(choosePieceButton, HPos.RIGHT);
         mainLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(mainLayout, 260, 190);
+        Scene scene = new Scene(mainLayout, 260, 250);
         window.setScene(scene);
         window.showAndWait();
     }
