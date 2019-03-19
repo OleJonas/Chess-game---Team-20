@@ -14,10 +14,10 @@ public class ChatDB{
         /*db.createTable("chat");
         db.exUpdate("ALTER TABLE chat ADD msg_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;");
         db.exUpdate("ALTER TABLE chat ADD msg VARCHAR(140);");
-        db.exUpdate("ALTER TABLE chat DROP def;");*/
+        db.exUpdate("ALTER TABLE chat DROP def;");
         this.refresher = new Timer(true);
     }
-
+*/
     /*public void refreshLoop(){
         int delay = 5000;
         int period = 5000;
@@ -32,7 +32,7 @@ public class ChatDB{
         }, delay, period);
     }*/
 
-    public ArrayList<String> fetchChat(){
+   /* public ArrayList<String> fetchChat(){
         ArrayList<String> out = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat, 1);
         for(int i = 0; i < out.size(); i++){
             lastChat++;

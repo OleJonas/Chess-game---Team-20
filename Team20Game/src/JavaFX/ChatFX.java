@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/*
 import Database.ChatDB;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -129,4 +130,4 @@ public class ChatFX{
             messages.add(new Label(s));
         }
     }
-}
+}*/

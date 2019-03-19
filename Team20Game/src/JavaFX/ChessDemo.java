@@ -43,6 +43,8 @@ public class ChessDemo extends Application {
 
     private GameEngine ge = new GameEngine(15, true);
 
+    public static String skin = "Standard";
+
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
 

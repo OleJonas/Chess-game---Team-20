@@ -9,9 +9,9 @@ public class Pawn extends Piece {
     public Pawn(boolean color, int x, int y) {
         super(color, x, y);
         try {
-            Image image = color? new Image("Images/chessPieces/Standard/w_pawn_1x_ns.png",
+            Image image = color? new Image("Images/chessPieces/"+ChessDemo.skin+"/w_pawn_1x_ns.png",
                     ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE* ChessDemo.imageSize, true, true):
-                    new Image("Images/chessPieces/Standard/b_pawn_1x_ns.png",
+                    new Image("Images/chessPieces/"+ChessDemo.skin+"/b_pawn_1x_ns.png",
                             ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE * ChessDemo.imageSize, true, true);
             imageView = new ImageView(image);
 

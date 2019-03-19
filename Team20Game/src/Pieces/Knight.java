@@ -8,8 +8,8 @@ public class Knight extends Piece {
     public Knight(boolean color, int x, int y) {
         super(color, x, y);
         try {
-            Image image = color? new Image("Images/chessPieces/Standard/w_knight_1x_ns.png", ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE * ChessDemo.imageSize, true, true):
-                    new Image("Images/chessPieces/Standard/b_knight_1x_ns.png", ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE* ChessDemo.imageSize, true, true);
+            Image image = color? new Image("Images/chessPieces/"+ChessDemo.skin+"/w_knight_1x_ns.png", ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE * ChessDemo.imageSize, true, true):
+                    new Image("Images/chessPieces/"+ChessDemo.skin+"/b_knight_1x_ns.png", ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE* ChessDemo.imageSize, true, true);
             imageView = new ImageView(image);
 
         }catch(Exception e){
