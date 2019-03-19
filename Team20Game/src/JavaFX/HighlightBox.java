@@ -99,7 +99,7 @@ class HighlightBox extends Pane {
     private void uploadMove(int fromX, int fromY, int toX, int toY){
         DBOps db = new DBOps();
         System.out.println("uploaded movenr: " + (ChessGame.movenr +1));
-        db.exUpdate("INSERT INTO GameIDMove VALUES (" + ChessGame.gameID + ", " + (ChessGame.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (ChessGame.movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
     }
 
 

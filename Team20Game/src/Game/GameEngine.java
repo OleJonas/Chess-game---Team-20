@@ -13,30 +13,34 @@ public class GameEngine {
    private int increment;
    private boolean color;
    private int moveCounter = 0;
-   private Map<Piece[][], Integer> rep;
+   private HashMap<String, Integer> rep;
    //private GameChatNTimer gameChatNTimer;
 
    public GameEngine(int gameTime, int increment, boolean color) {
       board = new Board();
       this.color = color;
+      rep = new HashMap<String, Integer>();
       //this.gameChatNTimer = new GameChatNTimer(gameTime, increment);
    }
 
    public GameEngine(int time, boolean color) {
       board = new Board();
       this.color = color;
+      rep = new HashMap<String, Integer>();
       //this.gameChatNTimer = new GameChatNTimer(time);
    }
 
    public boolean isMoveRepetition(){
-      if (rep.containsKey(board.getBoardState())){
-         rep.put(board.getBoardState(), rep.get(board.getBoardState()) + 1);
+      if (rep.containsKey(board.toString())){
+         int oldBoardState = rep.get(board.toString());
+         rep.put(board.toString(), oldBoardState + 1);
       }
       else{
-         rep.put(board.getBoardState(), 1);
+         rep.put(board.toString(), new Integer("1"));
       }
-      return rep.get(board.getBoardState()) > 2;
+      return rep.get(board.toString()).compareTo(2) == 1;
    }
+
 
    public Board getBoard(){ return board; }
 

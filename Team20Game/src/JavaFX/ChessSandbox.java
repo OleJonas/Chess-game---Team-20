@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Timer;
 
-import static JavaFX.MainScene.showMainScene;
+//import static JavaFX.MainScene.showMainScene;
 
 
 public class ChessSandbox {
@@ -175,21 +176,23 @@ class SandboxHighlightBox extends Pane{
             int fromY = tile.getY();
             tile.move(x, y, board);
             int top=0;
-            if(ChessDemo.color) {
-                top = height-1;
+            if((tile.getMyColor()&&ChessDemo.color)||!tile.getMyColor() && !ChessDemo.color) {
+                top = height - 1;
             }
+
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
-                pawnChange.Display();
+                pawnChange.Display(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor());
                 Piece newPiece = null;
+                boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
-                    newPiece = new Queen(ChessDemo.color, x, y);
+                    newPiece = new Queen(pieceColor, x, y);
                 } else if (PawnChangeChoiceBox.choice.equals("Rook")) {
-                    newPiece = new Rook(ChessDemo.color, x, y);
+                    newPiece = new Rook(pieceColor, x, y);
                 } else if (PawnChangeChoiceBox.choice.equals("Bishop")) {
-                    newPiece = new Bishop(ChessDemo.color, x, y);
+                    newPiece = new Bishop(pieceColor, x, y);
                 } else if (PawnChangeChoiceBox.choice.equals("Knight")) {
-                    newPiece = new Knight(ChessDemo.color, x, y);
+                    newPiece = new Knight(pieceColor, x, y);
                 }
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
@@ -201,6 +204,7 @@ class SandboxHighlightBox extends Pane{
                 tile.setImageView(tempimg,
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
+
 
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
@@ -363,6 +367,7 @@ class SandboxTile extends StackPane {
     private GameEngine gameEngine;
 
     private int height;
+    private boolean myColor;
 
     private Group tileGroup;
 
@@ -376,6 +381,7 @@ class SandboxTile extends StackPane {
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
         currentPositionY=y;
+        this.myColor = myColor;
         this.tileGroup = tileGroup;
         this.height = height;
         this.gameEngine = gameEngine;
@@ -413,6 +419,9 @@ class SandboxTile extends StackPane {
         });
         setOnMouseReleased(e->{
         });
+    }
+    public boolean getMyColor() {
+        return myColor;
     }
     public void setPos(int x, int y){
         currentPositionX = x;
@@ -453,6 +462,131 @@ class SandboxTile extends StackPane {
     }
 }
 
+@SuppressWarnings("Duplicates")
+class PawnChangeChoiceBox{
+    static String choice;
+
+    public static void Display(boolean color){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Promotion");
+
+        Label label = new Label("Choose your new \n           piece:");
+        label.setFont(Font.font("Copperplate", 22));
+        label.setStyle("-fx-font-weight: bold");
+        label.setTextFill(Color.WHITE);
+
+        Button pickBishopButton = new Button();
+        Button pickKnightButton = new Button();
+        Button pickQueenButton = new Button();
+        Button pickRookButton = new Button();
+
+        if(color){
+            Image pickBishopImage = new Image("Images/chessPieces/Standard/w_bishop_1x_ns.png",60, 60, true, true);
+            Image pickKnightImage = new Image("Images/chessPieces/Standard/w_knight_1x_ns.png", 60, 60, true, true);
+            Image pickQueenImage = new Image("Images/chessPieces/Standard/w_queen_1x_ns.png", 60, 60, true, true);
+            Image pickRookImage = new Image("Images/chessPieces/Standard/w_rook_1x_ns.png", 60, 60, true, true);
+
+            ImageView bishopImageView = new ImageView(pickBishopImage);
+            ImageView knightImageView = new ImageView(pickKnightImage);
+            ImageView queenImageView = new ImageView(pickQueenImage);
+            ImageView rookImageView = new ImageView(pickRookImage);
+
+            pickBishopButton.setGraphic(bishopImageView);
+            pickKnightButton.setGraphic(knightImageView);
+            pickQueenButton.setGraphic(queenImageView);
+            pickRookButton.setGraphic(rookImageView);
+        } else if (!color) {
+            Image pickBishopImage = new Image("Images/chessPieces/Standard/b_bishop_1x_ns.png",60, 60, true, true);
+            Image pickKnightImage = new Image("Images/chessPieces/Standard/b_knight_1x_ns.png", 60, 60, true, true);
+            Image pickQueenImage = new Image("Images/chessPieces/Standard/b_queen_1x_ns.png", 60, 60, true, true);
+            Image pickRookImage = new Image("Images/chessPieces/Standard/b_rook_1x_ns.png", 60, 60, true, true);
+
+            ImageView bishopImageView = new ImageView(pickBishopImage);
+            ImageView knightImageView = new ImageView(pickKnightImage);
+            ImageView queenImageView = new ImageView(pickQueenImage);
+            ImageView rookImageView = new ImageView(pickRookImage);
+
+            pickBishopButton.setGraphic(bishopImageView);
+            pickKnightButton.setGraphic(knightImageView);
+            pickQueenButton.setGraphic(queenImageView);
+            pickRookButton.setGraphic(rookImageView);
+        }
+
+        pickBishopButton.setPrefSize(80, 80);
+        pickKnightButton.setPrefSize(80, 80);
+        pickQueenButton.setPrefSize(80, 80);
+        pickRookButton.setPrefSize(80, 80);
+
+        pickBishopButton.setOnAction(e -> {choice = "Bishop"; window.close();});
+        pickKnightButton.setOnAction(e -> {choice = "Knight"; window.close();});
+        pickQueenButton.setOnAction(e -> {choice = "Queen"; window.close();});
+        pickRookButton.setOnAction(e -> {choice = "Rook"; window.close();});
+
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(10);
+        mainLayout.setVgap(10);
+        mainLayout.setPadding(new Insets(10, 20, 10, 10));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(100));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(100));
+        mainLayout.add(label, 0, 0, 2, 1);
+        mainLayout.setHalignment(label, HPos.CENTER);
+        mainLayout.add(pickQueenButton, 0,1);
+        mainLayout.setHalignment(pickQueenButton, HPos.CENTER);
+        mainLayout.add(pickKnightButton, 1, 1);
+        mainLayout.setHalignment(pickKnightButton, HPos.CENTER);
+        mainLayout.add(pickBishopButton, 0,2);
+        mainLayout.setHalignment(pickBishopButton, HPos.CENTER);
+        mainLayout.add(pickRookButton, 1, 2);
+        mainLayout.setHalignment(pickRookButton, HPos.CENTER);
+        mainLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(mainLayout, 230, 260);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+}
+
+@SuppressWarnings("Duplicates")
+class FinishedGameResetAlert{
+
+    public static void Display(){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("");
+
+        Label label = new Label("Checkmate!");
+        label.setFont(Font.font("Copperplate", 24));
+        label.setStyle("-fx-font-weight: bold");
+        label.setTextFill(Color.WHITE);
+
+        Button startOverButton = new Button("Start over");
+        startOverButton.setOnAction(e -> {
+            //showMainScene();
+            window.close();
+        });
+
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(10);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 60, 30, 60));
+        mainLayout.add(label, 0, 0);
+        mainLayout.setHalignment(label, HPos.CENTER);
+        mainLayout.add(startOverButton, 0, 1);
+        mainLayout.setHalignment(startOverButton, HPos.CENTER);
+        mainLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(mainLayout, 260, 150);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+}
+
+//Choicebox with listview
+/*
 class PawnChangeChoiceBox{
     static String choice;
 
@@ -505,41 +639,7 @@ class PawnChangeChoiceBox{
 
 }
 
-@SuppressWarnings("Duplicates")
-class FinishedGameResetAlert{
-
-    public static void Display(){
-        Stage window = new Stage();
-
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("");
-
-        Label label = new Label("Checkmate!");
-        label.setFont(Font.font("Copperplate", 24));
-        label.setStyle("-fx-font-weight: bold");
-        label.setTextFill(Color.WHITE);
-
-        Button startOverButton = new Button("Start over");
-        startOverButton.setOnAction(e -> {
-            showMainScene();
-            window.close();
-        });
-
-        GridPane mainLayout = new GridPane();
-        mainLayout.setHgap(10);
-        mainLayout.setVgap(20);
-        mainLayout.setPadding(new Insets(30, 60, 30, 60));
-        mainLayout.add(label, 0, 0);
-        mainLayout.setHalignment(label, HPos.CENTER);
-        mainLayout.add(startOverButton, 0, 1);
-        mainLayout.setHalignment(startOverButton, HPos.CENTER);
-        mainLayout.setStyle("-fx-background-color: #404144;");
-
-        Scene scene = new Scene(mainLayout, 260, 150);
-        window.setScene(scene);
-        window.showAndWait();
-    }
-}
+ */
 
 
 

@@ -1,3 +1,4 @@
+
 package JavaFX;
 import Database.DBOps;
 import javafx.geometry.HPos;
@@ -178,10 +179,7 @@ class UserProfile{
 
     static void setAvatar(String avatar){
         AVATAR = avatar;
-        DBOps conncetion = new DBOps();
-        conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
+        //DBOps conncetion = new DBOps();
+        //conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
     }
-
-
-
 }

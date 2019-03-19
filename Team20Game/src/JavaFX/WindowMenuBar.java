@@ -51,7 +51,7 @@ public class WindowMenuBar {
         userProfileMenuItem.setOnAction(e -> showUserProfileScene());
         userMenu.getItems().add(userProfileMenuItem);
         MenuItem findUserMenuItem = new MenuItem("Find User");
-        findUserMenuItem.setOnAction(e -> showFindUserScene());
+        //findUserMenuItem.setOnAction(e -> showFindUserScene());
         userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
@@ -102,7 +102,7 @@ public class WindowMenuBar {
         userProfileMenuItem.setOnAction(e -> showUserProfileScene());
         userMenu.getItems().add(userProfileMenuItem);
         MenuItem findUserMenuItem = new MenuItem("Find User");
-        findUserMenuItem.setOnAction(e -> showFindUserScene());
+        //findUserMenuItem.setOnAction(e -> showFindUserScene());
         userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
