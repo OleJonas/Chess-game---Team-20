@@ -8,9 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import static JavaFX.FindUser.showFindUserScene;
+//import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.Settings.showSettings;
-import static JavaFX.UserProfile.showUserProfileScene;
+//import static JavaFX.UserProfile.showUserProfileScene;
 
 @SuppressWarnings("Duplicates")
 class GameScene {
@@ -51,6 +51,7 @@ class GameScene {
         playersLabel.setStyle("-fx-font-weight: bold");
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
+        rightGrid.add(ChatFX.createChat(), 0, 2);
 
 
         //mainLayout
@@ -81,6 +82,7 @@ class GameScene {
 
         gameScene = new Scene(layout, 1450, 950);
         Main.window.setScene(gameScene);
+        ChatFX.refresh();
     }
 }
 

@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import static JavaFX.MainScene.showMainScene;
+//import static JavaFX.MainScene.showMainScene;
 
 
 @SuppressWarnings("Duplicates")
@@ -18,8 +18,8 @@ class Settings{
     //Settingvariables
 
     //Color
-    static String darkTileColor;
-    static String lightTileColor;
+    static String darkTileColor = "#8B4513";
+    static String lightTileColor = "#FFEBCD";
     //Skin
     static String skinName;
 
@@ -41,7 +41,7 @@ class Settings{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            showMainScene();
+            //showMainScene();
             //Here you shuld later on create a method for storing the settings to a table in the database called userSettings
         });
 
@@ -139,14 +139,6 @@ class Settings{
         bottomLayout.add(applyChangesButton, 2, 0 );
 
 
-
-
-
-
-
-
-
-
         //Set image as background
         BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -155,7 +147,7 @@ class Settings{
 
         BorderPane layout = new BorderPane();
         layout.setBackground(new Background(myBI));
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
         layout.setBottom(bottomLayout);
         settingsScene = new Scene(layout, 455, 500);

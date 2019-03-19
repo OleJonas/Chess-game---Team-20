@@ -350,13 +350,13 @@ class JoinGamePopup{
             String gameIDInputString = gameIDInputField.getText();
             if(isInt(gameIDInputString)){
                 int inputInt = Integer.parseInt(gameIDInputString);
-            /*
+
                 if (checkGameId(inputInt)){
                     ChessGame.gameID = inputInt;
                     window.close();
                     showGameScene();
                 }
-            */
+
                 ChessGame.gameID = inputInt;
                 window.close();
                 showGameScene();
@@ -399,8 +399,6 @@ class JoinGamePopup{
         }
     }
 }
-
-
 
 
 

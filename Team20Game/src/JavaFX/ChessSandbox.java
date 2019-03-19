@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Timer;
 
-import static JavaFX.MainScene.showMainScene;
+//import static JavaFX.MainScene.showMainScene;
 
 
 public class ChessSandbox {
@@ -565,7 +565,7 @@ class FinishedGameResetAlert{
 
         Button startOverButton = new Button("Start over");
         startOverButton.setOnAction(e -> {
-            showMainScene();
+            //showMainScene();
             window.close();
         });
 

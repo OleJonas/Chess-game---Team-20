@@ -4,36 +4,30 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import JavaFX.ChessGame;
+import JavaFX.Login;
+
 public class ChatDB{
     private DBOps db;
     private Timer refresher;
     private int lastChat = 1;
+    private int gameid = ChessGame.gameID;
+    private int user_id;
 
     public ChatDB() {
         this.db = new DBOps();
-        db.createTable("chat");
+        /*db.createTable("chat");
         db.exUpdate("ALTER TABLE chat ADD msg_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;");
         db.exUpdate("ALTER TABLE chat ADD msg VARCHAR(140);");
-        db.exUpdate("ALTER TABLE chat DROP def;");
+        db.exUpdate("ALTER TABLE chat DROP def;");*/
         this.refresher = new Timer(true);
+        this.user_id = Integer.parseInt(db.exQuery("SELECT user_id FROM User WHERE username = '" + Login.USERNAME + "';", 1).get(0));
+
     }
 
-    /*public void refreshLoop(){
-        int delay = 5000;
-        int period = 5000;
-        refresher.scheduleAtFixedRate(new TimerTask(){
-            String chatOut = null;
-            public void run(){
-                chatOut = fetchChat();
-                if(chatOut != "" && chatOut != " " && chatOut != "\n" && chatOut != null) {
-                    System.out.println(chatOut);
-                }
-            }
-        }, delay, period);
-    }*/
-
     public ArrayList<String> fetchChat(){
-        ArrayList<String> out = db.exQuery("SELECT msg FROM chat WHERE msg_id >= " + lastChat, 1);
+        // Might have to change this query later.
+        ArrayList<String> out = db.exQuery("SELECT msg FROM Chat WHERE msg_id >= " + lastChat + " AND game_id = " + gameid, 1);
         for(int i = 0; i < out.size(); i++){
             lastChat++;
         }
@@ -46,7 +40,17 @@ public class ChatDB{
     }
 
     public void writeChat(String input){
-        String writeToDB = "INSERT INTO chat VALUES (default, '" + input + "')";
+        // Checks if there already are messages corresponding to current game.
+        // If not, sends first message of the game, and resumes normal execution;
+        if(db.exQuery("SELECT * FROM Chat WHERE game_id = " + gameid,1).size() == 0){
+            db.exUpdate("INSERT INTO Chat(game_id, msg_id, user_id, msg) VALUES (" + gameid + ", 1, " + user_id + ", '" + input + "')");
+            return;
+        }
+        String writeToDB = "INSERT INTO Chat VALUES (" + gameid + ", default, " + user_id + ", '" + Login.USERNAME + ": " + input + "')";
         db.exUpdate(writeToDB);
     }
+
+    /*public void initChat(String input){
+        db.exUpdate("INSERT INTO Chat VALUES (" + gameid +", 1, " + user_id + ", '" + input + "')");
+    }*/
 }
