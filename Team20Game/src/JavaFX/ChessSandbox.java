@@ -175,21 +175,23 @@ class SandboxHighlightBox extends Pane{
             int fromY = tile.getY();
             tile.move(x, y, board);
             int top=0;
-            if(ChessDemo.color) {
-                top = height-1;
+            if((tile.getMyColor()&&ChessDemo.color)||!tile.getMyColor() && !ChessDemo.color) {
+                top = height - 1;
             }
+
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
                 pawnChange.Display();
                 Piece newPiece = null;
+                boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
-                    newPiece = new Queen(ChessDemo.color, x, y);
+                    newPiece = new Queen(pieceColor, x, y);
                 } else if (PawnChangeChoiceBox.choice.equals("Rook")) {
-                    newPiece = new Rook(ChessDemo.color, x, y);
+                    newPiece = new Rook(pieceColor, x, y);
                 } else if (PawnChangeChoiceBox.choice.equals("Bishop")) {
-                    newPiece = new Bishop(ChessDemo.color, x, y);
+                    newPiece = new Bishop(pieceColor, x, y);
                 } else if (PawnChangeChoiceBox.choice.equals("Knight")) {
-                    newPiece = new Knight(ChessDemo.color, x, y);
+                    newPiece = new Knight(pieceColor, x, y);
                 }
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
@@ -201,6 +203,7 @@ class SandboxHighlightBox extends Pane{
                 tile.setImageView(tempimg,
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
+
 
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
@@ -363,6 +366,7 @@ class SandboxTile extends StackPane {
     private GameEngine gameEngine;
 
     private int height;
+    private boolean myColor;
 
     private Group tileGroup;
 
@@ -376,6 +380,7 @@ class SandboxTile extends StackPane {
         setHeight(ChessDemo.TILE_SIZE);
         currentPositionX=x;
         currentPositionY=y;
+        this.myColor = myColor;
         this.tileGroup = tileGroup;
         this.height = height;
         this.gameEngine = gameEngine;
@@ -413,6 +418,9 @@ class SandboxTile extends StackPane {
         });
         setOnMouseReleased(e->{
         });
+    }
+    public boolean getMyColor() {
+        return myColor;
     }
     public void setPos(int x, int y){
         currentPositionX = x;
