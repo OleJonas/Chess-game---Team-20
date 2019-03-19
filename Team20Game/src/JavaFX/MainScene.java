@@ -31,7 +31,11 @@ import static JavaFX.UserProfile.showUserProfileScene;
 class MainScene {
     static Scene mainScene;
     static GridPane leftGrid;
+    static Timer timer = new Timer(true);
     static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
+    private static boolean inQueueCreate = false;
+    private static boolean inQueueJoin = false;
+    private static String sql;
 
     static void showMainScene() {
         Label title = new Label("Recess Chess");
@@ -43,10 +47,10 @@ class MainScene {
         createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
-            createGame(25, 5, true, 1);
-
-
-
+            ChessGame.gameID = newGameID();
+            createGame(222, 5, true, 1);
+            inQueueCreate = true;
+            //waitForOpponent();
 
 
             //showGameScene();
@@ -55,7 +59,9 @@ class MainScene {
         joinGameButton.setOnAction(e -> {
             boolean[] colors = {true, true};
             //JoinGamePopup.Display()
-            joinGame(25, 5, colors, 1);
+            //joinGame(25, 5, colors, 1);
+            sql = createSearch(25, 5, colors, 1);
+            inQueueJoin = true;
         });
 
         //Left GridPane
@@ -162,6 +168,7 @@ class MainScene {
 
         mainScene = new Scene(layout, 1450, 950);
         Main.window.setScene(mainScene);
+        refresh();
     }
 
     static void gameSetup() {
@@ -170,7 +177,7 @@ class MainScene {
 
     static int newGameID() {
         DBOps connection = new DBOps();
-        ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(GameID) from GameIDMove group by GameID", 1); //Change this SQLQuery to match the database
+        ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(game_id) FROM Game;", 1); //Change this SQLQuery to match the database
         if (matchingGameIDs.size() == 0) {
             return 1;
         }
@@ -205,27 +212,34 @@ class MainScene {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 boolean ready = true;
-                while(ready){
-                    System.out.println("Heloo");
+                while(ready && inQueueJoin){
                     ready = playersReady(connection);
                 }
-                System.out.println("Sucsess!");
-
+                connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " +ChessGame.gameID);
+                System.out.println("Success!");
             }
         });
         t.start();
     }
 
     static boolean playersReady(DBOps connection) {
+        System.out.println(ChessGame.gameID);
         String sql = "SELECT * FROM Game WHERE user_id1 IS NOT NULL AND user_id2 IS NOT NULL AND game_id = " +ChessGame.gameID +";";
-        if (connection.exQuery(sql, 1).size() > 0) {
+        try {
+            if (connection.exQuery(sql, 1).size() > 0) {
+                //showGameScene();
+                return false;
+            }
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
-    static boolean joinGame(int time, int increment, boolean[] color, int rated) {
-        String sql = createSearch(time, increment, color, rated);
+    static void joinGame(int time, int increment, boolean[] color, int rated) {
+        sql = createSearch(time, increment, color, rated);
+        inQueueJoin = true;
         DBOps connection = new DBOps();
         //ArrayList opponent = connection.exQuery(sql, 1);
 
@@ -233,34 +247,27 @@ class MainScene {
             public void run() {
                 int game_id = -1;
                 while(game_id==-1){
-                    System.out.println("Heloo");
                     game_id = pollQueue(sql, connection);
                 }
-                ChessGame.gameID = game_id;
+                //ChessGame.gameID = game_id;
 
-                if (connection.exUpdate("UPDATE Game SET user_id1 = " +2+ ", active = 0 WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                if (connection.exUpdate("UPDATE Game SET user_id1 = " +2+ " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
                     ChessGame.color = true;
                 } else {
-                    connection.exUpdate("UPDATE Game SET user_id2 = " +2+ ", active = 0 WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                    connection.exUpdate("UPDATE Game SET user_id2 = " +2+ " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
                     ChessGame.color = false;
                 }
             }
         });
 
         t.start();
-        return true;
     }
 
 
     public static int pollQueue(String sql, DBOps connection) {
-        try {
-            ArrayList<String> opponent = connection.exQuery(sql, 1);
-            if (opponent.size() > 0) {
-                return Integer.parseInt(opponent.get(0));
-            }
-            Thread.sleep(5000);
-        } catch (Exception e) {
-            e.printStackTrace();
+        ArrayList<String> opponent = connection.exQuery(sql, 1);
+        if (opponent.size() > 0) {
+            return Integer.parseInt(opponent.get(0));
         }
         return -1;
     }
@@ -320,6 +327,68 @@ class MainScene {
         sql += " AND active = 1;";
         System.out.println(sql);
         return sql;
+    }
+    public static void refresh(){
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                service();
+            }
+        }, 5000, 5000);
+    }
+
+    static void service() {
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        System.out.println("hEI");
+                        //Background work
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                DBOps connection = new DBOps();
+                                try {
+                                    if(inQueueCreate){
+                                        System.out.println("waiting for opponent");
+                                        if(!playersReady(connection)) {
+                                            connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
+                                            System.out.println("Success!");
+                                            System.out.println("Started game with gameID: " + ChessGame.gameID);
+                                            inQueueCreate = false;
+                                            showGameScene();
+                                        }
+                                    }else if(inQueueJoin){
+                                        System.out.println("Looking for opponent");
+                                        int game_id = pollQueue(sql, connection);
+                                        if(game_id!=-1) {
+                                            if (connection.exUpdate("UPDATE Game SET user_id1 = " + 2 + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                                                ChessGame.color = true;
+                                            } else {
+                                                connection.exUpdate("UPDATE Game SET user_id2 = " + 2 + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                                                ChessGame.color = false;
+                                            }
+                                            System.out.println("Started game with gameID: " + ChessGame.gameID);
+                                            inQueueJoin = false;
+                                            showGameScene();
+                                        }
+                                    }
+                                } finally {
+                                    latch.countDown();
+                                }
+                            }
+                        });
+                        latch.await();
+                        //Keep with the background work
+                        return null;
+                    }
+                };
+            }
+        };
+        service.start();
     }
 
 
