@@ -10,7 +10,7 @@ import JavaFX.Login;
 public class ChatDB{
     private DBOps db;
     private Timer refresher;
-    private int lastChat = 1;
+    private int lastChat = 0;
     private int gameid = ChessGame.gameID;
     private int user_id;
 
@@ -22,9 +22,9 @@ public class ChatDB{
 
     public ArrayList<String> fetchChat(){
         // Might have to change this query later.
-        ArrayList<String> out = db.exQuery("SELECT msg FROM Chat WHERE msg_id >= " + lastChat + " AND game_id = " + gameid, 1);
-        for(int i = 0; i < out.size(); i++){
-            lastChat++;
+        ArrayList<String> out = db.exQuery("SELECT msg FROM Chat WHERE msg_id > " + lastChat + " AND game_id = " + gameid, 1);
+        if(out.size() > 0){
+            this.lastChat++;
         }
         return out;
     }
@@ -33,15 +33,24 @@ public class ChatDB{
         db.close();
     }
 
-    public void writeChat(String input){
+    private void writeChat(String input){
         // Checks if there already are messages corresponding to current game.
         // If not, sends first message of the game, and resumes normal execution;
         if(db.exQuery("SELECT * FROM Chat WHERE game_id = " + gameid,1).size() == 0){
             db.exUpdate("INSERT INTO Chat(game_id, msg_id, user_id, msg) VALUES (" + gameid + ", 1, " + user_id + ", '" + Login.USERNAME + ": " + input + "')");
             return;
         }
-        String writeToDB = "INSERT INTO Chat VALUES (" + gameid + ", default, " + user_id + ", '" + Login.USERNAME + ": " + input + "')";
+        String writeToDB = "INSERT INTO Chat VALUES (" + gameid + ", " + (lastChat + 1) + ", " + user_id + ", '" + Login.USERNAME + ": " + input + "')";
         db.exUpdate(writeToDB);
+    }
+
+    public void writeThreadChat(String input) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                writeChat(input);
+            }
+        });
+        t.start();
     }
 
     /*public void initChat(String input){

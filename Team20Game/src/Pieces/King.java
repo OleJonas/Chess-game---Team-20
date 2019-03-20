@@ -1,5 +1,6 @@
 package Pieces;
 import JavaFX.ChessDemo;
+import JavaFX.ChessGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -8,21 +9,21 @@ public class King extends Piece {
     private boolean canCastle;
     public King(boolean color, int x, int y) {
         super(color, x, y);
-        try {
-            Image image = color? new Image("Images/chessPieces/"+ ChessDemo.skin +"/w_king_1x_ns.png",
-                    ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize*0.9, false, true):
-                    new Image("Images/chessPieces/"+ChessDemo.skin+"/b_king_2x_ns.png",
-                            ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, false, true);
-            imageView = new ImageView(image);
-
-        }catch(Exception e){
-
-        }
         this.canCastle = true;
     }
 
     public ImageView getImageView(){
-        return imageView;
+        try {
+            Image image = super.getColor()? new Image("Images/chessPieces/"+ ChessGame.skin +"/w_king_1x_ns.png",
+                    ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize*0.9, false, true):
+                    new Image("Images/chessPieces/"+ChessGame.skin+"/b_king_2x_ns.png",
+                            ChessDemo.TILE_SIZE * ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, false, true);
+            return imageView = new ImageView(image);
+
+        }catch(Exception e){
+
+        }
+        return null;
     }
 
     public char getNotation() {

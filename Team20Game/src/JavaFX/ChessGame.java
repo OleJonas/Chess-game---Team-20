@@ -18,6 +18,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
 import Game.GameEngine;
+
+import java.lang.reflect.Array;
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -31,6 +33,8 @@ public class ChessGame{
     public static boolean color = true;
     public static boolean myTurn = true;
     public static int movenr = 0;
+    private String homeSkin;
+    private String awaySkin;
     public static String skin = "Standard";
     private GameEngine ge = new GameEngine(15, true);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
@@ -47,6 +51,7 @@ public class ChessGame{
     private Group lastMoveGroup = new Group();
 
     public Parent setupBoard() {
+        setSkins();
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
@@ -73,14 +78,18 @@ public class ChessGame{
                     if (color) {
                         if (ge.getBoard().getBoardState()[x][y].getColor()) {
                             myColor = true;
+                            skin = homeSkin;
                         } else {
                             myColor = false;
+                            skin = awaySkin;
                         }
                     } else {
                         if (ge.getBoard().getBoardState()[x][y].getColor()) {
                             myColor = false;
+                            skin=homeSkin;
                         } else {
                             myColor = true;
+                            skin = awaySkin;
                         }
                     }
                     Tile tile = new Tile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, lastMoveGroup, board);
@@ -120,6 +129,19 @@ public class ChessGame{
 
         }
         return false;
+    }
+
+    public boolean setSkins(){
+                DBOps db = new DBOps();
+                int home_id = Integer.parseInt(db.exQuery("SELECT user_id1 FROM Game WHERE game_id = "+ gameID +";", 1).get(0));
+                System.out.println("home id:" + home_id);
+                int away_id = Integer.parseInt(db.exQuery("SELECT user_id2 FROM Game WHERE game_id = "+ gameID +";", 1).get(0));
+                System.out.println("away_id: " + away_id);
+                homeSkin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + home_id+";",1).get(0);
+                awaySkin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + away_id+";",1).get(0);
+                System.out.println("homeSkin: " + homeSkin + "awaySkin: " + awaySkin);
+
+                return true;
     }
 
     public void clockDBThings(){

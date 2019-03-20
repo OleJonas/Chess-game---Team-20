@@ -56,7 +56,7 @@ public class ChatFX{
 
         sendButton.setOnAction(e -> {
             if(!inText.getText().trim().equals("")){
-                chat.writeChat(inText.getText().trim());
+                chat.writeThreadChat(inText.getText().trim());
                 inText.clear();
             }
         });
