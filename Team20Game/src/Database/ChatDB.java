@@ -10,7 +10,7 @@ import JavaFX.Login;
 public class ChatDB{
     private DBOps db;
     private Timer refresher;
-    private int lastChat = 1;
+    private int lastChat = 0;
     private int gameid = ChessGame.gameID;
     private int user_id;
 
@@ -22,7 +22,7 @@ public class ChatDB{
 
     public ArrayList<String> fetchChat(){
         // Might have to change this query later.
-        ArrayList<String> out = db.exQuery("SELECT msg FROM Chat WHERE msg_id > " + lastChat + " AND game_id = " + gameid + " LIMIT 1;", 1);
+        ArrayList<String> out = db.exQuery("SELECT msg FROM Chat WHERE msg_id > " + lastChat + " AND game_id = " + gameid, 1);
         if(out.size() > 0){
             this.lastChat++;
         }
@@ -40,7 +40,7 @@ public class ChatDB{
             db.exUpdate("INSERT INTO Chat(game_id, msg_id, user_id, msg) VALUES (" + gameid + ", 1, " + user_id + ", '" + Login.USERNAME + ": " + input + "')");
             return;
         }
-        String writeToDB = "INSERT INTO Chat VALUES (" + gameid + ", default, " + user_id + ", '" + Login.USERNAME + ": " + input + "')";
+        String writeToDB = "INSERT INTO Chat VALUES (" + gameid + ", " + (lastChat + 1) + ", " + user_id + ", '" + Login.USERNAME + ": " + input + "')";
         db.exUpdate(writeToDB);
     }
 
