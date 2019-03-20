@@ -38,7 +38,6 @@ public class Login{
     static PasswordField loginPasswordField;
     static Label loginComment;
     static int userID;
-    static DBOps connection = new DBOps();
 
 
     static void runLogin() {
@@ -127,6 +126,7 @@ public class Login{
     }
 
     static boolean checkUsername(String username){
+        DBOps connection = new DBOps();
         String matchingUsername = "";
         try{
             ArrayList<String> result = connection.exQuery("SELECT username FROM User WHERE username=\"" + username + "\"",1);
@@ -144,6 +144,7 @@ public class Login{
     }
 
     static boolean checkPassword(String password, String username) throws NoSuchAlgorithmException{
+        DBOps connection = new DBOps();
         String matchingPassword = "";
         byte[] saltByte = new byte[20];
         try{
@@ -167,6 +168,7 @@ public class Login{
 
     //Denne metoden registrerer en bruker i User-tabellen med brukernavn, passord, SALT, en default avatar og en user_id (AUTO_INCREMENT)
     static boolean register(String username, String password) throws SQLException {
+        DBOps connection = new DBOps();
         try{
             if(checkUsername(username)) return false;
             //Create salt hash password
@@ -227,6 +229,7 @@ public class Login{
     }
 
     static String getAvatar(String username) {
+        DBOps connection = new DBOps();
         String avatar;
         //DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT avatar FROM User WHERE username=\"" + username + "\"",1);
@@ -239,11 +242,13 @@ public class Login{
     }
 
     static int getUserID(){
+        DBOps connection = new DBOps();
         int out = Integer.parseInt(connection.exQuery("SELECT user_id FROM User WHERE username = " + USERNAME, 1).get(0));
         return out;
     }
 
     static void getGameInfo(){
+        DBOps connection = new DBOps();
         //DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User WHERE username=\"" + USERNAME + "\"",5);
         if(result.size() > 0){
@@ -256,7 +261,7 @@ public class Login{
     }
 
     static void getSettings(){
-        //DBOps connection = new DBOps();
+        DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT darkTileColor, lightTileColor, skinName FROM UserSettings WHERE username=\"" + USERNAME + "\"",3);
         if(result.size() > 0){
             Settings.darkTileColor = result.get(0);
@@ -266,7 +271,7 @@ public class Login{
     }
 
     static boolean storeSettings(){
-        //DBOps connection = new DBOps();
+        DBOps connection = new DBOps();
         int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + Settings.skinName + "' WHERE username = '" + USERNAME + "';");
         if(rowsAffected==1) return true;
         return false;
