@@ -60,6 +60,11 @@ class MainScene {
             ChessGame.gameID = newGameID();
             createGame(222, 5, true, 1);
             leftGrid.getChildren().clear();
+            Label queLabel = new Label("Waiting for\nopponent ...");
+            queLabel.setFont(Font.font("Copperplate", 34));
+            queLabel.setTextFill(Color.WHITE);
+            leftGrid.getChildren().add(queLabel);
+            leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
             inQueueCreate = true;
             //waitForOpponent();
