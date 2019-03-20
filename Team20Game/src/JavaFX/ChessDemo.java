@@ -1,5 +1,6 @@
 package JavaFX;
 //import Database.DBOps;
+import Database.DBOps;
 import Game.GameLogic;
 import Pieces.*;
 import javafx.application.Application;
@@ -42,7 +43,7 @@ public class ChessDemo extends Application {
 
     private GameEngine ge = new GameEngine(15, true);
 
-    public static String skin = "Standard";
+    public static String skin = ChessGame.skin;
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
@@ -183,7 +184,7 @@ class TestTile extends StackPane {
             square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
             square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
             selectedGroup.getChildren().add(square);
-            if(ChessDemo.myTurn) {
+            if(ChessDemo.myTurn ) {
                 ArrayList<Integer> moves = gameEngine.validMoves(currentPositionX, currentPositionY);
 
                 if(moves!=null&&moves.size()>0) {
@@ -248,7 +249,7 @@ class TestTile extends StackPane {
     }
 }
 
-class   TestHighlightBox extends Pane{
+class TestHighlightBox extends Pane{
         int x;
         int y;
         int height;

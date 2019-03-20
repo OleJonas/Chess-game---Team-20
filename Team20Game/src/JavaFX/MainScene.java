@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -62,7 +61,7 @@ class MainScene {
         createGameButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(222, 5, true, 1);
+            createGame(67, 10, true, 1);
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -81,9 +80,14 @@ class MainScene {
             boolean[] colors = {true, true};
             //JoinGamePopup.Display()
             //joinGame(25, 5, colors, 1);
-            sql = createSearch(54, 10, colors, 1);
+            sql = createSearch(67, 10, colors, 1);
             inQueueJoin = true;
             leftGrid.getChildren().clear();
+            Label queLabel = new Label("Waiting for\nopponent ...");
+            queLabel.setFont(Font.font("Copperplate", 34));
+            queLabel.setTextFill(Color.WHITE);
+            leftGrid.getChildren().add(queLabel);
+            leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
         });
 
@@ -135,7 +139,7 @@ class MainScene {
         inviteFriendButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(67, 10, true, 1, 6);
+            createGame(67, 10, true, 1, 7);
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -154,6 +158,7 @@ class MainScene {
             removeActiveFromGame();
 
             leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
             leftGrid.add(findUserButton, 0, 1);
@@ -215,9 +220,14 @@ class MainScene {
     }
 
     static void removeActiveFromGame(){
-        DBOps temp = new DBOps();
-        int game_id = ChessGame.gameID;
-        temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps temp = new DBOps();
+                int game_id = ChessGame.gameID;
+                temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
+            }
+        });
+        t.start();
     }
 
     static void gameSetup() {
@@ -235,14 +245,18 @@ class MainScene {
     }
 
     static void createGame(int time, int increment, boolean color, int rated) {
-        DBOps connection = new DBOps();
-        int userid = Login.getUserID();
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    DBOps connection = new DBOps();
 
-        if (color) {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
-        } else {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", null, 1);");
-        }
+                    if (color) {
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
+                    } else {
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", null, " + time + ", " + increment + ", " + rated + ", null, 1);");
+                    }
+                }
+            });
+            t.start();
     }
 
     static void createGame(int time, int increment, boolean color, int rated, int friendid) {
@@ -457,6 +471,7 @@ class MainScene {
                                             }
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             searchFriend = false;
+                                            removeActiveFromGame();
                                             showGameScene();
                                         }
                                     }

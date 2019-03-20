@@ -1,4 +1,5 @@
 package JavaFX;
+import Database.DBOps;
 import Pieces.*;
 import javafx.application.Application;
 import javafx.geometry.HPos;
@@ -47,6 +48,7 @@ public class ChessSandbox {
 
     private GameEngine ge = new GameEngine(15, true);
 
+
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
 
@@ -64,6 +66,7 @@ public class ChessSandbox {
     private Group lastMoveGroup = new Group();
 
     public Parent createContent() {
+        setUpSkin();
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
@@ -136,6 +139,11 @@ public class ChessSandbox {
         //if(toX != null && toY != null) {
         board[fromX][fromY].move(toX, toY, board);
         //}
+    }
+    private boolean setUpSkin(){
+        DBOps db = new DBOps();
+        ChessGame.skin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + Login.userID + ";", 1).get(0);
+        return true;
     }
 }
 

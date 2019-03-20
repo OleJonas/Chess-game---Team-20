@@ -139,8 +139,7 @@ public class ChessGame{
                 System.out.println("away_id: " + away_id);
                 homeSkin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + home_id+";",1).get(0);
                 awaySkin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + away_id+";",1).get(0);
-                System.out.println("homeSkin: " + homeSkin + "awaySkin: " + awaySkin);
-
+                System.out.println("homeSkin: " + homeSkin);
                 return true;
     }
 
@@ -151,7 +150,7 @@ public class ChessGame{
             public void run() {
                 serviceDBThings();
             }
-        }, 2000, 2000);
+        }, 1000, 1000);
     }
 
     public void serviceDBThings() {
