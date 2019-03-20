@@ -18,8 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Set;
-
 import static JavaFX.Register.runRegistration;
 import static javafx.geometry.Pos.CENTER;
 
@@ -136,7 +134,7 @@ public class Login{
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
         }
-        if(matchingUsername.equals(username)){
+        if(matchingUsername.toLowerCase().equals(username.toLowerCase())){
             return true;
         }
         return false;

@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,7 +24,9 @@ import java.util.concurrent.CountDownLatch;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
+import static JavaFX.Login.*;
 import static JavaFX.Settings.showSettings;
+import static JavaFX.UserProfile.setAvatar;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -42,6 +45,13 @@ class MainScene {
         title.setFont(Font.font("Copperplate", 70));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
+
+        Button logOutButton = new Button("Log out");
+        logOutButton.setPrefSize(100, 50);
+        logOutButton.setOnAction(e -> {
+            runLogin();
+        });
+
 
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
@@ -155,6 +165,8 @@ class MainScene {
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(625));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
+        mainLayout.add(logOutButton, 0, 0, 2, 1);
+        mainLayout.setHalignment(logOutButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
