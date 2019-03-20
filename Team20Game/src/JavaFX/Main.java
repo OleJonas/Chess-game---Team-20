@@ -4,7 +4,6 @@ import javafx.stage.Stage;
 
 import static JavaFX.GameScene.showGameScene;
 import static JavaFX.Login.runLogin;
-import static JavaFX.Login.runLogin;
 import static JavaFX.MainScene.showMainScene;
 
 public class Main extends Application {
