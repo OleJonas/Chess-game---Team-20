@@ -81,3 +81,6 @@ Create table UserSettings (
                   FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
+SELECT * FROM Game WHERE user_id1 IS NOT NULL  AND user_id2 IS NOT NULL AND game_id = ;
+
+SELECT * FROM Move;

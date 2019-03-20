@@ -49,6 +49,8 @@ class MainScene {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
             createGame(222, 5, true, 1);
+            leftGrid.getChildren().clear();
+            leftGrid.getChildren().add(backButton);
             inQueueCreate = true;
             //waitForOpponent();
 
@@ -60,8 +62,10 @@ class MainScene {
             boolean[] colors = {true, true};
             //JoinGamePopup.Display()
             //joinGame(25, 5, colors, 1);
-            sql = createSearch(25, 5, colors, 1);
+            sql = createSearch(54, 10, colors, 1);
             inQueueJoin = true;
+            leftGrid.getChildren().clear();
+            leftGrid.getChildren().add(backButton);
         });
 
         //Left GridPane
@@ -113,6 +117,10 @@ class MainScene {
         });
         backButton = new Button("Back to Main");
         backButton.setOnAction(e -> {
+            inQueueJoin = false;
+            inQueueCreate = false;
+            removeActiveFromGame();
+
             leftGrid.getChildren().clear();
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
@@ -171,6 +179,12 @@ class MainScene {
         refresh();
     }
 
+    static void removeActiveFromGame(){
+        DBOps temp = new DBOps();
+        int game_id = ChessGame.gameID;
+        temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
+    }
+
     static void gameSetup() {
         ChessGame.gameID = newGameID();
     }
@@ -207,6 +221,7 @@ class MainScene {
         }
     }
 
+    //depricated method
     static void waitForOpponent() {
         DBOps connection = new DBOps();
         Thread t = new Thread(new Runnable() {
@@ -237,6 +252,7 @@ class MainScene {
         return true;
     }
 
+    //depricated method
     static void joinGame(int time, int increment, boolean[] color, int rated) {
         sql = createSearch(time, increment, color, rated);
         inQueueJoin = true;
@@ -365,6 +381,7 @@ class MainScene {
                                         System.out.println("Looking for opponent");
                                         int game_id = pollQueue(sql, connection);
                                         if(game_id!=-1) {
+                                            ChessGame.gameID = game_id;
                                             if (connection.exUpdate("UPDATE Game SET user_id1 = " + 2 + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
                                                 ChessGame.color = true;
                                             } else {
