@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,6 +39,8 @@ class MainScene {
     static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
     private static boolean inQueueCreate = false;
     private static boolean inQueueJoin = false;
+    private static boolean inQueueFriend = false;
+    private static boolean searchFriend = false;
     private static String sql;
     private static String user_id;
 
@@ -130,6 +133,19 @@ class MainScene {
         //updated leftGrid
         inviteFriendButton = new Button("Invite Friend");
         inviteFriendButton.setOnAction(e -> {
+            System.out.println(Login.USERNAME);
+            ChessGame.gameID = newGameID();
+            createGame(67, 10, true, 1, 6);
+            leftGrid.getChildren().clear();
+            Label queLabel = new Label("Waiting for\nopponent ...");
+            queLabel.setFont(Font.font("Copperplate", 34));
+            queLabel.setTextFill(Color.WHITE);
+            leftGrid.getChildren().add(queLabel);
+            leftGrid.setVgap(10);
+            leftGrid.getChildren().add(backButton);
+            inQueueFriend = true;
+            //waitForOpponent();
+
         });
         backButton = new Button("Back to Main");
         backButton.setOnAction(e -> {
@@ -195,6 +211,7 @@ class MainScene {
         mainScene = new Scene(layout, 1450, 950);
         Main.window.setScene(mainScene);
         refresh();
+        searchFriend = true;
     }
 
     static void removeActiveFromGame(){
@@ -219,7 +236,7 @@ class MainScene {
 
     static void createGame(int time, int increment, boolean color, int rated) {
         DBOps connection = new DBOps();
-        int userid = 1;
+        int userid = Login.getUserID();
 
         if (color) {
             connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
@@ -228,14 +245,14 @@ class MainScene {
         }
     }
 
-    static void createGame(int time, int increment, boolean color, int rated, String username) {
+    static void createGame(int time, int increment, boolean color, int rated, int friendid) {
         DBOps connection = new DBOps();
-        int userid = 1;
+        int userid = Login.getUserID();
 
         if (color) {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + username + ", 1);");
+            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1);");
         } else {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + username + ", 1);");
+            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1);");
         }
     }
 
@@ -272,7 +289,7 @@ class MainScene {
 
     //deprecated method
     static void joinGame(int time, int increment, boolean[] color, int rated) {
-        sql = createSearch(time, increment, color, rated);
+        //sql = createSearch(time, increment, color, rated,);
         inQueueJoin = true;
         DBOps connection = new DBOps();
         //ArrayList opponent = connection.exQuery(sql, 1);
@@ -307,7 +324,7 @@ class MainScene {
     }
 
 
-    static String createSearch(int time, int increment, boolean[] color, int rated) {
+    static String createSearch(int time, int increment, boolean[] color, int rated, int friendid) {
         String sql = "SELECT game_id FROM Game";
         boolean firstCheck = true;
         if (time != -1) {
@@ -357,6 +374,14 @@ class MainScene {
            } else {
                sql += " AND rated = " +rated;
            }
+        }
+        if (friendid != 0) {
+            if (firstCheck) {
+                sql += " WHERE opponent = " +friendid;
+                firstCheck = false;
+            } else {
+                sql += " AND opponent = " +friendid;
+            }
         }
         sql += " AND active = 1;";
         System.out.println(sql);
@@ -409,6 +434,32 @@ class MainScene {
                                             }
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueJoin = false;
+                                            showGameScene();
+                                        }
+                                    }else if (inQueueFriend) {
+                                        System.out.println("waiting for opponent");
+                                        if(!playersReady(connection)) {
+                                            connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
+                                            System.out.println("Success!");
+                                            System.out.println("Started game with gameID: " + ChessGame.gameID);
+                                            inQueueCreate = false;
+                                            showGameScene();
+                                        }
+                                    } else if(searchFriend) {
+                                        boolean[] colors = {true, true};
+                                        sql = createSearch(67, 10, colors, 1, 6);
+                                        System.out.println("searching friend");
+                                        int game_id = pollQueue(sql, connection);
+                                        if(game_id!=-1) {
+                                            ChessGame.gameID = game_id;
+                                            if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                                                ChessGame.color = true;
+                                            } else {
+                                                connection.exUpdate("UPDATE Game SET user_id2 = " + Login.userID + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                                                ChessGame.color = false;
+                                            }
+                                            System.out.println("Started game with gameID: " + ChessGame.gameID);
+                                            searchFriend = false;
                                             showGameScene();
                                         }
                                     }
