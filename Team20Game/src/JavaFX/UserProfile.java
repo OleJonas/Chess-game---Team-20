@@ -49,6 +49,7 @@ class UserProfile{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
+            setAvatar(AVATAR);
             showMainScene();
         });
 
@@ -179,7 +180,7 @@ class UserProfile{
 
     static void setAvatar(String avatar){
         AVATAR = avatar;
-        //DBOps conncetion = new DBOps();
-        //conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
+        DBOps conncetion = new DBOps();
+        conncetion.exUpdate("UPDATE User SET avatar = '" + avatar +"' WHERE username = '" + USERNAME + "';");
     }
 }

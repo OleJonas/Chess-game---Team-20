@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import static JavaFX.Login.storeSettings;
 import static JavaFX.MainScene.showMainScene;
 //import static JavaFX.MainScene.showMainScene;
 
@@ -43,8 +44,8 @@ class Settings{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
+            storeSettings();
             showMainScene();
-            //Here you shuld later on create a method for storing the settings to a table in the database called userSettings
         });
 
 
