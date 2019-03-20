@@ -48,7 +48,7 @@ class MainScene {
         createGameButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(222, 5, true, 1);
+            createGame(6, 5, true, 1);
             leftGrid.getChildren().clear();
             leftGrid.getChildren().add(backButton);
             inQueueCreate = true;
@@ -62,7 +62,7 @@ class MainScene {
             boolean[] colors = {true, true};
             //JoinGamePopup.Display()
             //joinGame(25, 5, colors, 1);
-            sql = createSearch(54, 10, colors, 1);
+            sql = createSearch(67, 10, colors, 1);
             inQueueJoin = true;
             leftGrid.getChildren().clear();
             leftGrid.getChildren().add(backButton);
@@ -180,9 +180,24 @@ class MainScene {
     }
 
     static void removeActiveFromGame(){
-        DBOps temp = new DBOps();
-        int game_id = ChessGame.gameID;
-        temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps temp = new DBOps();
+                int game_id = ChessGame.gameID;
+                temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
+            }
+        });
+        t.start();
+    }
+
+    static int findUser_id(){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                String username = Login.USERNAME;
+
+            }
+        });
+        return -1;
     }
 
     static void gameSetup() {
@@ -200,14 +215,19 @@ class MainScene {
     }
 
     static void createGame(int time, int increment, boolean color, int rated) {
-        DBOps connection = new DBOps();
-        int userid = 1;
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    DBOps connection = new DBOps();
+                    int userid = 1;
 
-        if (color) {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
-        } else {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", null, 1);");
-        }
+                    if (color) {
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
+                    } else {
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", null, 1);");
+                    }
+                }
+            });
+            t.start();
     }
 
     static void createGame(int time, int increment, boolean color, int rated, String username) {
