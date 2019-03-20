@@ -18,8 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Set;
-
 import static JavaFX.Register.runRegistration;
 import static javafx.geometry.Pos.CENTER;
 
@@ -39,6 +37,8 @@ public class Login{
     static TextField loginUsernameField;
     static PasswordField loginPasswordField;
     static Label loginComment;
+    static int userID;
+    static DBOps connection = new DBOps();
 
 
     static void runLogin() {
@@ -76,6 +76,8 @@ public class Login{
                 loginComment.setText(""); //CLearing the label for next time
                 USERNAME = loginUsernameInput;
                 AVATAR = getAvatar(USERNAME);
+                userID = getUserID();
+
                 getSettings();
                 getGameInfo();
                 MainScene.showMainScene();
@@ -126,7 +128,6 @@ public class Login{
 
     static boolean checkUsername(String username){
         String matchingUsername = "";
-        DBOps connection = new DBOps();
         try{
             ArrayList<String> result = connection.exQuery("SELECT username FROM User WHERE username=\"" + username + "\"",1);
 
@@ -136,7 +137,7 @@ public class Login{
         }catch (Exception sq) {
             System.out.println("SQL-Feil: " + sq);
         }
-        if(matchingUsername.equals(username)){
+        if(matchingUsername.toLowerCase().equals(username.toLowerCase())){
             return true;
         }
         return false;
@@ -144,7 +145,6 @@ public class Login{
 
     static boolean checkPassword(String password, String username) throws NoSuchAlgorithmException{
         String matchingPassword = "";
-        DBOps connection = new DBOps();
         byte[] saltByte = new byte[20];
         try{
             ArrayList<String> result = connection.exQuery("SELECT password, SALT FROM User WHERE username=\"" + username + "\"",2);
@@ -167,7 +167,6 @@ public class Login{
 
     //Denne metoden registrerer en bruker i User-tabellen med brukernavn, passord, SALT, en default avatar og en user_id (AUTO_INCREMENT)
     static boolean register(String username, String password) throws SQLException {
-        DBOps connection = new DBOps();
         try{
             if(checkUsername(username)) return false;
             //Create salt hash password
@@ -229,7 +228,7 @@ public class Login{
 
     static String getAvatar(String username) {
         String avatar;
-        DBOps connection = new DBOps();
+        //DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT avatar FROM User WHERE username=\"" + username + "\"",1);
         if(result.size() > 0){
             avatar = result.get(0);
@@ -239,8 +238,13 @@ public class Login{
         return avatar;
     }
 
+    static int getUserID(){
+        int out = Integer.parseInt(connection.exQuery("SELECT user_id FROM User WHERE username = " + USERNAME, 1).get(0));
+        return out;
+    }
+
     static void getGameInfo(){
-        DBOps connection = new DBOps();
+        //DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User WHERE username=\"" + USERNAME + "\"",5);
         if(result.size() > 0){
             gamesPlayed = Integer.parseInt(result.get(0));
@@ -252,7 +256,7 @@ public class Login{
     }
 
     static void getSettings(){
-        DBOps connection = new DBOps();
+        //DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT darkTileColor, lightTileColor, skinName FROM UserSettings WHERE username=\"" + USERNAME + "\"",3);
         if(result.size() > 0){
             Settings.darkTileColor = result.get(0);
@@ -262,7 +266,7 @@ public class Login{
     }
 
     static boolean storeSettings(){
-        DBOps connection = new DBOps();
+        //DBOps connection = new DBOps();
         int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + Settings.skinName + "' WHERE username = '" + USERNAME + "';");
         if(rowsAffected==1) return true;
         return false;

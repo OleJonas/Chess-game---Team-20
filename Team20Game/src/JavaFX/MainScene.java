@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,7 +24,9 @@ import java.util.concurrent.CountDownLatch;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
+import static JavaFX.Login.*;
 import static JavaFX.Settings.showSettings;
+import static JavaFX.UserProfile.setAvatar;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -36,12 +39,20 @@ class MainScene {
     private static boolean inQueueCreate = false;
     private static boolean inQueueJoin = false;
     private static String sql;
+    private static String user_id;
 
     static void showMainScene() {
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 70));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
+
+        Button logOutButton = new Button("Log out");
+        logOutButton.setPrefSize(100, 50);
+        logOutButton.setOnAction(e -> {
+            runLogin();
+        });
+
 
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
@@ -50,6 +61,11 @@ class MainScene {
             ChessGame.gameID = newGameID();
             createGame(6, 5, true, 1);
             leftGrid.getChildren().clear();
+            Label queLabel = new Label("Waiting for\nopponent ...");
+            queLabel.setFont(Font.font("Copperplate", 34));
+            queLabel.setTextFill(Color.WHITE);
+            leftGrid.getChildren().add(queLabel);
+            leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
             inQueueCreate = true;
             //waitForOpponent();
@@ -155,6 +171,8 @@ class MainScene {
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(625));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
+        mainLayout.add(logOutButton, 0, 0, 2, 1);
+        mainLayout.setHalignment(logOutButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
@@ -272,7 +290,7 @@ class MainScene {
         return true;
     }
 
-    //depricated method
+    //deprecated method
     static void joinGame(int time, int increment, boolean[] color, int rated) {
         sql = createSearch(time, increment, color, rated);
         inQueueJoin = true;
@@ -364,6 +382,7 @@ class MainScene {
         System.out.println(sql);
         return sql;
     }
+
     public static void refresh(){
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -402,10 +421,10 @@ class MainScene {
                                         int game_id = pollQueue(sql, connection);
                                         if(game_id!=-1) {
                                             ChessGame.gameID = game_id;
-                                            if (connection.exUpdate("UPDATE Game SET user_id1 = " + 2 + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                                            if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
                                                 ChessGame.color = true;
                                             } else {
-                                                connection.exUpdate("UPDATE Game SET user_id2 = " + 2 + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                                                connection.exUpdate("UPDATE Game SET user_id2 = " + Login.userID + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
                                                 ChessGame.color = false;
                                             }
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
