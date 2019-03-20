@@ -81,6 +81,11 @@ class MainScene {
             sql = createSearch(54, 10, colors, 1);
             inQueueJoin = true;
             leftGrid.getChildren().clear();
+            Label queLabel = new Label("Waiting for\nopponent ...");
+            queLabel.setFont(Font.font("Copperplate", 34));
+            queLabel.setTextFill(Color.WHITE);
+            leftGrid.getChildren().add(queLabel);
+            leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
         });
 
@@ -138,6 +143,7 @@ class MainScene {
             removeActiveFromGame();
 
             leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
             leftGrid.add(findUserButton, 0, 1);
