@@ -59,7 +59,7 @@ class MainScene {
         createGameButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(6, 5, true, 1);
+            createGame(67, 10, true, 1);
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
