@@ -323,8 +323,12 @@ class MainScene {
         return -1;
     }
 
+    static String createSearchFriend(int friendid) {
+        String sql = "SELECT game_id FROM Game WHERE opponent = " +friendid + " AND active = 1;";
+        return sql;
+    }
 
-    static String createSearch(int time, int increment, boolean[] color, int rated, int friendid) {
+    static String createSearch(int time, int increment, boolean[] color, int rated) {
         String sql = "SELECT game_id FROM Game";
         boolean firstCheck = true;
         if (time != -1) {
@@ -374,14 +378,6 @@ class MainScene {
            } else {
                sql += " AND rated = " +rated;
            }
-        }
-        if (friendid != 0) {
-            if (firstCheck) {
-                sql += " WHERE opponent = " +friendid;
-                firstCheck = false;
-            } else {
-                sql += " AND opponent = " +friendid;
-            }
         }
         sql += " AND active = 1;";
         System.out.println(sql);
@@ -447,7 +443,8 @@ class MainScene {
                                         }
                                     } else if(searchFriend) {
                                         boolean[] colors = {true, true};
-                                        sql = createSearch(67, 10, colors, 1, 6);
+                                        sql = createSearchFriend(Login.getUserID());
+                                        System.out.println(sql);
                                         System.out.println("searching friend");
                                         int game_id = pollQueue(sql, connection);
                                         if(game_id!=-1) {
