@@ -45,7 +45,7 @@ public class ChatFX{
     private static ArrayList<Label> messages = new ArrayList<Label>();
     static VBox chatLayout;
 
-    private static ChatDB chat = new ChatDB();
+    static ChatDB chat = new ChatDB();
 
     public static GridPane createChat(){
         //window = new Stage();

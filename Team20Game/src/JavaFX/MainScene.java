@@ -39,6 +39,7 @@ class MainScene {
     private static boolean inQueueCreate = false;
     private static boolean inQueueJoin = false;
     private static String sql;
+    private static String user_id;
 
     static void showMainScene() {
         Label title = new Label("Recess Chess");
@@ -269,7 +270,7 @@ class MainScene {
         return true;
     }
 
-    //depricated method
+    //deprecated method
     static void joinGame(int time, int increment, boolean[] color, int rated) {
         sql = createSearch(time, increment, color, rated);
         inQueueJoin = true;
@@ -361,6 +362,7 @@ class MainScene {
         System.out.println(sql);
         return sql;
     }
+
     public static void refresh(){
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -399,10 +401,10 @@ class MainScene {
                                         int game_id = pollQueue(sql, connection);
                                         if(game_id!=-1) {
                                             ChessGame.gameID = game_id;
-                                            if (connection.exUpdate("UPDATE Game SET user_id1 = " + 2 + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                                            if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
                                                 ChessGame.color = true;
                                             } else {
-                                                connection.exUpdate("UPDATE Game SET user_id2 = " + 2 + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                                                connection.exUpdate("UPDATE Game SET user_id2 = " + Login.userID + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
                                                 ChessGame.color = false;
                                             }
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
