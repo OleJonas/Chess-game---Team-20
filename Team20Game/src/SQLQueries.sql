@@ -84,3 +84,9 @@ Create table UserSettings (
 SELECT * FROM Game WHERE user_id1 IS NOT NULL  AND user_id2 IS NOT NULL AND game_id = ;
 
 SELECT * FROM Move;
+
+SELECT * FROM Game;
+
+SELECT * FROM UserSettings;
+
+UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'Knodde';
