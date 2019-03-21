@@ -87,6 +87,8 @@ SELECT * FROM Move;
 
 SELECT * FROM Game;
 
+UPDATE Game SET active = 0 WHERE active = 1;
+
 SELECT * FROM UserSettings;
 
-UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'Knodde';
+UPDATE UserSettings SET skinName = 'Standard' WHERE username = 'Test';

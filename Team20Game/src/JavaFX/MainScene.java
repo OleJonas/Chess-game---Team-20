@@ -216,7 +216,7 @@ class MainScene {
         mainScene = new Scene(layout, 1450, 950);
         Main.window.setScene(mainScene);
         refresh();
-        searchFriend = true;
+        //searchFriend = true;
     }
 
     static void removeActiveFromGame(){

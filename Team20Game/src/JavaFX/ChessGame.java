@@ -150,7 +150,7 @@ public class ChessGame{
             public void run() {
                 serviceDBThings();
             }
-        }, 1000, 1000);
+        }, 500, 500);
     }
 
     public void serviceDBThings() {
