@@ -91,4 +91,4 @@ UPDATE Game SET active = 0 WHERE active = 1;
 
 SELECT * FROM UserSettings;
 
-UPDATE UserSettings SET skinName = 'Standard' WHERE username = 'Test';
+UPDATE UserSettings SET skinName = 'Standard' WHERE username = 'Knodde';

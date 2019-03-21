@@ -144,9 +144,9 @@ public class ChessGame{
                         newPiece = new Bishop(pieceColor, toX, 7);
                     }
 
-                    ChessGame.skin = color?awaySkin:homeSkin;
+                    ChessGame.skin = homeSkin;
                     ImageView tempimg = newPiece.getImageView();
-                    ChessGame.skin = color?homeSkin:awaySkin;
+                    ChessGame.skin = awaySkin;
                     ge.setPiece(newPiece, toX, 7);
 
                     tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
@@ -188,7 +188,9 @@ public class ChessGame{
                     } else if (toY == 9) {
                         newPiece = new Knight(pieceColor, toX, 0);
                     }
+                    ChessGame.skin = awaySkin;
                     ImageView tempimg = newPiece.getImageView();
+                    ChessGame.skin = homeSkin;
                     ge.setPiece(newPiece, toX, 0);
 
                     board[toX][0].setImageView(tempimg,
@@ -278,7 +280,7 @@ public class ChessGame{
             public void run() {
                 serviceDBThings();
             }
-        }, 0, 4000);
+        }, 0, 750);
     }
 
     public void serviceDBThings() {
