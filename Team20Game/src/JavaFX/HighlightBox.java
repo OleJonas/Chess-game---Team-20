@@ -64,7 +64,7 @@ class HighlightBox extends Pane{
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
                 pawnChange.Display(ChessDemo.color);
                 Piece newPiece = null;
-                boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
+                boolean pieceColor = ChessGame.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
                     newPiece = new Queen(pieceColor, x, y);
                     toY = 8;
@@ -84,7 +84,6 @@ class HighlightBox extends Pane{
                 if(!ChessGame.color){
                     tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
                 }
-
                 tile.setImageView(tempimg,
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
