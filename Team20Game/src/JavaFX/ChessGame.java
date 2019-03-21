@@ -33,8 +33,8 @@ public class ChessGame{
     public static final double imageSize = 0.8;
     public static boolean color = true;
     public static boolean myTurn = true;
-    private boolean polling = false;
     public static int movenr = 0;
+    private boolean polling = false;
     private String homeSkin;
     private String awaySkin;
     public static String skin = "Standard";
@@ -113,13 +113,12 @@ public class ChessGame{
             myTurn = false;
             movenr = 1;
             skin = awaySkin;
-        }else{
+        } else {
             skin = homeSkin;
         }
         root.getChildren().addAll(boardGroup, selectedPieceGroup, lastMoveGroup, tileGroup, hboxGroup);
 
         clockDBThings();
-        System.out.println("awayskin: " + awaySkin + "homeskin: " + homeSkin + "current skin: " + skin);
         return root;
     }
 
@@ -134,7 +133,6 @@ public class ChessGame{
                 Piece newPiece = null;
                 boolean pieceColor = !ChessGame.color;
                 if (!ChessGame.color) {
-                    System.out.println("Heip");
                     board[fromX][fromY].move(toX, 7, board);
                     if (toY == 8) {
                         newPiece = new Queen(pieceColor, toX, 7);
@@ -145,11 +143,12 @@ public class ChessGame{
                     } else if (toY == 11) {
                         newPiece = new Bishop(pieceColor, toX, 7);
                     }
+
                     ChessGame.skin = color?awaySkin:homeSkin;
                     ImageView tempimg = newPiece.getImageView();
                     ChessGame.skin = color?homeSkin:awaySkin;
-
                     ge.setPiece(newPiece, toX, 7);
+
                     tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
 
                     board[toX][7].setImageView(tempimg,
@@ -179,7 +178,6 @@ public class ChessGame{
                     squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
                     squareTo.setTranslateY((HEIGHT-1-7)*ChessDemo.TILE_SIZE);
                 } else {
-                    System.out.println("Heippp");
                     board[fromX][fromY].move(toX, 0, board);
                     if (toY == 8) {
                         newPiece = new Queen(pieceColor, toX, 0);
@@ -190,11 +188,10 @@ public class ChessGame{
                     } else if (toY == 9) {
                         newPiece = new Knight(pieceColor, toX, 0);
                     }
-                    ChessGame.skin = color?homeSkin:awaySkin;
                     ImageView tempimg = newPiece.getImageView();
                     ge.setPiece(newPiece, toX, 0);
 
-                    board[toX][7].setImageView(tempimg,
+                    board[toX][0].setImageView(tempimg,
                             ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
 
                     lastMoveGroup.getChildren().clear();
@@ -257,6 +254,7 @@ public class ChessGame{
             squareFrom.setTranslateY((HEIGHT-1-fromY)*ChessDemo.TILE_SIZE);
             lastMoveGroup.getChildren().add(squareFrom);
             return true;
+
         }
         return false;
     }
@@ -295,7 +293,6 @@ public class ChessGame{
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                System.out.println(myTurn);
                                 if (!myTurn && !polling) {
                                     try {
                                         pollEnemyMove();
@@ -316,8 +313,8 @@ public class ChessGame{
     }
     public void pollEnemyMove(){
         //Only check when its not your turn
-        System.out.println("PollEnemyMove Started, turn: " + movenr);
         polling = true;
+        System.out.println("PollEnemyMove Started, turn: " + movenr);
         try {
             DBOps db = new DBOps();
             System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
@@ -329,7 +326,10 @@ public class ChessGame{
                 int toX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 System.out.println("test" + fromX);
-                myTurn= enemyMove(fromX, fromY, toX, toY);
+                if (board[fromX][fromY] != null) {
+                    enemyMove(fromX, fromY, toX, toY);
+                    myTurn = true;
+                }
             }
                 /*if (true) {
                     enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));

@@ -1,4 +1,5 @@
 package JavaFX;
+import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import sun.security.pkcs11.Secmod;
 //import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.Settings.showSettings;
 //import static JavaFX.UserProfile.showUserProfileScene;
@@ -17,14 +19,22 @@ class GameScene {
     static Scene gameScene;
 
     //Stats which will be initialized with DBOps while starting a game
-    static String player1 = "Jonas";
-    static String player2 = "MKarlsen";
+    static String player1;
+    static String player2;
 
     static void showGameScene(){
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
+
+        DBOps connection = new DBOps();
+
+        int userid1 = Integer.parseInt(connection.exQuery("SELECT user_id1 FROM Game WHERE game_id = " +ChessGame.gameID, 1).get(0));
+        int userid2 = Integer.parseInt(connection.exQuery("SELECT user_id2 FROM Game WHERE game_id = " +ChessGame.gameID, 1).get(0));
+
+        player1 = connection.exQuery("SELECT username FROM User WHERE user_id = " + userid1, 1).get(0);
+        player2 = connection.exQuery("SELECT username FROM User WHERE user_id = " + userid2, 1).get(0);
 
         //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
         //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard

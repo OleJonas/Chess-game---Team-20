@@ -47,6 +47,8 @@ class HighlightBox extends Pane{
 
             int fromX = tile.getX();
             int fromY = tile.getY();
+            int toX = x;
+            int toY = y;
             int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int totBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
             tile.move(x, y, board);
@@ -54,7 +56,7 @@ class HighlightBox extends Pane{
             int updatedBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
             int top=0;
 
-            if((tile.getMyColor()&&ChessDemo.color)||!tile.getMyColor() && !ChessDemo.color) {
+            if(ChessGame.color) {
                 top = height - 1;
             }
 
@@ -65,17 +67,21 @@ class HighlightBox extends Pane{
                 boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
                     newPiece = new Queen(pieceColor, x, y);
+                    toY = 8;
                 } else if (PawnChangeChoiceBox.choice.equals("Rook")) {
                     newPiece = new Rook(pieceColor, x, y);
+                    toY = 10;
                 } else if (PawnChangeChoiceBox.choice.equals("Bishop")) {
                     newPiece = new Bishop(pieceColor, x, y);
+                    toY = 11;
                 } else if (PawnChangeChoiceBox.choice.equals("Knight")) {
                     newPiece = new Knight(pieceColor, x, y);
+                    toY = 9;
                 }
                 ImageView tempimg = newPiece.getImageView();
                 gameEngine.setPiece(newPiece, x, y);
 
-                if(!ChessDemo.color){
+                if(!ChessGame.color){
                     tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
                 }
 
@@ -158,7 +164,7 @@ class HighlightBox extends Pane{
             }
             lastMoveGroup.getChildren().add(squareTo);
             lastMoveGroup.getChildren().add(squareFrom);
-            uploadMove(fromX, fromY, x, y, ChessGame.movenr);
+            uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
             ChessGame.movenr+=2;
         });
     }
