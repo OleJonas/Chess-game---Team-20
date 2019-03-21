@@ -4,6 +4,7 @@
 
 package JavaFX;
 import Database.DBOps;
+import Pieces.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -32,6 +33,7 @@ public class ChessGame{
     public static final double imageSize = 0.8;
     public static boolean color = true;
     public static boolean myTurn = true;
+    private boolean polling = false;
     public static int movenr = 0;
     private String homeSkin;
     private String awaySkin;
@@ -110,10 +112,14 @@ public class ChessGame{
             root.getTransforms().add(rotate180);
             myTurn = false;
             movenr = 1;
+            skin = awaySkin;
+        }else{
+            skin = homeSkin;
         }
         root.getChildren().addAll(boardGroup, selectedPieceGroup, lastMoveGroup, tileGroup, hboxGroup);
 
         clockDBThings();
+        System.out.println("awayskin: " + awaySkin + "homeskin: " + homeSkin + "current skin: " + skin);
         return root;
     }
 
@@ -124,9 +130,133 @@ public class ChessGame{
 
     public boolean enemyMove(int fromX, int fromY, int toX, int toY) {
         if (board[fromX][fromY] != null) {
-            board[fromX][fromY].move(toX, toY, board);
-            return true;
+            if(toY > 7){
+                Piece newPiece = null;
+                boolean pieceColor = !ChessGame.color;
+                if (!ChessGame.color) {
+                    System.out.println("Heip");
+                    board[fromX][fromY].move(toX, 7, board);
+                    if (toY == 8) {
+                        newPiece = new Queen(pieceColor, toX, 7);
+                    } else if (toY == 9) {
+                        newPiece = new Knight(pieceColor, toX, 7);
+                    } else if (toY == 10) {
+                        newPiece = new Rook(pieceColor, toX, 7);
+                    } else if (toY == 11) {
+                        newPiece = new Bishop(pieceColor, toX, 7);
+                    }
+                    ChessGame.skin = color?awaySkin:homeSkin;
+                    ImageView tempimg = newPiece.getImageView();
+                    ChessGame.skin = color?homeSkin:awaySkin;
 
+                    ge.setPiece(newPiece, toX, 7);
+                    tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
+
+                    board[toX][7].setImageView(tempimg,
+                            ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+
+                    lastMoveGroup.getChildren().clear();
+                    Piece[][] boardState = ge.getBoard().getBoardState();
+                    if (ge.inCheck(boardState, !ge.getBoard().getBoardState()[toX][7].getColor())) {
+                        for (int i = 0; i < boardState.length; i++){
+                            for (int j = 0; j < boardState[0].length; j++){
+                                if (boardState[i][j] instanceof King){
+                                    if (boardState[i][j].getColor() == !ge.getBoard().getBoardState()[toX][7].getColor()){
+                                        Rectangle check = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                                        check.setFill(Color.valueOf("#F30000"));
+                                        check.setOpacity(1);
+                                        check.setTranslateX(i*ChessDemo.TILE_SIZE);
+                                        check.setTranslateY((HEIGHT-1-j)*ChessDemo.TILE_SIZE);
+                                        lastMoveGroup.getChildren().add(check);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                    squareTo.setFill(Color.valueOf("#582"));
+                    squareTo.setOpacity(0.9);
+                    squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
+                    squareTo.setTranslateY((HEIGHT-1-7)*ChessDemo.TILE_SIZE);
+                } else {
+                    System.out.println("Heippp");
+                    board[fromX][fromY].move(toX, 0, board);
+                    if (toY == 8) {
+                        newPiece = new Queen(pieceColor, toX, 0);
+                    } else if (toY == 10) {
+                        newPiece = new Rook(pieceColor, toX, 0);
+                    } else if (toY == 11) {
+                        newPiece = new Bishop(pieceColor, toX, 0);
+                    } else if (toY == 9) {
+                        newPiece = new Knight(pieceColor, toX, 0);
+                    }
+                    ChessGame.skin = color?homeSkin:awaySkin;
+                    ImageView tempimg = newPiece.getImageView();
+                    ge.setPiece(newPiece, toX, 0);
+
+                    board[toX][7].setImageView(tempimg,
+                            ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+
+                    lastMoveGroup.getChildren().clear();
+                    Piece[][] boardState = ge.getBoard().getBoardState();
+                    if (ge.inCheck(boardState, !ge.getBoard().getBoardState()[toX][0].getColor())) {
+                        for (int i = 0; i < boardState.length; i++){
+                            for (int j = 0; j < boardState[0].length; j++){
+                                if (boardState[i][j] instanceof King){
+                                    if (boardState[i][j].getColor() == !ge.getBoard().getBoardState()[toX][0].getColor()){
+                                        Rectangle check = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                                        check.setFill(Color.valueOf("#F30000"));
+                                        check.setOpacity(1);
+                                        check.setTranslateX(i*ChessDemo.TILE_SIZE);
+                                        check.setTranslateY((HEIGHT-1-j)*ChessDemo.TILE_SIZE);
+                                        lastMoveGroup.getChildren().add(check);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                    squareTo.setFill(Color.valueOf("#582"));
+                    squareTo.setOpacity(0.9);
+                    squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
+                    squareTo.setTranslateY((HEIGHT-1-0)*ChessDemo.TILE_SIZE);
+                }
+            } else {
+                board[fromX][fromY].move(toX, toY, board);
+
+                lastMoveGroup.getChildren().clear();
+                Piece[][] boardState = ge.getBoard().getBoardState();
+                if (ge.inCheck(boardState, !ge.getBoard().getBoardState()[toX][toY].getColor())) {
+                    for (int i = 0; i < boardState.length; i++){
+                        for (int j = 0; j < boardState[0].length; j++){
+                            if (boardState[i][j] instanceof King){
+                                if (boardState[i][j].getColor() == !ge.getBoard().getBoardState()[toX][toY].getColor()){
+                                    Rectangle check = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                                    check.setFill(Color.valueOf("#F30000"));
+                                    check.setOpacity(1);
+                                    check.setTranslateX(i*ChessDemo.TILE_SIZE);
+                                    check.setTranslateY((HEIGHT-1-j)*ChessDemo.TILE_SIZE);
+                                    lastMoveGroup.getChildren().add(check);
+                                }
+                            }
+                        }
+                    }
+                }
+                Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                squareTo.setFill(Color.valueOf("#582"));
+                squareTo.setOpacity(0.9);
+                squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
+                squareTo.setTranslateY((HEIGHT-1-toY)*ChessDemo.TILE_SIZE);
+                lastMoveGroup.getChildren().add(squareTo);
+            }
+
+            Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            squareFrom.setFill(Color.valueOf("#582"));
+            squareFrom.setOpacity(0.5);
+            squareFrom.setTranslateX(fromX*ChessDemo.TILE_SIZE);
+            squareFrom.setTranslateY((HEIGHT-1-fromY)*ChessDemo.TILE_SIZE);
+            lastMoveGroup.getChildren().add(squareFrom);
+            return true;
         }
         return false;
     }
@@ -150,7 +280,7 @@ public class ChessGame{
             public void run() {
                 serviceDBThings();
             }
-        }, 500, 500);
+        }, 0, 4000);
     }
 
     public void serviceDBThings() {
@@ -165,7 +295,8 @@ public class ChessGame{
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                if (!myTurn) {
+                                System.out.println(myTurn);
+                                if (!myTurn && !polling) {
                                     try {
                                         pollEnemyMove();
                                     } finally {
@@ -186,6 +317,7 @@ public class ChessGame{
     public void pollEnemyMove(){
         //Only check when its not your turn
         System.out.println("PollEnemyMove Started, turn: " + movenr);
+        polling = true;
         try {
             DBOps db = new DBOps();
             System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
@@ -209,6 +341,7 @@ public class ChessGame{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        polling = false;
     }
 }
 
