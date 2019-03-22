@@ -40,6 +40,7 @@ class MainScene {
     private static boolean inQueueJoin = false;
     private static boolean inQueueFriend = false;
     private static boolean searchFriend = false;
+    private static boolean syncTurn = false;
     private static String sql;
     private static String user_id;
 
@@ -429,6 +430,7 @@ class MainScene {
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueCreate = false;
+                                            syncTurn = true;
                                             showGameScene();
                                         }
                                     }else if(inQueueJoin){
@@ -444,6 +446,7 @@ class MainScene {
                                             }
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueJoin = false;
+                                            syncTurn = true;
                                             showGameScene();
                                         }
                                     }else if (inQueueFriend) {
@@ -453,6 +456,7 @@ class MainScene {
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueCreate = false;
+                                            syncTurn = true;
                                             showGameScene();
                                         }
                                     } else if(searchFriend) {
@@ -472,7 +476,29 @@ class MainScene {
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             searchFriend = false;
                                             removeActiveFromGame();
+                                            syncTurn = true;
                                             showGameScene();
+                                        }
+                                    }
+                                    if (syncTurn) {
+                                        int move_nr = Integer.parseInt(connection.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0));
+                                        System.out.println(move_nr);
+                                        if (ChessGame.color) {
+                                            if (move_nr % 2 == 1 && ChessGame.myTurn) {
+                                                System.out.println("Synced myTurn");
+                                                ChessGame.myTurn = false;
+                                            } else if (move_nr % 2 == 0 && !ChessGame.myTurn) {
+                                                System.out.println("Synced myTurn");
+                                                ChessGame.myTurn = true;
+                                            }
+                                        } else {
+                                            if (move_nr % 2 == 0 && ChessGame.myTurn) {
+                                                System.out.println("Synced myTurn");
+                                                ChessGame.myTurn = false;
+                                            } else if (move_nr % 2 == 1 && !ChessGame.myTurn) {
+                                                System.out.println("Synced myTurn");
+                                                ChessGame.myTurn = true;
+                                            }
                                         }
                                     }
                                 } finally {
