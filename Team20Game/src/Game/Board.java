@@ -73,6 +73,8 @@ public class Board {
             king.setCanCastle(false);
             castleKing = false;
         }
+        // Could limit the check here to 0 < j < 7 here since a pawn at  either i0 or i7 cant move.
+        // Could also decrease the limit for i by 1, since the array is no larger than 8 entries total?
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (position[i][j] instanceof Pawn) {
@@ -109,6 +111,8 @@ public class Board {
         position[x][y] = piece;
         //System.out.println("altered board, added piece at" + x + ", " + y +" " + piece);
     }
+
+    public Piece[][] getPosition(){ return position;}
 
     public String toString(){
         String a = "";
