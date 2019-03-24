@@ -76,12 +76,11 @@ class Settings{
         Label emptylabel = new Label("");
         mainLayout.add(emptylabel, 0, 1);
 
+        //Board Color
         Label boardColorLabel = new Label("Board Color");
         boardColorLabel.setFont(Font.font("Copperplate", 25));
         boardColorLabel.setTextFill(Color.WHITE);
         mainLayout.add(boardColorLabel, 0, 2);
-
-
 
         ChoiceBox<String> boardColorChoiceBox = new ChoiceBox<>();
         boardColorChoiceBox.getItems().add("Brown");
@@ -95,6 +94,13 @@ class Settings{
         boardColorChoiceBox.setValue("Brown");
 
         mainLayout.add(boardColorChoiceBox, 1,2);
+
+        //SkinName
+        
+
+
+
+
 
         //Bottomlayout
         GridPane bottomLayout = new GridPane();

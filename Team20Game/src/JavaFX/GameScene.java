@@ -9,10 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import sun.security.pkcs11.Secmod;
-//import static JavaFX.FindUser.showFindUserScene;
-import static JavaFX.Settings.showSettings;
-//import static JavaFX.UserProfile.showUserProfileScene;
+//import sun.security.pkcs11.Secmod;
+
 
 @SuppressWarnings("Duplicates")
 class GameScene {

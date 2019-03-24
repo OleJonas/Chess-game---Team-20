@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -17,16 +16,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
 import static JavaFX.Login.*;
 import static JavaFX.Settings.showSettings;
-import static JavaFX.UserProfile.setAvatar;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -62,7 +60,7 @@ class MainScene {
         createGameButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(67, 10, true, 1);
+            createGame(67, 10, true, 1);  //Here you can change time
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -152,7 +150,7 @@ class MainScene {
             //waitForOpponent();
 
         });
-        backButton = new Button("Back to Main");
+        backButton = new Button("Cancel Game");
         backButton.setOnAction(e -> {
             inQueueJoin = false;
             inQueueCreate = false;
@@ -175,15 +173,26 @@ class MainScene {
         GridPane rightGrid = new GridPane();
         rightGrid.setPadding(new Insets(60, 150, 20, 0));
         rightGrid.setVgap(20);
-        Parent chessGame = new ChessSandbox().createContent();
-        rightGrid.add(chessGame, 0, 0);
-        Button clearBoard = new Button("Clear Board");
-        clearBoard.setOnAction(e -> showMainScene());
-        rightGrid.add(clearBoard, 0, 1);
-        rightGrid.setHalignment(clearBoard, HPos.RIGHT);
+        AtomicReference<Parent> chessGame = new AtomicReference<>(new ChessSandbox().createContent());
+        rightGrid.add(chessGame.get(), 0, 0);
         Label sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
         sandboxLabel.setFont(Font.font("Calibri", 20));
         sandboxLabel.setTextFill(Color.WHITE);
+        AtomicReference<Button> clearBoard = new AtomicReference<>(new Button("Clear Board"));
+        clearBoard.get().setOnAction(e -> {
+            rightGrid.getChildren().clear();
+            rightGrid.setPadding(new Insets(60, 150, 20, 0));
+            rightGrid.setVgap(20);
+            chessGame.set(new ChessSandbox().createContent());
+            rightGrid.add(chessGame.get(), 0, 0);
+            clearBoard.set(new Button("Clear Board"));
+            rightGrid.add(clearBoard.get(), 0, 1);
+            rightGrid.setHalignment(clearBoard.get(), HPos.RIGHT);
+            rightGrid.add(sandboxLabel, 0, 1);
+
+        });
+        rightGrid.add(clearBoard.get(), 0, 1);
+        rightGrid.setHalignment(clearBoard.get(), HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
 
         //mainLayout
