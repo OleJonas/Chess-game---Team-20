@@ -251,9 +251,12 @@ public class ChessGame{
                 lastMoveGroup.getChildren().add(squareTo);
             }
 
-            if (ge.isCheckmate(ge.getBoard(), !ge.getBoard().getBoardState()[fromX][fromY].getColor())) {
-                if (ge.getBoard().getBoardState()[fromX][fromY].getColor()) {
+            if (ge.isCheckmate(ge.getBoard(), !ge.getBoard().getBoardState()[toX][toY].getColor())) {
+                if (ge.getBoard().getBoardState()[toX][toY].getColor()) {
                     System.out.println("Checkmate for White");
+                    if(color){
+
+                    }
                     /*int[] elo = ge.getElo(1000, 1000, 0);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                     */
@@ -261,20 +264,23 @@ public class ChessGame{
                 }
                 else {
                     System.out.println("Checkmate for Black");
+                    if(color){
+
+                    }
                     /*int[] elo = ge.getElo(1000, 1000, 1);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                     */
                     //fill in what happens when game ends here
                 }
             }
-            else if (ge.isStalemate(ge.getBoard(), !ge.getBoard().getBoardState()[fromX][fromY].getColor())) {
+           /* else if (ge.isStalemate(ge.getBoard(), !ge.getBoard().getBoardState()[fromX][fromY].getColor())) {
                 System.out.println("Stalemate");
                 int[] elo = ge.getElo(1000, 1000, 2);
                 System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
             }
             if (ge.isMoveRepetition()) {
                 System.out.println("Repetisjon");
-            }
+            }*/
 
             /*if(ge.notEnoughPieces(ge.getBoard())) {
                 System.out.println("Remis");

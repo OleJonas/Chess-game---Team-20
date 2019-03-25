@@ -1,5 +1,6 @@
 package JavaFX;
 import Database.DBOps;
+import Database.User;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -44,6 +45,7 @@ class MainScene {
     private static String user_id;
 
     static void showMainScene() {
+        User.updateUser();
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 70));
         title.setStyle("-fx-font-weight: bold");
@@ -440,6 +442,7 @@ class MainScene {
                                     }else if(inQueueJoin){
                                         System.out.println("Looking for opponent");
                                         int game_id = pollQueue(sql, connection);
+                                        System.out.println(sql);
                                         if(game_id!=-1) {
                                             ChessGame.gameID = game_id;
                                             if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
