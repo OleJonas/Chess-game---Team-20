@@ -526,77 +526,194 @@ class MainScene {
 }
 
 @SuppressWarnings("Duplicates")
-class JoinGamePopup{
+class InviteFriendPopupBox{
 
     public static void Display(){
         Stage window = new Stage();
-
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Join Game");
+        window.setTitle("Create Game");
 
-        Label label = new Label("GameID:");
-        label.setFont(Font.font("Copperplate", 24));
-        label.setStyle("-fx-font-weight: bold");
-        label.setTextFill(Color.WHITE);
+        //Labels
+        Label titleLabel = new Label("Game settings");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+        Label timeLabel = new Label("Time");
+        timeLabel.setFont(Font.font("Copperplate", 18));
+        timeLabel.setTextFill(Color.WHITE);
+        Label incrementLabel = new Label("Increment");
+        incrementLabel.setFont(Font.font("Copperplate", 18));
+        incrementLabel.setTextFill(Color.WHITE);
+        Label ratedLabel = new Label("Rated?");
+        ratedLabel.setFont(Font.font("Copperplate", 18));
+        ratedLabel.setTextFill(Color.WHITE);
+        Label colorLabel = new Label("Color");
+        colorLabel.setFont(Font.font("Copperplate", 18));
+        colorLabel.setTextFill(Color.WHITE);
 
-        Label comment = new Label("");
-        comment.setTextFill(Color.RED);
+        //Choiceboxes
+        ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
+        timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("5 min");
+        timeChoiceBox.getItems().add("10 min");
+        timeChoiceBox.getItems().add("15 min");
+        timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.setValue("No timer");
 
-        TextField gameIDInputField = new TextField();
-        gameIDInputField.setPrefWidth(260);
+        ChoiceBox<String> incrementChoiceBox = new ChoiceBox<>();
+        incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("5 sec");
+        incrementChoiceBox.getItems().add("10 sec");
+        incrementChoiceBox.getItems().add("15 sec");
+        incrementChoiceBox.setValue("No increment");
 
-        Button connectButton = new Button("Connect");
-        connectButton.setOnAction(e -> {
-            String gameIDInputString = gameIDInputField.getText();
-            if(isInt(gameIDInputString)){
-                int inputInt = Integer.parseInt(gameIDInputString);
+        //Radiobuttons
+        HBox ratedButtons = new HBox();
+        ratedButtons.setSpacing(5);
+        final ToggleGroup ratedGroup = new ToggleGroup();
+        RadioButton yesRatedRadioButton = new RadioButton("Yes");
+        yesRatedRadioButton.setTextFill(Color.WHITE);
+        yesRatedRadioButton.setToggleGroup(ratedGroup);
+        yesRatedRadioButton.setSelected(true);
+        RadioButton noRatedRadioButton = new RadioButton("No");
+        noRatedRadioButton.setTextFill(Color.WHITE);
+        noRatedRadioButton.setToggleGroup(ratedGroup);
+        ratedButtons.getChildren().addAll(yesRatedRadioButton, noRatedRadioButton);
 
-                if (checkGameId(inputInt)){
-                    ChessGame.gameID = inputInt;
-                    window.close();
-                    showGameScene();
+        HBox colorButtons = new HBox();
+        colorButtons.setSpacing(5);
+        final ToggleGroup colorGroup = new ToggleGroup();
+        RadioButton whiteColorRadioButton = new RadioButton("White");
+        whiteColorRadioButton.setTextFill(Color.WHITE);
+        whiteColorRadioButton.setToggleGroup(colorGroup);
+        whiteColorRadioButton.setSelected(true);
+        RadioButton blackColorRadioButton = new RadioButton("Black");
+        blackColorRadioButton.setTextFill(Color.WHITE);
+        blackColorRadioButton.setToggleGroup(colorGroup);
+        RadioButton anyColorRadioButton = new RadioButton("Any");
+        anyColorRadioButton.setTextFill(Color.WHITE);
+        anyColorRadioButton.setToggleGroup(colorGroup);
+        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
+
+        //ratedChoicePane
+        GridPane ratedChoicePane = new GridPane();
+        ratedChoicePane.setHgap(5);
+        ratedChoicePane.add(ratedLabel, 0, 0);
+        ratedChoicePane.setHalignment(ratedLabel, HPos.CENTER);
+        ratedChoicePane.add(ratedButtons, 0, 1);
+
+        //colorChoicePane
+        GridPane colorChoicePane = new GridPane();
+        colorChoicePane.setHgap(5);
+        colorChoicePane.add(colorLabel, 0, 0);
+        colorChoicePane.setHalignment(colorLabel, HPos.CENTER);
+        colorChoicePane.add(colorButtons, 0, 1);
+
+        //Textfield with label and comment
+        Label usernameLabel = new Label("Username: ");
+        usernameLabel.setFont(Font.font("Copperplate", 30));
+        usernameLabel.setStyle("-fx-font-weight: bold");
+        usernameLabel.setTextFill(Color.WHITE);
+        TextField searchField = new TextField();
+        searchField.setPrefSize(200, 30);
+        Label searchComment = new Label("");
+        searchComment.setTextFill(Color.RED);
+        GridPane usernamePane = new GridPane();
+
+
+        //Create Game Button
+        Button createGameButton = new Button("Create Game");
+        createGameButton.setOnAction(e -> {
+            //String usernameInputString = usernameInput.getText();
+
+
+
+
+
+            String timeChoice = timeChoiceBox.getValue();
+            String incrementChoice = incrementChoiceBox.getValue();
+            RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
+            String ratedChoiceString = ratedChoice.getText();
+            RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
+            String colorChoiceString = colorChoice.getText();
+            ChessGame.gameID = MainScene.newGameID();
+            int time = 0;
+            if (!timeChoice.equals("No timer")) {
+                if (timeChoice.startsWith("5")) {
+                    time = Integer.parseInt(timeChoice.substring(0, 1));
+                } else {
+                    time = Integer.parseInt(timeChoice.substring(0, 2));
                 }
+            }
+            int increment = 0;
+            if (!incrementChoice.equals("No increment")) {
+                if (incrementChoice.startsWith("1")) {
+                    increment = Integer.parseInt(incrementChoice.substring(0, 2));
+                } else {
+                    increment = Integer.parseInt(incrementChoice.substring(0, 1));
+                }
+            }
+            boolean color = true;
+            if (colorChoiceString.equals("Black")) {
+                color = false;
+            } else if (colorChoiceString.equals("Any")) {
+                Random random = new Random();
 
-                ChessGame.gameID = inputInt;
-                window.close();
-                showGameScene();
-            } else {comment.setText("Not a valid number!");}
+                int nr = random.nextInt()+1;
+                if (nr == 0) {
+                    color = true;
+                } else if (nr == 1){
+                    color = false;
+                }
+            }
+            int rated = 0;
+            if (ratedChoiceString.equals("Yes")) {
+                rated = 1;
+            }
+
+            MainScene.createGame(time, increment, color, rated);  //Here you can change time
+            MainScene.inQueueCreate = true;
+            System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+            window.close();
         });
 
+        BorderPane windowLayout = new BorderPane();
         GridPane mainLayout = new GridPane();
-        mainLayout.setHgap(10);
+        mainLayout.setHgap(35);
         mainLayout.setVgap(20);
-        mainLayout.setPadding(new Insets(30, 30, 30, 30));
-        mainLayout.add(label, 0, 0, 2, 1);
-        mainLayout.setHalignment(label, HPos.CENTER);
-        mainLayout.add(gameIDInputField, 0, 1);
-        mainLayout.add(comment, 0, 2);
-        mainLayout.add(connectButton, 0, 2);
-        mainLayout.setHalignment(connectButton, HPos.RIGHT);
-        mainLayout.setStyle("-fx-background-color: #404144;");
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+        mainLayout.add(timeLabel, 0, 1);
+        mainLayout.add(timeChoiceBox, 1, 1);
+        mainLayout.add(incrementLabel, 0, 2);
+        mainLayout.add(incrementChoiceBox, 1, 2);
+        mainLayout.add(ratedChoicePane, 0, 3);
+        mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
+        mainLayout.add(colorChoicePane, 1, 3);
+        mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
 
-        Scene scene = new Scene(mainLayout, 330, 180);
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(createGameButton, 0,0);
+        bottomLayout.setHalignment(createGameButton, HPos.RIGHT);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 380, 285);
         window.setScene(scene);
         window.showAndWait();
     }
 
-    static boolean isInt(String string){
-        try{
-            int out = Integer.parseInt(string);
-        } catch (Exception a){
-            return false;
-        }
-        return true;
-    }
-
-    static boolean checkGameId(int gameid){ //Here you have to check if the GameID exists!
+    static boolean CheckIfUserExist(String username){
         DBOps connection = new DBOps();
-        ArrayList matchingGameIDs = connection.exQuery("SELECT GameID from GameIDMove where GameID = '" + gameid + "'", 1); //Change this SQLQuery to match the database
-        if(matchingGameIDs.size() > 0){
+        ArrayList<String> result = connection.exQuery("SELECT avatar FROM User where username = '" + username + "';", 1);
+        if(result.size() > 0) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }
 
