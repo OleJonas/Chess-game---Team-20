@@ -255,8 +255,10 @@ class MainScene {
                     DBOps connection = new DBOps();
 
                     if (color) {
+                        ChessGame.color = true;
                         connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
                     } else {
+                        ChessGame.color = false;
                         connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", null, " + time + ", " + increment + ", " + rated + ", null, 1);");
                     }
                 }
@@ -656,17 +658,17 @@ class CreateGamePopupBox{
         HBox colorButtons = new HBox();
         colorButtons.setSpacing(5);
         final ToggleGroup colorGroup = new ToggleGroup();
-        RadioButton whiteColorRadioButton = new RadioButton("White");
-        whiteColorRadioButton.setTextFill(Color.WHITE);
-        whiteColorRadioButton.setToggleGroup(colorGroup);
-        whiteColorRadioButton.setSelected(true);
-        RadioButton blackColorRadioButton = new RadioButton("Black");
-        blackColorRadioButton.setTextFill(Color.WHITE);
-        blackColorRadioButton.setToggleGroup(colorGroup);
         RadioButton anyColorRadioButton = new RadioButton("Any");
         anyColorRadioButton.setTextFill(Color.WHITE);
         anyColorRadioButton.setToggleGroup(colorGroup);
-        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
+        anyColorRadioButton.setSelected(true);
+        RadioButton whiteColorRadioButton = new RadioButton("White");
+        whiteColorRadioButton.setTextFill(Color.WHITE);
+        whiteColorRadioButton.setToggleGroup(colorGroup);
+        RadioButton blackColorRadioButton = new RadioButton("Black");
+        blackColorRadioButton.setTextFill(Color.WHITE);
+        blackColorRadioButton.setToggleGroup(colorGroup);
+        colorButtons.getChildren().addAll(anyColorRadioButton, whiteColorRadioButton, blackColorRadioButton);
 
         //ratedChoicePane
         GridPane ratedChoicePane = new GridPane();
@@ -757,7 +759,7 @@ class CreateGamePopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 380, 285);
+        Scene scene = new Scene(windowLayout, 410, 320);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -823,17 +825,17 @@ class JoinGamePopupBox{
         HBox colorButtons = new HBox();
         colorButtons.setSpacing(5);
         final ToggleGroup colorGroup = new ToggleGroup();
-        RadioButton whiteColorRadioButton = new RadioButton("White");
-        whiteColorRadioButton.setTextFill(Color.WHITE);
-        whiteColorRadioButton.setToggleGroup(colorGroup);
-        whiteColorRadioButton.setSelected(true);
-        RadioButton blackColorRadioButton = new RadioButton("Black");
-        blackColorRadioButton.setTextFill(Color.WHITE);
-        blackColorRadioButton.setToggleGroup(colorGroup);
         RadioButton anyColorRadioButton = new RadioButton("Any");
         anyColorRadioButton.setTextFill(Color.WHITE);
         anyColorRadioButton.setToggleGroup(colorGroup);
-        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
+        anyColorRadioButton.setSelected(true);
+        RadioButton whiteColorRadioButton = new RadioButton("White");
+        whiteColorRadioButton.setTextFill(Color.WHITE);
+        whiteColorRadioButton.setToggleGroup(colorGroup);
+        RadioButton blackColorRadioButton = new RadioButton("Black");
+        blackColorRadioButton.setTextFill(Color.WHITE);
+        blackColorRadioButton.setToggleGroup(colorGroup);
+        colorButtons.getChildren().addAll(anyColorRadioButton, whiteColorRadioButton, blackColorRadioButton);
 
         //ratedChoicePane
         GridPane ratedChoicePane = new GridPane();
@@ -924,7 +926,7 @@ class JoinGamePopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 380, 285);
+        Scene scene = new Scene(windowLayout, 410, 320);
         window.setScene(scene);
         window.showAndWait();
     }
