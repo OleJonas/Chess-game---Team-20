@@ -9,6 +9,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.File;
+import java.io.FileFilter;
+
 import static JavaFX.Login.storeSettings;
 import static JavaFX.MainScene.showMainScene;
 //import static JavaFX.MainScene.showMainScene;
@@ -76,12 +79,11 @@ class Settings{
         Label emptylabel = new Label("");
         mainLayout.add(emptylabel, 0, 1);
 
-        Label boardColorLabel = new Label("Board Color");
+        //Board Color
+        Label boardColorLabel = new Label("Board color");
         boardColorLabel.setFont(Font.font("Copperplate", 25));
         boardColorLabel.setTextFill(Color.WHITE);
         mainLayout.add(boardColorLabel, 0, 2);
-
-
 
         ChoiceBox<String> boardColorChoiceBox = new ChoiceBox<>();
         boardColorChoiceBox.getItems().add("Brown");
@@ -96,6 +98,22 @@ class Settings{
 
         mainLayout.add(boardColorChoiceBox, 1,2);
 
+        //SkinName
+        Label skinNameLabel = new Label("Skin name");
+        skinNameLabel.setFont(Font.font("Copperplate", 25));
+        skinNameLabel.setTextFill(Color.WHITE);
+        mainLayout.add(skinNameLabel, 0, 3);
+
+        ChoiceBox<String> skinNameChoiceBox = new ChoiceBox<>();
+        skinNameChoiceBox.getItems().add("Standard");
+        skinNameChoiceBox.getItems().add("Chrome");
+        skinNameChoiceBox.getItems().add("Pink");
+        skinNameChoiceBox.setValue("Standard");
+
+        mainLayout.add(skinNameChoiceBox, 1,3);
+
+
+
         //Bottomlayout
         GridPane bottomLayout = new GridPane();
         Button resetChangesButton = new Button("Reset");
@@ -103,11 +121,13 @@ class Settings{
             //reset color
             darkTileColor = "#8B4513";
             lightTileColor = "#FFEBCD";
-            showSettings();});
+            //resetSkin
+            skinName = "Standard";
+        });
         Button applyChangesButton = new Button("Apply");
         applyChangesButton.setOnAction(e -> {
 
-            //Save colorchanges
+            //Apply colorchanges
             String colorchoice = boardColorChoiceBox.getValue();
             if(colorchoice.equals("Brown")){
                 darkTileColor = "#8B4513";
@@ -134,6 +154,17 @@ class Settings{
                 darkTileColor = "#ff00b2";
                 lightTileColor = "#faff00";
             }
+
+            //Apply skinName
+            String skinNameChoice = skinNameChoiceBox.getValue();
+            if(skinNameChoice.equals("Standard")){
+                skinName = "Standard";
+            } else if(skinNameChoice.equals("Chrome")){
+                skinName = "Chrome";
+            } else if(skinNameChoice.equals("Pink")){
+                skinName = "Pink";
+            }
+
         });
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
         bottomLayout.setPadding(new Insets(0, 25, 25, 0));

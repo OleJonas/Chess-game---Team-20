@@ -39,13 +39,12 @@ public class Login{
     static Label loginComment;
     static int userID;
 
-
-    static void runLogin() {
+    public static void runLogin() {
         //Textfields
         loginUsernameField = new TextField();
         loginPasswordField = new PasswordField();
 
-        //DENNE SETTER BARE INN EN TESTBRUKER FOR Å SLIPPE Å SKRIVE INN BRUKERDETAILS, SLETT FØR PUBLISERING AV APPLIKASJON
+        // Allows user to bypass login screen for testing purposes. Remove before final product is released.
         loginUsernameField.setText("Test");
         loginPasswordField.setText("12345");
 
@@ -76,7 +75,6 @@ public class Login{
                 USERNAME = loginUsernameInput;
                 AVATAR = getAvatar(USERNAME);
                 userID = getUserID();
-
                 getSettings();
                 getGameInfo();
                 MainScene.showMainScene();

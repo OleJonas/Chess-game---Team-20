@@ -43,6 +43,27 @@ public abstract class Piece{
         return getNotation() + "" + ((char) (getX() + 'A')) + "" + (getY() + 1);
     }
 
+    // Equals method for use in JUnit tests
+    @Override
+    public boolean equals(Object o){
+        // If object is compared with itself
+        if(o == this){
+            return true;
+        }
+
+        if(!(o instanceof Piece)){
+            return false;
+        }
+
+        if(this.getClass().equals(o.getClass())){
+            if(this.getX() == ((Piece) o).getX() && this.getY() == ((Piece) o).getY()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     //public abstract boolean move(int x, int y); //Takes chosen coordinates as arguments and compares them to the array returned from legalMove.
 
     //public abstract int[][] legalMove(int a, int b); //Takes the coordinates of the desired piece as arguments. Returns array of legal moves
