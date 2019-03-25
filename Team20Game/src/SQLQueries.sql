@@ -95,10 +95,10 @@ SELECT * FROM UserSettings;
 
 SELECT * FROM User;
 
-SELECT *FROM Game WHERE (user_id1 = 7 OR user_id2 = 7) AND result IS NOT NULL ;
+SELECT *FROM Game WHERE (user_id1 = 6 OR user_id2 = 6) AND result IS NOT NULL ;
 
 SELECT COUNT(game_id) FROM Game WHERE result = 7;
 
 UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'EpicHaxor';
 
-UPDATE Game SET result = 6 WHERE user_id1 = 6;
+UPDATE Game SET result = 7 WHERE user_id2 = 6;

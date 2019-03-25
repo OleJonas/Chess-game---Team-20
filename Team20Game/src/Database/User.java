@@ -22,7 +22,6 @@ public class User {
                 DBOps db = new DBOps();
                 int gamesWon = Integer.parseInt(db.exQuery("SELECT COUNT(game_id) FROM Game WHERE result ="
                         + Login.userID + ";",1).get(0));
-                System.out.println(gamesWon);
                 db.exUpdate("UPDATE User SET gamesWon = " + gamesWon + " WHERE user_id = " + Login.userID);
             }
         });
