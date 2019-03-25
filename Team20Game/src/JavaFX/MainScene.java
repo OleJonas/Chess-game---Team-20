@@ -58,6 +58,8 @@ class MainScene {
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
+            CreateGamePopupBox.Display(); //opens Popup
+
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
             createGame(67, 10, true, 1);  //Here you can change time
@@ -69,13 +71,11 @@ class MainScene {
             leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
             inQueueCreate = true;
-            //waitForOpponent();
-
-
-            //showGameScene();
         });
         joinGameButton = new Button("Join Game");
         joinGameButton.setOnAction(e -> {
+            JoinGamePopupBox.Display(); //opens Popup
+
             boolean[] colors = {true, true};
             //JoinGamePopup.Display()
             //joinGame(25, 5, colors, 1);
@@ -88,6 +88,7 @@ class MainScene {
             leftGrid.getChildren().add(queLabel);
             leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
+            
         });
 
         //Left GridPane
@@ -603,5 +604,261 @@ class JoinGamePopup{
     }
 }
 
+@SuppressWarnings("Duplicates")
+class CreateGamePopupBox{
+
+    public static void Display(){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Create Game");
+
+        //Labels
+        Label titleLabel = new Label("Game settings");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+        Label timeLabel = new Label("Time");
+        timeLabel.setFont(Font.font("Copperplate", 18));
+        timeLabel.setTextFill(Color.WHITE);
+        Label incrementLabel = new Label("Increment");
+        incrementLabel.setFont(Font.font("Copperplate", 18));
+        incrementLabel.setTextFill(Color.WHITE);
+        Label ratedLabel = new Label("Rated?");
+        ratedLabel.setFont(Font.font("Copperplate", 18));
+        ratedLabel.setTextFill(Color.WHITE);
+        Label colorLabel = new Label("Color");
+        colorLabel.setFont(Font.font("Copperplate", 18));
+        colorLabel.setTextFill(Color.WHITE);
+
+        //Choiceboxes
+        ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
+        timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("5 min");
+        timeChoiceBox.getItems().add("10 min");
+        timeChoiceBox.getItems().add("15 min");
+        timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.setValue("No timer");
+
+        ChoiceBox<String> incrementChoiceBox = new ChoiceBox<>();
+        incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("5 sec");
+        incrementChoiceBox.getItems().add("10 sec");
+        incrementChoiceBox.getItems().add("15 sec");
+        incrementChoiceBox.setValue("No increment");
+
+        //Radiobuttons
+        HBox ratedButtons = new HBox();
+        ratedButtons.setSpacing(5);
+        final ToggleGroup ratedGroup = new ToggleGroup();
+        RadioButton yesRatedRadioButton = new RadioButton("Yes");
+        yesRatedRadioButton.setTextFill(Color.WHITE);
+        yesRatedRadioButton.setToggleGroup(ratedGroup);
+        yesRatedRadioButton.setSelected(true);
+        RadioButton noRatedRadioButton = new RadioButton("No");
+        noRatedRadioButton.setTextFill(Color.WHITE);
+        noRatedRadioButton.setToggleGroup(ratedGroup);
+        ratedButtons.getChildren().addAll(yesRatedRadioButton, noRatedRadioButton);
+
+        HBox colorButtons = new HBox();
+        colorButtons.setSpacing(5);
+        final ToggleGroup colorGroup = new ToggleGroup();
+        RadioButton whiteColorRadioButton = new RadioButton("White");
+        whiteColorRadioButton.setTextFill(Color.WHITE);
+        whiteColorRadioButton.setToggleGroup(colorGroup);
+        whiteColorRadioButton.setSelected(true);
+        RadioButton blackColorRadioButton = new RadioButton("Black");
+        blackColorRadioButton.setTextFill(Color.WHITE);
+        blackColorRadioButton.setToggleGroup(colorGroup);
+        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton);
+
+        //ratedChoicePane
+        GridPane ratedChoicePane = new GridPane();
+        ratedChoicePane.setHgap(5);
+        ratedChoicePane.add(ratedLabel, 0, 0);
+        ratedChoicePane.setHalignment(ratedLabel, HPos.CENTER);
+        ratedChoicePane.add(ratedButtons, 0, 1);
+
+        //colorChoicePane
+        GridPane colorChoicePane = new GridPane();
+        colorChoicePane.setHgap(5);
+        colorChoicePane.add(colorLabel, 0, 0);
+        colorChoicePane.setHalignment(colorLabel, HPos.CENTER);
+        colorChoicePane.add(colorButtons, 0, 1);
+
+        //Create Game Button
+        Button createGameButton = new Button("Create Game");
+        createGameButton.setOnAction(e -> {
+            String timeChoice = timeChoiceBox.getValue();
+            String incrementChoice = incrementChoiceBox.getValue();
+            RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
+            String ratedChoiceString = ratedChoice.getText();
+            RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
+            String colorChoiceString = colorChoice.getText();
+            System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+        });
+
+        BorderPane windowLayout = new BorderPane();
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(35);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+        mainLayout.add(timeLabel, 0, 1);
+        mainLayout.add(timeChoiceBox, 1, 1);
+        mainLayout.add(incrementLabel, 0, 2);
+        mainLayout.add(incrementChoiceBox, 1, 2);
+        mainLayout.setHalignment(incrementChoiceBox, HPos.CENTER);
+        mainLayout.add(ratedChoicePane, 0, 3);
+        mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
+        mainLayout.add(colorChoicePane, 1, 3);
+        mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
+
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(createGameButton, 0,0);
+        bottomLayout.setHalignment(createGameButton, HPos.RIGHT);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 330, 280);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+}
+
+@SuppressWarnings("Duplicates")
+class JoinGamePopupBox{
+
+    public static void Display(){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Create Game");
+
+        //Labels
+        Label titleLabel = new Label("Game settings");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+        Label timeLabel = new Label("Time");
+        timeLabel.setFont(Font.font("Copperplate", 18));
+        timeLabel.setTextFill(Color.WHITE);
+        Label incrementLabel = new Label("Increment");
+        incrementLabel.setFont(Font.font("Copperplate", 18));
+        incrementLabel.setTextFill(Color.WHITE);
+        Label ratedLabel = new Label("Rated?");
+        ratedLabel.setFont(Font.font("Copperplate", 18));
+        ratedLabel.setTextFill(Color.WHITE);
+        Label colorLabel = new Label("Color");
+        colorLabel.setFont(Font.font("Copperplate", 18));
+        colorLabel.setTextFill(Color.WHITE);
+
+        //Choiceboxes
+        ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
+        timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("5 min");
+        timeChoiceBox.getItems().add("10 min");
+        timeChoiceBox.getItems().add("15 min");
+        timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("Any");
+        timeChoiceBox.setValue("Any");
+
+        ChoiceBox<String> incrementChoiceBox = new ChoiceBox<>();
+        incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("5 sec");
+        incrementChoiceBox.getItems().add("10 sec");
+        incrementChoiceBox.getItems().add("15 sec");
+        incrementChoiceBox.getItems().add("Any");
+        incrementChoiceBox.setValue("Any");
+
+        //Radiobuttons
+        HBox ratedButtons = new HBox();
+        ratedButtons.setSpacing(5);
+        final ToggleGroup ratedGroup = new ToggleGroup();
+        RadioButton yesRatedRadioButton = new RadioButton("Yes");
+        yesRatedRadioButton.setTextFill(Color.WHITE);
+        yesRatedRadioButton.setToggleGroup(ratedGroup);
+        yesRatedRadioButton.setSelected(true);
+        RadioButton noRatedRadioButton = new RadioButton("No");
+        noRatedRadioButton.setTextFill(Color.WHITE);
+        noRatedRadioButton.setToggleGroup(ratedGroup);
+        RadioButton anyRatedRadioButton = new RadioButton("Any");
+        anyRatedRadioButton.setTextFill(Color.WHITE);
+        anyRatedRadioButton.setToggleGroup(ratedGroup);
+        ratedButtons.getChildren().addAll(yesRatedRadioButton, noRatedRadioButton, anyRatedRadioButton);
+
+        HBox colorButtons = new HBox();
+        colorButtons.setSpacing(5);
+        final ToggleGroup colorGroup = new ToggleGroup();
+        RadioButton whiteColorRadioButton = new RadioButton("White");
+        whiteColorRadioButton.setTextFill(Color.WHITE);
+        whiteColorRadioButton.setToggleGroup(colorGroup);
+        whiteColorRadioButton.setSelected(true);
+        RadioButton blackColorRadioButton = new RadioButton("Black");
+        blackColorRadioButton.setTextFill(Color.WHITE);
+        blackColorRadioButton.setToggleGroup(colorGroup);
+        RadioButton anyColorRadioButton = new RadioButton("Any");
+        anyColorRadioButton.setTextFill(Color.WHITE);
+        anyColorRadioButton.setToggleGroup(colorGroup);
+        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
+
+        //ratedChoicePane
+        GridPane ratedChoicePane = new GridPane();
+        ratedChoicePane.setHgap(5);
+        ratedChoicePane.add(ratedLabel, 0, 0);
+        ratedChoicePane.setHalignment(ratedLabel, HPos.CENTER);
+        ratedChoicePane.add(ratedButtons, 0, 1);
+
+        //colorChoicePane
+        GridPane colorChoicePane = new GridPane();
+        colorChoicePane.setHgap(5);
+        colorChoicePane.add(colorLabel, 0, 0);
+        colorChoicePane.setHalignment(colorLabel, HPos.CENTER);
+        colorChoicePane.add(colorButtons, 0, 1);
+
+        //Create Game Button
+        Button joinGameButton = new Button("Join Game");
+        joinGameButton.setOnAction(e -> {
+            String timeChoice = timeChoiceBox.getValue();
+            String incrementChoice = incrementChoiceBox.getValue();
+            RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
+            String ratedChoiceString = ratedChoice.getText();
+            RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
+            String colorChoiceString = colorChoice.getText();
+            System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+        });
+
+        BorderPane windowLayout = new BorderPane();
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(35);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+        mainLayout.add(timeLabel, 0, 1);
+        mainLayout.add(timeChoiceBox, 1, 1);
+        mainLayout.add(incrementLabel, 0, 2);
+        mainLayout.add(incrementChoiceBox, 1, 2);
+        mainLayout.add(ratedChoicePane, 0, 3);
+        mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
+        mainLayout.add(colorChoicePane, 1, 3);
+        mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
+
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(joinGameButton, 0,0);
+        bottomLayout.setHalignment(joinGameButton, HPos.RIGHT);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 435, 290);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+}
 
 
