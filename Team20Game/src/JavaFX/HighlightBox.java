@@ -64,7 +64,7 @@ class HighlightBox extends Pane{
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
                 pawnChange.Display(ChessDemo.color);
                 Piece newPiece = null;
-                boolean pieceColor = ChessDemo.color?tile.getMyColor():!tile.getMyColor();
+                boolean pieceColor = ChessGame.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
                     newPiece = new Queen(pieceColor, x, y);
                     toY = 8;
@@ -192,7 +192,11 @@ class HighlightBox extends Pane{
         }
         if (Math.abs(y-tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) {
             Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
-            pawn.setEnPassant(true);
+            if (!pawn.getEnPassant()) {
+                pawn.setEnPassant(true);
+            } else {
+                pawn.setEnPassant(false);
+            }
         }
 
         if (tile.getX() + 1 < 8) {

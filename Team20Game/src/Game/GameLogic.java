@@ -5,6 +5,7 @@ import Pieces.Piece;
 
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameLogic{
     public static boolean inCheck(Piece[][] state, boolean color){
@@ -525,5 +526,16 @@ public class GameLogic{
             }
         }
         return result;
+    }
+
+    public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
+        if (rep.containsKey(board.toString())){
+            int oldBoardState = rep.get(board.toString());
+            rep.put(board.toString(), oldBoardState + 1);
+        }
+        else{
+            rep.put(board.toString(), new Integer("1"));
+        }
+        return rep.get(board.toString()).compareTo(2) == 1;
     }
 }

@@ -4,27 +4,22 @@
 
 package JavaFX;
 import Database.DBOps;
+import Game.GameEngine;
 import Pieces.*;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-import Game.GameEngine;
-
-import java.lang.reflect.Array;
-import java.util.TimerTask;
-import java.util.Timer;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
@@ -65,13 +60,7 @@ public class ChessGame{
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-                square.setOnMouseClicked(r -> {
-                    hboxGroup.getChildren().clear();
-                    selectedPieceGroup.getChildren().clear();
-                    JavaFX.HighlightBox box = new JavaFX.HighlightBox();
-                    selectedPieceGroup.getChildren().add(box);
-                    hboxGroup.getChildren().add(box);
-                });
+                ChessDemo.setOnMouseClicked(square, hboxGroup, selectedPieceGroup);
                 square.setFill((x + y) % 2 == 0 ? Color.valueOf(lightTileColor) : Color.valueOf(darkTileColor));
                 square.relocate(x * ChessDemo.TILE_SIZE, y * ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
@@ -280,7 +269,7 @@ public class ChessGame{
             public void run() {
                 serviceDBThings();
             }
-        }, 0, 750);
+        }, 0, 5000);
     }
 
     public void serviceDBThings() {

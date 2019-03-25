@@ -1,4 +1,4 @@
-package Tests;
+/*package Tests;
 
 import Game.GameEngine;
 import Pieces.*;
@@ -184,9 +184,10 @@ public class JUnitGameEngine {
     /*@Test
     public void testValidMoves(){
 
-    }*/
+    }
 
     public static void main(String[] args){
         org.junit.runner.JUnitCore.main(JUnitGameEngine.class.getName());
     }
 }
+*/
