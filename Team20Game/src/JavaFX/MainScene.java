@@ -669,7 +669,10 @@ class CreateGamePopupBox{
         RadioButton blackColorRadioButton = new RadioButton("Black");
         blackColorRadioButton.setTextFill(Color.WHITE);
         blackColorRadioButton.setToggleGroup(colorGroup);
-        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton);
+        RadioButton anyColorRadioButton = new RadioButton("Any");
+        anyColorRadioButton.setTextFill(Color.WHITE);
+        anyColorRadioButton.setToggleGroup(colorGroup);
+        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
 
         //ratedChoicePane
         GridPane ratedChoicePane = new GridPane();
@@ -709,14 +712,13 @@ class CreateGamePopupBox{
         mainLayout.add(timeChoiceBox, 1, 1);
         mainLayout.add(incrementLabel, 0, 2);
         mainLayout.add(incrementChoiceBox, 1, 2);
-        mainLayout.setHalignment(incrementChoiceBox, HPos.CENTER);
         mainLayout.add(ratedChoicePane, 0, 3);
         mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
         mainLayout.add(colorChoicePane, 1, 3);
         mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
 
         GridPane bottomLayout = new GridPane();
-        bottomLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
         bottomLayout.setPadding(new Insets(0,25,15,0));
         bottomLayout.add(createGameButton, 0,0);
         bottomLayout.setHalignment(createGameButton, HPos.RIGHT);
@@ -724,7 +726,7 @@ class CreateGamePopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 330, 280);
+        Scene scene = new Scene(windowLayout, 380, 285);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -785,10 +787,7 @@ class JoinGamePopupBox{
         RadioButton noRatedRadioButton = new RadioButton("No");
         noRatedRadioButton.setTextFill(Color.WHITE);
         noRatedRadioButton.setToggleGroup(ratedGroup);
-        RadioButton anyRatedRadioButton = new RadioButton("Any");
-        anyRatedRadioButton.setTextFill(Color.WHITE);
-        anyRatedRadioButton.setToggleGroup(ratedGroup);
-        ratedButtons.getChildren().addAll(yesRatedRadioButton, noRatedRadioButton, anyRatedRadioButton);
+        ratedButtons.getChildren().addAll(yesRatedRadioButton, noRatedRadioButton);
 
         HBox colorButtons = new HBox();
         colorButtons.setSpacing(5);
@@ -857,7 +856,7 @@ class JoinGamePopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 435, 290);
+        Scene scene = new Scene(windowLayout, 380, 285);
         window.setScene(scene);
         window.showAndWait();
     }
