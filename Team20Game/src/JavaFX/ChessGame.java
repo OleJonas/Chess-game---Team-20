@@ -250,6 +250,8 @@ public class ChessGame{
                 lastMoveGroup.getChildren().add(squareTo);
             }
 
+
+
             Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
             squareFrom.setFill(Color.valueOf("#582"));
             squareFrom.setOpacity(0.5);
