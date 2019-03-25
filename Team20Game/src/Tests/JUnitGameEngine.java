@@ -1,8 +1,13 @@
-/*package Tests;
+package Tests;
 
 import Game.GameEngine;
 import Pieces.*;
 import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 
@@ -14,10 +19,10 @@ public class JUnitGameEngine {
     private GameEngine ge;
 
     @Before
-    public void beforeTest(){ ge = new GameEngine(5, true);}
+    public void beforeTest(){ this.ge = new GameEngine(5, true);}
 
     @After
-    public void afterTest(){ ge = null;}
+    public void afterTest(){ this.ge = null;}
 
     @Test
     public void testMove(){
@@ -124,10 +129,11 @@ public class JUnitGameEngine {
         assertTrue(ge.isCheckmate(ge.getBoard(), false));
 
         // Check for black as well
-        GameEngine ge2 = new GameEngine(6, true);
-        ge2.move(7,7,5,2);
-        ge2.move(3,7,5,1);
-        assertTrue(ge2.isCheckmate(ge2.getBoard(), true));
+        ge.move(5,6,3,0);
+        ge.move(5,5,0,0);
+        ge.move(7,7,5,2);
+        ge.move(3,7,5,1);
+        assertTrue(ge.isCheckmate(ge.getBoard(), true));
     }
 
     @Test
@@ -166,6 +172,7 @@ public class JUnitGameEngine {
                 }
             }
         }
+        System.out.println(ge.getBoard().toString());
         assertFalse(ge.notEnoughPieces(ge.getBoard()));
 
         // Testing with king vs. king should return true
@@ -181,13 +188,116 @@ public class JUnitGameEngine {
         assertTrue(ge.notEnoughPieces(ge.getBoard()));
     }
 
-    /*@Test
+    @Test
     public void testValidMoves(){
+        //ge = new GameEngine(5, true);
+        System.out.println(ge.getBoard().toString());
+        // Checking for rook
+        Integer[] test = null;
+        ArrayList<Integer> validMoves = ge.validMoves(0,0);
+        assertTrue(validMoves.size() == 0);
 
+        // Testing for pawn
+        validMoves = ge.validMoves(0,1);
+        test = new Integer[] {0,2,0,3};
+        for(int i = 0; i < test.length; i++){
+            assertTrue(validMoves.get(i) == test[i]);
+        }
+
+        //Knight
+        validMoves = ge.validMoves(1,0);
+        test = new Integer[] {0,2,2,2};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // Bishop
+        validMoves = ge.validMoves(2,0);
+        assertTrue(validMoves.size() == 0);
+
+        // Queen
+        validMoves = ge.validMoves(3,0);
+        assertTrue(validMoves.size() == 0);
+
+        // King
+        validMoves = ge.validMoves(4,0);
+        assertTrue(validMoves.size() == 0);
+
+        // Moving pieces to create more opportunities...
+        ge.move(2,1,2,4);
+        ge.move(3,1,3,2);
+        ge.move(4,1,4,3);
+        ge.move(6,0,5,2);
+        ge.move(7,1,7,3);
+        //ge.removePiece(5,2);
+        ge.move(3,7,5,2);
+        ge.move(3,6,3,4);
+
+        // Checking if valid moves are correctly set:
+        // Pawn with en passant opportunity
+        validMoves = ge.validMoves(2,4);
+        test = new Integer[] {2,5,3,5};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // Bishop at c1
+        validMoves = ge.validMoves(2,0);
+        test = new Integer[] {3,1,4,2,5,3,6,4,7,5};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // White queen at d1
+        validMoves = ge.validMoves(3,0);
+        test = new Integer[] {0,3,1,2,2,1,3,1,4,1,5,2};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // White king at e1
+        validMoves = ge.validMoves(4,0);
+        test = new Integer[] {3,1};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // White pawn at e4
+        validMoves = ge.validMoves(4,3);
+        test = new Integer[] {3,4,4,4};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // White pawn at g2
+        System.out.println(ge.getBoard().toString());
+        validMoves = ge.validMoves(6,1);
+        System.out.println(validMoves.size());
+        test = new Integer[] {5,2,6,2,6,3};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // White rook at h1
+        validMoves = ge.validMoves(7,0);
+        test = new Integer[] {6,0,7,1,7,2};
+        assertTrue(isItTheSameThingQuestionMark(test, validMoves));
+
+        // Testing discovered check:
+        // Moving black rook in behind white pawn at e4 should prevent white pawn from taking black pawn to the left at d5
+        ge.move(0,7,4,4);
+        validMoves = ge.validMoves(4,3);
+        assertTrue(validMoves.size() == 0);
+    }
+
+    private boolean isItTheSameThingQuestionMark(Integer[] test, ArrayList<Integer> validMoves){
+        int x = 0;
+        int y = 0;
+        int count = 0;
+        while(count < validMoves.size()){
+            x = validMoves.get(count);
+            y = validMoves.get(count + 1);
+            for(int i = 0; i < test.length; i++){
+                if(x == test[i] && i%2 == 0){
+                    if(!(y == test[i+1])){
+                        return false;
+                    }
+                    count += 2;
+                    break;
+                }
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args){
         org.junit.runner.JUnitCore.main(JUnitGameEngine.class.getName());
     }
 }
-*/
+

@@ -73,19 +73,20 @@ public class Board {
             king.setCanCastle(false);
             castleKing = false;
         }
-        // Could limit the check here to 0 < j < 7 here since a pawn at  either i0 or i7 cant move.
-        // Could also decrease the limit for i by 1, since the array is no larger than 8 entries total?
+
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (position[i][j] instanceof Pawn) {
-                    if (position[fromX][fromY] != null) {
-                        if (position[i][j].getColor() != position[fromX][fromY].getColor()) {
-                            Pawn pawn = (Pawn) position[i][j];
-                            if (pawn.getEnPassant()) {
-                                pawn.setEnPassant(false);
-                                break;
-                            }
-                        }
+            Pawn tempPawn = null;
+            if(position[i][3] instanceof Pawn) {
+                tempPawn = (Pawn) position[i][3];
+            } else if(position[i][4] instanceof Pawn) {
+                tempPawn = (Pawn) position[i][4];
+            }
+            if (position[fromX][fromY] != null && tempPawn != null) {
+                if (tempPawn.getColor() != position[fromX][fromY].getColor()) {
+                    Pawn pawn = tempPawn;
+                    if (pawn.getEnPassant()) {
+                        pawn.setEnPassant(false);
+                        break;
                     }
                 }
             }
