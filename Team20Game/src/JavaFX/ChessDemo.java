@@ -431,6 +431,7 @@ class TestHighlightBox extends Pane{
                 king.setCanCastle(false);
                 //System.out.println("Rokkade");
             }
+
             if (Math.abs(y-tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) {
                 Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
                 pawn.setEnPassant(true);
@@ -445,8 +446,10 @@ class TestHighlightBox extends Pane{
                             //System.out.println("Hallo2");
                             if (pawn.getEnPassant()) {
                                 //System.out.println("Hallo3");
-                                tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
-                                gameEngine.removePiece(tile.getX()+1, tile.getY());
+                                if (y == 3) {
+                                    tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
+                                    gameEngine.removePiece(tile.getX()+1, tile.getY());
+                                }
                             }
                         }
                     }
@@ -454,8 +457,10 @@ class TestHighlightBox extends Pane{
                         Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                         if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                             if (pawn.getEnPassant()) {
-                                tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
-                                gameEngine.removePiece(tile.getX()+1, tile.getY());
+                                if (y == 3) {
+                                    tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
+                                    gameEngine.removePiece(tile.getX()+1, tile.getY());
+                                }
                             }
                         }
                     }
@@ -467,8 +472,10 @@ class TestHighlightBox extends Pane{
                         Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                         if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                             if (pawn.getEnPassant()) {
-                                tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
-                                gameEngine.removePiece(tile.getX()-1, tile.getY());
+                                if (y == 4) {
+                                    tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
+                                    gameEngine.removePiece(tile.getX()-1, tile.getY());
+                                }
                             }
                         }
                     }
@@ -476,8 +483,10 @@ class TestHighlightBox extends Pane{
                         Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                         if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                             if (pawn.getEnPassant()) {
-                                tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
-                                gameEngine.removePiece(tile.getX()-1, tile.getY());
+                                if (y == 4) {
+                                    tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
+                                    gameEngine.removePiece(tile.getX()-1, tile.getY());
+                                }
                             }
                         }
                     }

@@ -191,7 +191,7 @@ class HighlightBox extends Pane{
             king.setCanCastle(false);
             //System.out.println("Rokkade");
         }
-        if (Math.abs(y-tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) {
+        if (Math.abs(y - tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn && (y == 3 || y == 4)) {
             Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
             if (!pawn.getEnPassant()) {
                 pawn.setEnPassant(true);
