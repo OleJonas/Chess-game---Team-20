@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
@@ -34,12 +35,12 @@ class MainScene {
     static GridPane leftGrid;
     static Timer timer = new Timer(true);
     static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
-    private static boolean inQueueCreate = false;
-    private static boolean inQueueJoin = false;
+    static boolean inQueueCreate = false;
+    static boolean inQueueJoin = false;
     private static boolean inQueueFriend = false;
     private static boolean searchFriend = false;
     private static boolean syncTurn = false;
-    private static String sql;
+    static String sql;
     private static String user_id;
 
     static void showMainScene() {
@@ -61,8 +62,6 @@ class MainScene {
             CreateGamePopupBox.Display(); //opens Popup
 
             System.out.println(Login.USERNAME);
-            ChessGame.gameID = newGameID();
-            createGame(67, 10, true, 1);  //Here you can change time
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -76,11 +75,6 @@ class MainScene {
         joinGameButton.setOnAction(e -> {
             JoinGamePopupBox.Display(); //opens Popup
 
-            boolean[] colors = {true, true};
-            //JoinGamePopup.Display()
-            //joinGame(25, 5, colors, 1);
-            sql = createSearch(67, 10, colors, 1);
-            inQueueJoin = true;
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -697,6 +691,43 @@ class CreateGamePopupBox{
             String ratedChoiceString = ratedChoice.getText();
             RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
             String colorChoiceString = colorChoice.getText();
+            ChessGame.gameID = MainScene.newGameID();
+            int time = 0;
+            if (!timeChoice.equals("No timer")) {
+                if (timeChoice.startsWith("5")) {
+                    time = Integer.parseInt(timeChoice.substring(0, 1));
+                } else {
+                    time = Integer.parseInt(timeChoice.substring(0, 2));
+                }
+            }
+            int increment = 0;
+            if (!incrementChoice.equals("No increment")) {
+                if (incrementChoice.startsWith("1")) {
+                    increment = Integer.parseInt(incrementChoice.substring(0, 2));
+                } else {
+                    increment = Integer.parseInt(incrementChoice.substring(0, 1));
+                }
+            }
+            boolean color = true;
+            if (colorChoiceString.equals("Black")) {
+                color = false;
+            } else if (colorChoiceString.equals("Any")) {
+                Random random = new Random();
+
+                int nr = random.nextInt()+1;
+                if (nr == 0) {
+                    color = true;
+                } else if (nr == 1){
+                    color = false;
+                }
+            }
+            int rated = 0;
+            if (ratedChoiceString.equals("Yes")) {
+                rated = 1;
+            }
+
+            MainScene.createGame(time, increment, color, rated);  //Here you can change time
+            MainScene.inQueueCreate = true;
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
         });
@@ -827,6 +858,42 @@ class JoinGamePopupBox{
             String ratedChoiceString = ratedChoice.getText();
             RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
             String colorChoiceString = colorChoice.getText();
+
+            int time = -1;
+            if (!timeChoice.equals("Any")) {
+                if (timeChoice.equals("No timer")) {
+                    time = 0;
+                } else if (timeChoice.startsWith("5")) {
+                    time = Integer.parseInt(timeChoice.substring(0, 1));
+                } else {
+                    time = Integer.parseInt(timeChoice.substring(0, 2));
+                }
+            }
+            int increment = -1;
+            if (!incrementChoice.equals("Any")) {
+                if (incrementChoice.equals("No increment")) {
+                    time = 0;
+                } else if (incrementChoice.startsWith("1")) {
+                    increment = Integer.parseInt(incrementChoice.substring(0, 2));
+                } else {
+                    increment = Integer.parseInt(incrementChoice.substring(0, 1));
+                }
+            }
+            boolean[] color = {false, false};
+            if (colorChoiceString.equals("Any")) {
+                color[1] = true;
+            } else if (colorChoiceString.equals("Black")) {
+                color[0] = false;
+            } else {
+                color[1] = true;
+            }
+            int rated = 0;
+            if (ratedChoiceString.equals("Yes")) {
+                rated = 1;
+            }
+
+            MainScene.sql = MainScene.createSearch(time, increment, color, rated);
+            MainScene.inQueueJoin = true;
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
         });
