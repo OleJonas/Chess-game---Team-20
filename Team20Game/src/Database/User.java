@@ -44,4 +44,14 @@ public class User {
         updateGamesLost();
         updateGamesWon();
     }
+
+    public static void updateElo(int user_id, int elo){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps db = new DBOps();
+                db.exUpdate("UPDATE User SET ELOrating = " + elo + "WHERE user_id = " + user_id);
+            }
+        });
+        t.start();
+    }
 }
