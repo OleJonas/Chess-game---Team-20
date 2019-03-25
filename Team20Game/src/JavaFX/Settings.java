@@ -47,7 +47,6 @@ class Settings{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            storeSettings();
             showMainScene();
         });
 
@@ -94,7 +93,25 @@ class Settings{
         boardColorChoiceBox.getItems().add("Yellow");
         boardColorChoiceBox.getItems().add("Green");
         boardColorChoiceBox.getItems().add("Pink");
-        boardColorChoiceBox.setValue("Brown");
+
+        //Fetch selected color for setValue()
+        if(darkTileColor.equals("#8B4513") && lightTileColor.equals("#FFEBCD")){
+            boardColorChoiceBox.setValue("Brown");
+        } else if(darkTileColor.equals("#000000") && lightTileColor.equals("#FFFFFF")){
+            boardColorChoiceBox.setValue("Black");
+        } else if(darkTileColor.equals("#010b7a") && lightTileColor.equals("eeedd5")){
+            boardColorChoiceBox.setValue("Blue");
+        } else if(darkTileColor.equals("#680101") && lightTileColor.equals("eeedd5")){
+            boardColorChoiceBox.setValue("Red");
+        } else if(darkTileColor.equals("#ef9921") && lightTileColor.equals("eeedd5")){
+            boardColorChoiceBox.setValue("Orange");
+        } else if(darkTileColor.equals("#f2f20c") && lightTileColor.equals("eeedd5")){
+            boardColorChoiceBox.setValue("Yellow");
+        } else if(darkTileColor.equals("#7d945d") && lightTileColor.equals("#eeedd5")){
+            boardColorChoiceBox.setValue("Green");
+        } else if(darkTileColor.equals("#ff00b2") && lightTileColor.equals("#faff00")){
+            boardColorChoiceBox.setValue("Pink");
+        }
 
         mainLayout.add(boardColorChoiceBox, 1,2);
 
@@ -108,7 +125,15 @@ class Settings{
         skinNameChoiceBox.getItems().add("Standard");
         skinNameChoiceBox.getItems().add("Chrome");
         skinNameChoiceBox.getItems().add("Pink");
-        skinNameChoiceBox.setValue("Standard");
+
+        //Fetch selected skinName for setValue()
+        if(skinName.equals("Standard")){
+            skinNameChoiceBox.setValue("Standard");
+        } else if(skinName.equals("Chrome")){
+            skinNameChoiceBox.setValue("Chrome");
+        } else if(skinName.equals("Pink")){
+            skinNameChoiceBox.setValue("Pink");
+        }
 
         mainLayout.add(skinNameChoiceBox, 1,3);
 
@@ -123,6 +148,8 @@ class Settings{
             lightTileColor = "#FFEBCD";
             //resetSkin
             skinName = "Standard";
+
+            storeSettings();
         });
         Button applyChangesButton = new Button("Apply");
         applyChangesButton.setOnAction(e -> {
@@ -165,6 +192,7 @@ class Settings{
                 skinName = "Pink";
             }
 
+            storeSettings();
         });
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
         bottomLayout.setPadding(new Insets(0, 25, 25, 0));

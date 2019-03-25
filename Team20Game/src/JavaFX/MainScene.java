@@ -88,7 +88,7 @@ class MainScene {
             leftGrid.getChildren().add(queLabel);
             leftGrid.setVgap(10);
             leftGrid.getChildren().add(backButton);
-            
+
         });
 
         //Left GridPane
