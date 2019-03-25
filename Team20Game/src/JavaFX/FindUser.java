@@ -84,8 +84,12 @@ class FindUser{
         searchButton.setOnAction(e -> {
             if(searchForUser(searchField.getText())){
                 setUserPane();
+                searchComment.setText("");
             } else {
                 searchComment.setText("User doesn't exist");
+                findUser_AvatarString = "emptyAvatar.png";
+                gamesInfoLabel.setText("");
+                findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
             }
         });
         leftGrid.add(usernameLabel, 0,0,2,1);
