@@ -376,17 +376,17 @@ class MainScene {
         } else {
             if (color[0]) {
                 if (firstCheck) {
-                    sql += " WHERE user_id2 IS null)";
+                    sql += " WHERE user_id2 IS null";
                     firstCheck = false;
                 } else {
-                    sql += " AND user_id2 IS null)";
+                    sql += " AND user_id2 IS null";
                 }
             } else {
                 if (firstCheck) {
-                    sql += " WHERE user_id1 IS null)";
+                    sql += " WHERE user_id1 IS null";
                     firstCheck = false;
                 } else {
-                    sql += " AND user_id1 IS null)";
+                    sql += " AND user_id1 IS null";
                 }
             }
         }
@@ -883,9 +883,9 @@ class JoinGamePopupBox{
             if (colorChoiceString.equals("Any")) {
                 color[1] = true;
             } else if (colorChoiceString.equals("Black")) {
+                color[0] = true;
+            } else if (colorChoiceString.equals("White")) {
                 color[0] = false;
-            } else {
-                color[1] = true;
             }
             int rated = 0;
             if (ratedChoiceString.equals("Yes")) {
@@ -893,6 +893,7 @@ class JoinGamePopupBox{
             }
 
             MainScene.sql = MainScene.createSearch(time, increment, color, rated);
+            System.out.println(MainScene.sql);
             MainScene.inQueueJoin = true;
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
