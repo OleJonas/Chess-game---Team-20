@@ -1,30 +1,22 @@
 package JavaFX;
 //import Database.DBOps;
-import Database.DBOps;
-import Game.GameLogic;
+import Game.GameEngine;
 import Pieces.*;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
-import javafx.scene.image.ImageView;
-import Game.GameEngine;
-import java.util.TimerTask;
-import java.util.Timer;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.concurrent.CountDownLatch;
+import java.util.Timer;
 
 
 public class ChessDemo extends Application {
@@ -77,32 +69,14 @@ public class ChessDemo extends Application {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-                square.setOnMouseClicked(r -> {
-                    hboxGroup.getChildren().clear();
-                    selectedPieceGroup.getChildren().clear();
-                    JavaFX.HighlightBox box = new JavaFX.HighlightBox();
-                    selectedPieceGroup.getChildren().add(box);
-                    hboxGroup.getChildren().add(box);
-                });
+                setOnMouseClicked(square, hboxGroup, selectedPieceGroup);
                 square.setFill((x + y) % 2 == 0 ? Color.valueOf(lightTileColor) : Color.valueOf(darkTileColor));
                 square.relocate(x * ChessDemo.TILE_SIZE, y * ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if (ge.getBoard().getBoardState()[x][y] != null) {
                     boolean myColor;
-                    if (color) {
-                        if (ge.getBoard().getBoardState()[x][y].getColor()) {
-                            myColor = true;
-                        } else {
-                            myColor = false;
-                        }
-                    } else {
-                        if (ge.getBoard().getBoardState()[x][y].getColor()) {
-                            myColor = false;
-                        } else {
-                            myColor = true;
-                        }
-                    }
-                    TestTile tile = new TestTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, lastMoveGroup, board);
+                    myColor = changeColor(x, y, !color, ge);
+                    TestTile tile = new TestTile(x, y, color, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, lastMoveGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
                         temp.getTransforms().add(new Rotate(180, TILE_SIZE / 2, TILE_SIZE / 2));
@@ -115,6 +89,7 @@ public class ChessDemo extends Application {
                 }
             }
         }
+        //color = !color;
         if (!color) {
             Rotate rotate180 = new Rotate(180, (TILE_SIZE * WIDTH) / 2, (TILE_SIZE * HEIGHT) / 2);
             root.getTransforms().add(rotate180);
@@ -127,6 +102,34 @@ public class ChessDemo extends Application {
         }
 
         return root;
+    }
+
+    static boolean changeColor(int x, int y, boolean color, GameEngine ge) {
+        boolean myColor;
+        if (color) {
+            if (ge.getBoard().getBoardState()[x][y].getColor()) {
+                myColor = true;
+            } else {
+                myColor = false;
+            }
+        } else {
+            if (ge.getBoard().getBoardState()[x][y].getColor()) {
+                myColor = false;
+            } else {
+                myColor = true;
+            }
+        }
+        return myColor;
+    }
+
+    static void setOnMouseClicked(Rectangle square, Group hboxGroup, Group selectedPieceGroup) {
+        square.setOnMouseClicked(r -> {
+            hboxGroup.getChildren().clear();
+            selectedPieceGroup.getChildren().clear();
+            HighlightBox box = new HighlightBox();
+            selectedPieceGroup.getChildren().add(box);
+            hboxGroup.getChildren().add(box);
+        });
     }
 
     public void removePiece(int x, int y) {
@@ -224,6 +227,12 @@ class TestTile extends StackPane {
         if(img == null){
             return false;
         }
+        translator(img, offsetX, offsetY);
+        getChildren().set(0,img);
+        return true;
+    }
+
+    static void translator(ImageView img, double offsetX, double offsetY) {
         if(!ChessDemo.color){
             img.setTranslateX(-offsetX);
             img.setTranslateY(-offsetY);
@@ -231,9 +240,8 @@ class TestTile extends StackPane {
             img.setTranslateX(offsetX);
             img.setTranslateY(offsetY);
         }
-        getChildren().set(0,img);
-        return true;
     }
+
     public void move(int x, int y, TestTile[][] board) {
         oldX = x * ChessDemo.TILE_SIZE;
         oldY = (height - 1 - y) * ChessDemo.TILE_SIZE;

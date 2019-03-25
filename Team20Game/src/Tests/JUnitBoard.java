@@ -1,4 +1,4 @@
-package Tests;
+/*package Tests;
 
 import Game.Board;
 import Pieces.*;
@@ -70,4 +70,4 @@ public class JUnitBoard {
     public static void main(String[] args){
         org.junit.runner.JUnitCore.main(JUnitBoard.class.getName());
     }
-}
+}*/

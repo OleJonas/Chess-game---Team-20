@@ -3,10 +3,9 @@ package Game;
 //import JavaFX.GameChatNTimer;
 
 import Pieces.Piece;
-import java.util.HashMap;
-import java.util.Map;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameEngine {
    private Board board;
@@ -29,18 +28,6 @@ public class GameEngine {
       rep = new HashMap<String, Integer>();
       //this.gameChatNTimer = new GameChatNTimer(time);
    }
-
-   public boolean isMoveRepetition(){
-      if (rep.containsKey(board.toString())){
-         int oldBoardState = rep.get(board.toString());
-         rep.put(board.toString(), oldBoardState + 1);
-      }
-      else{
-         rep.put(board.toString(), new Integer("1"));
-      }
-      return rep.get(board.toString()).compareTo(2) == 1;
-   }
-
 
    public Board getBoard(){ return board; }
 
@@ -73,4 +60,6 @@ public class GameEngine {
    public int[] myPieces(Board board, boolean color) { return GameLogic.myPieces(board, color); }
 
    public int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
+
+   public boolean isMoveRepetition() { return GameLogic.isMoveRepetition(rep, board); }
 }

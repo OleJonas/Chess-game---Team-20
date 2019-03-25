@@ -193,7 +193,11 @@ class HighlightBox extends Pane{
         }
         if (Math.abs(y-tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) {
             Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
-            pawn.setEnPassant(true);
+            if (!pawn.getEnPassant()) {
+                pawn.setEnPassant(true);
+            } else {
+                pawn.setEnPassant(false);
+            }
         }
 
         if (tile.getX() + 1 < 8) {

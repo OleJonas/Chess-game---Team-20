@@ -44,6 +44,7 @@ public class ChessSandbox {
 
     public static boolean myTurn = true;
 
+    public static boolean myColor = true;
     public static int movenr = 0;
 
     private GameEngine ge = new GameEngine(15, true);
@@ -78,31 +79,13 @@ public class ChessSandbox {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-                square.setOnMouseClicked(r -> {
-                    hboxGroup.getChildren().clear();
-                    selectedPieceGroup.getChildren().clear();
-                    JavaFX.HighlightBox box = new JavaFX.HighlightBox();
-                    selectedPieceGroup.getChildren().add(box);
-                    hboxGroup.getChildren().add(box);
-                });
+                ChessDemo.setOnMouseClicked(square, hboxGroup, selectedPieceGroup);
                 square.setFill((x + y) % 2 == 0 ? Color.valueOf(lightTileColor) : Color.valueOf(darkTileColor));
                 square.relocate(x * ChessDemo.TILE_SIZE, y * ChessDemo.TILE_SIZE);
                 boardGroup.getChildren().add(square);
                 if (ge.getBoard().getBoardState()[x][y] != null) {
                     boolean myColor;
-                    if (color) {
-                        if (ge.getBoard().getBoardState()[x][y].getColor()) {
-                            myColor = true;
-                        } else {
-                            myColor = false;
-                        }
-                    } else {
-                        if (ge.getBoard().getBoardState()[x][y].getColor()) {
-                            myColor = false;
-                        } else {
-                            myColor = true;
-                        }
-                    }
+                    myColor = ChessDemo.changeColor(x, y, color, ge);
                     SandboxTile tile = new SandboxTile(x, y, myColor, HEIGHT, ge, hboxGroup, tileGroup,selectedPieceGroup, lastMoveGroup, board);
                     if (!color) {
                         ImageView temp = ge.getBoard().getBoardState()[x][y].getImageView();
@@ -445,13 +428,7 @@ class SandboxTile extends StackPane {
         if(img == null){
             return false;
         }
-        if(!ChessDemo.color){
-            img.setTranslateX(-offsetX);
-            img.setTranslateY(-offsetY);
-        }else{
-            img.setTranslateX(offsetX);
-            img.setTranslateY(offsetY);
-        }
+        TestTile.translator(img, offsetX, offsetY);
         getChildren().set(0,img);
         return true;
     }
