@@ -35,6 +35,7 @@ public class ChessGame{
     public static boolean myTurn = true;
     public static int movenr = 0;
     private boolean polling = false;
+    private boolean serviceRunning =false;
     private String homeSkin;
     private String awaySkin;
     public static String skin = "Standard";
@@ -278,48 +279,50 @@ public class ChessGame{
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                serviceDBThings();
+                System.out.println("myTurn = " + myTurn + ", polling = " + polling);
+                if(!polling && !serviceRunning && !myTurn) {
+                    serviceDBThings();
+                }
             }
-        }, 0, 750);
+        }, 0, 1000);
     }
 
     public void serviceDBThings() {
-        Service<Void> service = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        //Background work
-                        final CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!myTurn && !polling) {
-                                    try {
-                                        pollEnemyMove();
-                                    } finally {
-                                        latch.countDown();
-                                    }
+        System.out.println("Started service: service = " + serviceRunning);
+            Service<Void> service = new Service<Void>() {
+                @Override
+                protected Task<Void> createTask() {
+                    return new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            //Background work
+                            final CountDownLatch latch = new CountDownLatch(1);
+                            System.out.println("entered service");
+                            serviceRunning = true;
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    System.out.println("Starting myTurn check in service:");
+                                    pollEnemyMove();
+                                    latch.countDown();
+                                    serviceRunning =false;
                                 }
-                            }
-                        });
-                        latch.await();
-                        //Keep with the background work
-                        return null;
-                    }
-                };
-            }
-        };
-        service.start();
+                            });
+                            latch.await();
+                            //Keep with the background work
+                            return null;
+                        }
+                    };
+                }
+            };
+            service.start();
     }
     public void pollEnemyMove(){
         //Only check when its not your turn
         polling = true;
-        System.out.println("PollEnemyMove Started, turn: " + movenr);
         try {
             DBOps db = new DBOps();
-            System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
+            //System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
             //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
             ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1);
             if(fromXlist.size()>0) {
@@ -330,6 +333,7 @@ public class ChessGame{
                 System.out.println("test" + fromX);
                 if (board[fromX][fromY] != null) {
                     enemyMove(fromX, fromY, toX, toY);
+                    System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
                     myTurn = true;
                 }
             }

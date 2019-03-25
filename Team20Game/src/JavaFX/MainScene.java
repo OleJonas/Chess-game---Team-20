@@ -489,7 +489,7 @@ class MainScene {
                                             showGameScene();
                                         }
                                     }
-                                    if (syncTurn) {
+                                    /*if (syncTurn) {
                                         int move_nr = Integer.parseInt(connection.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0));
                                         System.out.println(move_nr);
                                         if (ChessGame.color) {
@@ -509,7 +509,7 @@ class MainScene {
                                                 ChessGame.myTurn = true;
                                             }
                                         }
-                                    }
+                                    }*/
                                 } finally {
                                     latch.countDown();
                                 }
