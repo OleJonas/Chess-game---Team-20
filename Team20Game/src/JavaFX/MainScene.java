@@ -695,6 +695,7 @@ class CreateGamePopupBox{
             RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
             String colorChoiceString = colorChoice.getText();
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+            window.close();
         });
 
         BorderPane windowLayout = new BorderPane();
@@ -828,6 +829,7 @@ class JoinGamePopupBox{
             RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
             String colorChoiceString = colorChoice.getText();
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+            window.close();
         });
 
         BorderPane windowLayout = new BorderPane();
