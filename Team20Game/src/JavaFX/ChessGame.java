@@ -34,6 +34,7 @@ public class ChessGame{
     public static final double imageSize = 0.8;
     public static boolean color = true;
     public static boolean myTurn = true;
+    public static boolean gameWon = false;
     public static int movenr = 0;
     private boolean polling = false;
     private boolean serviceRunning =false;
@@ -244,6 +245,25 @@ public class ChessGame{
                         }
                     }
                 }
+                if (ge.isCheckmate(ge.getBoard(), !ge.getBoard().getBoardState()[toX][toY].getColor())) {
+
+                    if (ge.getBoard().getBoardState()[toX][toY].getColor()) {
+                        System.out.println("Checkmate for White");
+                        if(!color){
+                           GameOverPopupBox.Display();
+                        }
+
+                        //fill in what happens when game ends here
+                    }
+                    else {
+                        System.out.println("Checkmate for Black");
+                        if(color){
+                            GameOverPopupBox.Display();
+                        }
+
+                        //fill in what happens when game ends here
+                    }
+                }
                 Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
                 squareTo.setFill(Color.valueOf("#582"));
                 squareTo.setOpacity(0.9);
@@ -252,28 +272,7 @@ public class ChessGame{
                 lastMoveGroup.getChildren().add(squareTo);
             }
 
-            if (ge.isCheckmate(ge.getBoard(), !ge.getBoard().getBoardState()[toX][toY].getColor())) {
-                if (ge.getBoard().getBoardState()[toX][toY].getColor()) {
-                    System.out.println("Checkmate for White");
-                    if(color){
 
-                    }
-                    /*int[] elo = ge.getElo(1000, 1000, 0);
-                    System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
-                    */
-                    //fill in what happens when game ends here
-                }
-                else {
-                    System.out.println("Checkmate for Black");
-                    if(color){
-
-                    }
-                    /*int[] elo = ge.getElo(1000, 1000, 1);
-                    System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
-                    */
-                    //fill in what happens when game ends here
-                }
-            }
            /* else if (ge.isStalemate(ge.getBoard(), !ge.getBoard().getBoardState()[fromX][fromY].getColor())) {
                 System.out.println("Stalemate");
                 int[] elo = ge.getElo(1000, 1000, 2);
@@ -383,20 +382,13 @@ public class ChessGame{
                 int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
-                System.out.println("test" + fromX);
+                //System.out.println("test" + fromX);
                 if (board[fromX][fromY] != null) {
                     enemyMove(fromX, fromY, toX, toY);
                     System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
                     myTurn = true;
                 }
             }
-                /*if (true) {
-                    enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
-                    movenr++;
-                    myTurn = true;
-                    System.out.println("moved enemy piece");
-                }*/
-            System.out.println("polled database");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -14,8 +14,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.management.monitor.Monitor;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -1117,6 +1119,56 @@ class JoinGamePopupBox{
         windowLayout.setStyle("-fx-background-color: #404144;");
 
         Scene scene = new Scene(windowLayout, 410, 380);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+}
+
+class GameOverPopupBox{
+
+    public static void Display(){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Game over");
+
+        //Labels
+        Label titleLabel = new Label("Game finished");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+        String text = ChessGame.gameWon?"YOU WON :D":"YOU LOST :(";
+        Label textLabel = new Label(text);
+        textLabel.setFont(Font.font("Copperplate", 22));
+        textLabel.setStyle("-fx-font-weight: bold");
+        textLabel.setTextFill(Color.WHITE);
+
+        //Create Game Button
+        Button leaveGameButton = new Button("Leave Game");
+        leaveGameButton.setOnAction(e -> {
+            MainScene.showMainScene();
+            window.close();
+        });
+
+        BorderPane windowLayout = new BorderPane();
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(35);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.add(textLabel, 0, 1, 2, 1);
+        mainLayout.setHalignment(textLabel, HPos.CENTER);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(leaveGameButton, 0,0);
+        bottomLayout.setHalignment(leaveGameButton, HPos.CENTER);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 400, 240);
         window.setScene(scene);
         window.showAndWait();
     }
