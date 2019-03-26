@@ -26,7 +26,7 @@ public class GameLogic{
             }
         }
 
-        // check threats from cardinal directions
+        // check king threats from all 8 main directions
         int[][] move =  {{1, 0, 0, 1, -1, 0, 0, -1}, {1, 1, -1, 1, -1, -1, 1, -1}};
         boolean[][] dir = {{true, true, true, true}, {true, true, true, true}};
         for (int r = 0; r < 2; r++){
