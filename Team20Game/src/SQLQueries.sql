@@ -105,3 +105,5 @@ SELECT COUNT(game_id) FROM Game WHERE result = 7;
 UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'EpicHaxor';
 
 UPDATE Game SET result = 7 WHERE user_id2 = 6;
+
+SELECT *FROM Move WHERE game_id = 100394;

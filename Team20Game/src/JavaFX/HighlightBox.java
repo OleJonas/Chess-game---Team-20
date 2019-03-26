@@ -94,6 +94,8 @@ class HighlightBox extends Pane{
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
 
+            uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
+            ChessGame.movenr+=2;
 
 
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
@@ -181,8 +183,6 @@ class HighlightBox extends Pane{
             }
             lastMoveGroup.getChildren().add(squareTo);
             lastMoveGroup.getChildren().add(squareFrom);
-            uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
-            ChessGame.movenr+=2;
         });
     }
 

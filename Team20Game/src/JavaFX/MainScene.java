@@ -485,7 +485,7 @@ class MainScene {
                                             connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
-                                            inQueueCreate = false;
+                                            inQueueFriend = false;
                                             syncTurn = true;
                                             showGameScene();
                                         }
@@ -1161,7 +1161,7 @@ class JoinGamePopupBox{
 class GameOverPopupBox{
 
     public static void Display(){
-        String oldElo = "Old ELO rating: " + User.getElo(Login.userID) + "\n";
+        int oldElo = User.getElo(Login.userID);
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
@@ -1186,7 +1186,8 @@ class GameOverPopupBox{
         }
         int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
         int myNewElo = ChessGame.color?elo[0]:elo[1];
-        String newElo = oldElo +"\nNew ELO rating: " + myNewElo;
+        int enemyElo = ChessGame.color?elo[1]:elo[0];
+        String newElo = Login.USERNAME + "'s new ELO rating: \n" + myNewElo + " (" +((myNewElo-oldElo)>0?"+":"") +(myNewElo-oldElo) + ")";
         Label eloLabel = new Label(newElo);
         eloLabel.setFont(Font.font("Copperplate", 22));
         eloLabel.setStyle("-fx-font-weight: bold");
@@ -1221,7 +1222,7 @@ class GameOverPopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 400, 310);
+        Scene scene = new Scene(windowLayout, 450, 310);
         window.setScene(scene);
         window.showAndWait();
     }
