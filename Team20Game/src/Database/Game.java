@@ -3,6 +3,27 @@ package Database;
 import JavaFX.Login;
 
 public class Game {
+    public static int getTime(int game_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT time FROM Game WHERE game_id = " + game_id + ", ", 1).get(0));
+    }
+    public static int getIncrement(int game_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT increment FROM Game WHERE game_id = " + game_id + ",", 1).get(0));
+    }
+
+    public static boolean getActive(int game_id){
+        DBOps db = new DBOps();
+        if (Integer.parseInt(db.exQuery("SELECT active FROM Game WHERE game_id = " + game_id + ",",1).get(0)) == 1){
+            return true;
+        }
+        return false;
+    }
+
+    public static int getMode(int game_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT mode FROM Game WHERE game_id = " + game_id + ",",1).get(0));
+    }
     public static void setResult(int game_id, int user_id){
         Thread t = new Thread(new Runnable() {
             public void run() {

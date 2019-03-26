@@ -81,6 +81,9 @@ Create table UserSettings (
                   FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
+ALTER TABLE Game
+ADD mode INTEGER NOT NULL;
+
 SELECT * FROM Game WHERE user_id1 IS NOT NULL  AND user_id2 IS NOT NULL AND game_id = ;
 
 SELECT * FROM Move WHERE game_id = 100275;
