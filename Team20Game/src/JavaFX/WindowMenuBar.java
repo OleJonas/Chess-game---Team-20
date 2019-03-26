@@ -18,7 +18,9 @@ public class WindowMenuBar {
     public WindowMenuBar(){
         Menu homeMenu = new Menu("Home");
         MenuItem homeMenuItem = new MenuItem("Go to Main Screen");
-        homeMenuItem.setOnAction(e -> showMainScene());
+        homeMenuItem.setOnAction(e -> {
+            showMainScene();
+        });
         homeMenu.getItems().add(homeMenuItem);
 
         Menu gameMenu = new Menu("Game");
