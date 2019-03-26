@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,42 +36,7 @@ class Register {
         registerComment.setTextFill(Color.RED);
         //signUpRegisterButton
         signUpRegisterButton = new Button("Sign up");
-        signUpRegisterButton.setOnAction(e -> {
-            String registerUsernameInput = registerUsernameField.getText();
-            String registerPasswordInput = registerPasswordField.getText();
-            String registerPasswordAgainInput = registerPasswordAgainField.getText();
-
-            if (registerUsernameInput.equals("") || registerUsernameInput.equals(" ")) {
-                registerComment.setText("Username cannot be blank");
-            } else if (registerPasswordInput.equals("") || registerPasswordInput.equals(" ")) {
-                registerComment.setText("Password cannot be blank");
-            } else if (registerPasswordAgainInput.equals("") || registerPasswordAgainInput.equals(" ")) {
-                registerComment.setText("Please repeat password");
-            } else if (!registerPasswordAgainInput.equals(registerPasswordInput)) {
-                registerComment.setText("Passwords not matching");
-            }else {
-                boolean registrationOK = false;
-               try {
-                    registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-                if (registrationOK) {
-                    registerUsernameField.clear();
-                    registerPasswordField.clear();
-                    registerPasswordAgainField.clear();
-                    registerComment.setText(""); //CLearing the label for next time
-                    Login.loginComment.setText("");
-                    Login.runLogin();
-                } else {
-                    System.out.println("User already exist!");
-                    registerUsernameField.clear();
-                    registerPasswordField.clear();
-                    registerPasswordAgainField.clear();
-                    registerComment.setText("User already exist");
-                }
-            }
-        });
+        signUpRegisterButton.setOnAction(e -> tryRegister());
 
         //signUpAlreadyAccountButton
         signUpalreadyAccountButton = new Button("Already registered?");
@@ -120,7 +86,48 @@ class Register {
         signupLayout.setStyle("-fx-background-color: #404144;");
 
         signUpScene = new Scene(signupLayout, 450, 280);
+        signUpScene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                tryRegister();
+            }
+        });
         Main.window.setScene(signUpScene);
+    }
 
+    static void tryRegister(){
+        String registerUsernameInput = registerUsernameField.getText();
+        String registerPasswordInput = registerPasswordField.getText();
+        String registerPasswordAgainInput = registerPasswordAgainField.getText();
+
+        if (registerUsernameInput.equals("") || registerUsernameInput.equals(" ")) {
+            registerComment.setText("Username cannot be blank");
+        } else if (registerPasswordInput.equals("") || registerPasswordInput.equals(" ")) {
+            registerComment.setText("Password cannot be blank");
+        } else if (registerPasswordAgainInput.equals("") || registerPasswordAgainInput.equals(" ")) {
+            registerComment.setText("Please repeat password");
+        } else if (!registerPasswordAgainInput.equals(registerPasswordInput)) {
+            registerComment.setText("Passwords not matching");
+        }else {
+            boolean registrationOK = false;
+            try {
+                registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            if (registrationOK) {
+                registerUsernameField.clear();
+                registerPasswordField.clear();
+                registerPasswordAgainField.clear();
+                registerComment.setText(""); //CLearing the label for next time
+                Login.loginComment.setText("");
+                Login.runLogin();
+            } else {
+                System.out.println("User already exist!");
+                registerUsernameField.clear();
+                registerPasswordField.clear();
+                registerPasswordAgainField.clear();
+                registerComment.setText("User already exist");
+            }
+        }
     }
 }
