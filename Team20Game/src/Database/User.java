@@ -4,6 +4,10 @@ import JavaFX.Login;
 
 public class User {
 
+    public static void getElo(int user_id){
+
+    }
+
     public static void updateGamesPlayed(){
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -53,5 +57,10 @@ public class User {
             }
         });
         t.start();
+    }
+    public static void updateElobyGame(int game_id) {
+        int user_id1 = Game.getUser_id1(game_id);
+        int user_id2 = Game.getUser_id2(game_id);
+
     }
 }

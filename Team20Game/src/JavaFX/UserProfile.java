@@ -1,6 +1,7 @@
 
 package JavaFX;
 import Database.DBOps;
+import Database.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ class UserProfile{
 
 
     static void showUserProfileScene(){
+        User.updateUser();
         GridPane mainLayout = new GridPane();
         avatar = new Image("Images/Avatars/" + AVATAR);
 
