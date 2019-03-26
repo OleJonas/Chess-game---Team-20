@@ -356,10 +356,10 @@ class MainScene {
         boolean firstCheck = true;
         if (mode != -1) {
             if (firstCheck) {
-                sql += " WHERE time = " +mode;
+                sql += " WHERE mode = " +mode;
                 firstCheck = false;
             } else {
-                sql += " AND time = " +mode;
+                sql += " AND mode = " +mode;
             }
         }
         if (time != -1) {
@@ -638,9 +638,6 @@ class InviteFriendPopupBox{
             //String usernameInputString = usernameInput.getText();
 
 
-
-
-
             String timeChoice = timeChoiceBox.getValue();
             String incrementChoice = incrementChoiceBox.getValue();
             RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
@@ -682,7 +679,7 @@ class InviteFriendPopupBox{
                 rated = 1;
             }
 
-            MainScene.createGame(time, increment, color, rated);  //Here you can change time
+          //  MainScene.createGame(0, time, increment, color, rated);  //Here you can change time
             MainScene.inQueueCreate = true;
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
