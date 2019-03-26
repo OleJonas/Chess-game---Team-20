@@ -37,7 +37,7 @@ public class Login{
     static TextField loginUsernameField;
     static PasswordField loginPasswordField;
     static Label loginComment;
-    static int userID;
+    public static int userID;
 
     public static void runLogin() {
         //Textfields

@@ -4,6 +4,7 @@
 
 package JavaFX;
 import Database.DBOps;
+import Database.Game;
 import Pieces.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -33,13 +34,14 @@ public class ChessGame{
     public static final double imageSize = 0.8;
     public static boolean color = true;
     public static boolean myTurn = true;
+    public static boolean gameWon = false;
     public static int movenr = 0;
     private boolean polling = false;
     private boolean serviceRunning =false;
     private String homeSkin;
     private String awaySkin;
     public static String skin = "Standard";
-    private GameEngine ge = new GameEngine(15, true);
+    private GameEngine ge = new GameEngine(0, 0);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID;              //new Random().nextInt(500000);
@@ -54,6 +56,7 @@ public class ChessGame{
     private Group lastMoveGroup = new Group();
 
     public Parent setupBoard() {
+        setupGameEngine();
         setSkins();
         Pane root = new Pane();
         Pane bg = new Pane();
@@ -242,6 +245,25 @@ public class ChessGame{
                         }
                     }
                 }
+                if (ge.isCheckmate(ge.getBoard(), !ge.getBoard().getBoardState()[toX][toY].getColor())) {
+
+                    if (ge.getBoard().getBoardState()[toX][toY].getColor()) {
+                        System.out.println("Checkmate for White");
+                        if(!color){
+                           GameOverPopupBox.Display();
+                        }
+
+                        //fill in what happens when game ends here
+                    }
+                    else {
+                        System.out.println("Checkmate for Black");
+                        if(color){
+                            GameOverPopupBox.Display();
+                        }
+
+                        //fill in what happens when game ends here
+                    }
+                }
                 Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
                 squareTo.setFill(Color.valueOf("#582"));
                 squareTo.setOpacity(0.9);
@@ -251,6 +273,30 @@ public class ChessGame{
             }
 
 
+           /* else if (ge.isStalemate(ge.getBoard(), !ge.getBoard().getBoardState()[fromX][fromY].getColor())) {
+                System.out.println("Stalemate");
+                int[] elo = ge.getElo(1000, 1000, 2);
+                System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+            }
+            if (ge.isMoveRepetition()) {
+                System.out.println("Repetisjon");
+            }*/
+
+            /*if(ge.notEnoughPieces(ge.getBoard())) {
+                System.out.println("Remis");
+                int[] elo = ge.getElo(1200, 1000, 2);
+                System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+            }
+            if (!(ge.getBoard().getBoardState()[fromX][fromY] instanceof Pawn) && ((totWhites+totBlacks) == (updatedWhites+updatedBlacks))) {
+                ge.setMoveCounter(false);
+                if (ge.getMoveCounter() == 100) {
+                    System.out.println("Remis");
+                    int[] elo = ge.getElo(1000, 1000, 2);
+                    System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                }
+            } else {
+                ge.setMoveCounter(true);
+            }*/
 
             Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
             squareFrom.setFill(Color.valueOf("#582"));
@@ -262,6 +308,10 @@ public class ChessGame{
 
         }
         return false;
+    }
+
+    private void setupGameEngine() {
+        ge = new GameEngine(Game.getTime(ChessGame.gameID), Game.getMode(ChessGame.gameID));
     }
 
     public boolean setSkins(){
@@ -332,20 +382,13 @@ public class ChessGame{
                 int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
-                System.out.println("test" + fromX);
+                //System.out.println("test" + fromX);
                 if (board[fromX][fromY] != null) {
                     enemyMove(fromX, fromY, toX, toY);
                     System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
                     myTurn = true;
                 }
             }
-                /*if (true) {
-                    enemyMove(res.getInt("fromX"), res.getInt("fromY"), res.getInt("toX"), res.getInt("toY"));
-                    movenr++;
-                    myTurn = true;
-                    System.out.println("moved enemy piece");
-                }*/
-            System.out.println("polled database");
         } catch (Exception e) {
             e.printStackTrace();
         }

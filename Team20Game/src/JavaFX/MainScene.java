@@ -1,5 +1,6 @@
 package JavaFX;
 import Database.DBOps;
+import Database.User;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -13,8 +14,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import javax.management.monitor.Monitor;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -40,10 +43,11 @@ class MainScene {
     private static boolean inQueueFriend = false;
     private static boolean searchFriend = false;
     private static boolean syncTurn = false;
-    static String sql;
+    public static String sql;
     private static String user_id;
 
     static void showMainScene() {
+        User.updateUser();
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 70));
         title.setStyle("-fx-font-weight: bold");
@@ -133,7 +137,7 @@ class MainScene {
         inviteFriendButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(67, 10, true, 1, 7);
+            //createGame(67, 10, true, 1, 7);
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -249,31 +253,31 @@ class MainScene {
         return out + 1;
     }
 
-    static void createGame(int time, int increment, boolean color, int rated) {
+    static void createGame(int mode, int time, int increment, boolean color, int rated) {
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     DBOps connection = new DBOps();
 
                     if (color) {
                         ChessGame.color = true;
-                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1);");
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
                     } else {
                         ChessGame.color = false;
-                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", null, " + time + ", " + increment + ", " + rated + ", null, 1);");
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", null, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
                     }
                 }
             });
             t.start();
     }
 
-    static void createGame(int time, int increment, boolean color, int rated, int friendid) {
+    static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
         DBOps connection = new DBOps();
         int userid = Login.getUserID();
 
         if (color) {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1);");
+            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
         } else {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1);");
+            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
         }
     }
 
@@ -349,9 +353,25 @@ class MainScene {
         return sql;
     }
 
-    static String createSearch(int time, int increment, boolean[] color, int rated) {
+    static String createSearch(int mode, int time, int increment, boolean[] color, int rated) {
         String sql = "SELECT game_id FROM Game";
         boolean firstCheck = true;
+        if (mode != -1) {
+            if (mode == 1) {
+                if (firstCheck) {
+                    sql += " WHERE mode > 1000 ";
+                    firstCheck = false;
+                } else {
+                    sql += " AND mode > 1000 ";
+                }
+            }
+            else if (firstCheck) {
+                sql += " WHERE mode = " +mode;
+                firstCheck = false;
+            } else {
+                sql += " AND mode = " +mode;
+            }
+        }
         if (time != -1) {
             if (firstCheck) {
                 sql += " WHERE time = " +time;
@@ -442,6 +462,7 @@ class MainScene {
                                     }else if(inQueueJoin){
                                         System.out.println("Looking for opponent");
                                         int game_id = pollQueue(sql, connection);
+                                        System.out.println(sql);
                                         if(game_id!=-1) {
                                             ChessGame.gameID = game_id;
                                             if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
@@ -627,9 +648,6 @@ class InviteFriendPopupBox{
             //String usernameInputString = usernameInput.getText();
 
 
-
-
-
             String timeChoice = timeChoiceBox.getValue();
             String incrementChoice = incrementChoiceBox.getValue();
             RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
@@ -671,7 +689,7 @@ class InviteFriendPopupBox{
                 rated = 1;
             }
 
-            MainScene.createGame(time, increment, color, rated);  //Here you can change time
+          //  MainScene.createGame(0, time, increment, color, rated);  //Here you can change time
             MainScene.inQueueCreate = true;
             System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
@@ -730,6 +748,9 @@ class CreateGamePopupBox{
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
+        Label modeLabel = new Label("Mode");
+        modeLabel.setFont(Font.font("Copperplate", 18));
+        modeLabel.setTextFill(Color.WHITE);
         Label timeLabel = new Label("Time");
         timeLabel.setFont(Font.font("Copperplate", 18));
         timeLabel.setTextFill(Color.WHITE);
@@ -744,6 +765,14 @@ class CreateGamePopupBox{
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
+        ChoiceBox<String> modeChoiceBox = new ChoiceBox<>();
+        modeChoiceBox.getItems().add("Standard");
+        modeChoiceBox.getItems().add("Fischer Random");
+        modeChoiceBox.getItems().add("Horse Attack");
+        modeChoiceBox.getItems().add("Farmers Chess");
+        modeChoiceBox.getItems().add("Peasants Revolt");
+        modeChoiceBox.setValue("Standard");
+
         ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
         timeChoiceBox.getItems().add("5 min");
@@ -804,6 +833,7 @@ class CreateGamePopupBox{
         //Create Game Button
         Button createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
+            String modeChoice = modeChoiceBox.getValue();
             String timeChoice = timeChoiceBox.getValue();
             String incrementChoice = incrementChoiceBox.getValue();
             RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
@@ -811,6 +841,20 @@ class CreateGamePopupBox{
             RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
             String colorChoiceString = colorChoice.getText();
             ChessGame.gameID = MainScene.newGameID();
+
+            int mode = 0;
+            if (modeChoice.equals("Fischer Random")) {
+                Random random = new Random();
+                int seed = random.nextInt(4000) +1000;
+                mode = seed;
+            } else if (modeChoice.equals("Horse Attack")) {
+                mode = 2;
+            } else if (modeChoice.equals("Farmers Chess")) {
+                mode = 3;
+            } else if (modeChoice.equals("Peasants Revolt")) {
+                mode = 4;
+            }
+
             int time = 0;
             if (!timeChoice.equals("No timer")) {
                 if (timeChoice.startsWith("5")) {
@@ -819,6 +863,7 @@ class CreateGamePopupBox{
                     time = Integer.parseInt(timeChoice.substring(0, 2));
                 }
             }
+
             int increment = 0;
             if (!incrementChoice.equals("No increment")) {
                 if (incrementChoice.startsWith("1")) {
@@ -845,9 +890,9 @@ class CreateGamePopupBox{
                 rated = 1;
             }
 
-            MainScene.createGame(time, increment, color, rated);  //Here you can change time
+            MainScene.createGame(mode, time, increment, color, rated);  //Here you can change time
             MainScene.inQueueCreate = true;
-            System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+            System.out.println("Mode: "+modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
         });
 
@@ -858,13 +903,15 @@ class CreateGamePopupBox{
         mainLayout.setPadding(new Insets(30, 40, 30, 40));
         mainLayout.add(titleLabel, 0, 0, 2, 1);
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
-        mainLayout.add(timeLabel, 0, 1);
-        mainLayout.add(timeChoiceBox, 1, 1);
-        mainLayout.add(incrementLabel, 0, 2);
-        mainLayout.add(incrementChoiceBox, 1, 2);
-        mainLayout.add(ratedChoicePane, 0, 3);
+        mainLayout.add(modeLabel, 0, 1);
+        mainLayout.add(modeChoiceBox, 1, 1);
+        mainLayout.add(timeLabel, 0, 2);
+        mainLayout.add(timeChoiceBox, 1, 2);
+        mainLayout.add(incrementLabel, 0, 3);
+        mainLayout.add(incrementChoiceBox, 1, 3);
+        mainLayout.add(ratedChoicePane, 0, 4);
         mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
-        mainLayout.add(colorChoicePane, 1, 3);
+        mainLayout.add(colorChoicePane, 1, 4);
         mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
 
         GridPane bottomLayout = new GridPane();
@@ -876,7 +923,7 @@ class CreateGamePopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 410, 320);
+        Scene scene = new Scene(windowLayout, 410, 380);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -895,6 +942,9 @@ class JoinGamePopupBox{
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
+        Label modeLabel = new Label("Mode");
+        modeLabel.setFont(Font.font("Copperplate", 18));
+        modeLabel.setTextFill(Color.WHITE);
         Label timeLabel = new Label("Time");
         timeLabel.setFont(Font.font("Copperplate", 18));
         timeLabel.setTextFill(Color.WHITE);
@@ -909,6 +959,15 @@ class JoinGamePopupBox{
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
+        ChoiceBox<String> modeChoiceBox = new ChoiceBox<>();
+        modeChoiceBox.getItems().add("Any");
+        modeChoiceBox.getItems().add("Standard");
+        modeChoiceBox.getItems().add("Fischer Random");
+        modeChoiceBox.getItems().add("Horse Attack");
+        modeChoiceBox.getItems().add("Farmers Chess");
+        modeChoiceBox.getItems().add("Peasants Revolt");
+        modeChoiceBox.setValue("Standard");
+
         ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
         timeChoiceBox.getItems().add("5 min");
@@ -971,12 +1030,26 @@ class JoinGamePopupBox{
         //Create Game Button
         Button joinGameButton = new Button("Join Game");
         joinGameButton.setOnAction(e -> {
+            String modeChoice = modeChoiceBox.getValue();
             String timeChoice = timeChoiceBox.getValue();
             String incrementChoice = incrementChoiceBox.getValue();
             RadioButton ratedChoice = (RadioButton) ratedGroup.getSelectedToggle();
             String ratedChoiceString = ratedChoice.getText();
             RadioButton colorChoice = (RadioButton) colorGroup.getSelectedToggle();
             String colorChoiceString = colorChoice.getText();
+
+            int mode = -1;
+            if (modeChoice.equals("Standard")) {
+                mode = 0;
+            } else if (modeChoice.equals("Fischer Random")) {
+                mode = 1;
+            } else if (modeChoice.equals("Horse Attack")) {
+                mode = 2;
+            } else if (modeChoice.equals("Farmers Chess")) {
+                mode = 3;
+            } else if (modeChoice.equals("Peasants Revolt")) {
+                mode = 4;
+            }
 
             int time = -1;
             if (!timeChoice.equals("Any")) {
@@ -1011,10 +1084,10 @@ class JoinGamePopupBox{
                 rated = 1;
             }
 
-            MainScene.sql = MainScene.createSearch(time, increment, color, rated);
+            MainScene.sql = MainScene.createSearch(mode, time, increment, color, rated);
             System.out.println(MainScene.sql);
             MainScene.inQueueJoin = true;
-            System.out.println("Time: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
+            System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
             window.close();
         });
 
@@ -1025,13 +1098,15 @@ class JoinGamePopupBox{
         mainLayout.setPadding(new Insets(30, 40, 30, 40));
         mainLayout.add(titleLabel, 0, 0, 2, 1);
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
-        mainLayout.add(timeLabel, 0, 1);
-        mainLayout.add(timeChoiceBox, 1, 1);
-        mainLayout.add(incrementLabel, 0, 2);
-        mainLayout.add(incrementChoiceBox, 1, 2);
-        mainLayout.add(ratedChoicePane, 0, 3);
+        mainLayout.add(modeLabel, 0, 1);
+        mainLayout.add(modeChoiceBox, 1, 1);
+        mainLayout.add(timeLabel, 0, 2);
+        mainLayout.add(timeChoiceBox, 1, 2);
+        mainLayout.add(incrementLabel, 0, 3);
+        mainLayout.add(incrementChoiceBox, 1, 3);
+        mainLayout.add(ratedChoicePane, 0, 4);
         mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
-        mainLayout.add(colorChoicePane, 1, 3);
+        mainLayout.add(colorChoicePane, 1, 4);
         mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
 
         GridPane bottomLayout = new GridPane();
@@ -1043,7 +1118,57 @@ class JoinGamePopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 410, 320);
+        Scene scene = new Scene(windowLayout, 410, 380);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+}
+
+class GameOverPopupBox{
+
+    public static void Display(){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Game over");
+
+        //Labels
+        Label titleLabel = new Label("Game finished");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+        String text = ChessGame.gameWon?"YOU WON :D":"YOU LOST :(";
+        Label textLabel = new Label(text);
+        textLabel.setFont(Font.font("Copperplate", 22));
+        textLabel.setStyle("-fx-font-weight: bold");
+        textLabel.setTextFill(Color.WHITE);
+
+        //Create Game Button
+        Button leaveGameButton = new Button("Leave Game");
+        leaveGameButton.setOnAction(e -> {
+            MainScene.showMainScene();
+            window.close();
+        });
+
+        BorderPane windowLayout = new BorderPane();
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(35);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.add(textLabel, 0, 1, 2, 1);
+        mainLayout.setHalignment(textLabel, HPos.CENTER);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(leaveGameButton, 0,0);
+        bottomLayout.setHalignment(leaveGameButton, HPos.CENTER);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 400, 240);
         window.setScene(scene);
         window.showAndWait();
     }

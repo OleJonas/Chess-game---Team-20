@@ -45,9 +45,12 @@ public class ChessSandbox {
     public static boolean myTurn = true;
 
     public static boolean myColor = true;
+
     public static int movenr = 0;
 
-    private GameEngine ge = new GameEngine(15, true);
+    public static boolean lastMove = true;
+
+    private GameEngine ge = new GameEngine(0,0);
 
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;
@@ -166,6 +169,7 @@ class SandboxHighlightBox extends Pane{
             int fromX = tile.getX();
             int fromY = tile.getY();
             tile.move(x, y, board);
+            ChessSandbox.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
             int top=0;
             if((tile.getMyColor()&&ChessDemo.color)||!tile.getMyColor() && !ChessDemo.color) {
                 top = height - 1;
@@ -303,7 +307,7 @@ class SandboxHighlightBox extends Pane{
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                         //System.out.println("Hallo2");
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() + 1) {
                             //System.out.println("Hallo3");
                             tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()+1, tile.getY());
@@ -313,7 +317,7 @@ class SandboxHighlightBox extends Pane{
                 else {
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() + 1) {
                             tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()+1, tile.getY());
                         }
@@ -326,7 +330,7 @@ class SandboxHighlightBox extends Pane{
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() - 1) {
                             tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()-1, tile.getY());
                         }
@@ -335,7 +339,7 @@ class SandboxHighlightBox extends Pane{
                 else {
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() - 1) {
                             tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()-1, tile.getY());
                         }

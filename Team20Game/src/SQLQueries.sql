@@ -81,14 +81,27 @@ Create table UserSettings (
                   FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
+ALTER TABLE Game
+ADD mode INTEGER NOT NULL;
+
 SELECT * FROM Game WHERE user_id1 IS NOT NULL  AND user_id2 IS NOT NULL AND game_id = ;
 
-SELECT * FROM Move;
+SELECT * FROM Move WHERE game_id = 100275;
 
-SELECT * FROM Game;
+SELECT COUNT(game_id) FROM Game WHERE user_id1 = 1 OR user_id2 = 1;
+
+SELECT COUNT(game_id) FROM Game WHERE result = 6;
 
 UPDATE Game SET active = 0 WHERE active = 1;
 
 SELECT * FROM UserSettings;
 
-UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'Knodde';
+SELECT * FROM Game;
+
+SELECT *FROM Game WHERE (user_id1 = 6 OR user_id2 = 6) AND result IS NOT NULL ;
+
+SELECT COUNT(game_id) FROM Game WHERE result = 7;
+
+UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'EpicHaxor';
+
+UPDATE Game SET result = 7 WHERE user_id2 = 6;

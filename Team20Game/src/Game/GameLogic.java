@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameLogic{
+    private static HashMap<String, Integer> rep;
     public static boolean inCheck(Piece[][] state, boolean color){
         Piece[][] board = state;
         int x = 0, y = 2;
@@ -25,7 +26,7 @@ public class GameLogic{
             }
         }
 
-        // check threats from cardinal directions
+        // check king threats from all 8 main directions
         int[][] move =  {{1, 0, 0, 1, -1, 0, 0, -1}, {1, 1, -1, 1, -1, -1, 1, -1}};
         boolean[][] dir = {{true, true, true, true}, {true, true, true, true}};
         for (int r = 0; r < 2; r++){
@@ -502,29 +503,11 @@ public class GameLogic{
     //NEW
     public static int[] getElo(int whiteElo, int blackElo, int score) {
         int[] result = new int[2];
-        double winProbability = 1 / (1+ Math.pow(10, (double) (Math.abs((whiteElo - blackElo))/400)));
-        if (score == 0) {
-            double eloUpdate = 32*(winProbability);
-            result[0] = (int)Math.round((float) whiteElo + eloUpdate);
-            result[1] = (int)Math.round((float) blackElo - eloUpdate);
-            return result;
-        }
-        else if (score == 1) {
-            double eloUpdate = 32*(1 - winProbability);
-            result[0] = (int)Math.round((float) whiteElo - eloUpdate);
-            result[1] = (int)Math.round((float) blackElo + eloUpdate);
-        }
-        else if (score == 2) {
-            double eloUpdate = 32*(0.5 - winProbability);
-            if (whiteElo > blackElo) {
-                result[0] = (int)Math.round((float) whiteElo - eloUpdate);
-                result[1] = (int)Math.round((float) blackElo + eloUpdate);
-            }
-            else if (whiteElo < blackElo){
-                result[0] = (int)Math.round((float) whiteElo + eloUpdate);
-                result[1] = (int)Math.round((float) blackElo - eloUpdate);
-            }
-        }
+        double p = (score == 0 ? 0.0 : (score == 1 ? 1.0 : 0.5));
+        double winProb = 1.0 / (1.0+ Math.pow(10.0, (double) (Math.abs((double)(whiteElo - blackElo))/400.0)));
+        double elochange = 32.0*(p-winProb), m = ((score == 0 || (score == 2 && whiteElo < blackElo)) ? 1: -1);
+        result[0] = (int)Math.round((float) whiteElo + m*elochange);
+        result[1] = (int)Math.round((float) blackElo - m*elochange);
         return result;
     }
 

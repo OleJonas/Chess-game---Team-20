@@ -1,6 +1,7 @@
 package JavaFX;
 
 import Database.DBOps;
+import Database.Game;
 import Game.GameEngine;
 import Pieces.*;
 import javafx.scene.Group;
@@ -64,7 +65,9 @@ class HighlightBox extends Pane{
 
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
+                hboxGroup.getChildren().clear();
                 pawnChange.Display(ChessDemo.color);
+
                 Piece newPiece = null;
                 boolean pieceColor = ChessGame.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
@@ -97,11 +100,21 @@ class HighlightBox extends Pane{
                     System.out.println("Checkmate for White");
                     int[] elo = gameEngine.getElo(1000, 1000, 0);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                    if(ChessGame.color){
+                        Game.setResult(ChessGame.gameID, Login.userID);
+                        ChessGame.gameWon = true;
+                        GameOverPopupBox.Display();
+                    }
                 }
                 else {
                     System.out.println("Checkmate for Black");
                     int[] elo = gameEngine.getElo(1000, 1000, 1);
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                    if(!ChessGame.color){
+                        Game.setResult(ChessGame.gameID, Login.userID);
+                        ChessGame.gameWon = true;
+                        GameOverPopupBox.Display();
+                    }
                 }
             }
             else if (gameEngine.isStalemate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {

@@ -31,9 +31,11 @@ public class ChessDemo extends Application {
 
     public static boolean myTurn = true;
 
+    public static boolean lastMove = true;
+
     public static int movenr = 0;
 
-    private GameEngine ge = new GameEngine(15, true);
+    private GameEngine ge = new GameEngine(0, 1);
 
     public static String skin = ChessGame.skin;
 
@@ -296,6 +298,7 @@ class TestHighlightBox extends Pane{
                 int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
                 int totBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
                 tile.move(x, y, board);
+                ChessDemo.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
                 int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
                 int updatedBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
                 int top=0;
