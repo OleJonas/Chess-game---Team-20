@@ -5,6 +5,7 @@ import Database.DBOps;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -58,32 +59,8 @@ public class Login{
 
         //loginButton
         loginButton = new Button("Login");
-        loginButton.setOnAction(e -> { //Actions of clicking the loginbutton
-            String loginUsernameInput = loginUsernameField.getText();
-            String loginPasswordInput = loginPasswordField.getText();
-            boolean UsernameOK = checkUsername(loginUsernameInput);
-            boolean PasswordOK = false;
-            try {
-                PasswordOK = checkPassword(loginPasswordInput, loginUsernameInput);
-            } catch (NoSuchAlgorithmException e1) {
-                e1.printStackTrace();
-            }
-            if (UsernameOK && PasswordOK) {
-                loginUsernameField.clear();
-                loginPasswordField.clear();
-                loginComment.setText(""); //CLearing the label for next time
-                USERNAME = loginUsernameInput;
-                AVATAR = getAvatar(USERNAME);
-                userID = getUserID();
-                getSettings();
-                getGameInfo();
-                MainScene.showMainScene();
-            } else {
-                loginUsernameField.clear();
-                loginPasswordField.clear();
-                loginComment.setText("Wrong Username/Password");
-            }
-        });
+        loginButton.setOnAction(e -> tryLogin());
+
         //signupButton
         signUpButton = new Button("Not registered?");
         signUpButton.setOnAction(e -> {
@@ -120,7 +97,39 @@ public class Login{
         loginLayout.setStyle("-fx-background-color: #404144;");
 
         startScene = new Scene(loginLayout, 400, 250);
+        startScene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                tryLogin();
+            }
+        });
         Main.window.setScene(startScene);
+    }
+
+    static void tryLogin(){
+        String loginUsernameInput = loginUsernameField.getText();
+        String loginPasswordInput = loginPasswordField.getText();
+        boolean UsernameOK = checkUsername(loginUsernameInput);
+        boolean PasswordOK = false;
+        try {
+            PasswordOK = checkPassword(loginPasswordInput, loginUsernameInput);
+        } catch (NoSuchAlgorithmException e1) {
+            e1.printStackTrace();
+        }
+        if (UsernameOK && PasswordOK) {
+            loginUsernameField.clear();
+            loginPasswordField.clear();
+            loginComment.setText(""); //CLearing the label for next time
+            USERNAME = loginUsernameInput;
+            AVATAR = getAvatar(USERNAME);
+            userID = getUserID();
+            getSettings();
+            getGameInfo();
+            MainScene.showMainScene();
+        } else {
+            loginUsernameField.clear();
+            loginPasswordField.clear();
+            loginComment.setText("Wrong Username/Password");
+        }
     }
 
     static boolean checkUsername(String username){

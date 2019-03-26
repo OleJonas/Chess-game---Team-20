@@ -19,7 +19,7 @@ public class JUnitGameEngine {
     private GameEngine ge;
 
     @Before
-    public void beforeTest(){ this.ge = new GameEngine(5, true);}
+    public void beforeTest(){ this.ge = new GameEngine(5, 0);}
 
     @After
     public void afterTest(){ this.ge = null;}
