@@ -33,7 +33,7 @@ public class ChessDemo extends Application {
 
     public static int movenr = 0;
 
-    private GameEngine ge = new GameEngine(15, true);
+    private GameEngine ge = new GameEngine(15, true, 4);
 
     public static String skin = ChessGame.skin;
 

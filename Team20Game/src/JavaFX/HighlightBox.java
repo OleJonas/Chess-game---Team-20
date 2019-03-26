@@ -64,7 +64,9 @@ class HighlightBox extends Pane{
 
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
+                hboxGroup.getChildren().clear();
                 pawnChange.Display(ChessDemo.color);
+
                 Piece newPiece = null;
                 boolean pieceColor = ChessGame.color?tile.getMyColor():!tile.getMyColor();
                 if (PawnChangeChoiceBox.choice.equals("Queen")) {
