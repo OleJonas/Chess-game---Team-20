@@ -34,6 +34,11 @@ public class Game {
         return Integer.parseInt(db.exQuery("SELECT user_id2 FROM Game WHERE game_id = " + game_id + ";",1).get(0));
     }
 
+    public static int getResult(int game_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT result FROM Game WHERE game_id = " + game_id + ";",1).get(0));
+    }
+
     public static void setResult(int game_id, int user_id){
         Thread t = new Thread(new Runnable() {
             public void run() {
