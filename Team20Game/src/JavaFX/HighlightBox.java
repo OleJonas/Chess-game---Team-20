@@ -2,6 +2,7 @@ package JavaFX;
 
 import Database.DBOps;
 import Database.Game;
+import Database.User;
 import Game.GameEngine;
 import Pieces.*;
 import javafx.scene.Group;
@@ -102,6 +103,7 @@ class HighlightBox extends Pane{
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                     if(ChessGame.color){
                         Game.setResult(ChessGame.gameID, Login.userID);
+                        User.updateEloByGame(ChessGame.gameID);
                         ChessGame.gameWon = true;
                         GameOverPopupBox.Display();
                     }
@@ -112,6 +114,7 @@ class HighlightBox extends Pane{
                     System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
                     if(!ChessGame.color){
                         Game.setResult(ChessGame.gameID, Login.userID);
+                        User.updateEloByGame(ChessGame.gameID);
                         ChessGame.gameWon = true;
                         GameOverPopupBox.Display();
                     }

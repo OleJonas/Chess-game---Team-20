@@ -96,7 +96,7 @@ UPDATE Game SET active = 0 WHERE active = 1;
 
 SELECT * FROM UserSettings;
 
-SELECT * FROM Game;
+SELECT * FROM User;
 
 SELECT *FROM Game WHERE (user_id1 = 6 OR user_id2 = 6) AND result IS NOT NULL ;
 

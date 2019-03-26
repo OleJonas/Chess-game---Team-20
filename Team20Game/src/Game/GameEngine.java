@@ -57,7 +57,7 @@ public class GameEngine {
 
    public int[] myPieces(Board board, boolean color) { return GameLogic.myPieces(board, color); }
 
-   public int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
+   public static int[] getElo(int whiteElo, int blackElo, int score) { return GameLogic.getElo(whiteElo, blackElo, score); }
 
    public boolean isMoveRepetition() { return GameLogic.isMoveRepetition(rep, board); }
 }

@@ -5,6 +5,7 @@
 package JavaFX;
 import Database.DBOps;
 import Database.Game;
+import Database.User;
 import Pieces.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -45,6 +46,8 @@ public class ChessGame{
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID;              //new Random().nextInt(500000);
+    public static int whiteELO;
+    public static int blackELO;
     private String darkTileColor = Settings.darkTileColor;
     private String lightTileColor = Settings.lightTileColor;
     private boolean isDone = false;
@@ -312,6 +315,8 @@ public class ChessGame{
 
     private void setupGameEngine() {
         ge = new GameEngine(Game.getTime(ChessGame.gameID), Game.getMode(ChessGame.gameID));
+        whiteELO = User.getElo(Game.getUser_id1(ChessGame.gameID));
+        blackELO = User.getElo(Game.getUser_id2(ChessGame.gameID));
     }
 
     public boolean setSkins(){

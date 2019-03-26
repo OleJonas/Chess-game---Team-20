@@ -1,6 +1,8 @@
 package JavaFX;
 import Database.DBOps;
+import Database.Game;
 import Database.User;
+import Game.GameEngine;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -137,7 +139,7 @@ class MainScene {
         inviteFriendButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            //createGame(67, 10, true, 1, 7);
+            createGame(0,10, 10, true, 1, 7);
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -1127,6 +1129,7 @@ class JoinGamePopupBox{
 class GameOverPopupBox{
 
     public static void Display(){
+        String oldElo = "Old ELO rating: " + User.getElo(Login.userID) + "\n";
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
@@ -1141,6 +1144,22 @@ class GameOverPopupBox{
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
+        int result = Game.getResult(ChessGame.gameID);
+        if(result == 0){
+            result = 2;
+        }else if(result == Game.getUser_id1(ChessGame.gameID)){
+            result = 0;
+        }else{
+            result = 1;
+        }
+        int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
+        int myNewElo = ChessGame.color?elo[0]:elo[1];
+        String newElo = oldElo +"\nNew ELO rating: " + myNewElo;
+        Label eloLabel = new Label(newElo);
+        eloLabel.setFont(Font.font("Copperplate", 22));
+        eloLabel.setStyle("-fx-font-weight: bold");
+        eloLabel.setTextFill(Color.WHITE);
+
 
         //Create Game Button
         Button leaveGameButton = new Button("Leave Game");
@@ -1156,8 +1175,10 @@ class GameOverPopupBox{
         mainLayout.setPadding(new Insets(30, 40, 30, 40));
         mainLayout.add(titleLabel, 0, 0, 2, 1);
         mainLayout.add(textLabel, 0, 1, 2, 1);
+        mainLayout.add(eloLabel,0,2,2,1);
         mainLayout.setHalignment(textLabel, HPos.CENTER);
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
+        mainLayout.setHalignment(eloLabel, HPos.CENTER);
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
@@ -1168,7 +1189,7 @@ class GameOverPopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 400, 240);
+        Scene scene = new Scene(windowLayout, 400, 310);
         window.setScene(scene);
         window.showAndWait();
     }
