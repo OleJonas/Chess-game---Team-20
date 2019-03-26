@@ -15,16 +15,14 @@ public class GameEngine {
    private HashMap<String, Integer> rep;
    //private GameChatNTimer gameChatNTimer;
 
-   public GameEngine(int gameTime, int increment, boolean color, int mode) {
+   public GameEngine(int gameTime, int increment, int mode) {
       board = new Board(mode);
-      this.color = color;
       rep = new HashMap<String, Integer>();
       //this.gameChatNTimer = new GameChatNTimer(gameTime, increment);
    }
 
-   public GameEngine(int time, boolean color, int mode) {
+   public GameEngine(int time, int mode) {
       board = new Board(mode);
-      this.color = color;
       rep = new HashMap<String, Integer>();
       //this.gameChatNTimer = new GameChatNTimer(time);
    }
