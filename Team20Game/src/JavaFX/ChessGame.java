@@ -40,7 +40,7 @@ public class ChessGame{
     private String homeSkin;
     private String awaySkin;
     public static String skin = "Standard";
-    private GameEngine ge = new GameEngine(15, true);
+    private GameEngine ge = new GameEngine(15, true, 0);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID;              //new Random().nextInt(500000);
@@ -55,6 +55,7 @@ public class ChessGame{
     private Group lastMoveGroup = new Group();
 
     public Parent setupBoard() {
+        //setupGameEngine();
         setSkins();
         Pane root = new Pane();
         Pane bg = new Pane();
@@ -308,6 +309,10 @@ public class ChessGame{
 
         }
         return false;
+    }
+
+    private void setupGameEngine(int time, boolean color, int mode) {
+        ge = new GameEngine(time, color, mode);
     }
 
     public boolean setSkins(){
