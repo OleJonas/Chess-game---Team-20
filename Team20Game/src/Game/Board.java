@@ -70,8 +70,8 @@ public class Board {
                 System.out.println(pieces);
 
             }
-        } */ else if (mode == 1) {
-            Random random = new Random();
+        } */ else if (mode > 1000) {
+            Random random = new Random(mode);
 
             int whiteBishops = random.nextInt(4);
             position[whiteBishops*2 + 1][0] = new Bishop(true, whiteBishops*2 + 1, 0);

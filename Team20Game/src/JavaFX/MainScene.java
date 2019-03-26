@@ -355,7 +355,15 @@ class MainScene {
         String sql = "SELECT game_id FROM Game";
         boolean firstCheck = true;
         if (mode != -1) {
-            if (firstCheck) {
+            if (mode == 1) {
+                if (firstCheck) {
+                    sql += " WHERE mode > 1000 ";
+                    firstCheck = false;
+                } else {
+                    sql += " AND mode > 1000 ";
+                }
+            }
+            else if (firstCheck) {
                 sql += " WHERE mode = " +mode;
                 firstCheck = false;
             } else {
@@ -834,7 +842,9 @@ class CreateGamePopupBox{
 
             int mode = 0;
             if (modeChoice.equals("Fischer Random")) {
-                mode = 1;
+                Random random = new Random();
+                int seed = random.nextInt(4000) +1000;
+                mode = seed;
             } else if (modeChoice.equals("Horse Attack")) {
                 mode = 2;
             } else if (modeChoice.equals("Farmers Chess")) {
