@@ -253,7 +253,8 @@ public class ChessGame{
                     if (ge.getBoard().getBoardState()[toX][toY].getColor()) {
                         System.out.println("Checkmate for White");
                         if(!color){
-                           GameOverPopupBox.Display();
+                            timer.cancel();
+                            GameOverPopupBox.Display();
                         }
 
                         //fill in what happens when game ends here
@@ -261,6 +262,7 @@ public class ChessGame{
                     else {
                         System.out.println("Checkmate for Black");
                         if(color){
+                            timer.cancel();
                             GameOverPopupBox.Display();
                         }
 
@@ -317,6 +319,9 @@ public class ChessGame{
         ge = new GameEngine(Game.getTime(ChessGame.gameID), Game.getMode(ChessGame.gameID));
         whiteELO = User.getElo(Game.getUser_id1(ChessGame.gameID));
         blackELO = User.getElo(Game.getUser_id2(ChessGame.gameID));
+        myTurn = true;
+        gameWon = false;
+        movenr = 0;
     }
 
     public boolean setSkins(){
@@ -337,7 +342,10 @@ public class ChessGame{
             @Override
             public void run() {
                 System.out.println("myTurn = " + myTurn + ", polling = " + polling);
-                if(!polling && !serviceRunning && !myTurn) {
+                if(gameWon){
+                    timer.cancel();
+                }
+                else if(!polling && !serviceRunning && !myTurn) {
                     serviceDBThings();
                 }
             }
@@ -379,7 +387,7 @@ public class ChessGame{
         polling = true;
         try {
             DBOps db = new DBOps();
-            //System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
+            System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
             //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
             ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1);
             if(fromXlist.size()>0) {
