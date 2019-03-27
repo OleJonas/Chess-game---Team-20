@@ -123,6 +123,51 @@ public class WindowMenuBar {
         windowMenuBar.getMenus().addAll(gameMenu, userMenu, settingsMenu, helpMenu);
     }
 
+    public WindowMenuBar(Boolean onlyForGameScene){
+        Menu gameMenu = new Menu("Game");
+        MenuItem newGameItem = new MenuItem("New Game");
+        newGameItem.setOnAction(e -> {
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            backButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0,0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
+            leftGrid.add(backButton, 0, 3);
+            leftGrid.setHalignment(backButton, HPos.CENTER);
+        });
+        gameMenu.getItems().addAll(newGameItem);
+
+        Menu userMenu = new Menu("User");
+        MenuItem userProfileMenuItem = new MenuItem("User profile");
+        userProfileMenuItem.setOnAction(e -> showUserProfileScene());
+        userMenu.getItems().add(userProfileMenuItem);
+        MenuItem findUserMenuItem = new MenuItem("Find User");
+        //findUserMenuItem.setOnAction(e -> showFindUserScene());
+        userMenu.getItems().add(findUserMenuItem);
+        MenuItem logOutMenuItem = new MenuItem("Log out");
+        logOutMenuItem.setOnAction(e -> {
+            runLogin();
+        });
+        userMenu.getItems().add(logOutMenuItem);
+
+        Menu helpMenu = new Menu("Help");
+        MenuItem howToLogIn = new MenuItem("How to log in");
+        howToLogIn.setOnAction(e -> System.out.println("To log in you have to..."));
+        helpMenu.getItems().add(howToLogIn);
+
+        //Mainmenu bar
+        windowMenuBar = new MenuBar();
+        windowMenuBar.getMenus().addAll(gameMenu, userMenu, helpMenu);
+    }
+
     public MenuBar getWindowMenuBar(){
         return windowMenuBar;
     }

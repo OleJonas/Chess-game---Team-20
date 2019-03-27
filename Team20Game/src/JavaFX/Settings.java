@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -20,6 +22,7 @@ import static JavaFX.MainScene.showMainScene;
 @SuppressWarnings("Duplicates")
 class Settings{
     static Scene settingsScene;
+    static Stage window;
 
     //Settingvariables
 
@@ -30,6 +33,9 @@ class Settings{
     static String skinName;
 
     static void showSettings(){
+        window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Settings");
         GridPane mainLayout = new GridPane();
 
         //Title
@@ -47,7 +53,7 @@ class Settings{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            showMainScene();
+            window.close();
         });
 
 
@@ -150,6 +156,7 @@ class Settings{
             skinName = "Standard";
 
             storeSettings();
+            MainScene.reloadSandbox();
         });
         Button applyChangesButton = new Button("Apply");
         applyChangesButton.setOnAction(e -> {
@@ -191,8 +198,8 @@ class Settings{
             } else if(skinNameChoice.equals("Pink")){
                 skinName = "Pink";
             }
-
             storeSettings();
+            MainScene.reloadSandbox();
         });
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
         bottomLayout.setPadding(new Insets(0, 25, 25, 0));
@@ -201,18 +208,13 @@ class Settings{
         bottomLayout.add(applyChangesButton, 2, 0 );
 
 
-        //Set image as background
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        //mainLayout.setBackground(new Background(myBI));
-
         BorderPane layout = new BorderPane();
-        layout.setBackground(new Background(myBI));
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        layout.setStyle("-fx-background-color: #404144;");
+        //layout.setTop(new WindowMenuBar(true).getWindowMenuBar());
         layout.setCenter(mainLayout);
         layout.setBottom(bottomLayout);
         settingsScene = new Scene(layout, 455, 500);
-        Main.window.setScene(settingsScene);
+        window.setScene(settingsScene);
+        window.showAndWait();
     }
 }

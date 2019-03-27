@@ -41,7 +41,7 @@ class MainScene {
     static Scene mainScene;
     static GridPane leftGrid;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     private static boolean inQueueFriend = false;
@@ -49,6 +49,9 @@ class MainScene {
     private static boolean syncTurn = false;
     public static String sql;
     private static String user_id;
+    static Parent chessGame;
+    static Label sandboxLabel;
+    static GridPane rightGrid;
 
     static void showMainScene() {
         User.updateUser();
@@ -173,29 +176,20 @@ class MainScene {
 
 
         //Right GridPane
-        GridPane rightGrid = new GridPane();
+        rightGrid = new GridPane();
         rightGrid.setPadding(new Insets(60, 150, 20, 0));
         rightGrid.setVgap(20);
-        AtomicReference<Parent> chessGame = new AtomicReference<>(new ChessSandbox().createContent());
-        rightGrid.add(chessGame.get(), 0, 0);
-        Label sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
+        chessGame = new ChessSandbox().createContent();
+        rightGrid.add(chessGame, 0, 0);
+        sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
         sandboxLabel.setFont(Font.font("Calibri", 20));
         sandboxLabel.setTextFill(Color.WHITE);
-        AtomicReference<Button> clearBoard = new AtomicReference<>(new Button("Clear Board"));
-        clearBoard.get().setOnAction(e -> {
-            rightGrid.getChildren().clear();
-            rightGrid.setPadding(new Insets(60, 150, 20, 0));
-            rightGrid.setVgap(20);
-            chessGame.set(new ChessSandbox().createContent());
-            rightGrid.add(chessGame.get(), 0, 0);
-            clearBoard.set(new Button("Clear Board"));
-            rightGrid.add(clearBoard.get(), 0, 1);
-            rightGrid.setHalignment(clearBoard.get(), HPos.RIGHT);
-            rightGrid.add(sandboxLabel, 0, 1);
-
+        clearBoard = new Button("Clear Board");
+        clearBoard.setOnAction(e -> {
+            reloadSandbox();
         });
-        rightGrid.add(clearBoard.get(), 0, 1);
-        rightGrid.setHalignment(clearBoard.get(), HPos.RIGHT);
+        rightGrid.add(clearBoard, 0, 1);
+        rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
 
         //mainLayout
@@ -234,6 +228,18 @@ class MainScene {
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         refresh();
         //searchFriend = true;
+    }
+
+    static void reloadSandbox(){
+        rightGrid.getChildren().clear();
+        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setVgap(20);
+        chessGame = new ChessSandbox().createContent();
+        rightGrid.add(chessGame, 0, 0);
+        clearBoard = new Button("Clear Board");
+        rightGrid.add(clearBoard, 0, 1);
+        rightGrid.setHalignment(clearBoard, HPos.RIGHT);
+        rightGrid.add(sandboxLabel, 0, 1);
     }
 
     static void removeActiveFromGame(){
