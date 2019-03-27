@@ -1170,6 +1170,7 @@ class GameOverPopupBox{
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
+        
 
         //Labels
         Label titleLabel = new Label("Game finished");
