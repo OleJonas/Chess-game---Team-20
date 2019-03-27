@@ -8,6 +8,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -225,8 +226,12 @@ class MainScene {
         layout.setTop(new WindowMenuBar("home").getWindowMenuBar());
         layout.setCenter(mainLayout);
 
-        mainScene = new Scene(layout, 1450, 950);
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+        mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
         Main.window.setScene(mainScene);
+        Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
+        Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         refresh();
         //searchFriend = true;
     }
