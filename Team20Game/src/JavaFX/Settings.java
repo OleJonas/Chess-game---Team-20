@@ -29,8 +29,7 @@ class Settings{
     //Color
     static String darkTileColor = "#8B4513";
     static String lightTileColor = "#FFEBCD";
-    //Skin
-    static String skinName;
+
 
     static void showSettings(){
         window = new Stage();
@@ -133,11 +132,11 @@ class Settings{
         skinNameChoiceBox.getItems().add("Pink");
 
         //Fetch selected skinName for setValue()
-        if(skinName.equals("Standard")){
+        if(ChessGame.skin.equals("Standard")){
             skinNameChoiceBox.setValue("Standard");
-        } else if(skinName.equals("Chrome")){
+        } else if(ChessGame.skin.equals("Chrome")){
             skinNameChoiceBox.setValue("Chrome");
-        } else if(skinName.equals("Pink")){
+        } else if(ChessGame.skin.equals("Pink")){
             skinNameChoiceBox.setValue("Pink");
         }
 
@@ -153,7 +152,7 @@ class Settings{
             darkTileColor = "#8B4513";
             lightTileColor = "#FFEBCD";
             //resetSkin
-            skinName = "Standard";
+            ChessGame.skin = "Standard";
 
             storeSettings();
             MainScene.reloadSandbox();
@@ -192,11 +191,11 @@ class Settings{
             //Apply skinName
             String skinNameChoice = skinNameChoiceBox.getValue();
             if(skinNameChoice.equals("Standard")){
-                skinName = "Standard";
+                ChessGame.skin = "Standard";
             } else if(skinNameChoice.equals("Chrome")){
-                skinName = "Chrome";
+                ChessGame.skin = "Chrome";
             } else if(skinNameChoice.equals("Pink")){
-                skinName = "Pink";
+                ChessGame.skin = "Pink";
             }
             storeSettings();
             MainScene.reloadSandbox();

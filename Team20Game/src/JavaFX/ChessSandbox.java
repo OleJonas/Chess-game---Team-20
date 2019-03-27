@@ -70,7 +70,6 @@ public class ChessSandbox {
     private Group lastMoveGroup = new Group();
 
     public Parent createContent() {
-        setUpSkin();
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
@@ -126,7 +125,7 @@ public class ChessSandbox {
         board[fromX][fromY].move(toX, toY, board);
         //}
     }
-    private boolean setUpSkin(){
+    static boolean setUpSkin(){
         DBOps db = new DBOps();
         ChessGame.skin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + Login.userID + ";", 1).get(0);
         return true;
