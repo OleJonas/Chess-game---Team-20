@@ -1,18 +1,23 @@
 package Game;
 
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+
 import java.util.TimerTask;
 import java.util.Timer;
+import java.util.concurrent.CountDownLatch;
 
 public class GameTimer{
 
-    private Timer timer;
+    private static Timer timer;
     private final int increment;
-    private int interval;
-    private boolean end = false;
+    private static int interval;
+    private static boolean end = false;
 
     public GameTimer(int interval, int increment){
         this.increment = increment;
-        this.timer = new Timer(true);
+        this.timer = new Timer();
         this.interval = interval;
     }
 
@@ -27,19 +32,45 @@ public class GameTimer{
         return interval;
     }
 
-    // Using java.util.Timer to schedule events at a fixed rate.
     public void clock(){
         int delay = 1000;
         int period = 1000;
-        System.out.println(interval);
-        timer.scheduleAtFixedRate(new TimerTask(){
-            public void run(){
-                if(interval > 0){
-                    setInterval();
-                    System.out.println(interval);
-                }
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                service();
             }
         }, delay, period);
+    }
+
+    // Using java.util.Timer to schedule events at a fixed rate.
+    static void service() {
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        //Background work
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    setInterval();
+                                } finally {
+                                    latch.countDown();
+                                }
+                            }
+                        });
+                        latch.await();
+                        //Keep with the background work
+                        return null;
+                    }
+                };
+            }
+        };
+        service.start();
     }
 
 
@@ -58,7 +89,7 @@ public class GameTimer{
 
     // Private method for use in clock() method.
     // Keeps track of game time, while also making scheduled database lookups possible. (hopefully...)
-    private void setInterval(){
+    private static void setInterval(){
         if(end){
             timer.cancel();
         }
@@ -78,5 +109,10 @@ public class GameTimer{
         } else{
             System.out.println("Time's up!");
         }
+    }
+
+    public static void main(String[] args){
+        GameTimer timer = new GameTimer(45, 3);
+        timer.clock();
     }
 }
