@@ -1,4 +1,4 @@
-package Tests;
+/*package Tests;
 
 import Game.GameEngine;
 import Pieces.*;
@@ -301,3 +301,4 @@ public class JUnitGameEngine {
     }
 }
 
+*/

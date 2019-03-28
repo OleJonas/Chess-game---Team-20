@@ -11,6 +11,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.application.Application;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 import static JavaFX.Login.*;
 import static JavaFX.MainScene.showMainScene;
 
@@ -101,11 +106,28 @@ class UserProfile{
         //Left GridPane
         GridPane leftGrid = new GridPane();
         leftGrid.setPadding(new Insets(100, 10, 100, 100));
-        Image eloImage = new Image("Images/elo.jpg");
-        ImageView eloImageView= new ImageView(eloImage);
-        eloImageView.setFitHeight(400);
-        eloImageView.setFitWidth(550);
-        leftGrid.add(eloImageView, 0, 0);
+
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+
+        xAxis.setLabel("Amount of rated games played");
+        xAxis.setTickLabelFill(Color.WHITE);
+        xAxis.setStyle("-fx-font-weight: bold; -fx-color: #FFFFFF;");
+        System.out.println(xAxis.getCssMetaData());
+        yAxis.setLabel("ELO");
+        yAxis.setTickLabelFill(Color.WHITE);
+        yAxis.setStyle("-fx-font-weight: bold;");
+
+        //linechart code inspired by https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
+        final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+        lineChart.setTitle("ELO-history for " + USERNAME);
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Your official ELO-rating");
+        for (int i = 0; i < ELOhistory.size(); i++){
+            series.getData().add(new XYChart.Data(i, ELOhistory.get(i)));
+        }
+        lineChart.getData().add(series);
+        leftGrid.add(lineChart, 0, 0);
 
         //mainLayout
         mainLayout.setPadding(new Insets(20, 50, 20, 50));

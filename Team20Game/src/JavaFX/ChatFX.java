@@ -97,7 +97,7 @@ public class ChatFX{
             public void run() {
                 service();
             }
-        }, 5000, 5000);
+        }, 1000, 1000);
     }
 
     static void service() {
