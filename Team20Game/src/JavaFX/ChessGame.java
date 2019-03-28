@@ -367,7 +367,7 @@ public class ChessGame{
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("myTurn = " + myTurn + ", polling = " + polling);
+                //System.out.println("myTurn = " + myTurn + ", polling = " + polling);
                 if(gameWon || isDone){
                     timer.cancel();
                 }
@@ -379,7 +379,7 @@ public class ChessGame{
     }
 
     public void serviceDBThings() {
-        System.out.println("Started service: service = " + serviceRunning);
+        //System.out.println("Started service: service = " + serviceRunning);
             Service<Void> service = new Service<Void>() {
                 @Override
                 protected Task<Void> createTask() {
@@ -388,12 +388,12 @@ public class ChessGame{
                         protected Void call() throws Exception {
                             //Background work
                             final CountDownLatch latch = new CountDownLatch(1);
-                            System.out.println("entered service");
+                            //System.out.println("entered service");
                             serviceRunning = true;
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    System.out.println("Starting myTurn check in service:");
+                                    //System.out.println("Starting myTurn check in service:");
                                     pollEnemyMove();
                                     latch.countDown();
                                     serviceRunning =false;
