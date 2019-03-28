@@ -109,14 +109,12 @@ class UserProfile{
 
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-
-        xAxis.setLabel("Amount of rated games played");
         xAxis.setTickLabelFill(Color.WHITE);
         xAxis.setStyle("-fx-font-weight: bold; -fx-color: #FFFFFF;");
-        System.out.println(xAxis.getCssMetaData());
-        yAxis.setLabel("ELO");
+        xAxis.setTickLabelGap(1.0);
         yAxis.setTickLabelFill(Color.WHITE);
         yAxis.setStyle("-fx-font-weight: bold;");
+
 
         //linechart code inspired by https://docs.oracle.com/javafx/2/charts/line-chart.htm#CIHGBCFI
         final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
