@@ -494,7 +494,7 @@ class MainScene {
             public void run() {
                 service();
             }
-        }, 5000, 5000);
+        }, 0, 3000);
     }
 
     static void service() {

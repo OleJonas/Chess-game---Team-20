@@ -98,12 +98,14 @@ SELECT * FROM UserSettings;
 
 SELECT * FROM User;
 
-SELECT *FROM Game WHERE (user_id1 = 6 OR user_id2 = 6) AND result IS NOT NULL ;
+SELECT *FROM Game WHERE (result IS NULL) AND result IS NOT NULL ;
 
 SELECT COUNT(game_id) FROM Game WHERE result = 7;
 
-UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'EpicHaxor';
+UPDATE User SET ELOrating = 1000 WHERE username = 'Haavard';
 
-UPDATE Game SET result = 7 WHERE user_id2 = 6;
+UPDATE Game SET opponent = -1 WHERE opponent IS NULL;
 
 SELECT *FROM Move WHERE game_id = 100394;
+
+SELECT * FROM User;

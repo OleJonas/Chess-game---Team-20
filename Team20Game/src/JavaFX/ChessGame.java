@@ -351,6 +351,7 @@ public class ChessGame{
         blackELO = Game.getBlackELO(ChessGame.gameID);
         myTurn = true;
         gameWon = false;
+        isDone = false;
         movenr = 0;
     }
 
