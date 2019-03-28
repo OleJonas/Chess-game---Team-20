@@ -41,7 +41,7 @@ class MainScene {
     static Scene mainScene;
     static GridPane leftGrid;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard, leaderboardBackButton, leaderboardButton;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     private static boolean inQueueFriend = false;
@@ -127,23 +127,62 @@ class MainScene {
             leftGrid.setHalignment(backButton, HPos.CENTER);
 
         });
+
+        leaderboardBackButton = new Button("Back");
+        leaderboardBackButton.setOnAction(e -> {
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.add(newGameButton, 0, 0);
+            leftGrid.setHalignment(newGameButton, HPos.CENTER);
+            leftGrid.add(findUserButton, 0, 1);
+            leftGrid.setHalignment(findUserButton, HPos.CENTER);
+            leftGrid.add(userProfileButton, 0, 2);
+            leftGrid.setHalignment(userProfileButton, HPos.CENTER);
+            leftGrid.add(leaderboardButton,0,3);
+            leftGrid.setHalignment(leaderboardButton,HPos.CENTER);
+            leftGrid.add(settingsButton, 0, 4);
+            leftGrid.setHalignment(settingsButton, HPos.CENTER);
+
+            rightGrid.getChildren().clear();
+            reloadSandbox();
+            rightGrid.add(clearBoard, 0, 1);
+            rightGrid.setHalignment(clearBoard, HPos.RIGHT);
+            rightGrid.add(sandboxLabel, 0, 1);
+        });
+
+        leaderboardButton = new Button("Leaderboard");
+        leaderboardButton.setOnAction(e -> {
+            leftGrid.getChildren().clear();
+            leaderboardBackButton.setPrefSize(150,80);
+            leftGrid.add(leaderboardBackButton, 0,0);
+            rightGrid.getChildren().clear();
+            rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
+        });
+
         findUserButton = new Button("Find User");
         findUserButton.setOnAction(e -> showFindUserScene());
+
         userProfileButton = new Button("User profile");
         userProfileButton.setOnAction(e -> showUserProfileScene());
+
         settingsButton = new Button("Settings");
         settingsButton.setOnAction(e -> showSettings());
+
         newGameButton.setPrefSize(150, 80);
         findUserButton.setPrefSize(150, 80);
         userProfileButton.setPrefSize(150, 80);
         settingsButton.setPrefSize(150, 80);
+        leaderboardButton.setPrefSize(150,80);
+
         leftGrid.add(newGameButton, 0, 0);
         leftGrid.setHalignment(newGameButton, HPos.CENTER);
         leftGrid.add(findUserButton, 0, 1);
         leftGrid.setHalignment(findUserButton, HPos.CENTER);
         leftGrid.add(userProfileButton, 0, 2);
         leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-        leftGrid.add(settingsButton, 0, 3);
+        leftGrid.add(leaderboardButton,0,3);
+        leftGrid.setHalignment(leaderboardButton, HPos.CENTER);
+        leftGrid.add(settingsButton, 0, 4);
         leftGrid.setHalignment(settingsButton, HPos.CENTER);
 
 
@@ -178,10 +217,11 @@ class MainScene {
             leftGrid.setHalignment(findUserButton, HPos.CENTER);
             leftGrid.add(userProfileButton, 0, 2);
             leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-            leftGrid.add(settingsButton, 0, 3);
+            leftGrid.add(leaderboardButton,0,3);
+            leftGrid.setHalignment(leaderboardButton,HPos.CENTER);
+            leftGrid.add(settingsButton, 0, 4);
             leftGrid.setHalignment(settingsButton, HPos.CENTER);
         });
-
 
         //Right GridPane
         rightGrid = new GridPane();
