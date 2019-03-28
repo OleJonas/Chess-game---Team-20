@@ -21,6 +21,23 @@ public class Game {
         });
         t.start();
     }
+
+    static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
+        Thread t = new Thread(new Runnable() {
+            public void run(){
+                DBOps connection = new DBOps();
+                int userid = Login.userID;
+
+                if (color) {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                } else {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                }
+            }
+        });
+        t.start();
+    }
+
     public static int getTime(int game_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT time FROM Game WHERE game_id = " + game_id + "; ", 1).get(0));
