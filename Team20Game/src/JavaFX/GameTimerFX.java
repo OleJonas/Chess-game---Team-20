@@ -1,7 +1,6 @@
 package JavaFX;
 
 import Game.GameTimer;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -17,7 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
-public class GameTimerFX extends Application {
+public class GameTimerFX {
 
     static int interval = 10;
     static GameTimer gameTime = new GameTimer(interval);
@@ -27,7 +26,7 @@ public class GameTimerFX extends Application {
     static Timer timer = new Timer(true);
     static Label time = new Label(""+interval);
 
-    public void start(Stage primaryStage) {
+    public static GridPane startTime(Stage primaryStage) {
         window = primaryStage;
         time.setFont(Font.font("Copperplate", 50));
         clockLayOut = new VBox(5);
@@ -40,11 +39,9 @@ public class GameTimerFX extends Application {
         window.show();
         gameTime.clock();
         refresh();
+        return gridPane;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
     public static void refresh() {
         timer.scheduleAtFixedRate(new TimerTask() {
