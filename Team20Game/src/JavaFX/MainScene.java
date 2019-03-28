@@ -41,7 +41,7 @@ class MainScene {
     static Scene mainScene;
     static GridPane leftGrid;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard, leaderboardBackButton, leaderboardButton;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard, realBackButton, leaderboardButton;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     private static boolean inQueueFriend = false;
@@ -128,8 +128,8 @@ class MainScene {
 
         });
 
-        leaderboardBackButton = new Button("Back");
-        leaderboardBackButton.setOnAction(e -> {
+        realBackButton = new Button("Back");
+        realBackButton.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.add(newGameButton, 0, 0);
@@ -153,8 +153,8 @@ class MainScene {
         leaderboardButton = new Button("Leaderboard");
         leaderboardButton.setOnAction(e -> {
             leftGrid.getChildren().clear();
-            leaderboardBackButton.setPrefSize(150,80);
-            leftGrid.add(leaderboardBackButton, 0,0);
+            realBackButton.setPrefSize(150,80);
+            leftGrid.add(realBackButton, 0,0);
             rightGrid.getChildren().clear();
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
         });

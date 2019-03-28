@@ -10,10 +10,10 @@ import java.util.concurrent.CountDownLatch;
 
 public class GameTimer{
 
-    private static Timer timer;
+    private Timer timer;
     private final int increment;
-    private static int interval;
-    private static boolean end = false;
+    private int interval;
+    private boolean end = false;
 
     public GameTimer(int interval, int increment){
         this.increment = increment;
@@ -32,7 +32,7 @@ public class GameTimer{
         return interval;
     }
 
-    public void clock(){
+    /*public void clock(){
         int delay = 1000;
         int period = 1000;
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -41,10 +41,10 @@ public class GameTimer{
                 service();
             }
         }, delay, period);
-    }
+    }*/
 
     // Using java.util.Timer to schedule events at a fixed rate.
-    static void service() {
+    public void service() {
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -89,7 +89,7 @@ public class GameTimer{
 
     // Private method for use in clock() method.
     // Keeps track of game time, while also making scheduled database lookups possible. (hopefully...)
-    private static void setInterval(){
+    private void setInterval(){
         if(end){
             timer.cancel();
         }
@@ -109,10 +109,5 @@ public class GameTimer{
         } else{
             System.out.println("Time's up!");
         }
-    }
-
-    public static void main(String[] args){
-        GameTimer timer = new GameTimer(45, 3);
-        timer.clock();
     }
 }

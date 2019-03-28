@@ -31,7 +31,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
     private Timer timer;
-    public static final int TILE_SIZE = 80;
+    public static int TILE_SIZE = 50;
     public static final double imageSize = 0.8;
     public static boolean color = true;
     public static boolean myTurn = true;
