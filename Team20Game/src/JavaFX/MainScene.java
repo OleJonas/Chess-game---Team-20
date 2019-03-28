@@ -48,6 +48,7 @@ class MainScene {
     public static boolean searchFriend = false;
     static boolean created = false;
     static boolean joined = false;
+    static boolean inGame = false;
     private static boolean syncTurn = false;
     public static String sql;
     private static String user_id;
@@ -216,7 +217,7 @@ class MainScene {
         //mainLayout.setGridLinesVisible(true);
 
         //Set image as background
-        BackgroundImage myBI = new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg", 1200, 1200, false, true),
+        BackgroundImage myBI = new BackgroundImage(new Image("Images/Backgrounds/darkwood.jpg", 1200, 1200, false, true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
@@ -232,6 +233,7 @@ class MainScene {
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
+        Main.window.setResizable(false);
         refresh();
         //searchFriend = true;
     }
@@ -461,7 +463,6 @@ class MainScene {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        System.out.println("hEI");
                         //Background work
                         final CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(new Runnable() {
@@ -476,7 +477,7 @@ class MainScene {
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueCreate = false;
-                                            syncTurn = true;
+                                            inGame = true;
                                             showGameScene();
                                         }
                                     }else if(inQueueJoin){
@@ -493,7 +494,7 @@ class MainScene {
                                             }
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueJoin = false;
-                                            syncTurn = true;
+                                            inGame = true;
                                             showGameScene();
                                         }
                                     }else if (inQueueFriend) {
@@ -503,7 +504,6 @@ class MainScene {
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueFriend = false;
-                                            syncTurn = true;
                                             showGameScene();
                                         }
                                     } else if(searchFriend) {
@@ -547,9 +547,18 @@ class MainScene {
                                             }
                                         }
                                     }*/
+                                    if (inGame) {
+                                        if (Game.getResult(ChessGame.gameID) != -1) {
+                                            System.out.println(ChessGame.gameID);
+                                            ChessGame.gameWon = true;
+                                            inGame = false;
+                                            GameOverPopupBox.Display();
+                                        }
+                                    }
                                 } finally {
                                     latch.countDown();
                                 }
+
                             }
                         });
                         latch.await();
@@ -777,6 +786,12 @@ class CreateGamePopupBox{
 
 
     public static void Display(){
+        modeChoiceBox.getItems().clear();
+        timeChoiceBox.getItems().clear();
+        incrementChoiceBox.getItems().clear();
+        ratedGroup.getToggles().clear();
+        colorGroup.getToggles().clear();
+
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Create Game");
@@ -956,7 +971,7 @@ class CreateGamePopupBox{
         } else if (colorChoiceString.equals("Any")) {
             Random random = new Random();
 
-            int nr = random.nextInt()+1;
+            int nr = random.nextInt(2);
             if (nr == 0) {
                 color = true;
             } else if (nr == 1){
@@ -987,6 +1002,12 @@ class JoinGamePopupBox{
 
 
     public static void Display(){
+        modeChoiceBox.getItems().clear();
+        timeChoiceBox.getItems().clear();
+        incrementChoiceBox.getItems().clear();
+        ratedGroup.getToggles().clear();
+        colorGroup.getToggles().clear();
+
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Create Game");
@@ -1229,6 +1250,7 @@ class GameOverPopupBox{
         Button leaveGameButton = new Button("Leave Game");
         leaveGameButton.setOnAction(e -> {
             MainScene.showMainScene();
+            MainScene.inGame = false;
             window.close();
         });
 
