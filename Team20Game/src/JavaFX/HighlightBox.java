@@ -46,16 +46,17 @@ class HighlightBox extends Pane{
             getChildren().add(square);
         }
         setOnMouseClicked(e->{
+            lastMoveGroup.getChildren().clear();
             specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
             ChessGame.myTurn = false;
 
             int fromX = tile.getX();
             int fromY = tile.getY();
-            int toX = x;
-            int toY = y;
+            int toX = this.x;
+            int toY = this.y;
             int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int totBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
-            tile.move(x, y, board);
+            tile.move(x, y, board, false);
             int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int updatedBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
             int top=0;
@@ -149,7 +150,7 @@ class HighlightBox extends Pane{
 
             getChildren().clear();
             hboxGroup.getChildren().clear();
-            lastMoveGroup.getChildren().clear();
+            //lastMoveGroup.getChildren().clear();
             selectedGroup.getChildren().clear();
 
             Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
@@ -181,8 +182,8 @@ class HighlightBox extends Pane{
                     }
                 }
             }
-            lastMoveGroup.getChildren().add(squareTo);
-            lastMoveGroup.getChildren().add(squareFrom);
+            //lastMoveGroup.getChildren().add(squareTo);
+            //lastMoveGroup.getChildren().add(squareFrom);
         });
     }
 
@@ -199,10 +200,11 @@ class HighlightBox extends Pane{
     private void specialMoves(int x, int y, int height, Tile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, Tile[][] board) {
         if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
             if(x-tile.getX()>0) {
-                board[7][y].move(x-1, y, board);
+                board[7][y].move(x-1, y, board, true);
             } else {
-                board[0][y].move(x+1, y, board);
+                board[0][y].move(x+1, y, board, true);
             }
+            setY(12);
             King king = (King)gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
             king.setCanCastle(false);
             //System.out.println("Rokkade");
@@ -264,6 +266,8 @@ class HighlightBox extends Pane{
             }
         }
     }
+    public void setX(int x){this.x = x;}
+    public void setY(int y){this.y = y;}
     public int getX(){
         return x;
     }

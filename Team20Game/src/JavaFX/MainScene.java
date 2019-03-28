@@ -45,7 +45,9 @@ class MainScene {
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     private static boolean inQueueFriend = false;
-    private static boolean searchFriend = false;
+    public static boolean searchFriend = false;
+    static boolean created = false;
+    static boolean joined = false;
     private static boolean syncTurn = false;
     public static String sql;
     private static String user_id;
@@ -70,30 +72,34 @@ class MainScene {
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
+            created = false;
             CreateGamePopupBox.Display(); //opens Popup
-
-            System.out.println(Login.USERNAME);
-            leftGrid.getChildren().clear();
-            Label queLabel = new Label("Waiting for\nopponent ...");
-            queLabel.setFont(Font.font("Copperplate", 34));
-            queLabel.setTextFill(Color.WHITE);
-            leftGrid.getChildren().add(queLabel);
-            leftGrid.setVgap(10);
-            leftGrid.getChildren().add(backButton);
-            inQueueCreate = true;
+            if(created){
+                System.out.println(Login.USERNAME);
+                leftGrid.getChildren().clear();
+                Label queLabel = new Label("Waiting for\nopponent ...");
+                queLabel.setFont(Font.font("Copperplate", 34));
+                queLabel.setTextFill(Color.WHITE);
+                leftGrid.getChildren().add(queLabel);
+                leftGrid.setVgap(10);
+                leftGrid.getChildren().add(backButton);
+                inQueueCreate = true;
+            }
         });
         joinGameButton = new Button("Join Game");
         joinGameButton.setOnAction(e -> {
+            joined = false;
             JoinGamePopupBox.Display(); //opens Popup
 
-            leftGrid.getChildren().clear();
-            Label queLabel = new Label("Waiting for\nopponent ...");
-            queLabel.setFont(Font.font("Copperplate", 34));
-            queLabel.setTextFill(Color.WHITE);
-            leftGrid.getChildren().add(queLabel);
-            leftGrid.setVgap(10);
-            leftGrid.getChildren().add(backButton);
-
+            if(joined){
+                leftGrid.getChildren().clear();
+                Label queLabel = new Label("Waiting for\nopponent ...");
+                queLabel.setFont(Font.font("Copperplate", 34));
+                queLabel.setTextFill(Color.WHITE);
+                leftGrid.getChildren().add(queLabel);
+                leftGrid.setVgap(10);
+                leftGrid.getChildren().add(backButton);
+            }
         });
 
         //Left GridPane
@@ -517,7 +523,6 @@ class MainScene {
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             searchFriend = false;
                                             removeActiveFromGame();
-                                            syncTurn = true;
                                             showGameScene();
                                         }
                                     }
@@ -860,7 +865,10 @@ class CreateGamePopupBox{
 
         //Create Game Button
         Button createGameButton = new Button("Create Game");
-        createGameButton.setOnAction(e -> tryCreateGame());
+        createGameButton.setOnAction(e -> {
+            tryCreateGame();
+            MainScene.created = true;
+        });
 
         BorderPane windowLayout = new BorderPane();
         GridPane mainLayout = new GridPane();
@@ -893,6 +901,7 @@ class CreateGamePopupBox{
         scene.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER)){
                 tryCreateGame();
+                MainScene.created = true;
             }
         });
 
@@ -1072,7 +1081,10 @@ class JoinGamePopupBox{
 
         //Create Game Button
         Button joinGameButton = new Button("Join Game");
-        joinGameButton.setOnAction(e -> tryJoinGame());
+        joinGameButton.setOnAction(e -> {
+            tryJoinGame();
+            MainScene.joined = true;
+        });
 
         BorderPane windowLayout = new BorderPane();
         GridPane mainLayout = new GridPane();
@@ -1102,6 +1114,12 @@ class JoinGamePopupBox{
         windowLayout.setStyle("-fx-background-color: #404144;");
 
         Scene scene = new Scene(windowLayout, 410, 380);
+        scene.setOnKeyPressed(e->{
+            if(e.getCode().equals(KeyCode.ENTER)){
+                tryJoinGame();
+                MainScene.joined = true;
+            }
+        });
         window.setScene(scene);
         window.showAndWait();
     }
@@ -1231,6 +1249,77 @@ class GameOverPopupBox{
         bottomLayout.setPadding(new Insets(0,25,15,0));
         bottomLayout.add(leaveGameButton, 0,0);
         bottomLayout.setHalignment(leaveGameButton, HPos.CENTER);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 450, 310);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+}
+class FriendInviteBox {
+    public static void Display(int game_id){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Invite");
+
+        //Labels
+        Label titleLabel = new Label("Invite");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+        String text = "This is an invite.";
+        Label textLabel = new Label(text);
+        textLabel.setFont(Font.font("Copperplate", 22));
+        textLabel.setStyle("-fx-font-weight: bold");
+        textLabel.setTextFill(Color.WHITE);
+
+        //Create Game Button
+        Button acceptInvite = new Button("Accept");
+        acceptInvite.setOnAction(e -> {
+            DBOps connection = new DBOps();
+            ChessGame.gameID = game_id;
+            if (Game.getActive(ChessGame.gameID)) {
+                if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                    ChessGame.color = true;
+                } else {
+                    connection.exUpdate("UPDATE Game SET user_id2 = " + Login.userID + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                    ChessGame.color = false;
+                }
+                System.out.println("Started game with gameID: " + ChessGame.gameID);
+                MainScene.searchFriend = false;
+                MainScene.removeActiveFromGame();
+                window.close();
+                showGameScene();
+            } else {
+                window.close();
+                System.out.println("Not active");
+            }
+        });
+
+        Button declineInvite = new Button("Decline");
+        declineInvite.setOnAction(e -> {
+            window.close();
+        });
+
+        BorderPane windowLayout = new BorderPane();
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(35);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.add(textLabel, 0, 1, 2, 1);
+        mainLayout.setHalignment(textLabel, HPos.CENTER);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(acceptInvite, 0,0);
+        bottomLayout.setHalignment(acceptInvite, HPos.LEFT);
+        bottomLayout.add(declineInvite, 1, 0);
+        bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");

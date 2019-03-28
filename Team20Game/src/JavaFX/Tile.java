@@ -19,6 +19,7 @@ class Tile extends StackPane {
     private boolean myColor;
 
     private Group tileGroup;
+    private Group lastMoveGroup;
 
     private int currentPositionX;
     private int currentPositionY;
@@ -34,6 +35,7 @@ class Tile extends StackPane {
         this.tileGroup = tileGroup;
         this.height = height;
         this.gameEngine = gameEngine;
+        this.lastMoveGroup = lastMoveGroup;
         getChildren().add(new Rectangle());
         relocate(x * ChessDemo.TILE_SIZE , (height-1-y) * ChessDemo.TILE_SIZE) ;
 
@@ -96,7 +98,22 @@ class Tile extends StackPane {
         getChildren().set(0,img);
         return true;
     }
-    public void move(int x, int y, Tile[][] board) {
+    public void move(int x, int y, Tile[][] board, boolean castle) {
+        if(!castle) {
+            Rectangle squareFrom = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
+            squareFrom.setFill(Color.valueOf("#582"));
+            squareFrom.setOpacity(0.6);
+            squareFrom.setTranslateX(currentPositionX * ChessGame.TILE_SIZE);
+            squareFrom.setTranslateY((height - 1 - currentPositionY) * ChessGame.TILE_SIZE);
+
+            Rectangle squareTo = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
+            squareTo.setFill(Color.valueOf("#582"));
+            squareTo.setOpacity(0.9);
+            squareTo.setTranslateX(x * ChessGame.TILE_SIZE);
+            squareTo.setTranslateY((height - 1 - y) * ChessGame.TILE_SIZE);
+            lastMoveGroup.getChildren().addAll(squareFrom, squareTo);
+        }
+
         oldX = x * ChessGame.TILE_SIZE;
         oldY = (height - 1 - y) * ChessGame.TILE_SIZE;
         gameEngine.move(currentPositionX, currentPositionY, x, y);

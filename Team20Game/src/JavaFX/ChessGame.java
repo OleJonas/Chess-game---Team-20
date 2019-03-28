@@ -135,12 +135,33 @@ public class ChessGame{
     }
 
     public boolean enemyMove(int fromX, int fromY, int toX, int toY) {
-        if (board[fromX][fromY] != null) {
-            if(toY > 7){
+        lastMoveGroup.getChildren().clear();
+
+            if (board[fromX][fromY] != null) {
+                if (toY == 12) {
+                    if (fromY == 0) {
+                        if (toX > fromX) {
+                            board[7][0].move(toX - 1, 0, board, true);
+                            board[4][0].move(6, 0, board, false);
+                        } else {
+                            board[0][0].move(toX + 1, 0, board, true);
+                            board[4][0].move(2, 0, board, false);
+                        }
+                    } else {
+                        if (toX > fromX) {
+                            board[7][7].move(toX - 1, 7, board, true);
+                            board[4][7].move(6, 7, board, false);
+                        } else {
+                            board[0][7].move(toX + 1, 7, board, true);
+                            board[4][7].move(2, 7, board, false);
+                        }
+                    }
+
+                } else if(toY > 7){
                 Piece newPiece = null;
                 boolean pieceColor = !ChessGame.color;
                 if (!ChessGame.color) {
-                    board[fromX][fromY].move(toX, 7, board);
+                    board[fromX][fromY].move(toX, 7, board, false);
                     if (toY == 8) {
                         newPiece = new Queen(pieceColor, toX, 7);
                     } else if (toY == 9) {
@@ -149,10 +170,7 @@ public class ChessGame{
                         newPiece = new Rook(pieceColor, toX, 7);
                     } else if (toY == 11) {
                         newPiece = new Bishop(pieceColor, toX, 7);
-                    }else if(toY == 12){
-
                     }
-
                     ChessGame.skin = homeSkin;
                     ImageView tempimg = newPiece.getImageView();
                     ChessGame.skin = awaySkin;
@@ -162,8 +180,6 @@ public class ChessGame{
 
                     board[toX][7].setImageView(tempimg,
                             ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
-
-                    lastMoveGroup.getChildren().clear();
                     Piece[][] boardState = ge.getBoard().getBoardState();
                     if (ge.inCheck(boardState, !ge.getBoard().getBoardState()[toX][7].getColor())) {
                         for (int i = 0; i < boardState.length; i++){
@@ -181,13 +197,13 @@ public class ChessGame{
                             }
                         }
                     }
-                    Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                    Rectangle squareTo = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
                     squareTo.setFill(Color.valueOf("#582"));
                     squareTo.setOpacity(0.9);
                     squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
                     squareTo.setTranslateY((HEIGHT-1-7)*ChessDemo.TILE_SIZE);
                 } else {
-                    board[fromX][fromY].move(toX, 0, board);
+                    board[fromX][fromY].move(toX, 0, board, false);
                     if (toY == 8) {
                         newPiece = new Queen(pieceColor, toX, 0);
                     } else if (toY == 10) {
@@ -205,7 +221,7 @@ public class ChessGame{
                     board[toX][0].setImageView(tempimg,
                             ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
 
-                    lastMoveGroup.getChildren().clear();
+                    //lastMoveGroup.getChildren().clear();
                     Piece[][] boardState = ge.getBoard().getBoardState();
                     if (ge.inCheck(boardState, !ge.getBoard().getBoardState()[toX][0].getColor())) {
                         for (int i = 0; i < boardState.length; i++){
@@ -230,9 +246,9 @@ public class ChessGame{
                     squareTo.setTranslateY((HEIGHT-1-0)*ChessDemo.TILE_SIZE);
                 }
             } else {
-                board[fromX][fromY].move(toX, toY, board);
+                board[fromX][fromY].move(toX, toY, board, false);
 
-                lastMoveGroup.getChildren().clear();
+                //lastMoveGroup.getChildren().clear();
                 Piece[][] boardState = ge.getBoard().getBoardState();
                 if (ge.inCheck(boardState, !ge.getBoard().getBoardState()[toX][toY].getColor())) {
                     for (int i = 0; i < boardState.length; i++){
@@ -276,7 +292,7 @@ public class ChessGame{
                 squareTo.setOpacity(0.9);
                 squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
                 squareTo.setTranslateY((HEIGHT-1-toY)*ChessDemo.TILE_SIZE);
-                lastMoveGroup.getChildren().add(squareTo);
+                //lastMoveGroup.getChildren().add(squareTo);
             }
 
 
@@ -310,7 +326,7 @@ public class ChessGame{
             squareFrom.setOpacity(0.5);
             squareFrom.setTranslateX(fromX*ChessDemo.TILE_SIZE);
             squareFrom.setTranslateY((HEIGHT-1-fromY)*ChessDemo.TILE_SIZE);
-            lastMoveGroup.getChildren().add(squareFrom);
+            //lastMoveGroup.getChildren().add(squareFrom);
             return true;
 
         }
