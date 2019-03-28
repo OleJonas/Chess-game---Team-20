@@ -4,9 +4,11 @@
     <list default="true" id="01a2a2f8-f36b-4fdc-96ce-cee5d1a10794" name="Default Changelist" comment="fixed promotion in chess demo, both sides can promote">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Database/ChatDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database/ChatDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Database/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Database/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JavaFX/ChessDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/ChessDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/JavaFX/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/JavaFX/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/GameScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JavaFX/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/JavaFX/MainScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JavaFX/MainScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SQLQueries.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/SQLQueries.sql" afterDir="false" />
@@ -107,16 +109,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="12294" />
-          <entry key="sql" value="785" />
-          <entry key="txt" value="1047" />
+          <entry key="java" value="12474" />
+          <entry key="sql" value="789" />
+          <entry key="txt" value="1052" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="12294" />
-          <entry key="PLAIN_TEXT" value="1047" />
-          <entry key="SQL" value="785" />
+          <entry key="JAVA" value="12474" />
+          <entry key="PLAIN_TEXT" value="1052" />
+          <entry key="SQL" value="789" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -140,13 +142,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-420">
-              <caret line="371" column="35" selection-start-line="371" selection-start-column="35" selection-end-line="371" selection-end-column="35" />
+            <state relative-caret-position="141">
+              <caret line="283" column="52" selection-start-line="283" selection-start-column="52" selection-end-line="283" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#17604#18002#0" expanded="true" />
+                <element signature="e#18001#18002#0" expanded="true" />
+                <element signature="e#18170#19370#0" expanded="true" />
+                <element signature="e#18297#19337#0" expanded="true" />
+                <element signature="e#19336#19337#0" expanded="true" />
+                <element signature="e#19369#19370#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -155,8 +163,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/GameScene.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="69" column="51" selection-start-line="69" selection-start-column="51" selection-end-line="69" selection-end-column="51" />
+            <state relative-caret-position="102">
+              <caret line="68" column="36" selection-start-line="68" selection-start-column="36" selection-end-line="68" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -176,8 +184,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/JavaFX/MainScene.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="335" column="3" lean-forward="true" selection-start-line="335" selection-start-column="3" selection-end-line="344" selection-end-column="5" />
+            <state relative-caret-position="719">
+              <caret line="601" column="33" lean-forward="true" selection-start-line="601" selection-start-column="33" selection-end-line="601" selection-end-column="33" />
               <folding>
                 <element signature="e#10559#10560#0" expanded="true" />
                 <element signature="e#10605#10606#0" expanded="true" />
@@ -211,7 +219,7 @@
         <entry file="file://$PROJECT_DIR$/src/SQLQueries.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="299">
-              <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
+              <caret line="110" column="19" lean-forward="true" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -219,8 +227,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Database/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
+            <state relative-caret-position="184">
+              <caret line="79" column="25" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -249,11 +257,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Database/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+            <state relative-caret-position="899">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -297,12 +305,12 @@
       <find>enemyMove</find>
       <find>enpassa</find>
       <find>System.out.println</find>
-      <find>service</find>
       <find>showGameScene</find>
       <find>clockd</find>
-      <find>gameoverpop</find>
       <find>button</find>
+      <find>service</find>
       <find>creategame</find>
+      <find>gameoverpop</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -343,12 +351,12 @@
         <option value="$PROJECT_DIR$/src/JavaFX/Tile.java" />
         <option value="$PROJECT_DIR$/src/JavaFX/Login.java" />
         <option value="$PROJECT_DIR$/src/JavaFX/HighlightBox.java" />
-        <option value="$PROJECT_DIR$/src/JavaFX/GameScene.java" />
-        <option value="$PROJECT_DIR$/src/JavaFX/ChessGame.java" />
-        <option value="$PROJECT_DIR$/src/Database/User.java" />
-        <option value="$PROJECT_DIR$/src/SQLQueries.sql" />
-        <option value="$PROJECT_DIR$/src/JavaFX/MainScene.java" />
         <option value="$PROJECT_DIR$/src/Database/Game.java" />
+        <option value="$PROJECT_DIR$/src/SQLQueries.sql" />
+        <option value="$PROJECT_DIR$/src/Database/User.java" />
+        <option value="$PROJECT_DIR$/src/JavaFX/GameScene.java" />
+        <option value="$PROJECT_DIR$/src/JavaFX/MainScene.java" />
+        <option value="$PROJECT_DIR$/src/JavaFX/ChessGame.java" />
       </list>
     </option>
   </component>
@@ -431,7 +439,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553789618443" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553790941242" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -459,7 +467,8 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/JavaFX/MainScene.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Game/GameLogic.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/JavaFX/UserProfile.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -467,8 +476,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Database/LeaderboardDB.java</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/JavaFX/LeaderboardFX.java</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -672,7 +679,7 @@
       <workItem from="1553525968358" duration="1736000" />
       <workItem from="1553591744234" duration="18602000" />
       <workItem from="1553682348753" duration="3593000" />
-      <workItem from="1553766027831" duration="22790000" />
+      <workItem from="1553766027831" duration="24096000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Fixed login, now checking if username exists at signup and showing comment (&quot;Registered!&quot; / &quot;User already exists&quot;) in the signupscene&quot;">
       <created>1551694365788</created>
@@ -982,11 +989,18 @@
       <option name="project" value="LOCAL" />
       <updated>1553788827995</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="sfdkj">
+      <created>1553789642213</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1553789642213</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="160303000" />
+    <option name="totallyTimeSpent" value="161609000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -1067,7 +1081,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added colored pieces" />
     <MESSAGE value="workskjbflaksjdf" />
     <MESSAGE value="removed buttons and added some features when you press join or create game" />
     <MESSAGE value="added some things" />
@@ -1092,7 +1105,8 @@
     <MESSAGE value="fixed promotion in chess demo, both sides can promote" />
     <MESSAGE value="merged" />
     <MESSAGE value="Game database update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Game database update" />
+    <MESSAGE value="sfdkj" />
+    <option name="LAST_COMMIT_MESSAGE" value="sfdkj" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Piece.java" />
@@ -1380,10 +1394,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessGame.java">
+    <entry file="file://$PROJECT_DIR$/src/Database/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-420">
-          <caret line="371" column="35" selection-start-line="371" selection-start-column="35" selection-end-line="371" selection-end-column="35" />
+        <state relative-caret-position="184">
+          <caret line="79" column="25" selection-start-line="79" selection-start-column="25" selection-end-line="79" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1392,32 +1406,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JavaFX/GameScene.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="69" column="51" selection-start-line="69" selection-start-column="51" selection-end-line="69" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="102">
+          <caret line="68" column="36" selection-start-line="68" selection-start-column="36" selection-end-line="68" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SQLQueries.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
-          <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
+          <caret line="110" column="19" lean-forward="true" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Database/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="899">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JavaFX/MainScene.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="335" column="3" lean-forward="true" selection-start-line="335" selection-start-column="3" selection-end-line="344" selection-end-column="5" />
+        <state relative-caret-position="719">
+          <caret line="601" column="33" lean-forward="true" selection-start-line="601" selection-start-column="33" selection-end-line="601" selection-end-column="33" />
           <folding>
             <element signature="e#10559#10560#0" expanded="true" />
             <element signature="e#10605#10606#0" expanded="true" />
@@ -1434,12 +1448,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Database/Game.java">
+    <entry file="file://$PROJECT_DIR$/src/JavaFX/ChessGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+        <state relative-caret-position="141">
+          <caret line="283" column="52" selection-start-line="283" selection-start-column="52" selection-end-line="283" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#17604#18002#0" expanded="true" />
+            <element signature="e#18001#18002#0" expanded="true" />
+            <element signature="e#18170#19370#0" expanded="true" />
+            <element signature="e#18297#19337#0" expanded="true" />
+            <element signature="e#19336#19337#0" expanded="true" />
+            <element signature="e#19369#19370#0" expanded="true" />
           </folding>
         </state>
       </provider>

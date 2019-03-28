@@ -82,8 +82,8 @@ public class User {
                     a = 2;
                 }
                 int [] elo = GameEngine.getElo(ELOuser1, ELOuser2, a);
-                //System.out.println(" white oldELO: "+ ELOuser1+ " white NewELO"+ elo[0] + " black oldELO: "+ ELOuser2 + " black newELO" + elo[1] +
-                       // "\nResult: " + a);
+                System.out.println(" white oldELO: "+ ELOuser1+ " white NewELO"+ elo[0] + " black oldELO: "+ ELOuser2 + " black newELO" + elo[1] +
+                        "\nResult: " + a);
                 updateElo(user_id1, elo[0]);
                 updateElo(user_id2, elo[1]);
 

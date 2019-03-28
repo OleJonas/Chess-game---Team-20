@@ -280,6 +280,8 @@ public class ChessGame{
                         System.out.println("Checkmate for White");
                         if(!color){
                             timer.cancel();
+                            MainScene.inGame =false;
+                            ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
 
@@ -289,6 +291,8 @@ public class ChessGame{
                         System.out.println("Checkmate for Black");
                         if(color){
                             timer.cancel();
+                            MainScene.inGame =false;
+                            ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
 

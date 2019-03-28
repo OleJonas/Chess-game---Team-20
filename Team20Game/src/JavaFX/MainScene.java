@@ -323,10 +323,10 @@ class MainScene {
 
                     if (color) {
                         ChessGame.color = true;
-                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, null, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
                     } else {
                         ChessGame.color = false;
-                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", null, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
+                        connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
                     }
                 }
             });
@@ -593,6 +593,7 @@ class MainScene {
                                             System.out.println(ChessGame.gameID);
                                             ChessGame.gameWon = true;
                                             inGame = false;
+                                            ChessGame.isDone = true;
                                             GameOverPopupBox.Display();
                                         }
                                     }
@@ -1043,11 +1044,12 @@ class JoinGamePopupBox{
 
 
     public static void Display(){
-        modeChoiceBox.getItems().clear();
+        /*modeChoiceBox.getItems().clear();
         timeChoiceBox.getItems().clear();
         incrementChoiceBox.getItems().clear();
         ratedGroup.getToggles().clear();
         colorGroup.getToggles().clear();
+        */
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
