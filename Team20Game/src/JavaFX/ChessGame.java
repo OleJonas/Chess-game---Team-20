@@ -50,7 +50,7 @@ public class ChessGame{
     public static int gameID;              //new Random().nextInt(500000);
     private String darkTileColor = Settings.darkTileColor;
     private String lightTileColor = Settings.lightTileColor;
-    private boolean isDone = false;
+    public static boolean isDone = false;
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
     private Group boardGroup = new Group();
     private Group tileGroup = new Group();
@@ -138,6 +138,14 @@ public class ChessGame{
         lastMoveGroup.getChildren().clear();
 
             if (board[fromX][fromY] != null) {
+                if (Math.abs(fromY - toY) == 2 && ge.getBoard().getBoardState()[fromX][fromY] instanceof Pawn) {
+                    Pawn pawn = (Pawn) ge.getBoard().getBoardState()[fromX][fromY];
+                    pawn.setEnPassant(true);
+                }
+                if (toY == 13) {
+                    removePiece(toX, fromY);
+                    toY = ChessGame.color ? 2 : 5;
+                }
                 if (toY == 12) {
                     if (fromY == 0) {
                         if (toX > fromX) {
@@ -360,7 +368,7 @@ public class ChessGame{
             @Override
             public void run() {
                 System.out.println("myTurn = " + myTurn + ", polling = " + polling);
-                if(gameWon){
+                if(gameWon || isDone){
                     timer.cancel();
                 }
                 else if(!polling && !serviceRunning && !myTurn) {

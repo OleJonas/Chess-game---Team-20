@@ -218,6 +218,8 @@ public class Board {
                     if (position[fromX][fromY] != null) {
                         if (position[i][j].getColor() != position[fromX][fromY].getColor()) {
                             Pawn pawn = (Pawn) position[i][j];
+                            System.out.println(pawn.getEnPassant());
+                            System.out.println();
                             if (pawn.getEnPassant()) {
                                 pawn.setEnPassant(false);
                                 break;
@@ -236,6 +238,7 @@ public class Board {
                 }
             }
         }
+        System.out.println();
 /*
         for (int i = 0; i < 8; i++) {
             Pawn tempPawn = null;

@@ -209,35 +209,30 @@ class HighlightBox extends Pane{
             king.setCanCastle(false);
             //System.out.println("Rokkade");
         }
-        if (Math.abs(y - tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn && (y == 3 || y == 4)) {
+        if (Math.abs(y - tile.getY()) == 2 && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) {
             Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()];
-            if (!pawn.getEnPassant()) {
-                pawn.setEnPassant(true);
-            } else {
-                pawn.setEnPassant(false);
-            }
+            pawn.setEnPassant(true);
         }
 
         if (tile.getX() + 1 < 8) {
             if (gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()] instanceof Pawn) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                    //System.out.println("Hallo1");
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        //System.out.println("Hallo2");
-                        if (pawn.getEnPassant()) {
-                            //System.out.println("Hallo3");
+                        if (pawn.getEnPassant() && x == tile.getX() + 1) {
                             tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()+1, tile.getY());
+                            setY(13);
                         }
                     }
                 }
                 else {
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() + 1) {
                             tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()+1, tile.getY());
+                            setY(13);
                         }
                     }
                 }
@@ -248,18 +243,20 @@ class HighlightBox extends Pane{
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() - 1) {
                             tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()-1, tile.getY());
+                            setY(13);
                         }
                     }
                 }
                 else {
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
-                        if (pawn.getEnPassant()) {
+                        if (pawn.getEnPassant() && x == tile.getX() - 1) {
                             tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()-1, tile.getY());
+                            setY(13);
                         }
                     }
                 }

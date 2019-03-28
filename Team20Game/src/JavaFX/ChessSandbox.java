@@ -314,6 +314,7 @@ class SandboxHighlightBox extends Pane{
                     }
                 }
                 else {
+                    System.out.println("heejej");
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                         if (pawn.getEnPassant() && x == tile.getX() + 1) {
@@ -386,8 +387,8 @@ class SandboxTile extends StackPane {
             selectedGroup.getChildren().clear();
             hboxGroup.getChildren().clear();
             Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
-            square.setFill(Color.valueOf("#696969"));
-            square.setOpacity(0.4);
+            square.setFill(Color.valueOf("#582"));
+            square.setOpacity(0.7);
             square.setTranslateX(currentPositionX*ChessDemo.TILE_SIZE);
             square.setTranslateY((height-1-currentPositionY)*ChessDemo.TILE_SIZE);
             selectedGroup.getChildren().add(square);
