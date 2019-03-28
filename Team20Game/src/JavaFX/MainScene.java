@@ -1,15 +1,19 @@
 package JavaFX;
+import Database.Game;
 import Database.DBOps;
 import Database.User;
+import Game.GameEngine;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -47,6 +51,7 @@ class MainScene {
     private static boolean syncTurn = false;
     public static String sql;
     private static String user_id;
+    public static Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
     static void showMainScene() {
         User.updateUser();
@@ -82,7 +87,6 @@ class MainScene {
         joinGameButton.setOnAction(e -> {
             joined = false;
             JoinGamePopupBox.Display(); //opens Popup
-
             if (joined) {
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
@@ -97,12 +101,12 @@ class MainScene {
         //Left GridPane
         leftGrid = new GridPane();
         leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(150, 150, 100, 250));
+        leftGrid.setPadding(new Insets(adjustSizeHeight(150), adjustSizeWidth(150), adjustSizeHeight(100), 100));
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            //leftGrid.setPadding(new Insets(150, 150, 100, 250));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
@@ -175,7 +179,7 @@ class MainScene {
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setPadding(new Insets(adjustSizeHeight(60), adjustSizeWidth(150), adjustSizeHeight(20), 0));
         rightGrid.setVgap(20);
         AtomicReference<Parent> chessGame = new AtomicReference<>(new ChessSandbox().createContent());
         rightGrid.add(chessGame.get(), 0, 0);
@@ -227,15 +231,24 @@ class MainScene {
         layout.setTop(new WindowMenuBar("home").getWindowMenuBar());
         layout.setCenter(mainLayout);
 
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
+        Main.window.setResizable(false);
+
+
+        System.out.println(primaryScreenBounds.getWidth());
 
         refresh();
         searchFriend = true;
+    }
+
+    static double adjustSizeHeight(int px) {
+        return primaryScreenBounds.getHeight()*(px/1920);
+    }
+    static double adjustSizeWidth(int px) {
+        return primaryScreenBounds.getWidth()*(px/1920);
     }
 
     static void removeActiveFromGame(){
@@ -769,8 +782,7 @@ class CreateGamePopupBox{
     static final ToggleGroup colorGroup = new ToggleGroup();
     static Stage window;
 
-
-    public static void Display(){
+    public static void Display() {
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Create Game");
@@ -797,7 +809,7 @@ class CreateGamePopupBox{
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
-        ChoiceBox<String> modeChoiceBox = new ChoiceBox<>();
+        modeChoiceBox = new ChoiceBox<>();
         modeChoiceBox.getItems().add("Standard");
         modeChoiceBox.getItems().add("Fischer Random");
         modeChoiceBox.getItems().add("Horse Attack");
@@ -805,7 +817,7 @@ class CreateGamePopupBox{
         modeChoiceBox.getItems().add("Peasants Revolt");
         modeChoiceBox.setValue("Standard");
 
-        ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
+        timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
@@ -813,7 +825,7 @@ class CreateGamePopupBox{
         timeChoiceBox.getItems().add("30 min");
         timeChoiceBox.setValue("No timer");
 
-        ChoiceBox<String> incrementChoiceBox = new ChoiceBox<>();
+        incrementChoiceBox = new ChoiceBox<>();
         incrementChoiceBox.getItems().add("No increment");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
@@ -823,7 +835,6 @@ class CreateGamePopupBox{
         //Radiobuttons
         HBox ratedButtons = new HBox();
         ratedButtons.setSpacing(5);
-        final ToggleGroup ratedGroup = new ToggleGroup();
         RadioButton yesRatedRadioButton = new RadioButton("Yes");
         yesRatedRadioButton.setTextFill(Color.WHITE);
         yesRatedRadioButton.setToggleGroup(ratedGroup);
@@ -835,7 +846,6 @@ class CreateGamePopupBox{
 
         HBox colorButtons = new HBox();
         colorButtons.setSpacing(5);
-        final ToggleGroup colorGroup = new ToggleGroup();
         RadioButton anyColorRadioButton = new RadioButton("Any");
         anyColorRadioButton.setTextFill(Color.WHITE);
         anyColorRadioButton.setToggleGroup(colorGroup);
@@ -864,7 +874,10 @@ class CreateGamePopupBox{
 
         //Create Game Button
         Button createGameButton = new Button("Create Game");
-        createGameButton.setOnAction(e -> tryCreateGame());
+        createGameButton.setOnAction(e -> {
+            tryCreateGame();
+            MainScene.created = true;
+        });
 
         BorderPane windowLayout = new BorderPane();
         GridPane mainLayout = new GridPane();
@@ -897,6 +910,7 @@ class CreateGamePopupBox{
         scene.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER)){
                 tryCreateGame();
+                MainScene.created = true;
             }
         });
 
@@ -905,7 +919,6 @@ class CreateGamePopupBox{
     }
 
     static void tryCreateGame(){
-
         String modeChoice = modeChoiceBox.getValue();
         String timeChoice = timeChoiceBox.getValue();
         String incrementChoice = incrementChoiceBox.getValue();
@@ -951,7 +964,7 @@ class CreateGamePopupBox{
         } else if (colorChoiceString.equals("Any")) {
             Random random = new Random();
 
-            int nr = random.nextInt()+1;
+            int nr = random.nextInt(2);
             if (nr == 0) {
                 color = true;
             } else if (nr == 1){
@@ -972,7 +985,6 @@ class CreateGamePopupBox{
 
 @SuppressWarnings("Duplicates")
 class JoinGamePopupBox{
-
     private static Stage window;
     private static ChoiceBox<String> modeChoiceBox;
     private static ChoiceBox<String> timeChoiceBox;
@@ -1076,7 +1088,10 @@ class JoinGamePopupBox{
 
         //Create Game Button
         Button joinGameButton = new Button("Join Game");
-        joinGameButton.setOnAction(e -> tryJoinGame());
+        joinGameButton.setOnAction(e -> {
+            tryJoinGame();
+            MainScene.joined = true;
+        });
 
         BorderPane windowLayout = new BorderPane();
         GridPane mainLayout = new GridPane();
