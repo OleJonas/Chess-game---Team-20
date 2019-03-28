@@ -48,13 +48,22 @@ public class Game {
         int user_id2 = getUser_id2(game_id);
         return User.getElo(user_id2);
     }
-
     public static void setResult(int game_id, int user_id){
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps db = new DBOps();
 
                 db.exUpdate("UPDATE Game SET result = " + user_id + " WHERE game_id = "+game_id + ";");
+            }
+        });
+        t.start();
+    }
+
+    public static void turnOffAllActiveForUser(int user_id){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps db = new DBOps();
+                db.exUpdate("UPDATE Game SET active = 0 WHERE user_id = " + user_id);
             }
         });
         t.start();

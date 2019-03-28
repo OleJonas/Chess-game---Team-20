@@ -1,5 +1,7 @@
 package JavaFX;
 import Database.DBOps;
+import Database.Game;
+import Database.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -26,13 +28,11 @@ class GameScene {
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-        DBOps connection = new DBOps();
+        int userid1 = Game.getUser_id1(ChessGame.gameID);
+        int userid2 = Game.getUser_id2(ChessGame.gameID);
 
-        int userid1 = Integer.parseInt(connection.exQuery("SELECT user_id1 FROM Game WHERE game_id = " +ChessGame.gameID, 1).get(0));
-        int userid2 = Integer.parseInt(connection.exQuery("SELECT user_id2 FROM Game WHERE game_id = " +ChessGame.gameID, 1).get(0));
-
-        player1 = connection.exQuery("SELECT username FROM User WHERE user_id = " + userid1, 1).get(0);
-        player2 = connection.exQuery("SELECT username FROM User WHERE user_id = " + userid2, 1).get(0);
+        player1 = User.getUsername(userid1);
+        player2 = User.getUsername(userid2);
 
         //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
         //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
@@ -60,6 +60,18 @@ class GameScene {
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
         rightGrid.add(ChatFX.createChat(), 0, 2);
+
+        //forfeitButton
+
+        Button resignButton = new Button("resign");
+        resignButton.setOnAction(e->{
+            Game.setResult(ChessGame.gameID, Login.userID);
+            ChessGame.isDone = true;
+            User.updateEloByGame(ChessGame.gameID);
+            GameOverPopupBox.Display();
+        });
+
+        rightGrid.add(resignButton, 0, 3);
 
 
         //mainLayout

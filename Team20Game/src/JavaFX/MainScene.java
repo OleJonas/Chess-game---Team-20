@@ -65,6 +65,7 @@ class MainScene {
         Button logOutButton = new Button("Log out");
         logOutButton.setPrefSize(100, 50);
         logOutButton.setOnAction(e -> {
+            removeActiveFromGame();
             runLogin();
         });
 
@@ -232,6 +233,7 @@ class MainScene {
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
+        Main.window.setResizable(false);
         refresh();
         //searchFriend = true;
     }
@@ -461,7 +463,7 @@ class MainScene {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        System.out.println("hEI");
+                        //System.out.println("hEI");
                         //Background work
                         final CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(new Runnable() {
@@ -472,9 +474,9 @@ class MainScene {
                                     if(inQueueCreate){
                                         System.out.println("waiting for opponent");
                                         if(!playersReady(connection)) {
-                                            connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
-                                            System.out.println("Success!");
-                                            System.out.println("Started game with gameID: " + ChessGame.gameID);
+                                            //connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
+                                            //System.out.println("Success!");
+                                            //System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueCreate = false;
                                             syncTurn = true;
                                             showGameScene();
@@ -956,7 +958,7 @@ class CreateGamePopupBox{
         } else if (colorChoiceString.equals("Any")) {
             Random random = new Random();
 
-            int nr = random.nextInt()+1;
+            int nr = random.nextInt(2);
             if (nr == 0) {
                 color = true;
             } else if (nr == 1){

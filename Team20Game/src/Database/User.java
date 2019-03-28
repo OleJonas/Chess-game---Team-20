@@ -3,8 +3,14 @@ package Database;
 import JavaFX.Login;
 import Game.GameEngine;
 
+import java.util.Random;
+
 public class User {
 
+    public static String getUsername(int user_id){
+        DBOps db = new DBOps();
+        return db.exQuery("SELECT username FROM User WHERE user_id = " + user_id+ "; ", 1).get(0);
+    }
     public static int getElo(int user_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT ELOrating FROM User WHERE user_id = " + user_id+ "; ", 1).get(0));
@@ -61,10 +67,11 @@ public class User {
         System.out.println("started updating ELO");
 
         Thread t = new Thread(new Runnable() {
+            int user_id1 = Game.getUser_id1(game_id);
+            int user_id2 = Game.getUser_id2(game_id);
+            int result = Game.getResult(game_id);
+
             public void run() {
-                int user_id1 = Game.getUser_id1(game_id);
-                int user_id2 = Game.getUser_id2(game_id);
-                int result = Game.getResult(game_id);
 
                 int ELOuser1 = getElo(user_id1);
                 int ELOuser2 = getElo(user_id2);
@@ -75,7 +82,8 @@ public class User {
                     a = 2;
                 }
                 int [] elo = GameEngine.getElo(ELOuser1, ELOuser2, a);
-                System.out.println(" white ELO: "+ elo[0] + " black ELO: " + elo[1]);
+                //System.out.println(" white oldELO: "+ ELOuser1+ " white NewELO"+ elo[0] + " black oldELO: "+ ELOuser2 + " black newELO" + elo[1] +
+                       // "\nResult: " + a);
                 updateElo(user_id1, elo[0]);
                 updateElo(user_id2, elo[1]);
 
