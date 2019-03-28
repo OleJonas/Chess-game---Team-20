@@ -39,6 +39,16 @@ public class Game {
         return Integer.parseInt(db.exQuery("SELECT result FROM Game WHERE game_id = " + game_id + ";",1).get(0));
     }
 
+    public static int getWhiteELO(int game_id){
+        int user_id1 = getUser_id1(game_id);
+        return User.getElo(user_id1);
+    }
+
+    public static int getBlackELO(int game_id){
+        int user_id2 = getUser_id2(game_id);
+        return User.getElo(user_id2);
+    }
+
     public static void setResult(int game_id, int user_id){
         Thread t = new Thread(new Runnable() {
             public void run() {

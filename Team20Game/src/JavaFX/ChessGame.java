@@ -37,6 +37,8 @@ public class ChessGame{
     public static boolean myTurn = true;
     public static boolean gameWon = false;
     public static int movenr = 0;
+    public static int whiteELO;
+    public static int blackELO;
     private boolean polling = false;
     private boolean serviceRunning =false;
     private String homeSkin;
@@ -46,8 +48,6 @@ public class ChessGame{
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID;              //new Random().nextInt(500000);
-    public static int whiteELO;
-    public static int blackELO;
     private String darkTileColor = Settings.darkTileColor;
     private String lightTileColor = Settings.lightTileColor;
     private boolean isDone = false;
@@ -149,6 +149,8 @@ public class ChessGame{
                         newPiece = new Rook(pieceColor, toX, 7);
                     } else if (toY == 11) {
                         newPiece = new Bishop(pieceColor, toX, 7);
+                    }else if(toY == 12){
+
                     }
 
                     ChessGame.skin = homeSkin;
@@ -317,8 +319,8 @@ public class ChessGame{
 
     private void setupGameEngine() {
         ge = new GameEngine(Game.getTime(ChessGame.gameID), Game.getMode(ChessGame.gameID));
-        whiteELO = User.getElo(Game.getUser_id1(ChessGame.gameID));
-        blackELO = User.getElo(Game.getUser_id2(ChessGame.gameID));
+        whiteELO = Game.getWhiteELO(ChessGame.gameID);
+        blackELO = Game.getBlackELO(ChessGame.gameID);
         myTurn = true;
         gameWon = false;
         movenr = 0;
@@ -349,7 +351,7 @@ public class ChessGame{
                     serviceDBThings();
                 }
             }
-        }, 0, 1000);
+        }, 0, 100);
     }
 
     public void serviceDBThings() {
