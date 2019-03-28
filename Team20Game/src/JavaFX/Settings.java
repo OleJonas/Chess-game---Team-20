@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -20,16 +22,19 @@ import static JavaFX.MainScene.showMainScene;
 @SuppressWarnings("Duplicates")
 class Settings{
     static Scene settingsScene;
+    static Stage window;
 
     //Settingvariables
 
     //Color
     static String darkTileColor = "#8B4513";
     static String lightTileColor = "#FFEBCD";
-    //Skin
-    static String skinName;
+
 
     static void showSettings(){
+        window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Settings");
         GridPane mainLayout = new GridPane();
 
         //Title
@@ -47,7 +52,7 @@ class Settings{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            showMainScene();
+            window.close();
         });
 
 
@@ -127,11 +132,11 @@ class Settings{
         skinNameChoiceBox.getItems().add("Pink");
 
         //Fetch selected skinName for setValue()
-        if(skinName.equals("Standard")){
+        if(ChessGame.skin.equals("Standard")){
             skinNameChoiceBox.setValue("Standard");
-        } else if(skinName.equals("Chrome")){
+        } else if(ChessGame.skin.equals("Chrome")){
             skinNameChoiceBox.setValue("Chrome");
-        } else if(skinName.equals("Pink")){
+        } else if(ChessGame.skin.equals("Pink")){
             skinNameChoiceBox.setValue("Pink");
         }
 
@@ -147,9 +152,10 @@ class Settings{
             darkTileColor = "#8B4513";
             lightTileColor = "#FFEBCD";
             //resetSkin
-            skinName = "Standard";
+            ChessGame.skin = "Standard";
 
             storeSettings();
+            MainScene.reloadSandbox();
         });
         Button applyChangesButton = new Button("Apply");
         applyChangesButton.setOnAction(e -> {
@@ -185,14 +191,14 @@ class Settings{
             //Apply skinName
             String skinNameChoice = skinNameChoiceBox.getValue();
             if(skinNameChoice.equals("Standard")){
-                skinName = "Standard";
+                ChessGame.skin = "Standard";
             } else if(skinNameChoice.equals("Chrome")){
-                skinName = "Chrome";
+                ChessGame.skin = "Chrome";
             } else if(skinNameChoice.equals("Pink")){
-                skinName = "Pink";
+                ChessGame.skin = "Pink";
             }
-
             storeSettings();
+            MainScene.reloadSandbox();
         });
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
         bottomLayout.setPadding(new Insets(0, 25, 25, 0));
@@ -201,18 +207,13 @@ class Settings{
         bottomLayout.add(applyChangesButton, 2, 0 );
 
 
-        //Set image as background
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        //mainLayout.setBackground(new Background(myBI));
-
         BorderPane layout = new BorderPane();
-        layout.setBackground(new Background(myBI));
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        layout.setStyle("-fx-background-color: #404144;");
+        //layout.setTop(new WindowMenuBar(true).getWindowMenuBar());
         layout.setCenter(mainLayout);
         layout.setBottom(bottomLayout);
         settingsScene = new Scene(layout, 455, 500);
-        Main.window.setScene(settingsScene);
+        window.setScene(settingsScene);
+        window.showAndWait();
     }
 }

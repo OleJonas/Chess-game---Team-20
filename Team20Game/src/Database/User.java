@@ -54,6 +54,7 @@ public class User {
     public static void updateElo(int user_id, int elo){
                 DBOps db = new DBOps();
                 db.exUpdate("UPDATE User SET ELOrating = " + elo + " WHERE user_id = " + user_id + ";");
+                db.exUpdate("INSERT INTO userElo VALUES(" + user_id + ", DEFAULT, " +  elo + ");");
                 System.out.println("updated ELO for user " + user_id);
     }
     public static void updateEloByGame(int game_id) {

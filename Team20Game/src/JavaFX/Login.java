@@ -19,6 +19,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+
+import static JavaFX.ChessSandbox.setUpSkin;
 import static JavaFX.Register.runRegistration;
 import static javafx.geometry.Pos.CENTER;
 
@@ -124,6 +126,7 @@ public class Login{
             userID = getUserID();
             getSettings();
             getGameInfo();
+            setUpSkin(); //setup Skin for Sandbox Chessgame
             MainScene.showMainScene();
         } else {
             loginUsernameField.clear();
@@ -273,13 +276,13 @@ public class Login{
         if(result.size() > 0){
             Settings.darkTileColor = result.get(0);
             Settings.lightTileColor = result.get(1);
-            Settings.skinName = result.get(2);
+            ChessGame.skin = result.get(2);
         }
     }
 
     static boolean storeSettings(){
         DBOps connection = new DBOps();
-        int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + Settings.skinName + "' WHERE username = '" + USERNAME + "';");
+        int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + ChessGame.skin + "' WHERE username = '" + USERNAME + "';");
         if(rowsAffected==1) return true;
         return false;
     }

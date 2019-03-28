@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.Group;
@@ -77,6 +78,14 @@ public class ChatFX{
         gridPane.add(container, 0,0);
         gridPane.add(inText,0,1);
         gridPane.add(sendButton, 0,2);
+        gridPane.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER){
+                if(!inText.getText().trim().equals("")){
+                    chat.writeThreadChat(inText.getText().trim());
+                    inText.clear();
+                }
+            }
+        });
         //gridPane.add(closeButton,1,2);
 
         return gridPane;

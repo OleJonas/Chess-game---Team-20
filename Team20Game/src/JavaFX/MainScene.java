@@ -1,6 +1,6 @@
 package JavaFX;
-import Database.Game;
 import Database.DBOps;
+import Database.Game;
 import Database.User;
 import Game.GameEngine;
 import javafx.application.Platform;
@@ -41,17 +41,19 @@ class MainScene {
     static Scene mainScene;
     static GridPane leftGrid;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
-    static boolean inQueueFriend = false;
-    static boolean searchFriend = false;
+    private static boolean inQueueFriend = false;
+    public static boolean searchFriend = false;
     static boolean created = false;
     static boolean joined = false;
     private static boolean syncTurn = false;
     public static String sql;
     private static String user_id;
-    public static Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+    static Parent chessGame;
+    static Label sandboxLabel;
+    static GridPane rightGrid;
 
     static void showMainScene() {
         User.updateUser();
@@ -72,7 +74,8 @@ class MainScene {
         createGameButton.setOnAction(e -> {
             created = false;
             CreateGamePopupBox.Display(); //opens Popup
-            if (created) {
+            if(created){
+                System.out.println(Login.USERNAME);
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
                 queLabel.setFont(Font.font("Copperplate", 34));
@@ -87,7 +90,8 @@ class MainScene {
         joinGameButton.setOnAction(e -> {
             joined = false;
             JoinGamePopupBox.Display(); //opens Popup
-            if (joined) {
+
+            if(joined){
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
                 queLabel.setFont(Font.font("Copperplate", 34));
@@ -101,12 +105,12 @@ class MainScene {
         //Left GridPane
         leftGrid = new GridPane();
         leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(adjustSizeHeight(150), adjustSizeWidth(150), adjustSizeHeight(100), 100));
+        leftGrid.setPadding(new Insets(150, 150, 100, 250));
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            //leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            leftGrid.setPadding(new Insets(150, 150, 100, 250));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
@@ -146,7 +150,7 @@ class MainScene {
         inviteFriendButton.setOnAction(e -> {
             System.out.println(Login.USERNAME);
             ChessGame.gameID = newGameID();
-            createGame(0, 10, 10,true, 1, 7);
+            createGame(0,10, 10, true, 1, 7);
             leftGrid.getChildren().clear();
             Label queLabel = new Label("Waiting for\nopponent ...");
             queLabel.setFont(Font.font("Copperplate", 34));
@@ -158,7 +162,7 @@ class MainScene {
             //waitForOpponent();
 
         });
-        backButton = new Button("Back to Main");
+        backButton = new Button("Cancel Game");
         backButton.setOnAction(e -> {
             inQueueJoin = false;
             inQueueCreate = false;
@@ -178,29 +182,20 @@ class MainScene {
 
 
         //Right GridPane
-        GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(adjustSizeHeight(60), adjustSizeWidth(150), adjustSizeHeight(20), 0));
+        rightGrid = new GridPane();
+        rightGrid.setPadding(new Insets(60, 150, 20, 0));
         rightGrid.setVgap(20);
-        AtomicReference<Parent> chessGame = new AtomicReference<>(new ChessSandbox().createContent());
-        rightGrid.add(chessGame.get(), 0, 0);
-        Label sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
+        chessGame = new ChessSandbox().createContent();
+        rightGrid.add(chessGame, 0, 0);
+        sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
         sandboxLabel.setFont(Font.font("Calibri", 20));
         sandboxLabel.setTextFill(Color.WHITE);
-        AtomicReference<Button> clearBoard = new AtomicReference<>(new Button("Clear Board"));
-        clearBoard.get().setOnAction(e -> {
-            rightGrid.getChildren().clear();
-            rightGrid.setPadding(new Insets(60, 150, 20, 0));
-            rightGrid.setVgap(20);
-            chessGame.set(new ChessSandbox().createContent());
-            rightGrid.add(chessGame.get(), 0, 0);
-            clearBoard.set(new Button("Clear Board"));
-            rightGrid.add(clearBoard.get(), 0, 1);
-            rightGrid.setHalignment(clearBoard.get(), HPos.RIGHT);
-            rightGrid.add(sandboxLabel, 0, 1);
-
+        clearBoard = new Button("Clear Board");
+        clearBoard.setOnAction(e -> {
+            reloadSandbox();
         });
-        rightGrid.add(clearBoard.get(), 0, 1);
-        rightGrid.setHalignment(clearBoard.get(), HPos.RIGHT);
+        rightGrid.add(clearBoard, 0, 1);
+        rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
 
         //mainLayout
@@ -231,24 +226,26 @@ class MainScene {
         layout.setTop(new WindowMenuBar("home").getWindowMenuBar());
         layout.setCenter(mainLayout);
 
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
-        Main.window.setResizable(false);
-
-
-        System.out.println(primaryScreenBounds.getWidth());
-
         refresh();
-        searchFriend = true;
+        //searchFriend = true;
     }
 
-    static double adjustSizeHeight(int px) {
-        return primaryScreenBounds.getHeight()*(px/1920);
-    }
-    static double adjustSizeWidth(int px) {
-        return primaryScreenBounds.getWidth()*(px/1920);
+    static void reloadSandbox(){
+        rightGrid.getChildren().clear();
+        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setVgap(20);
+        chessGame = new ChessSandbox().createContent();
+        rightGrid.add(chessGame, 0, 0);
+        clearBoard = new Button("Clear Board");
+        rightGrid.add(clearBoard, 0, 1);
+        rightGrid.setHalignment(clearBoard, HPos.RIGHT);
+        rightGrid.add(sandboxLabel, 0, 1);
     }
 
     static void removeActiveFromGame(){
@@ -526,7 +523,6 @@ class MainScene {
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             searchFriend = false;
                                             removeActiveFromGame();
-                                            syncTurn = true;
                                             showGameScene();
                                         }
                                     }
@@ -571,6 +567,7 @@ class MainScene {
 
 @SuppressWarnings("Duplicates")
 class InviteFriendPopupBox{
+
     static ChoiceBox<String> modeChoiceBox = new ChoiceBox<>();
     static ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
     static ChoiceBox<String> incrementChoiceBox = new ChoiceBox<>();
@@ -603,7 +600,6 @@ class InviteFriendPopupBox{
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
-        ChoiceBox<String> timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
@@ -611,7 +607,6 @@ class InviteFriendPopupBox{
         timeChoiceBox.getItems().add("30 min");
         timeChoiceBox.setValue("No timer");
 
-        ChoiceBox<String> incrementChoiceBox = new ChoiceBox<>();
         incrementChoiceBox.getItems().add("No increment");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
@@ -621,7 +616,6 @@ class InviteFriendPopupBox{
         //Radiobuttons
         HBox ratedButtons = new HBox();
         ratedButtons.setSpacing(5);
-        final ToggleGroup ratedGroup = new ToggleGroup();
         RadioButton yesRatedRadioButton = new RadioButton("Yes");
         yesRatedRadioButton.setTextFill(Color.WHITE);
         yesRatedRadioButton.setToggleGroup(ratedGroup);
@@ -633,7 +627,6 @@ class InviteFriendPopupBox{
 
         HBox colorButtons = new HBox();
         colorButtons.setSpacing(5);
-        final ToggleGroup colorGroup = new ToggleGroup();
         RadioButton whiteColorRadioButton = new RadioButton("White");
         whiteColorRadioButton.setTextFill(Color.WHITE);
         whiteColorRadioButton.setToggleGroup(colorGroup);
@@ -665,7 +658,7 @@ class InviteFriendPopupBox{
         usernameLabel.setFont(Font.font("Copperplate", 30));
         usernameLabel.setStyle("-fx-font-weight: bold");
         usernameLabel.setTextFill(Color.WHITE);
-        TextField searchField = new TextField();
+        searchField = new TextField();
         searchField.setPrefSize(200, 30);
         Label searchComment = new Label("");
         searchComment.setTextFill(Color.RED);
@@ -782,7 +775,8 @@ class CreateGamePopupBox{
     static final ToggleGroup colorGroup = new ToggleGroup();
     static Stage window;
 
-    public static void Display() {
+
+    public static void Display(){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Create Game");
@@ -809,7 +803,6 @@ class CreateGamePopupBox{
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
-        modeChoiceBox = new ChoiceBox<>();
         modeChoiceBox.getItems().add("Standard");
         modeChoiceBox.getItems().add("Fischer Random");
         modeChoiceBox.getItems().add("Horse Attack");
@@ -817,7 +810,6 @@ class CreateGamePopupBox{
         modeChoiceBox.getItems().add("Peasants Revolt");
         modeChoiceBox.setValue("Standard");
 
-        timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
@@ -825,7 +817,6 @@ class CreateGamePopupBox{
         timeChoiceBox.getItems().add("30 min");
         timeChoiceBox.setValue("No timer");
 
-        incrementChoiceBox = new ChoiceBox<>();
         incrementChoiceBox.getItems().add("No increment");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
@@ -919,6 +910,7 @@ class CreateGamePopupBox{
     }
 
     static void tryCreateGame(){
+
         String modeChoice = modeChoiceBox.getValue();
         String timeChoice = timeChoiceBox.getValue();
         String incrementChoice = incrementChoiceBox.getValue();
@@ -964,7 +956,7 @@ class CreateGamePopupBox{
         } else if (colorChoiceString.equals("Any")) {
             Random random = new Random();
 
-            int nr = random.nextInt(2);
+            int nr = random.nextInt()+1;
             if (nr == 0) {
                 color = true;
             } else if (nr == 1){
@@ -985,6 +977,7 @@ class CreateGamePopupBox{
 
 @SuppressWarnings("Duplicates")
 class JoinGamePopupBox{
+
     private static Stage window;
     private static ChoiceBox<String> modeChoiceBox;
     private static ChoiceBox<String> timeChoiceBox;
@@ -1121,6 +1114,12 @@ class JoinGamePopupBox{
         windowLayout.setStyle("-fx-background-color: #404144;");
 
         Scene scene = new Scene(windowLayout, 410, 380);
+        scene.setOnKeyPressed(e->{
+            if(e.getCode().equals(KeyCode.ENTER)){
+                tryJoinGame();
+                MainScene.joined = true;
+            }
+        });
         window.setScene(scene);
         window.showAndWait();
     }
@@ -1191,11 +1190,11 @@ class JoinGamePopupBox{
 class GameOverPopupBox{
 
     public static void Display(){
-        int oldElo = User.getElo(Login.userID);
+        int oldElo = ChessGame.color?ChessGame.whiteELO:ChessGame.blackELO;
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
-        
+
 
         //Labels
         Label titleLabel = new Label("Game finished");
@@ -1218,6 +1217,7 @@ class GameOverPopupBox{
         int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
         int myNewElo = ChessGame.color?elo[0]:elo[1];
         int enemyElo = ChessGame.color?elo[1]:elo[0];
+        System.out.println("old ELO: " + oldElo + " your new ELO: "+ myNewElo + " \nEnemy's new ELO: " + enemyElo);
         String newElo = Login.USERNAME + "'s new ELO rating: \n" + myNewElo + " (" +((myNewElo-oldElo)>0?"+":"") +(myNewElo-oldElo) + ")";
         Label eloLabel = new Label(newElo);
         eloLabel.setFont(Font.font("Copperplate", 22));
@@ -1253,7 +1253,7 @@ class GameOverPopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 400, 240);
+        Scene scene = new Scene(windowLayout, 450, 310);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -1329,8 +1329,3 @@ class FriendInviteBox {
         window.showAndWait();
     }
 }
-
-
-
-
-
