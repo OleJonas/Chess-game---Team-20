@@ -37,11 +37,9 @@ public class GameLogic{
                             if (board[x+i*move[r][k]][y+i*move[r][k+1]] != null){
                                 if (board[x+i*move[r][k]][y+i*move[r][k+1]].getColor() != color){
                                     if (r == 0 && (board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Queen || board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Rook)) {
-                                        //System.out.println("Dronning/tÃ¥rn trussel:" + (x+i*move[r][k]) + " " + (y+i*move[r][k+1]));
                                         return true;
                                     }
                                     if (r == 1 && (board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Queen || board[x+i*move[r][k]][y+i*move[r][k+1]] instanceof Bishop)) {
-                                        //System.out.println("LÃ¸per/Dronning trussel:" + (x+i*move[r][k]) + " " + (y+i*move[r][k+1]));
                                         return true;
                                     }
                                 }

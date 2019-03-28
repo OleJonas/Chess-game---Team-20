@@ -34,6 +34,7 @@ public class Login{
     static int gamesLost;
     static int gamesRemis;
     static int ELOrating;
+    static ArrayList<Integer> ELOhistory = new ArrayList<Integer>();
 
     static Scene startScene;
     static Button loginButton, signUpButton;
@@ -267,6 +268,12 @@ public class Login{
             gamesLost = Integer.parseInt(result.get(2));
             gamesRemis = Integer.parseInt(result.get(3));
             ELOrating = Integer.parseInt(result.get(4));
+        }
+
+        ArrayList<String> result2 = connection.exQuery("SELECT elo FROM userElo WHERE userID = \"" + userID + "\"", 1);
+        for (int i = 0; i < result2.size(); i++){
+            int a = Integer.parseInt(result2.get(i));
+            ELOhistory.add(a);
         }
     }
 
