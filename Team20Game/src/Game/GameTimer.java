@@ -32,7 +32,7 @@ public class GameTimer{
         return interval;
     }
 
-    /*public void clock(){
+    public void clock(){
         int delay = 1000;
         int period = 1000;
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -41,7 +41,7 @@ public class GameTimer{
                 service();
             }
         }, delay, period);
-    }*/
+    }
 
     // Using java.util.Timer to schedule events at a fixed rate.
     public void service() {
@@ -109,5 +109,10 @@ public class GameTimer{
         } else{
             System.out.println("Time's up!");
         }
+    }
+
+    public static void main(String[] args){
+        GameTimer timer = new GameTimer(45, 3);
+        //timer.clock();
     }
 }

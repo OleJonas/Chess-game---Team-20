@@ -1,12 +1,13 @@
 package JavaFX;
-import Database.DBOps;
+import Database.Game;
+import Database.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,13 +28,11 @@ class GameScene {
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-        DBOps connection = new DBOps();
+        int userid1 = Game.getUser_id1(ChessGame.gameID);
+        int userid2 = Game.getUser_id2(ChessGame.gameID);
 
-        int userid1 = Integer.parseInt(connection.exQuery("SELECT user_id1 FROM Game WHERE game_id = " +ChessGame.gameID, 1).get(0));
-        int userid2 = Integer.parseInt(connection.exQuery("SELECT user_id2 FROM Game WHERE game_id = " +ChessGame.gameID, 1).get(0));
-
-        player1 = connection.exQuery("SELECT username FROM User WHERE user_id = " + userid1, 1).get(0);
-        player2 = connection.exQuery("SELECT username FROM User WHERE user_id = " + userid2, 1).get(0);
+        player1 = User.getUsername(userid1);
+        player2 = User.getUsername(userid2);
 
         //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
         //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
@@ -43,7 +42,6 @@ class GameScene {
         leftGrid.setPadding(new Insets(70, 100, 100, 50));
         Parent chessGame = new ChessGame().setupBoard();
         leftGrid.add(chessGame,0,0);
-
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -61,6 +59,21 @@ class GameScene {
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
         rightGrid.add(ChatFX.createChat(), 0, 2);
+        rightGrid.add(GameTimerFX.startTime(Game.getTime(ChessGame.gameID)), 0, 4);
+
+        //forfeitButton
+
+        Button resignButton = new Button("resign");
+        resignButton.setOnAction(e->{
+            MainScene.inGame = false;
+            ChessGame.isDone = true;
+            Game.setResult(ChessGame.gameID, ChessGame.color?Game.getUser_id2(ChessGame.gameID):Game.getUser_id1(ChessGame.gameID));
+            User.updateEloByGame(ChessGame.gameID);
+            GameOverPopupBox.Display();
+        });
+
+        rightGrid.add(resignButton, 0, 3);
+
 
         //mainLayout
         GridPane mainLayout = new GridPane();
@@ -75,6 +88,7 @@ class GameScene {
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
         mainLayout.add(rightGrid, 1,1);
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
+
         //mainLayout.setGridLinesVisible(true);
 
         //Set image as background
@@ -93,4 +107,3 @@ class GameScene {
         ChatFX.refresh();
     }
 }
-

@@ -1,6 +1,8 @@
 package Game;
 
 import JavaFX.ChessDemo;
+import JavaFX.ChessGame;
+import JavaFX.ChessSandbox;
 import Pieces.*;
 import Pieces.Rook;
 import Pieces.King;
@@ -198,7 +200,7 @@ public class Board {
         return out;
     }
 
-    public boolean move(int fromX, int fromY, int toX, int toY){
+    public boolean move(int fromX, int fromY, int toX, int toY, boolean lastMove){
         if (castleRook && position[fromX][fromY] instanceof Rook) {
             Rook rook = (Rook) position[fromX][fromY];
             rook.setCanCastle(false);
@@ -218,14 +220,23 @@ public class Board {
                     if (position[fromX][fromY] != null) {
                         if (position[i][j].getColor() != position[fromX][fromY].getColor()) {
                             Pawn pawn = (Pawn) position[i][j];
-                            System.out.println(pawn.getEnPassant());
-                            System.out.println();
                             if (pawn.getEnPassant()) {
                                 pawn.setEnPassant(false);
                                 break;
                             }
                         }
-                        if (ChessDemo.lastMove == position[fromX][fromY].getColor()) {
+                        /*
+                        if (ChessGame.lastMove == position[fromX][fromY].getColor()) {
+                            if (position[i][j].getColor() == position[fromX][fromY].getColor()) {
+                                Pawn pawn = (Pawn) position[i][j];
+                                if (pawn.getEnPassant()) {
+                                    pawn.setEnPassant(false);
+                                    break;
+                                }
+                            }
+                        }
+                        */
+                        if (lastMove == position[fromX][fromY].getColor()) {
                             if (position[i][j].getColor() == position[fromX][fromY].getColor()) {
                                 Pawn pawn = (Pawn) position[i][j];
                                 if (pawn.getEnPassant()) {
@@ -238,7 +249,7 @@ public class Board {
                 }
             }
         }
-        System.out.println();
+
 /*
         for (int i = 0; i < 8; i++) {
             Pawn tempPawn = null;

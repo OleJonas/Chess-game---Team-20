@@ -36,6 +36,7 @@ public class ChessGame{
     public static boolean color = true;
     public static boolean myTurn = true;
     public static boolean gameWon = false;
+    public static boolean lastMove = true;
     public static int movenr = 0;
     public static int whiteELO;
     public static int blackELO;
@@ -280,6 +281,8 @@ public class ChessGame{
                         System.out.println("Checkmate for White");
                         if(!color){
                             timer.cancel();
+                            MainScene.inGame =false;
+                            ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
 
@@ -289,6 +292,8 @@ public class ChessGame{
                         System.out.println("Checkmate for Black");
                         if(color){
                             timer.cancel();
+                            MainScene.inGame =false;
+                            ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
 
@@ -347,6 +352,7 @@ public class ChessGame{
         blackELO = Game.getBlackELO(ChessGame.gameID);
         myTurn = true;
         gameWon = false;
+        isDone = false;
         movenr = 0;
     }
 

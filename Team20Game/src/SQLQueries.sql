@@ -107,3 +107,12 @@ UPDATE UserSettings SET skinName = 'Pink' WHERE username = 'EpicHaxor';
 UPDATE Game SET result = 7 WHERE user_id2 = 6;
 
 SELECT *FROM Move WHERE game_id = 100394;
+
+ALTER TABLE Game
+ALTER result SET DEFAULT -1;
+
+UPDATE User SET ELOrating
+= 1200 WHERE user_id = 7;
+
+SELECT user_id FROM User WHERE username = "Test";
+

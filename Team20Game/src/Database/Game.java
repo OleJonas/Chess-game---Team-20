@@ -1,8 +1,43 @@
 package Database;
 
+import JavaFX.ChessGame;
 import JavaFX.Login;
 
 public class Game {
+
+    static void createGame(int mode, int time, int increment, boolean color, int rated) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps connection = new DBOps();
+
+                if (color) {
+                    ChessGame.color = true;
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
+                } else {
+                    ChessGame.color = false;
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
+                }
+            }
+        });
+        t.start();
+    }
+
+    static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
+        Thread t = new Thread(new Runnable() {
+            public void run(){
+                DBOps connection = new DBOps();
+                int userid = Login.userID;
+
+                if (color) {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                } else {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                }
+            }
+        });
+        t.start();
+    }
+
     public static int getTime(int game_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT time FROM Game WHERE game_id = " + game_id + "; ", 1).get(0));
@@ -64,6 +99,16 @@ public class Game {
             public void run() {
                 DBOps db = new DBOps();
                 db.exUpdate("UPDATE Game SET active = 0 WHERE user_id = " + user_id);
+            }
+        });
+        t.start();
+    }
+
+    public static void turnOffAllOtherActiveForUser(int user_id, int game_id){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps db = new DBOps();
+                db.exUpdate("UPDATE Game SET active = 0 WHERE user_id = " + user_id + " AND game_id != " + game_id);
             }
         });
         t.start();

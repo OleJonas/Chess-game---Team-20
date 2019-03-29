@@ -6,6 +6,16 @@ import Game.GameEngine;
 import java.util.Random;
 
 public class User {
+    public static int getGameID(String username){
+        DBOps db = new DBOps();
+        int id = -1;
+        if (db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).size() > 0) {
+            if (db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0) != null) {
+                id = Integer.parseInt(db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0));
+            }
+        }
+        return id;
+    }
 
     public static String getUsername(int user_id){
         DBOps db = new DBOps();
@@ -82,8 +92,8 @@ public class User {
                     a = 2;
                 }
                 int [] elo = GameEngine.getElo(ELOuser1, ELOuser2, a);
-                //System.out.println(" white oldELO: "+ ELOuser1+ " white NewELO"+ elo[0] + " black oldELO: "+ ELOuser2 + " black newELO" + elo[1] +
-                       // "\nResult: " + a);
+                System.out.println(" white oldELO: "+ ELOuser1+ " white NewELO"+ elo[0] + " black oldELO: "+ ELOuser2 + " black newELO" + elo[1] +
+                        "\nResult: " + a);
                 updateElo(user_id1, elo[0]);
                 updateElo(user_id2, elo[1]);
 

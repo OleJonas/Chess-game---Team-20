@@ -501,12 +501,20 @@ public class GameLogic{
     //NEW
     public static int[] getElo(int whiteElo, int blackElo, int score) {
         int[] result = new int[2];
-        double p = (score == 0 ? 0.0 : (score == 1 ? 1.0 : 0.5));
-        double winProb = 1.0 / (1.0+ Math.pow(10.0, (double) (Math.abs((double)(whiteElo - blackElo))/400.0)));
-        double elochange = 32.0*(p-winProb), m = ((score == 0 || (score == 2 && whiteElo < blackElo)) ? 1: -1);
-        result[0] = (int)Math.round((float) whiteElo + m*elochange);
-        result[1] = (int)Math.round((float) blackElo - m*elochange);
+        double a = 1.0 / (1.0+ Math.pow(10.0, ((double)(blackElo-whiteElo))/400.0));
+        double b = 1.0 / (1.0+ Math.pow(10.0, ((double)(whiteElo-blackElo))/400.0));
+        double p1 = (score == 2 ? 0.5 : (score == 0 ? 1 : 0));
+        result[0] = (int)Math.round((float) whiteElo + 32.0*(p1-a));
+        result[1] = (int)Math.round((float) blackElo + 32.0*(1.0-p1-b));
         return result;
+    }
+
+    public static void main(String[] args) {
+        int[] elo = getElo(1153, 1047, 0);
+        int[] elo2 = getElo(1032, 1168, 0);
+
+
+        System.out.println(elo2[0] + " " + elo2[1]);
     }
 
     public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
