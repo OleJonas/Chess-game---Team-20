@@ -8,7 +8,13 @@ import java.util.Random;
 public class User {
     public static int getGameID(String username){
         DBOps db = new DBOps();
-        return Integer.parseInt(db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0));
+        int id = -1;
+        if (db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).size() > 0) {
+            if (db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0) != null) {
+                id = Integer.parseInt(db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0));
+            }
+        }
+        return id;
     }
 
     public static String getUsername(int user_id){

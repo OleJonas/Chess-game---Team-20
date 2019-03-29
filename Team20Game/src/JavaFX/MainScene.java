@@ -118,6 +118,7 @@ class MainScene {
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
                 leftGrid.getChildren().add(backButton);
+                inQueueFriend = true;
             }
         });
 
@@ -557,6 +558,7 @@ class MainScene {
                                         System.out.println(sql);
                                         int game_id = pollQueue(sql, connection);
                                         if(game_id!=-1) {
+                                            searchFriend = false;
                                             FriendInviteBox.Display(game_id);
                                         }
                                         /*
@@ -637,6 +639,7 @@ class InviteFriendPopupBox{
     static final ToggleGroup colorGroup = new ToggleGroup();
     static TextField searchField;
     static Stage window;
+    static Label searchComment;
 
     public static void Display(){
         window = new Stage();
@@ -663,6 +666,9 @@ class InviteFriendPopupBox{
         Label colorLabel = new Label("Color");
         colorLabel.setFont(Font.font("Copperplate", 18));
         colorLabel.setTextFill(Color.WHITE);
+        Label friendLabel = new Label("Invite friend");
+        friendLabel.setFont(Font.font("Copperplate", 18));
+        friendLabel.setTextFill(Color.WHITE);
 
         modeChoiceBox.getItems().add("Standard");
         modeChoiceBox.getItems().add("Fischer Random");
@@ -732,9 +738,9 @@ class InviteFriendPopupBox{
         usernameLabel.setTextFill(Color.WHITE);
         searchField = new TextField();
         searchField.setPrefSize(200, 30);
-        Label searchComment = new Label("");
+        searchComment = new Label("");
         searchComment.setTextFill(Color.RED);
-        GridPane usernamePane = new GridPane();
+
 
         //Create Game Button
         Button createGameButton = new Button("Create Game");
@@ -760,7 +766,9 @@ class InviteFriendPopupBox{
         mainLayout.setHalignment(ratedChoicePane, HPos.CENTER);
         mainLayout.add(colorChoicePane, 1, 4);
         mainLayout.setHalignment(colorChoicePane, HPos.CENTER);
-        mainLayout.add(searchField, 0, 5);
+        mainLayout.add(friendLabel, 0, 5);
+        mainLayout.add(searchField, 1, 5);
+        mainLayout.add(searchComment, 1, 6);
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
@@ -771,7 +779,7 @@ class InviteFriendPopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 510, 440);
+        Scene scene = new Scene(windowLayout, 430, 470);
         scene.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER)){
                 MainScene.invitedFriend = true;
@@ -780,15 +788,6 @@ class InviteFriendPopupBox{
         });
         window.setScene(scene);
         window.showAndWait();
-    }
-
-    static boolean CheckIfUserExist(String username){
-        DBOps connection = new DBOps();
-        ArrayList<String> result = connection.exQuery("SELECT avatar FROM User where username = '" + username + "';", 1);
-        if(result.size() > 0) {
-            return true;
-        }
-        return false;
     }
 
     static void tryInviteCreate(){
@@ -850,9 +849,17 @@ class InviteFriendPopupBox{
         }
 
         int opponent = 0;
-        if (User.getGameID(searchField.getText()) != 0) {
-            opponent = User.getGameID(searchField.getText());
+        if (searchField.getText() != null) {
+            if (User.getGameID(searchField.getText()) != -1) {
+                opponent = User.getGameID(searchField.getText());
+            } else {
+                MainScene.invitedFriend = false;
+                searchComment.setText("User doesn't exist");
+                System.out.println("Feil");
+                return;
+            }
         }
+
 
         //  MainScene.createGame(0, time, increment, color, rated);  //Here you can change time
         ChessGame.gameID = MainScene.newGameID();
@@ -1376,11 +1383,11 @@ class FriendInviteBox {
         window.setTitle("Invite");
 
         //Labels
-        Label titleLabel = new Label("Invite");
+        Label titleLabel = new Label("Friend Invite");
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
-        String text = "This is an invite.";
+        String text = "";
         Label textLabel = new Label(text);
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
