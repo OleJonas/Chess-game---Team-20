@@ -247,8 +247,8 @@ class TestTile extends StackPane {
     public void move(int x, int y, TestTile[][] board) {
         oldX = x * ChessDemo.TILE_SIZE;
         oldY = (height - 1 - y) * ChessDemo.TILE_SIZE;
-        gameEngine.move(currentPositionX, currentPositionY, x, y);
-        gameEngine.move(currentPositionX, currentPositionY, x, y);
+        gameEngine.move(currentPositionX, currentPositionY, x, y, ChessDemo.lastMove);
+        gameEngine.move(currentPositionX, currentPositionY, x, y, ChessDemo.lastMove);
         if (board[x][y] != null) {
             tileGroup.getChildren().remove(board[x][y]);
         }

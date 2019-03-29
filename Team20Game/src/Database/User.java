@@ -6,6 +6,10 @@ import Game.GameEngine;
 import java.util.Random;
 
 public class User {
+    public static int getGameID(String username){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0));
+    }
 
     public static String getUsername(int user_id){
         DBOps db = new DBOps();

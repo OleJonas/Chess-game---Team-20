@@ -509,6 +509,14 @@ public class GameLogic{
         return result;
     }
 
+    public static void main(String[] args) {
+        int[] elo = getElo(1153, 1047, 0);
+        int[] elo2 = getElo(1032, 1168, 0);
+
+
+        System.out.println(elo2[0] + " " + elo2[1]);
+    }
+
     public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
         if (rep.containsKey(board.toString())){
             int oldBoardState = rep.get(board.toString());

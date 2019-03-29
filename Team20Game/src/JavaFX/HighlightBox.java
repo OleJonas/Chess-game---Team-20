@@ -57,6 +57,7 @@ class HighlightBox extends Pane{
             int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int totBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
             tile.move(x, y, board, false);
+            ChessGame.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
             int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int updatedBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
             int top=0;

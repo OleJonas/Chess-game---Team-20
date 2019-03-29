@@ -113,11 +113,9 @@ class Tile extends StackPane {
             squareTo.setTranslateY((height - 1 - y) * ChessGame.TILE_SIZE);
             lastMoveGroup.getChildren().addAll(squareFrom, squareTo);
         }
-
         oldX = x * ChessGame.TILE_SIZE;
         oldY = (height - 1 - y) * ChessGame.TILE_SIZE;
-        gameEngine.move(currentPositionX, currentPositionY, x, y);
-        gameEngine.move(currentPositionX, currentPositionY, x, y);
+        gameEngine.move(currentPositionX, currentPositionY, x, y, ChessGame.lastMove);
         if (board[x][y] != null) {
             tileGroup.getChildren().remove(board[x][y]);
         }

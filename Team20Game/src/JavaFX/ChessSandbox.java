@@ -314,7 +314,6 @@ class SandboxHighlightBox extends Pane{
                     }
                 }
                 else {
-                    System.out.println("heejej");
                     Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()+1][tile.getY()];
                     if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                         if (pawn.getEnPassant() && x == tile.getX() + 1) {
@@ -439,8 +438,7 @@ class SandboxTile extends StackPane {
     public void move(int x, int y, SandboxTile[][] board) {
         oldX = x * ChessDemo.TILE_SIZE;
         oldY = (height - 1 - y) * ChessDemo.TILE_SIZE;
-        gameEngine.move(currentPositionX, currentPositionY, x, y);
-        gameEngine.move(currentPositionX, currentPositionY, x, y);
+        gameEngine.move(currentPositionX, currentPositionY, x, y, ChessSandbox.lastMove);
         if (board[x][y] != null) {
             tileGroup.getChildren().remove(board[x][y]);
         }

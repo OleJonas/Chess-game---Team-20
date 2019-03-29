@@ -36,6 +36,7 @@ public class ChessGame{
     public static boolean color = true;
     public static boolean myTurn = true;
     public static boolean gameWon = false;
+    public static boolean lastMove = true;
     public static int movenr = 0;
     public static int whiteELO;
     public static int blackELO;
