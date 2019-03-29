@@ -1,12 +1,12 @@
 package JavaFX;
-import Database.DBOps;
 import Database.Game;
 import Database.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -43,7 +43,6 @@ class GameScene {
         Parent chessGame = new ChessGame().setupBoard();
         leftGrid.add(chessGame,0,0);
 
-
         //Right GridPane
         GridPane rightGrid = new GridPane();
         rightGrid.setPadding(new Insets(70, 50, 50, 50));
@@ -60,6 +59,7 @@ class GameScene {
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
         rightGrid.add(ChatFX.createChat(), 0, 2);
+        rightGrid.add(GameTimerFX.startTime(Game.getTime(ChessGame.gameID)), 0, 4);
 
         //forfeitButton
 
@@ -88,6 +88,7 @@ class GameScene {
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
         mainLayout.add(rightGrid, 1,1);
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
+
         //mainLayout.setGridLinesVisible(true);
 
         //Set image as background
@@ -106,4 +107,3 @@ class GameScene {
         ChatFX.refresh();
     }
 }
-
