@@ -49,7 +49,21 @@ class FindUser{
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            showMainScene();
+            MainScene.leftGrid.getChildren().clear();
+            MainScene.leftGrid.setVgap(40);
+            MainScene.leftGrid.add(MainScene.newGameButton, 0, 0);
+            MainScene.leftGrid.setHalignment( MainScene.newGameButton, HPos.CENTER);
+            MainScene.leftGrid.add(MainScene.findUserButton, 0, 1);
+            MainScene.leftGrid.setHalignment( MainScene.findUserButton, HPos.CENTER);
+            MainScene.leftGrid.add( MainScene.userProfileButton, 0, 2);
+            MainScene.leftGrid.setHalignment( MainScene.userProfileButton, HPos.CENTER);
+            MainScene.leftGrid.add( MainScene.leaderboardButton,0,3);
+            MainScene.leftGrid.setHalignment( MainScene.leaderboardButton,HPos.CENTER);
+            MainScene.leftGrid.add( MainScene.settingsButton, 0, 4);
+            MainScene.leftGrid.setHalignment( MainScene.settingsButton, HPos.CENTER);
+
+            MainScene.rightGrid.getChildren().clear();
+            MainScene.reloadSandbox();
         });
 
         //Right GridPane
@@ -63,8 +77,8 @@ class FindUser{
         findAvatarImageView = new ImageView(findAvatarImage);
         findAvatarImageView.setFitHeight(250);
         findAvatarImageView.setFitWidth(250);
-        rightGrid.add(findAvatarImageView, 0, 0);
-        rightGrid.add(gamesInfoLabel, 0, 1);
+        MainScene.rightGrid.add(findAvatarImageView, 0, 0);
+        MainScene.rightGrid.add(gamesInfoLabel, 0, 1);
 
         //Left GridPane
         GridPane leftGrid = new GridPane();
@@ -113,16 +127,19 @@ class FindUser{
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
 
         //Set image as background
+        /*
         BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
+        */
 
         BorderPane layout = new BorderPane();
         layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
-        findProfileScene = new Scene(layout, 1200, 850);
-        Main.window.setScene(findProfileScene);
+        MainScene.rightGrid.add(mainLayout, 0 , 0);
+        /*findProfileScene = new Scene(layout, 1200, 850);
+        Main.window.setScene(findProfileScene);*/
     }
 
     static void setUserPane(){
