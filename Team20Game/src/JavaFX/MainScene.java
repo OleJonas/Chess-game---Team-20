@@ -125,12 +125,12 @@ class MainScene {
         //Left GridPane
         leftGrid = new GridPane();
         leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(150, 150, 100, 250));
+        leftGrid.setPadding(new Insets(150, 100, 100, 170));
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
@@ -250,7 +250,7 @@ class MainScene {
         mainLayout.setPadding(new Insets(30, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(625));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(525));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
         mainLayout.add(logOutButton, 0, 0, 2, 1);
         mainLayout.setHalignment(logOutButton, HPos.LEFT);
