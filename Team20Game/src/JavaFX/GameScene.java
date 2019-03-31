@@ -59,7 +59,19 @@ class GameScene {
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
         rightGrid.add(ChatFX.createChat(), 0, 2);
-        rightGrid.add(GameTimerFX.startTime(Game.getTime(ChessGame.gameID)), 0, 4);
+        Label time1label = new Label(player1);
+        time1label.setFont(Font.font("Copperplate", 40));
+        time1label.setStyle("-fx-font-weight: bold");
+        Label time2label = new Label(player2);
+        time2label.setFont(Font.font("Copperplate", 40));
+        time2label.setStyle("-fx-font-weight: bold");
+        GameTimerFX player1Time = new GameTimerFX();
+        GameTimerFX player2Time = new GameTimerFX();
+        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
+        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
+        rightGrid.add(time1label, 1, 3);
+        rightGrid.add(time2label, 1, 4);
+
 
         //forfeitButton
 
