@@ -367,14 +367,20 @@ class MainScene {
     }
 
     static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
-        DBOps connection = new DBOps();
-        int userid = Login.getUserID();
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps connection = new DBOps();
+                int userid = Login.getUserID();
 
-        if (color) {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-        } else {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-        }
+                if (color) {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                } else {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                }
+            }
+        });
+        t.start();
+
     }
 
     //depricated method
