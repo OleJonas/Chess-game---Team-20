@@ -29,15 +29,9 @@ class UserProfile{
 
     static void showUserProfileScene(){
         User.updateUser();
-        MainScene.mainLayout = new GridPane();
         avatar = new Image("Images/Avatars/" + AVATAR);
 
         //Title
-        String userTitle = "User Profile";
-        Label title = new Label(userTitle);
-        title.setFont(Font.font("Copperplate", 40));
-        title.setStyle("-fx-font-weight: bold");
-        title.setTextFill(Color.WHITE);
 
         //GamesInfo
         String gamesInfoString = "User: " + USERNAME + "\nGames Played: " + gamesPlayed
@@ -71,7 +65,6 @@ class UserProfile{
             decreaseAvatar();
             avatarImageview.setImage(new Image("Images/Avatars/" + AVATAR));
         });
-
 
         //Right GridPane
         MainScene.rightGrid.getChildren().clear();
