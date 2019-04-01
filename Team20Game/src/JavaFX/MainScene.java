@@ -631,12 +631,34 @@ class MainScene {
                                         }
                                     }*/
                                     if (inGame) {
-                                        if (Game.getResult(ChessGame.gameID) != -1) {
-                                            System.out.println(ChessGame.gameID);
-                                            ChessGame.gameWon = true;
-                                            inGame = false;
-                                            ChessGame.isDone = true;
-                                            GameOverPopupBox.Display();
+                                        int result = Game.getResult(ChessGame.gameID);
+                                        System.out.println("result: "+ result);
+                                        if (result != -1) {
+                                            int a = ChessGame.color?2:1;
+                                            if(result == a){
+                                                //add accept or decline draw option onscreen here
+                                                boolean accept = true;
+                                                if(accept){
+                                                    inGame = false;
+                                                    ChessGame.isDone = true;
+                                                    Game.setResult(ChessGame.gameID, 0);
+                                                    User.updateEloByGame(ChessGame.gameID);
+                                                    GameOverPopupBox.Display();
+                                                }else{
+                                                    Game.setResult(ChessGame.gameID, -1);
+                                                }
+                                            }else if(result == 0){
+                                                User.updateEloByGame(ChessGame.gameID);
+                                                ChessGame.isDone = true;
+                                                inGame = false;
+                                                GameOverPopupBox.Display();
+                                            } else {
+                                                //System.out.println(ChessGame.gameID);
+                                                ChessGame.gameWon = true;
+                                                inGame = false;
+                                                ChessGame.isDone = true;
+                                                GameOverPopupBox.Display();
+                                            }
                                         }
                                     }
                                 } finally {
@@ -655,7 +677,6 @@ class MainScene {
         service.start();
     }
 
-
 }
 
 @SuppressWarnings("Duplicates")
@@ -672,7 +693,7 @@ class InviteFriendPopupBox{
     public static void Display(){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Create Game");
+        window.setTitle("Invite Friend");
 
         //Labels
         Label titleLabel = new Label("Game settings");
@@ -1134,7 +1155,7 @@ class JoinGamePopupBox{
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Create Game");
+        window.setTitle("Join Game");
 
         //Labels
         Label titleLabel = new Label("Game settings");
@@ -1326,7 +1347,7 @@ class JoinGamePopupBox{
 
         MainScene.sql = MainScene.createSearch(mode, time, increment, color, rated);
         System.out.println(MainScene.sql);
-        MainScene.inQueueFriend = true;
+        MainScene.inQueueJoin = true;
         System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
@@ -1346,12 +1367,13 @@ class GameOverPopupBox{
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
+        int result = Game.getResult(ChessGame.gameID);
         String text = ChessGame.gameWon?"YOU WON :D":"YOU LOST :(";
+        if(result == 0)text = "DRAW";
         Label textLabel = new Label(text);
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
-        int result = Game.getResult(ChessGame.gameID);
         if(result == 0){
             result = 2;
         }else if(result == Game.getUser_id1(ChessGame.gameID)){
@@ -1375,6 +1397,7 @@ class GameOverPopupBox{
         leaveGameButton.setOnAction(e -> {
             MainScene.showMainScene();
             MainScene.inGame = false;
+            MainScene.searchFriend = true;
             window.close();
         });
 

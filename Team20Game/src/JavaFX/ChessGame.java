@@ -347,13 +347,15 @@ public class ChessGame{
     }
 
     private void setupGameEngine() {
-        ge = new GameEngine(Game.getTime(ChessGame.gameID), Game.getMode(ChessGame.gameID));
-        whiteELO = Game.getWhiteELO(ChessGame.gameID);
-        blackELO = Game.getBlackELO(ChessGame.gameID);
+        ge = new GameEngine(Game.getTime(gameID), Game.getMode(gameID));
+        MainScene.searchFriend = false;
+        whiteELO = Game.getWhiteELO(gameID);
+        blackELO = Game.getBlackELO(gameID);
         myTurn = true;
         gameWon = false;
         isDone = false;
         movenr = 0;
+        color = (Game.getUser_id1(gameID)==Login.userID)?true:false;
     }
 
     public boolean setSkins(){
