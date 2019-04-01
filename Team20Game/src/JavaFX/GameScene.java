@@ -98,9 +98,8 @@ class GameScene {
                 offerDrawButton.setText("Draw offered");
                 offerDrawButton.setOpacity(0.5);
             }
-            System.out.println("clicked offer draw");
         });
-        rightGrid.add(offerDrawButton, 0, 5);
+        rightGrid.add(offerDrawButton, 0, 4);
 
 
         //mainLayout
