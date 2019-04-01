@@ -71,6 +71,7 @@ class MainScene {
             runLogin();
         });
 
+
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
@@ -124,12 +125,12 @@ class MainScene {
         //Left GridPane
         leftGrid = new GridPane();
         leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(150, 150, 100, 250));
+        leftGrid.setPadding(new Insets(150, 100, 100, 170));
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
@@ -179,11 +180,7 @@ class MainScene {
         });
 
         findUserButton = new Button("Find User");
-        findUserButton.setOnAction(e -> {
-            leftGrid.getChildren().clear();
-            rightGrid.getChildren().clear();
-            showFindUserScene();
-        });
+        findUserButton.setOnAction(e -> showFindUserScene());
 
         userProfileButton = new Button("User profile");
         userProfileButton.setOnAction(e -> showUserProfileScene());
@@ -237,7 +234,7 @@ class MainScene {
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
-        sandboxLabel = new Label("This is a sandbox chess game!");
+        sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
         sandboxLabel.setFont(Font.font("Calibri", 20));
         sandboxLabel.setTextFill(Color.WHITE);
         clearBoard = new Button("Clear Board");
@@ -253,9 +250,9 @@ class MainScene {
         mainLayout.setPadding(new Insets(30, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(700));
-        //mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
-        mainLayout.add(logOutButton, 2, 0, 10, 1);
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(525));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
+        mainLayout.add(logOutButton, 0, 0, 2, 1);
         mainLayout.setHalignment(logOutButton, HPos.LEFT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
@@ -529,7 +526,7 @@ class MainScene {
                                             inGame = true;
                                             showGameScene();
                                         }
-                                    }else if(inQueueJoin){
+                                    } else if(inQueueJoin){
                                         System.out.println("Looking for opponent");
                                         int game_id = pollQueue(sql, connection);
                                         System.out.println(sql);
@@ -606,12 +603,32 @@ class MainScene {
                                         }
                                     }*/
                                     if (inGame) {
-                                        if (Game.getResult(ChessGame.gameID) != -1) {
-                                            System.out.println(ChessGame.gameID);
-                                            ChessGame.gameWon = true;
-                                            inGame = false;
-                                            ChessGame.isDone = true;
-                                            GameOverPopupBox.Display();
+                                        int result = Game.getResult(ChessGame.gameID);
+                                        if (result != -1) {
+                                            int a = ChessGame.color?2:1;
+                                            if(result == a){
+                                                //add accept or decline draw option onscreen here
+                                                boolean accept = true;
+                                                if(accept){
+                                                    inGame = false;
+                                                    ChessGame.isDone = true;
+                                                    Game.setResult(ChessGame.gameID, 0);
+                                                    GameOverPopupBox.Display();
+                                                }else{
+                                                    Game.setResult(ChessGame.gameID, -1);
+                                                }
+                                            }else if(result == 0){
+                                                ChessGame.isDone = true;
+                                                inGame = false;
+                                                GameOverPopupBox.Display();
+                                            }
+                                            else {
+                                                System.out.println(ChessGame.gameID);
+                                                ChessGame.gameWon = true;
+                                                inGame = false;
+                                                ChessGame.isDone = true;
+                                                GameOverPopupBox.Display();
+                                            }
                                         }
                                     }
                                 } finally {
@@ -645,15 +662,9 @@ class InviteFriendPopupBox{
     static Label searchComment;
 
     public static void Display(){
-        modeChoiceBox.getItems().clear();
-        timeChoiceBox.getItems().clear();
-        incrementChoiceBox.getItems().clear();
-        ratedGroup.getToggles().clear();
-        colorGroup.getToggles().clear();
-
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Invite Friend");
+        window.setTitle("Create Game");
 
         //Labels
         Label titleLabel = new Label("Game settings");
@@ -717,14 +728,14 @@ class InviteFriendPopupBox{
         RadioButton whiteColorRadioButton = new RadioButton("White");
         whiteColorRadioButton.setTextFill(Color.WHITE);
         whiteColorRadioButton.setToggleGroup(colorGroup);
+        whiteColorRadioButton.setSelected(true);
         RadioButton blackColorRadioButton = new RadioButton("Black");
         blackColorRadioButton.setTextFill(Color.WHITE);
         blackColorRadioButton.setToggleGroup(colorGroup);
         RadioButton anyColorRadioButton = new RadioButton("Any");
         anyColorRadioButton.setTextFill(Color.WHITE);
         anyColorRadioButton.setToggleGroup(colorGroup);
-        anyColorRadioButton.setSelected(true);
-        colorButtons.getChildren().addAll(anyColorRadioButton, whiteColorRadioButton, blackColorRadioButton);
+        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
 
         //ratedChoicePane
         GridPane ratedChoicePane = new GridPane();
@@ -1115,7 +1126,7 @@ class JoinGamePopupBox{
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Join Game");
+        window.setTitle("Create Game");
 
         //Labels
         Label titleLabel = new Label("Game settings");
@@ -1307,7 +1318,7 @@ class JoinGamePopupBox{
 
         MainScene.sql = MainScene.createSearch(mode, time, increment, color, rated);
         System.out.println(MainScene.sql);
-        MainScene.inQueueJoin = true;
+        MainScene.inQueueFriend = true;
         System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
@@ -1446,7 +1457,7 @@ class FriendInviteBox {
         bottomLayout.add(acceptInvite, 0,0);
         bottomLayout.setHalignment(acceptInvite, HPos.LEFT);
         bottomLayout.add(declineInvite, 1, 0);
-        bottomLayout.setHalignment(declineInvite, HPos.RIGHT);
+        bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");

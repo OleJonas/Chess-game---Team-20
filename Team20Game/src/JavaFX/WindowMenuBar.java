@@ -28,7 +28,7 @@ public class WindowMenuBar {
         newGameItem.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
@@ -129,7 +129,7 @@ public class WindowMenuBar {
         newGameItem.setOnAction(e -> {
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.setPadding(new Insets(150, 150, 100, 250));
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);

@@ -30,7 +30,7 @@ class FindUser{
     static int findUser_ELOrating;
 
     static void showFindUserScene(){
-        GridPane mainLayout = new GridPane();
+        //GridPane mainLayout = new GridPane();
         gamesInfoString = "";
         findAvatarImage = new Image("Images/Avatars/emptyAvatar.png");
         findAvatarImageView = new ImageView(findAvatarImage);
@@ -67,9 +67,9 @@ class FindUser{
         });
 
         //Right GridPane
-        GridPane rightGrid = new GridPane();
-        rightGrid.setVgap(40);
-        rightGrid.setPadding(new Insets(50, 200, 100, 250));
+       // GridPane rightGrid = new GridPane();
+        //rightGrid.setVgap(40);
+        //rightGrid.setPadding(new Insets(50, 200, 100, 250));
         gamesInfoLabel = new Label(gamesInfoString);
         gamesInfoLabel.setFont(Font.font("Copperplate", 25));
         gamesInfoLabel.setStyle("-fx-font-weight: bold");
@@ -81,10 +81,10 @@ class FindUser{
         MainScene.rightGrid.add(gamesInfoLabel, 0, 1);
 
         //Left GridPane
-        GridPane leftGrid = new GridPane();
-        leftGrid.setPadding(new Insets(30, 50, 20, 50));
-        leftGrid.setHgap(10);
-        leftGrid.setVgap(10);
+       // GridPane leftGrid = new GridPane();
+        //leftGrid.setPadding(new Insets(0, 0, 200, 400));
+        MainScene.leftGrid.setHgap(10);
+        MainScene.leftGrid.setVgap(10);
         Label usernameLabel = new Label("Username: ");
         usernameLabel.setFont(Font.font("Copperplate", 30));
         usernameLabel.setStyle("-fx-font-weight: bold");
@@ -94,7 +94,7 @@ class FindUser{
         Label searchComment = new Label("");
         searchComment.setTextFill(Color.RED);
         Button searchButton = new Button("Search");
-        searchButton.setPrefSize(100, 30);
+        searchButton.setPrefSize(100, 30);;
         searchButton.setOnAction(e -> {
             if(searchForUser(searchField.getText())){
                 setUserPane();
@@ -106,26 +106,28 @@ class FindUser{
                 findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
             }
         });
-        leftGrid.add(usernameLabel, 0,0,2,1);
-        leftGrid.add(searchField, 0, 1);
-        leftGrid.add(searchButton, 1, 1);
-        leftGrid.add(searchComment, 0, 2, 2, 1);
+        MainScene.leftGrid.add(backToMainButton, 1, 4, 2, 1);
+        MainScene.leftGrid.setHalignment(backToMainButton, HPos.LEFT);
+        MainScene.leftGrid.add(title, 1, 0);
+        MainScene.leftGrid.add(usernameLabel, 1,1,2,1);
+        MainScene.leftGrid.add(searchField, 1, 2);
+        MainScene.leftGrid.add(searchButton, 3, 2);
+        MainScene.leftGrid.add(searchComment, 1, 3, 2, 1);
+
 
         //mainLayout
+        /*
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
-        mainLayout.add(backToMainButton, 0, 0, 2, 1);
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(700));
+        mainLayout.add(backToMainButton, 1, 0, 2, 1);
         mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-        mainLayout.add(title, 0, 0, 2, 1);
-        mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
         mainLayout.add(rightGrid, 1,1);
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
-
+*/
         //Set image as background
         /*
         BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
@@ -134,10 +136,10 @@ class FindUser{
         mainLayout.setBackground(new Background(myBI));
         */
 
-        BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
-        layout.setCenter(mainLayout);
-        MainScene.rightGrid.add(mainLayout, 0 , 0);
+       // BorderPane layout = new BorderPane();
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setCenter(mainLayout);
+        //MainScene.leftGrid.add(mainLayout, 1 , 0);
         /*findProfileScene = new Scene(layout, 1200, 850);
         Main.window.setScene(findProfileScene);*/
     }

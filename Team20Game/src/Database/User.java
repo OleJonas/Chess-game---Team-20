@@ -31,7 +31,7 @@ public class User {
             public void run() {
                 DBOps db = new DBOps();
                 int gamesPlayed = Integer.parseInt(db.exQuery("SELECT COUNT(game_id) FROM Game WHERE (user_id1 = "
-                        + Login.userID +" OR user_id2 = " + Login.userID+ ") AND result IS NOT NULL;",1).get(0));
+                        + Login.userID +" OR user_id2 = " + Login.userID+ ") AND result != -1;",1).get(0));
                 db.exUpdate("UPDATE User SET gamesPlayed = " + gamesPlayed + " WHERE user_id = " + Login.userID);
             }
         });
@@ -54,7 +54,7 @@ public class User {
             public void run() {
                 DBOps db = new DBOps();
                 int gamesLost = Integer.parseInt(db.exQuery("SELECT COUNT(game_id) FROM Game WHERE (user_id1 = "
-                        + Login.userID +" OR user_id2 = " + Login.userID+ ") AND result != " + Login.userID,1).get(0));
+                        + Login.userID +" OR user_id2 = " + Login.userID+ ") AND result != " + Login.userID + " AND result != -1",1).get(0));
                 db.exUpdate("UPDATE User SET gamesLost = " + gamesLost + " WHERE user_id = " + Login.userID);
             }
         });

@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class Board {
     private Piece[][] position = new Piece[8][8];
+    private ArrayList<Piece> takenPieces = new ArrayList<>();
     private boolean castleRook = true;
     private boolean castleKing = true;
     private ArrayList<Piece> removedPieces;
@@ -21,6 +22,7 @@ public class Board {
         //Default constructor with no arguments will create the starting position of a standard chess game
         this.position = position;
         boolean pawns = true;
+
         if (mode == 0) {
             position[0][0] = new Rook(true, 0, 0);
             position[1][0] = new Knight(true, 1, 0);
@@ -283,6 +285,15 @@ public class Board {
     public void removePiece(int x, int y){
         //removedPieces.add(position[x][y]);
         position[x][y] = null;
+    }
+
+    public void addTakenPiece(Piece piece) {
+        takenPieces.add(piece);
+        System.out.println(piece.toString());
+    }
+
+    public ArrayList<Piece> getTakenPieces() {
+        return takenPieces;
     }
 
     public void setPiece(Piece piece, int x, int y){

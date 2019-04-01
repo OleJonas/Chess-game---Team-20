@@ -21,6 +21,7 @@ class GameScene {
     //Stats which will be initialized with DBOps while starting a game
     static String player1;
     static String player2;
+    public static boolean remiOffered;
 
     static void showGameScene(){
         Label title = new Label("Recess Chess");
@@ -59,7 +60,19 @@ class GameScene {
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
         rightGrid.add(ChatFX.createChat(), 0, 2);
-        rightGrid.add(GameTimerFX.startTime(Game.getTime(ChessGame.gameID)), 0, 4);
+        Label time1label = new Label(player1);
+        time1label.setFont(Font.font("Copperplate", 40));
+        time1label.setStyle("-fx-font-weight: bold");
+        Label time2label = new Label(player2);
+        time2label.setFont(Font.font("Copperplate", 40));
+        time2label.setStyle("-fx-font-weight: bold");
+        GameTimerFX player1Time = new GameTimerFX();
+        GameTimerFX player2Time = new GameTimerFX();
+        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
+        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
+        rightGrid.add(time1label, 1, 3);
+        rightGrid.add(time2label, 1, 4);
+
 
         //forfeitButton
 
@@ -73,6 +86,17 @@ class GameScene {
         });
 
         rightGrid.add(resignButton, 0, 3);
+
+        Button offerDrawButton = new Button("Offer draw");
+        offerDrawButton.setOnAction(e->{
+            if(!remiOffered) {
+                int a = ChessGame.color ? 1 : 2;
+                Game.setResult(ChessGame.gameID, a);
+                remiOffered = true;
+                offerDrawButton.setText("Draw offered");
+            }
+        });
+        rightGrid.add(offerDrawButton, 0, 4);
 
 
         //mainLayout
@@ -92,7 +116,7 @@ class GameScene {
         //mainLayout.setGridLinesVisible(true);
 
         //Set image as background
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
+        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/darkwood.jpg",1200,1200,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
