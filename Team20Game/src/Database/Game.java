@@ -82,7 +82,7 @@ public class Game {
     }
 
     public static String getEverythingAboutGame(int game_id){
-        String everyThingAboutGame = "\n";
+        String everyThingAboutGame = "";
         DBOps db = new DBOps();
         ArrayList<String> arrayString = db.exQuery("SELECT mode, time, increment, rated FROM Game WHERE game_id = " + game_id + ";",4);
         int mode = Integer.parseInt(arrayString.get(0));
@@ -106,7 +106,7 @@ public class Game {
         return everyThingAboutGame;
     }
 
-    public static String friendInviteInfo(int game_id){
+    public static ArrayList<String> friendInviteInfo(int game_id){
         String a = "";
         DBOps db = new DBOps();
         String friend = db.exQuery("SELECT user_id1 FROM Game WHERE game_id = " + game_id, 1).get(0);
@@ -116,9 +116,10 @@ public class Game {
             int friendid = getUser_id2(game_id);
             a += User.getUsername(friendid) + " has invited you to a game!";
         }
-        a+= getEverythingAboutGame(game_id);
-
-        return a;
+        ArrayList<String> b = new ArrayList<>();
+        b.add(a);
+        b.add(getEverythingAboutGame(game_id));
+        return b;
     }
 
     public static int getWhiteELO(int game_id){
@@ -136,6 +137,16 @@ public class Game {
                 DBOps db = new DBOps();
 
                 db.exUpdate("UPDATE Game SET result = " + user_id + " WHERE game_id = "+game_id + ";");
+            }
+        });
+        t.start();
+    }
+
+    public static void setInactiveByGame_id(int game_id){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps db = new DBOps();
+                db.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id);
             }
         });
         t.start();
