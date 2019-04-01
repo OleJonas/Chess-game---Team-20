@@ -56,7 +56,11 @@ class HighlightBox extends Pane{
             int toY = this.y;
             int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int totBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
+            if (gameEngine.getBoard().getBoardState()[x][y] != null) {
+                gameEngine.getBoard().addTakenPiece(gameEngine.getBoard().getBoardState()[x][y]);
+            }
             tile.move(x, y, board, false);
+
             ChessGame.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
             int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
             int updatedBlacks = gameEngine.myPieces(gameEngine.getBoard(), false)[6];
@@ -225,6 +229,7 @@ class HighlightBox extends Pane{
                         if (pawn.getEnPassant() && x == tile.getX() + 1) {
                             tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()+1, tile.getY());
+                            gameEngine.getBoard().addTakenPiece(new Pawn(!gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor(), 0, 0));
                             setY(13);
                         }
                     }
@@ -235,6 +240,7 @@ class HighlightBox extends Pane{
                         if (pawn.getEnPassant() && x == tile.getX() + 1) {
                             tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()+1, tile.getY());
+                            gameEngine.getBoard().addTakenPiece(new Pawn(!gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor(), 0, 0));
                             setY(13);
                         }
                     }
@@ -249,6 +255,7 @@ class HighlightBox extends Pane{
                         if (pawn.getEnPassant() && x == tile.getX() - 1) {
                             tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()-1, tile.getY());
+                            gameEngine.getBoard().addTakenPiece(new Pawn(!gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor(), 0, 0));
                             setY(13);
                         }
                     }
@@ -259,6 +266,7 @@ class HighlightBox extends Pane{
                         if (pawn.getEnPassant() && x == tile.getX() - 1) {
                             tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                             gameEngine.removePiece(tile.getX()-1, tile.getY());
+                            gameEngine.getBoard().addTakenPiece(new Pawn(!gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor(), 0, 0));
                             setY(13);
                         }
                     }
