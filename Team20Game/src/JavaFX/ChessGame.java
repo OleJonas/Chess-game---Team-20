@@ -31,7 +31,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
     private Timer timer;
-    public static int TILE_SIZE = 50;
+    public static int TILE_SIZE = 80;
     public static final double imageSize = 0.8;
     public static boolean color = true;
     public static boolean myTurn = true;
@@ -347,13 +347,15 @@ public class ChessGame{
     }
 
     private void setupGameEngine() {
-        ge = new GameEngine(Game.getTime(ChessGame.gameID), Game.getMode(ChessGame.gameID));
-        whiteELO = Game.getWhiteELO(ChessGame.gameID);
-        blackELO = Game.getBlackELO(ChessGame.gameID);
+        ge = new GameEngine(Game.getTime(gameID), Game.getMode(gameID));
+        MainScene.searchFriend = false;
+        whiteELO = Game.getWhiteELO(gameID);
+        blackELO = Game.getBlackELO(gameID);
         myTurn = true;
         gameWon = false;
         isDone = false;
         movenr = 0;
+        color = (Game.getUser_id1(gameID)==Login.userID)?true:false;
     }
 
     public boolean setSkins(){

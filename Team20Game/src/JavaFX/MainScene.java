@@ -23,6 +23,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.management.monitor.Monitor;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -34,6 +35,7 @@ import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
 import static JavaFX.Login.*;
 import static JavaFX.Settings.showSettings;
+import static JavaFX.Settings.window;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -56,6 +58,7 @@ class MainScene {
     static Parent chessGame;
     static Label sandboxLabel;
     static GridPane rightGrid, leftGrid, mainLayout;
+    static Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
     static void showMainScene() {
         User.updateUser();
@@ -277,8 +280,8 @@ class MainScene {
         mainLayout.setPadding(new Insets(30, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(525));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(primaryScreenBounds.getWidth()*0.80*0.35));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(primaryScreenBounds.getWidth()*0.80*0.60));
         mainLayout.add(logOutButton, 0, 0, 2, 1);
         mainLayout.setHalignment(logOutButton, HPos.RIGHT);
         mainLayout.add(title, 0, 0, 2, 1);
@@ -299,8 +302,6 @@ class MainScene {
         BorderPane layout = new BorderPane();
         layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
-
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
         Main.window.setScene(mainScene);
@@ -366,14 +367,20 @@ class MainScene {
     }
 
     static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
-        DBOps connection = new DBOps();
-        int userid = Login.getUserID();
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps connection = new DBOps();
+                int userid = Login.getUserID();
 
-        if (color) {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-        } else {
-            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-        }
+                if (color) {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                } else {
+                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+                }
+            }
+        });
+        t.start();
+
     }
 
     //depricated method
@@ -577,6 +584,7 @@ class MainScene {
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueFriend = false;
+                                            inGame = true;
                                             showGameScene();
                                         }
                                     } else if(searchFriend) {
@@ -630,12 +638,34 @@ class MainScene {
                                         }
                                     }*/
                                     if (inGame) {
-                                        if (Game.getResult(ChessGame.gameID) != -1) {
-                                            System.out.println(ChessGame.gameID);
-                                            ChessGame.gameWon = true;
-                                            inGame = false;
-                                            ChessGame.isDone = true;
-                                            GameOverPopupBox.Display();
+                                        int result = Game.getResult(ChessGame.gameID);
+                                        System.out.println("result: "+ result);
+                                        if (result != -1) {
+                                            int a = ChessGame.color?2:1;
+                                            if(result == a){
+                                                //add accept or decline draw option onscreen here
+                                                boolean accept = true;
+                                                if(accept){
+                                                    inGame = false;
+                                                    ChessGame.isDone = true;
+                                                    Game.setResult(ChessGame.gameID, 0);
+                                                    User.updateEloByGame(ChessGame.gameID);
+                                                    GameOverPopupBox.Display();
+                                                }else{
+                                                    Game.setResult(ChessGame.gameID, -1);
+                                                }
+                                            }else if(result == 0){
+                                                User.updateEloByGame(ChessGame.gameID);
+                                                ChessGame.isDone = true;
+                                                inGame = false;
+                                                GameOverPopupBox.Display();
+                                            } else {
+                                                //System.out.println(ChessGame.gameID);
+                                                ChessGame.gameWon = true;
+                                                inGame = false;
+                                                ChessGame.isDone = true;
+                                                GameOverPopupBox.Display();
+                                            }
                                         }
                                     }
                                 } finally {
@@ -668,6 +698,12 @@ class InviteFriendPopupBox{
     static Label searchComment;
 
     public static void Display(){
+        modeChoiceBox.getItems().clear();
+        timeChoiceBox.getItems().clear();
+        incrementChoiceBox.getItems().clear();
+        ratedGroup.getToggles().clear();
+        colorGroup.getToggles().clear();
+
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invite Friend");
@@ -734,14 +770,14 @@ class InviteFriendPopupBox{
         RadioButton whiteColorRadioButton = new RadioButton("White");
         whiteColorRadioButton.setTextFill(Color.WHITE);
         whiteColorRadioButton.setToggleGroup(colorGroup);
-        whiteColorRadioButton.setSelected(true);
         RadioButton blackColorRadioButton = new RadioButton("Black");
         blackColorRadioButton.setTextFill(Color.WHITE);
         blackColorRadioButton.setToggleGroup(colorGroup);
         RadioButton anyColorRadioButton = new RadioButton("Any");
         anyColorRadioButton.setTextFill(Color.WHITE);
         anyColorRadioButton.setToggleGroup(colorGroup);
-        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
+        anyColorRadioButton.setSelected(true);
+        colorButtons.getChildren().addAll(anyColorRadioButton, whiteColorRadioButton, blackColorRadioButton);
 
         //ratedChoicePane
         GridPane ratedChoicePane = new GridPane();
@@ -877,7 +913,12 @@ class InviteFriendPopupBox{
         int opponent = 0;
         if (searchField.getText() != null) {
             if (User.getGameID(searchField.getText()) != -1) {
-                opponent = User.getGameID(searchField.getText());
+                if (USERNAME.equals(searchField.getText())) {
+                    searchComment.setText("You can't invite yourself!");
+                    return;
+                } else {
+                    opponent = User.getGameID(searchField.getText());
+                }
             } else {
                 MainScene.invitedFriend = false;
                 searchComment.setText("User doesn't exist");
@@ -1324,7 +1365,7 @@ class JoinGamePopupBox{
 
         MainScene.sql = MainScene.createSearch(mode, time, increment, color, rated);
         System.out.println(MainScene.sql);
-        MainScene.inQueueFriend = true;
+        MainScene.inQueueJoin = true;
         System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
@@ -1340,23 +1381,22 @@ class GameOverPopupBox{
 
 
         //Labels
-        Label titleLabel = new Label("Game finished");
-        titleLabel.setFont(Font.font("Copperplate", 26));
-        titleLabel.setStyle("-fx-font-weight: bold");
-        titleLabel.setTextFill(Color.WHITE);
-        String text = ChessGame.gameWon?"YOU WON :D":"YOU LOST :(";
-        Label textLabel = new Label(text);
-        textLabel.setFont(Font.font("Copperplate", 22));
-        textLabel.setStyle("-fx-font-weight: bold");
-        textLabel.setTextFill(Color.WHITE);
         int result = Game.getResult(ChessGame.gameID);
+        String text = ChessGame.gameWon?"VICTORY":"DEFEAT";
+
         if(result == 0){
             result = 2;
+            text = "DRAW";
         }else if(result == Game.getUser_id1(ChessGame.gameID)){
             result = 0;
         }else{
             result = 1;
         }
+        Label titleLabel = new Label(text);
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+
         int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
         int myNewElo = ChessGame.color?elo[0]:elo[1];
         int enemyElo = ChessGame.color?elo[1]:elo[0];
@@ -1373,6 +1413,7 @@ class GameOverPopupBox{
         leaveGameButton.setOnAction(e -> {
             MainScene.showMainScene();
             MainScene.inGame = false;
+            MainScene.searchFriend = true;
             window.close();
         });
 
@@ -1382,9 +1423,7 @@ class GameOverPopupBox{
         mainLayout.setVgap(20);
         mainLayout.setPadding(new Insets(30, 40, 30, 40));
         mainLayout.add(titleLabel, 0, 0, 2, 1);
-        mainLayout.add(textLabel, 0, 1, 2, 1);
-        mainLayout.add(eloLabel,0,2,2,1);
-        mainLayout.setHalignment(textLabel, HPos.CENTER);
+        mainLayout.add(eloLabel,0,1,2,1);
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
         mainLayout.setHalignment(eloLabel, HPos.CENTER);
 
@@ -1397,7 +1436,7 @@ class GameOverPopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 450, 310);
+        Scene scene = new Scene(windowLayout, 350, 310);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -1407,14 +1446,14 @@ class FriendInviteBox {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invite");
-
+        ArrayList<String> text = Game.friendInviteInfo(game_id);
         //Labels
-        Label titleLabel = new Label("Friend Invite");
+        Label titleLabel = new Label(text.get(0));
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
-        String text = "";
-        Label textLabel = new Label(text);
+
+        Label textLabel = new Label(text.get(1));
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
@@ -1433,6 +1472,7 @@ class FriendInviteBox {
                 }
                 System.out.println("Started game with gameID: " + ChessGame.gameID);
                 MainScene.searchFriend = false;
+                MainScene.inGame = true;
                 MainScene.removeActiveFromGame();
                 window.close();
                 showGameScene();
@@ -1444,6 +1484,8 @@ class FriendInviteBox {
 
         Button declineInvite = new Button("Decline");
         declineInvite.setOnAction(e -> {
+            Game.setInactiveByGame_id(game_id);
+            MainScene.searchFriend = true;
             window.close();
         });
 
@@ -1468,7 +1510,7 @@ class FriendInviteBox {
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 450, 310);
+        Scene scene = new Scene(windowLayout, 530, 360);
         window.setScene(scene);
         window.showAndWait();
     }
