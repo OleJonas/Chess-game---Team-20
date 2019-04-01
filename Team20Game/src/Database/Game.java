@@ -81,9 +81,44 @@ public class Game {
         return Integer.parseInt(db.exQuery("SELECT rated FROM Game WHERE game_id = " + game_id + ";",1).get(0));
     }
 
-    public static ArrayList<String> getEverythingAboutGame(int game_id){
+    public static String getEverythingAboutGame(int game_id){
+        String everyThingAboutGame = "\n";
         DBOps db = new DBOps();
-        return db.exQuery("SELECT mode, time, increment, rated FROM Game WHERE game_id = " + game_id + ";",4);
+        ArrayList<String> arrayString = db.exQuery("SELECT mode, time, increment, rated FROM Game WHERE game_id = " + game_id + ";",4);
+        int mode = Integer.parseInt(arrayString.get(0));
+        everyThingAboutGame += "Mode: ";
+        if(mode == 0){
+            everyThingAboutGame += "Standard";
+        }else if(mode == 2){
+            everyThingAboutGame += "Horse Attack";
+        }else if(mode == 3){
+            everyThingAboutGame += "Farmers Chess";
+        }else if(mode == 4){
+            everyThingAboutGame += "Peasants Revolt";
+        }else if(mode >1000){
+            everyThingAboutGame += "Fischer Random";
+        }
+        int time = Integer.parseInt(arrayString.get(1));
+        everyThingAboutGame += "\nTime: " + (time == 0?"No time":time);
+        int increment = Integer.parseInt(arrayString.get(2));
+        everyThingAboutGame += "\nIncrement: " + (increment==0?"No increment":increment);
+        everyThingAboutGame += "\nRated: "+(Integer.parseInt(arrayString.get(3))==1? "Yes": "No");
+        return everyThingAboutGame;
+    }
+
+    public static String friendInviteInfo(int game_id){
+        String a = "";
+        DBOps db = new DBOps();
+        String friend = db.exQuery("SELECT user_id1 FROM Game WHERE game_id = " + game_id, 1).get(0);
+        if(friend!= null){
+            a+= User.getUsername(Integer.parseInt(friend)) + " has invited you to a game!";
+        }else{
+            int friendid = getUser_id2(game_id);
+            a += User.getUsername(friendid) + " has invited you to a game!";
+        }
+        a+= getEverythingAboutGame(game_id);
+
+        return a;
     }
 
     public static int getWhiteELO(int game_id){
