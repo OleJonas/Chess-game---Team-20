@@ -6,7 +6,6 @@ import JavaFX.Login;
 import java.util.ArrayList;
 
 public class Game {
-    static boolean firstMove = true;
 
     static void createGame(int mode, int time, int increment, boolean color, int rated) {
         Thread t = new Thread(new Runnable() {
@@ -30,10 +29,11 @@ public class Game {
             public void run() {
                 DBOps db = new DBOps();
                 if (ChessGame.color) {
-                    if(firstMove){
+                    if(ChessGame.firstMove){
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-                        firstMove = false;
+                        ChessGame.firstMove = false;
                     }
+
                     else if (Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 0) {
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
                         System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");

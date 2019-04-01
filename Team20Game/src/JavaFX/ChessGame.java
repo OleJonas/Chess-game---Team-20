@@ -36,6 +36,7 @@ public class ChessGame{
     public static boolean color = true;
     public static boolean myTurn = true;
     public static boolean gameWon = false;
+    public static boolean firstMove = true;
     public static boolean lastMove = true;
     public static int movenr = 0;
     public static int whiteELO;
@@ -354,6 +355,7 @@ public class ChessGame{
         myTurn = true;
         gameWon = false;
         isDone = false;
+        firstMove = true;
         movenr = 0;
         color = (Game.getUser_id1(gameID)==Login.userID)?true:false;
     }
@@ -436,6 +438,8 @@ public class ChessGame{
                     myTurn = true;
                     if(GameScene.remiOffered){
                         GameScene.remiOffered = false;
+                        GameScene.offerDrawButton.setText("Offer draw");
+                        GameScene.offerDrawButton.setOpacity(1.0);
                     }
                 }
             }
