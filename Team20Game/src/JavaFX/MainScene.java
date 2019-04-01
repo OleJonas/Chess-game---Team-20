@@ -1375,24 +1375,22 @@ class GameOverPopupBox{
 
 
         //Labels
-        Label titleLabel = new Label("Game finished");
-        titleLabel.setFont(Font.font("Copperplate", 26));
-        titleLabel.setStyle("-fx-font-weight: bold");
-        titleLabel.setTextFill(Color.WHITE);
         int result = Game.getResult(ChessGame.gameID);
-        String text = ChessGame.gameWon?"YOU WON :D":"YOU LOST :(";
-        if(result == 0)text = "DRAW";
-        Label textLabel = new Label(text);
-        textLabel.setFont(Font.font("Copperplate", 22));
-        textLabel.setStyle("-fx-font-weight: bold");
-        textLabel.setTextFill(Color.WHITE);
+        String text = ChessGame.gameWon?"VICTORY":"DEFEAT";
+
         if(result == 0){
             result = 2;
+            text = "DRAW";
         }else if(result == Game.getUser_id1(ChessGame.gameID)){
             result = 0;
         }else{
             result = 1;
         }
+        Label titleLabel = new Label(text);
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+
         int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
         int myNewElo = ChessGame.color?elo[0]:elo[1];
         int enemyElo = ChessGame.color?elo[1]:elo[0];
@@ -1419,9 +1417,7 @@ class GameOverPopupBox{
         mainLayout.setVgap(20);
         mainLayout.setPadding(new Insets(30, 40, 30, 40));
         mainLayout.add(titleLabel, 0, 0, 2, 1);
-        mainLayout.add(textLabel, 0, 1, 2, 1);
-        mainLayout.add(eloLabel,0,2,2,1);
-        mainLayout.setHalignment(textLabel, HPos.CENTER);
+        mainLayout.add(eloLabel,0,1,2,1);
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
         mainLayout.setHalignment(eloLabel, HPos.CENTER);
 
