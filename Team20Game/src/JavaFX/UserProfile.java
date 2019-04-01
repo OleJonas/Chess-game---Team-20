@@ -29,7 +29,7 @@ class UserProfile{
 
     static void showUserProfileScene(){
         User.updateUser();
-        GridPane mainLayout = new GridPane();
+        MainScene.mainLayout = new GridPane();
         avatar = new Image("Images/Avatars/" + AVATAR);
 
         //Title
@@ -49,16 +49,6 @@ class UserProfile{
         gamesInfoLabel.setTextFill(Color.WHITE);
 
         //Buttons
-        Button backToMainButton = new Button("Back");
-        Image imageBackToMain = new Image("Images/ButtonImages/ArrowLeft.png");
-        ImageView imageViewBackToMain = new ImageView(imageBackToMain);
-        imageViewBackToMain.setFitWidth(20);
-        imageViewBackToMain.setFitHeight(20);
-        backToMainButton.setGraphic(imageViewBackToMain);
-        backToMainButton.setOnAction(e -> {
-            setAvatar(AVATAR);
-            showMainScene();
-        });
 
         Button nextAvatar = new Button();
         Image imageNextAvatar = new Image("Images/ButtonImages/ArrowRight.png");
@@ -84,28 +74,28 @@ class UserProfile{
 
 
         //Right GridPane
-        GridPane rightGrid = new GridPane();
-        rightGrid.setVgap(40);
-        rightGrid.setPadding(new Insets(50, 200, 100, 250));
+        MainScene.rightGrid.getChildren().clear();
+        MainScene.rightGrid.setVgap(40);
+        MainScene.rightGrid.setPadding(new Insets(50, 200, 100, 250));
         avatarImageview = new ImageView(avatar);
         avatarImageview.setFitHeight(250);
         avatarImageview.setFitWidth(250);
-        rightGrid.add(avatarImageview, 1, 0, 3, 1);
+        MainScene.rightGrid.add(avatarImageview, 1, 0, 3, 1);
         Label changeAvatarLabel = new Label("Change avatar");
         changeAvatarLabel.setFont(Font.font("Copperplate", 18));
         changeAvatarLabel.setStyle("-fx-font-weight: bold");
         changeAvatarLabel.setTextFill(Color.WHITE);
-        rightGrid.add(changeAvatarLabel, 1, 1, 3, 1);
-        rightGrid.setHalignment(changeAvatarLabel, HPos.CENTER);
-        rightGrid.add(nextAvatar, 1, 1, 3, 1);
-        rightGrid.setHalignment(nextAvatar, HPos.RIGHT);
-        rightGrid.add(lastAvatar, 1, 1, 3, 1);
-        rightGrid.setHalignment(lastAvatar, HPos.LEFT);
-        rightGrid.add(gamesInfoLabel, 1, 2);
+        MainScene.rightGrid.add(changeAvatarLabel, 1, 1, 3, 1);
+        MainScene.rightGrid.setHalignment(changeAvatarLabel, HPos.CENTER);
+        MainScene.rightGrid.add(nextAvatar, 1, 1, 3, 1);
+        MainScene.rightGrid.setHalignment(nextAvatar, HPos.RIGHT);
+        MainScene.rightGrid.add(lastAvatar, 1, 1, 3, 1);
+        MainScene.rightGrid.setHalignment(lastAvatar, HPos.LEFT);
+        MainScene.rightGrid.add(gamesInfoLabel, 1, 2);
 
         //Left GridPane
-        GridPane leftGrid = new GridPane();
-        leftGrid.setPadding(new Insets(100, 10, 100, 100));
+        MainScene.leftGrid.getChildren().clear();
+        MainScene.leftGrid.setPadding(new Insets(100, 10, 100, 100));
 
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -125,34 +115,7 @@ class UserProfile{
             series.getData().add(new XYChart.Data(i, ELOhistory.get(i)));
         }
         lineChart.getData().add(series);
-        leftGrid.add(lineChart, 0, 0);
-
-        //mainLayout
-        mainLayout.setPadding(new Insets(20, 50, 20, 50));
-        mainLayout.setHgap(20);
-        mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(550));
-        mainLayout.add(backToMainButton, 0, 0, 2, 1);
-        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-        mainLayout.add(title, 0, 0, 2, 1);
-        mainLayout.setHalignment(title, HPos.CENTER);
-        mainLayout.add(leftGrid, 0, 1);
-        mainLayout.setHalignment(leftGrid, HPos.CENTER);
-        mainLayout.add(rightGrid, 1,1);
-        mainLayout.setHalignment(rightGrid, HPos.CENTER);
-
-        //Set image as background
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/darkwood.jpg",1200,1200,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        mainLayout.setBackground(new Background(myBI));
-
-        BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
-        layout.setCenter(mainLayout);
-        userProfileScene = new Scene(layout, 1200, 800);
-        Main.window.setScene(userProfileScene);
+        MainScene.leftGrid.add(lineChart, 0, 0);
     }
 
     static void increaseAvatar(){

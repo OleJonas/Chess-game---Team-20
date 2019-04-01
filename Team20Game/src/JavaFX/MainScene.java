@@ -297,7 +297,7 @@ class MainScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar("home").getWindowMenuBar());
+        layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
 
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
