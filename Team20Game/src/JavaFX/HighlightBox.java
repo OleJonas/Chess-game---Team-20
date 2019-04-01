@@ -19,7 +19,6 @@ class HighlightBox extends Pane{
     int height;
     double hboxOpacity = 0.7;
     boolean mode = true;
-    boolean firstMove = true;
     String shapeOfBox = "circle";
 
 
@@ -47,7 +46,8 @@ class HighlightBox extends Pane{
         }
         setOnMouseClicked(e->{
             lastMoveGroup.getChildren().clear();
-            specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
+            specialMoves(x, y, tile, tileGroup, gameEngine, board);
+
             ChessGame.myTurn = false;
 
             int fromX = tile.getX();
@@ -100,7 +100,7 @@ class HighlightBox extends Pane{
                         ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
             }
 
-            uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
+            Game.uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
             ChessGame.movenr+=2;
 
 
@@ -204,7 +204,7 @@ class HighlightBox extends Pane{
         }
     }
 
-    private void specialMoves(int x, int y, int height, Tile tile, Group hboxGroup, Group tileGroup, GameEngine gameEngine, Tile[][] board) {
+    private void specialMoves(int x, int y, Tile tile, Group tileGroup, GameEngine gameEngine, Tile[][] board) {
         if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
             if(x-tile.getX()>0) {
                 board[7][y].move(x-1, y, board, true);
@@ -274,6 +274,7 @@ class HighlightBox extends Pane{
             }
         }
     }
+
     public void setX(int x){this.x = x;}
     public void setY(int y){this.y = y;}
     public int getX(){
@@ -282,31 +283,6 @@ class HighlightBox extends Pane{
 
     public int getY(){
         return y;
-    }
-
-    private void uploadMove(int fromX, int fromY, int toX, int toY, int movenr){
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                DBOps db = new DBOps();
-                if (ChessGame.color) {
-                    if(firstMove){
-                        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-                        firstMove = false;
-                    }
-                    else if (Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 0) {
-                        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-                        System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-                    }
-                }
-                else {
-                    if ((Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 1)) {
-                        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-                        System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
-                    }
-                }
-            }
-        });
-        t.start();
     }
 }
 
