@@ -37,7 +37,7 @@ public class ChessSandbox {
 
     private Timer timer;
 
-    public static final int TILE_SIZE = JavaFX.ChessGame.TILE_SIZE;
+    public static int TILE_SIZE = JavaFX.ChessGame.TILE_SIZE;
 
     public static final double imageSize = JavaFX.ChessGame.imageSize;
 
