@@ -431,6 +431,9 @@ public class ChessGame{
                     enemyMove(fromX, fromY, toX, toY);
                     System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
                     myTurn = true;
+                    if(GameScene.remiOffered){
+                        GameScene.remiOffered = false;
+                    }
                 }
             }
         } catch (Exception e) {

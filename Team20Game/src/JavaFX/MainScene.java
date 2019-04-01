@@ -276,7 +276,7 @@ class MainScene {
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         Main.window.setResizable(false);
         refresh();
-        //searchFriend = true;
+        searchFriend = true;
     }
 
     static void reloadSandbox(){
@@ -589,12 +589,32 @@ class MainScene {
                                         }
                                     }*/
                                     if (inGame) {
-                                        if (Game.getResult(ChessGame.gameID) != -1) {
-                                            System.out.println(ChessGame.gameID);
-                                            ChessGame.gameWon = true;
-                                            inGame = false;
-                                            ChessGame.isDone = true;
-                                            GameOverPopupBox.Display();
+                                        int result = Game.getResult(ChessGame.gameID);
+                                        if (result != -1) {
+                                            int a = ChessGame.color?2:1;
+                                            if(result == a){
+                                                //add accept or decline draw option onscreen here
+                                                boolean accept = true;
+                                                if(accept){
+                                                    inGame = false;
+                                                    ChessGame.isDone = true;
+                                                    Game.setResult(ChessGame.gameID, 0);
+                                                    GameOverPopupBox.Display();
+                                                }else{
+                                                    Game.setResult(ChessGame.gameID, -1);
+                                                }
+                                            }else if(result == 0){
+                                                ChessGame.isDone = true;
+                                                inGame = false;
+                                                GameOverPopupBox.Display();
+                                            }
+                                            else {
+                                                System.out.println(ChessGame.gameID);
+                                                ChessGame.gameWon = true;
+                                                inGame = false;
+                                                ChessGame.isDone = true;
+                                                GameOverPopupBox.Display();
+                                            }
                                         }
                                     }
                                 } finally {

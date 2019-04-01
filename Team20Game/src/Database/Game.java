@@ -3,6 +3,8 @@ package Database;
 import JavaFX.ChessGame;
 import JavaFX.Login;
 
+import java.util.ArrayList;
+
 public class Game {
 
     static void createGame(int mode, int time, int increment, boolean color, int rated) {
@@ -72,6 +74,16 @@ public class Game {
     public static int getResult(int game_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT result FROM Game WHERE game_id = " + game_id + ";",1).get(0));
+    }
+
+    public static int getRated(int game_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT rated FROM Game WHERE game_id = " + game_id + ";",1).get(0));
+    }
+
+    public static ArrayList<String> getEverythingAboutGame(int game_id){
+        DBOps db = new DBOps();
+        return db.exQuery("SELECT mode, time, increment, rated FROM Game WHERE game_id = " + game_id + ";",4);
     }
 
     public static int getWhiteELO(int game_id){

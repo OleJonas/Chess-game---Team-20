@@ -21,6 +21,7 @@ class GameScene {
     //Stats which will be initialized with DBOps while starting a game
     static String player1;
     static String player2;
+    public static boolean remiOffered;
 
     static void showGameScene(){
         Label title = new Label("Recess Chess");
@@ -73,6 +74,17 @@ class GameScene {
         });
 
         rightGrid.add(resignButton, 0, 3);
+
+        Button offerDrawButton = new Button("Offer draw");
+        offerDrawButton.setOnAction(e->{
+            if(!remiOffered) {
+                int a = ChessGame.color ? 1 : 2;
+                Game.setResult(ChessGame.gameID, a);
+                remiOffered = true;
+                offerDrawButton.setText("Draw offered");
+            }
+        });
+        rightGrid.add(offerDrawButton, 0, 4);
 
 
         //mainLayout
