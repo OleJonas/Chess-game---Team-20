@@ -104,34 +104,6 @@ class FindUser{
         MainScene.leftGrid.add(searchButton, 3, 2);
         MainScene.leftGrid.add(searchComment, 1, 3, 2, 1);
 
-
-        //mainLayout
-        /*
-        mainLayout.setPadding(new Insets(20, 50, 20, 50));
-        mainLayout.setHgap(20);
-        mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(700));
-        mainLayout.add(backToMainButton, 1, 0, 2, 1);
-        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-        mainLayout.add(leftGrid, 0, 1);
-        mainLayout.setHalignment(leftGrid, HPos.CENTER);
-        mainLayout.add(rightGrid, 1,1);
-        mainLayout.setHalignment(rightGrid, HPos.CENTER);
-*/
-        //Set image as background
-        /*
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        mainLayout.setBackground(new Background(myBI));
-        */
-
-       // BorderPane layout = new BorderPane();
-        //layout.setTop(new WindowMenuBar().getWindowMenuBar());
-        //layout.setCenter(mainLayout);
-        //MainScene.leftGrid.add(mainLayout, 1 , 0);
-        /*findProfileScene = new Scene(layout, 1200, 850);
-        Main.window.setScene(findProfileScene);*/
     }
 
     static void setUserPane(){

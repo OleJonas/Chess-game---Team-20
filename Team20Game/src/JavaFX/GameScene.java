@@ -127,7 +127,7 @@ class GameScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar(true).getWindowMenuBar());
+        layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
 
         gameScene = new Scene(layout, 1450, 950);
