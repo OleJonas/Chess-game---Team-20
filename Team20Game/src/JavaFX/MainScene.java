@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,7 +23,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.management.monitor.Monitor;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -40,9 +40,8 @@ import static JavaFX.UserProfile.showUserProfileScene;
 @SuppressWarnings("Duplicates")
 class MainScene {
     static Scene mainScene;
-    static GridPane leftGrid;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard, leaderboardBackButton, leaderboardButton;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, cancelGameButton, clearBoard, backToMainButton, leaderboardButton;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     static boolean inQueueFriend = false;
@@ -51,11 +50,12 @@ class MainScene {
     static boolean joined = false;
     static boolean invitedFriend = false;
     static boolean inGame = false;
+    private static boolean syncTurn = false;
     public static String sql;
     private static String user_id;
     static Parent chessGame;
     static Label sandboxLabel;
-    static GridPane rightGrid;
+    static GridPane rightGrid, leftGrid, mainLayout;
 
     static void showMainScene() {
         User.updateUser();
@@ -78,6 +78,7 @@ class MainScene {
             created = false;
             CreateGamePopupBox.Display(); //opens Popup
             if(created){
+                title.setText("Creating Game");
                 System.out.println(Login.USERNAME);
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
@@ -85,7 +86,7 @@ class MainScene {
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
-                leftGrid.getChildren().add(backButton);
+                leftGrid.getChildren().add(cancelGameButton);
                 inQueueCreate = true;
             }
         });
@@ -95,13 +96,14 @@ class MainScene {
             JoinGamePopupBox.Display(); //opens Popup
 
             if(joined){
+                title.setText("Joining Game");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
                 queLabel.setFont(Font.font("Copperplate", 34));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
-                leftGrid.getChildren().add(backButton);
+                leftGrid.getChildren().add(cancelGameButton);
             }
         });
 
@@ -111,13 +113,14 @@ class MainScene {
             InviteFriendPopupBox.Display();
 
             if (invitedFriend) {
+                title.setText("Inviting Friend");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
                 queLabel.setFont(Font.font("Copperplate", 34));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
-                leftGrid.getChildren().add(backButton);
+                leftGrid.getChildren().add(cancelGameButton);
                 inQueueFriend = true;
             }
         });
@@ -128,26 +131,33 @@ class MainScene {
         leftGrid.setPadding(new Insets(150, 100, 100, 170));
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
+            title.setText("New Game");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.setPadding(new Insets(150, 100, 100, 170));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
-            backButton.setPrefSize(150, 80);
+            cancelGameButton.setPrefSize(150, 80);
             leftGrid.add(createGameButton, 0, 0);
             leftGrid.setHalignment(createGameButton, HPos.CENTER);
             leftGrid.add(joinGameButton, 0, 1);
             leftGrid.setHalignment(joinGameButton, HPos.CENTER);
             leftGrid.add(inviteFriendButton, 0, 2);
             leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
-            leftGrid.add(backButton, 0, 3);
-            leftGrid.setHalignment(backButton, HPos.CENTER);
-
         });
 
-        leaderboardBackButton = new Button("Back");
-        leaderboardBackButton.setOnAction(e -> {
+        backToMainButton = new Button("Back");
+        Image imageBackToMain = new Image("Images/ButtonImages/ArrowLeft.png");
+        ImageView imageViewBackToMain = new ImageView(imageBackToMain);
+        imageViewBackToMain.setFitWidth(20);
+        imageViewBackToMain.setFitHeight(20);
+        backToMainButton.setGraphic(imageViewBackToMain);
+        backToMainButton.setOnAction(e -> {
+            mainLayout.getChildren().remove(backToMainButton);
+            title.setText("Recess Chess");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.add(newGameButton, 0, 0);
@@ -170,25 +180,35 @@ class MainScene {
             */
         });
 
-        leaderboardButton = new Button("Leaderboard");
-        leaderboardButton.setOnAction(e -> {
-            leftGrid.getChildren().clear();
-            leaderboardBackButton.setPrefSize(150,80);
-            leftGrid.add(leaderboardBackButton, 0,0);
-            rightGrid.getChildren().clear();
-            rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
-        });
-
         findUserButton = new Button("Find User");
-        findUserButton.setOnAction(e ->  {
+        findUserButton.setOnAction(e -> {
+            title.setText("Find User");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
             leftGrid.getChildren().clear();
             rightGrid.getChildren().clear();
             showFindUserScene();
         });
 
-
         userProfileButton = new Button("User profile");
-        userProfileButton.setOnAction(e -> showUserProfileScene());
+        userProfileButton.setOnAction(e -> {
+            title.setText("User Profile");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            showUserProfileScene();
+        });
+
+        leaderboardButton = new Button("Leaderboard");
+        leaderboardButton.setOnAction(e -> {
+            title.setText("Leaderboard");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
+        });
 
         settingsButton = new Button("Settings");
         settingsButton.setOnAction(e -> showSettings());
@@ -212,25 +232,27 @@ class MainScene {
 
 
         //updated leftGrid
-
-        backButton = new Button("Cancel Game");
-        backButton.setOnAction(e -> {
+        cancelGameButton = new Button("Cancel Game");
+        cancelGameButton.setOnAction(e -> {
+            title.setText("Recess Chess");
             inQueueJoin = false;
             inQueueCreate = false;
             removeActiveFromGame();
 
+            title.setText("New Game");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.add(newGameButton, 0, 0);
-            leftGrid.setHalignment(newGameButton, HPos.CENTER);
-            leftGrid.add(findUserButton, 0, 1);
-            leftGrid.setHalignment(findUserButton, HPos.CENTER);
-            leftGrid.add(userProfileButton, 0, 2);
-            leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-            leftGrid.add(leaderboardButton,0,3);
-            leftGrid.setHalignment(leaderboardButton,HPos.CENTER);
-            leftGrid.add(settingsButton, 0, 4);
-            leftGrid.setHalignment(settingsButton, HPos.CENTER);
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            //cancelGameButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0, 0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
         });
 
         //Right GridPane
@@ -251,14 +273,14 @@ class MainScene {
         rightGrid.add(sandboxLabel, 0, 1);
 
         //mainLayout
-        GridPane mainLayout = new GridPane();
+        mainLayout = new GridPane();
         mainLayout.setPadding(new Insets(30, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(525));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
         mainLayout.add(logOutButton, 0, 0, 2, 1);
-        mainLayout.setHalignment(logOutButton, HPos.LEFT);
+        mainLayout.setHalignment(logOutButton, HPos.RIGHT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
@@ -563,7 +585,7 @@ class MainScene {
                                         System.out.println(sql);
                                         int game_id = pollQueue(sql, connection);
                                         if(game_id!=-1) {
-                                            //searchFriend = false;
+                                            searchFriend = false;
                                             FriendInviteBox.Display(game_id);
                                         }
                                         /*
@@ -608,32 +630,12 @@ class MainScene {
                                         }
                                     }*/
                                     if (inGame) {
-                                        int result = Game.getResult(ChessGame.gameID);
-                                        if (result != -1) {
-                                            int a = ChessGame.color?2:1;
-                                            if(result == a){
-                                                //add accept or decline draw option onscreen here
-                                                boolean accept = true;
-                                                if(accept){
-                                                    inGame = false;
-                                                    ChessGame.isDone = true;
-                                                    Game.setResult(ChessGame.gameID, 0);
-                                                    GameOverPopupBox.Display();
-                                                }else{
-                                                    Game.setResult(ChessGame.gameID, -1);
-                                                }
-                                            }else if(result == 0){
-                                                ChessGame.isDone = true;
-                                                inGame = false;
-                                                GameOverPopupBox.Display();
-                                            }
-                                            else {
-                                                System.out.println(ChessGame.gameID);
-                                                ChessGame.gameWon = true;
-                                                inGame = false;
-                                                ChessGame.isDone = true;
-                                                GameOverPopupBox.Display();
-                                            }
+                                        if (Game.getResult(ChessGame.gameID) != -1) {
+                                            System.out.println(ChessGame.gameID);
+                                            ChessGame.gameWon = true;
+                                            inGame = false;
+                                            ChessGame.isDone = true;
+                                            GameOverPopupBox.Display();
                                         }
                                     }
                                 } finally {
@@ -667,12 +669,6 @@ class InviteFriendPopupBox{
     static Label searchComment;
 
     public static void Display(){
-        modeChoiceBox.getItems().clear();
-        timeChoiceBox.getItems().clear();
-        incrementChoiceBox.getItems().clear();
-        ratedGroup.getToggles().clear();
-        colorGroup.getToggles().clear();
-
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Create Game");
@@ -739,14 +735,14 @@ class InviteFriendPopupBox{
         RadioButton whiteColorRadioButton = new RadioButton("White");
         whiteColorRadioButton.setTextFill(Color.WHITE);
         whiteColorRadioButton.setToggleGroup(colorGroup);
+        whiteColorRadioButton.setSelected(true);
         RadioButton blackColorRadioButton = new RadioButton("Black");
         blackColorRadioButton.setTextFill(Color.WHITE);
         blackColorRadioButton.setToggleGroup(colorGroup);
         RadioButton anyColorRadioButton = new RadioButton("Any");
         anyColorRadioButton.setTextFill(Color.WHITE);
         anyColorRadioButton.setToggleGroup(colorGroup);
-        anyColorRadioButton.setSelected(true);
-        colorButtons.getChildren().addAll(anyColorRadioButton, whiteColorRadioButton, blackColorRadioButton);
+        colorButtons.getChildren().addAll(whiteColorRadioButton, blackColorRadioButton, anyColorRadioButton);
 
         //ratedChoicePane
         GridPane ratedChoicePane = new GridPane();
@@ -862,10 +858,8 @@ class InviteFriendPopupBox{
             }
         }
         boolean color = true;
-        ChessGame.color = true;
         if (colorChoiceString.equals("Black")) {
             color = false;
-            ChessGame.color = false;
         } else if (colorChoiceString.equals("Any")) {
             Random random = new Random();
 
@@ -1120,6 +1114,7 @@ class CreateGamePopupBox{
 
 @SuppressWarnings("Duplicates")
 class JoinGamePopupBox{
+
     private static Stage window;
     private static ChoiceBox<String> modeChoiceBox;
     private static ChoiceBox<String> timeChoiceBox;
@@ -1330,18 +1325,20 @@ class JoinGamePopupBox{
 
         MainScene.sql = MainScene.createSearch(mode, time, increment, color, rated);
         System.out.println(MainScene.sql);
-        MainScene.inQueueJoin = true;
+        MainScene.inQueueFriend = true;
         System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
 }
 
 class GameOverPopupBox{
+
     public static void Display(){
         int oldElo = ChessGame.color?ChessGame.whiteELO:ChessGame.blackELO;
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
+
 
         //Labels
         Label titleLabel = new Label("Game finished");
@@ -1411,18 +1408,17 @@ class FriendInviteBox {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invite");
-        ArrayList<String> text = Game.friendInviteInfo(game_id);
+
         //Labels
-        Label titleLabel = new Label(text.get(0));
+        Label titleLabel = new Label("Friend Invite");
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
-
-        Label textLabel = new Label(text.get(1));
+        String text = "";
+        Label textLabel = new Label(text);
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
-        MainScene.searchFriend = false;
 
         //Create Game Button
         Button acceptInvite = new Button("Accept");
@@ -1449,8 +1445,6 @@ class FriendInviteBox {
 
         Button declineInvite = new Button("Decline");
         declineInvite.setOnAction(e -> {
-            Game.setInactiveByGame_id(game_id);
-            MainScene.searchFriend = true;
             window.close();
         });
 
@@ -1464,18 +1458,18 @@ class FriendInviteBox {
         mainLayout.setHalignment(textLabel, HPos.CENTER);
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
 
-        GridPane bottomLayout = new GridPane();;
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.add(acceptInvite, 0,0);
+        bottomLayout.setHalignment(acceptInvite, HPos.LEFT);
+        bottomLayout.add(declineInvite, 1, 0);
+        bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
-        bottomLayout.setPadding(new Insets(0, 25, 25, 0));
-        bottomLayout.setHgap(20);
-        bottomLayout.add(acceptInvite, 0, 0);
-        bottomLayout.add(declineInvite, 1, 0 );
-
-        Scene scene = new Scene(windowLayout, 530, 360);
+        Scene scene = new Scene(windowLayout, 450, 310);
         window.setScene(scene);
         window.showAndWait();
     }

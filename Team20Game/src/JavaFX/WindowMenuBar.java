@@ -32,15 +32,15 @@ public class WindowMenuBar {
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
-            backButton.setPrefSize(150, 80);
+            cancelGameButton.setPrefSize(150, 80);
             leftGrid.add(createGameButton, 0,0);
             leftGrid.setHalignment(createGameButton, HPos.CENTER);
             leftGrid.add(joinGameButton, 0, 1);
             leftGrid.setHalignment(joinGameButton, HPos.CENTER);
             leftGrid.add(inviteFriendButton, 0, 2);
             leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
-            leftGrid.add(backButton, 0, 3);
-            leftGrid.setHalignment(backButton, HPos.CENTER);
+            leftGrid.add(cancelGameButton, 0, 3);
+            leftGrid.setHalignment(cancelGameButton, HPos.CENTER);
             showMainScene();
         });
         gameMenu.getItems().addAll(newGameItem);
@@ -83,15 +83,15 @@ public class WindowMenuBar {
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
-            backButton.setPrefSize(150, 80);
+            cancelGameButton.setPrefSize(150, 80);
             leftGrid.add(createGameButton, 0,0);
             leftGrid.setHalignment(createGameButton, HPos.CENTER);
             leftGrid.add(joinGameButton, 0, 1);
             leftGrid.setHalignment(joinGameButton, HPos.CENTER);
             leftGrid.add(inviteFriendButton, 0, 2);
             leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
-            leftGrid.add(backButton, 0, 3);
-            leftGrid.setHalignment(backButton, HPos.CENTER);
+            leftGrid.add(cancelGameButton, 0, 3);
+            leftGrid.setHalignment(cancelGameButton, HPos.CENTER);
         });
         gameMenu.getItems().addAll(newGameItem);
 
@@ -133,15 +133,13 @@ public class WindowMenuBar {
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
-            backButton.setPrefSize(150, 80);
+            cancelGameButton.setPrefSize(150, 80);
             leftGrid.add(createGameButton, 0,0);
             leftGrid.setHalignment(createGameButton, HPos.CENTER);
             leftGrid.add(joinGameButton, 0, 1);
             leftGrid.setHalignment(joinGameButton, HPos.CENTER);
             leftGrid.add(inviteFriendButton, 0, 2);
             leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
-            leftGrid.add(backButton, 0, 3);
-            leftGrid.setHalignment(backButton, HPos.CENTER);
         });
         gameMenu.getItems().addAll(newGameItem);
 
