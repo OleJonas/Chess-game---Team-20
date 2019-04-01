@@ -618,6 +618,7 @@ class MainScene {
                                                     Game.setResult(ChessGame.gameID, -1);
                                                 }
                                             }else if(result == 0){
+                                                User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
                                                 inGame = false;
                                                 GameOverPopupBox.Display();
@@ -1318,7 +1319,7 @@ class JoinGamePopupBox{
 
         MainScene.sql = MainScene.createSearch(mode, time, increment, color, rated);
         System.out.println(MainScene.sql);
-        MainScene.inQueueFriend = true;
+        MainScene.inQueueJoin = true;
         System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
@@ -1367,6 +1368,7 @@ class GameOverPopupBox{
         leaveGameButton.setOnAction(e -> {
             MainScene.showMainScene();
             MainScene.inGame = false;
+            MainScene.searchFriend = true;
             window.close();
         });
 
