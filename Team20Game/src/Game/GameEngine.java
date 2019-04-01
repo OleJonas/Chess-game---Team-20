@@ -31,9 +31,7 @@ public class GameEngine {
 
    public ArrayList<Integer> validMoves(int x, int y) { return GameLogic.validMoves(x, y, board); }
 
-   public boolean move(int fromX, int fromY, int toX, int toY) {
-      return board.move(fromX, fromY, toX, toY);
-   }
+   public boolean move(int fromX, int fromY, int toX, int toY, boolean lastMove) { return board.move(fromX, fromY, toX, toY, lastMove); }
 
    public void removePiece(int x, int y){ board.removePiece(x, y); }
 

@@ -1,12 +1,12 @@
 package JavaFX;
-import Database.DBOps;
 import Database.Game;
 import Database.User;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -44,7 +44,6 @@ class GameScene {
         Parent chessGame = new ChessGame().setupBoard();
         leftGrid.add(chessGame,0,0);
 
-
         //Right GridPane
         GridPane rightGrid = new GridPane();
         rightGrid.setPadding(new Insets(70, 50, 50, 50));
@@ -61,6 +60,19 @@ class GameScene {
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
         rightGrid.add(ChatFX.createChat(), 0, 2);
+        Label time1label = new Label(player1);
+        time1label.setFont(Font.font("Copperplate", 40));
+        time1label.setStyle("-fx-font-weight: bold");
+        Label time2label = new Label(player2);
+        time2label.setFont(Font.font("Copperplate", 40));
+        time2label.setStyle("-fx-font-weight: bold");
+        GameTimerFX player1Time = new GameTimerFX();
+        GameTimerFX player2Time = new GameTimerFX();
+        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
+        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
+        rightGrid.add(time1label, 1, 3);
+        rightGrid.add(time2label, 1, 4);
+
 
         //forfeitButton
 
@@ -100,10 +112,11 @@ class GameScene {
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
         mainLayout.add(rightGrid, 1,1);
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
+
         //mainLayout.setGridLinesVisible(true);
 
         //Set image as background
-        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/Mahogny.jpg",1200,1200,false,true),
+        BackgroundImage myBI= new BackgroundImage(new Image("Images/Backgrounds/darkwood.jpg",1200,1200,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
@@ -118,4 +131,3 @@ class GameScene {
         ChatFX.refresh();
     }
 }
-

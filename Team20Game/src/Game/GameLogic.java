@@ -509,6 +509,14 @@ public class GameLogic{
         return result;
     }
 
+    public static void main(String[] args) {
+        int[] elo = getElo(1153, 1047, 0);
+        int[] elo2 = getElo(1032, 1168, 0);
+
+
+        System.out.println(elo2[0] + " " + elo2[1]);
+    }
+
     public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
         if (rep.containsKey(board.toString())){
             int oldBoardState = rep.get(board.toString());
@@ -518,5 +526,68 @@ public class GameLogic{
             rep.put(board.toString(), new Integer("1"));
         }
         return rep.get(board.toString()).compareTo(2) == 1;
+    }
+
+    public static int[] getDisplayPieces(Board board) {
+        ArrayList<Piece> takenPieces = board.getTakenPieces();
+        /*
+        ArrayList<Piece> whitePieces = new ArrayList<>();
+        ArrayList<Piece> blackPieces = new ArrayList<>();
+        for (int i = 0; i < takenPieces.size(); i++) {
+            if (takenPieces.get(i).getColor()) {
+                whitePieces.add(takenPieces.get(i));
+            } else {
+                blackPieces.add(takenPieces.get(i));
+            }
+        }
+
+        for (int i = 0; i < ((whitePieces.size() > blackPieces.size()) ? whitePieces.size() : blackPieces.size()); i++) {
+
+        }*/
+        int pawns = 0;
+        int knights = 0;
+        int bishops = 0;
+        int rooks = 0;
+        int queens = 0;
+
+        for (int i = 0; i < takenPieces.size(); i++) {
+            Piece piece = takenPieces.get(i);
+            if (piece instanceof Pawn) {
+                if (piece.getColor()) {
+                    pawns--;
+                } else {
+                    pawns++;
+                }
+            } else if (piece instanceof Knight) {
+                if (piece.getColor()) {
+                    knights--;
+                } else {
+                    knights++;
+                }
+            } else if (piece instanceof Bishop) {
+                if (piece.getColor()) {
+                     bishops--;
+                } else {
+                    bishops++;
+                }
+            } else if (piece instanceof Rook) {
+                if (piece.getColor()) {
+                    rooks--;
+                } else {
+                    rooks++;
+                }
+            } else if (piece instanceof Queen) {
+                if (piece.getColor()) {
+                    queens--;
+                } else {
+                    queens++;
+                }
+            }
+        }
+        int[] numbers = {pawns, knights, bishops, rooks, queens};
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.println(numbers[i]);
+        }
+        return numbers;
     }
 }

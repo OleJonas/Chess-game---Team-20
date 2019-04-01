@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -18,25 +19,27 @@ import java.util.concurrent.CountDownLatch;
 
 public class GameTimerFX {
 
-    static int interval = 10;
-    static GameTimer gameTime = new GameTimer(interval);
+    static int interval;
+    static int increment;
+    static GameTimer gameTime;
     static Stage window;
     static Scene scene;
     static VBox clockLayOut;
     static Timer timer = new Timer(true);
-    static Label time = new Label(""+interval);
+    static Label time;
 
-    public static GridPane startTime(Stage primaryStage) {
-        window = primaryStage;
+    public static GridPane startTime(int minutes, int seconds) {
+        interval = minutes;
+        increment = seconds;
+        time = new Label(""+interval);
+        gameTime = new GameTimer(interval, increment);
         time.setFont(Font.font("Copperplate", 50));
+        time.setTextFill(Color.web("#05B000"));
         clockLayOut = new VBox(5);
         clockLayOut.setPadding(new Insets(60, 60, 60, 60));
         clockLayOut.getChildren().add(time);
         GridPane gridPane = new GridPane();
         gridPane.add(clockLayOut, 100, 100);
-        scene = new Scene(gridPane, 500, 600);
-        window.setScene(scene);
-        window.show();
         gameTime.clock();
         refresh();
         return gridPane;

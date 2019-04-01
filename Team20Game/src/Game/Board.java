@@ -1,6 +1,8 @@
 package Game;
 
 import JavaFX.ChessDemo;
+import JavaFX.ChessGame;
+import JavaFX.ChessSandbox;
 import Pieces.*;
 import Pieces.Rook;
 import Pieces.King;
@@ -11,6 +13,7 @@ import java.util.Random;
 
 public class Board {
     private Piece[][] position = new Piece[8][8];
+    private ArrayList<Piece> takenPieces = new ArrayList<>();
     private boolean castleRook = true;
     private boolean castleKing = true;
     private ArrayList<Piece> removedPieces;
@@ -19,6 +22,7 @@ public class Board {
         //Default constructor with no arguments will create the starting position of a standard chess game
         this.position = position;
         boolean pawns = true;
+
         if (mode == 0) {
             position[0][0] = new Rook(true, 0, 0);
             position[1][0] = new Knight(true, 1, 0);
@@ -198,7 +202,7 @@ public class Board {
         return out;
     }
 
-    public boolean move(int fromX, int fromY, int toX, int toY){
+    public boolean move(int fromX, int fromY, int toX, int toY, boolean lastMove){
         if (castleRook && position[fromX][fromY] instanceof Rook) {
             Rook rook = (Rook) position[fromX][fromY];
             rook.setCanCastle(false);
@@ -218,14 +222,23 @@ public class Board {
                     if (position[fromX][fromY] != null) {
                         if (position[i][j].getColor() != position[fromX][fromY].getColor()) {
                             Pawn pawn = (Pawn) position[i][j];
-                            System.out.println(pawn.getEnPassant());
-                            System.out.println();
                             if (pawn.getEnPassant()) {
                                 pawn.setEnPassant(false);
                                 break;
                             }
                         }
-                        if (ChessDemo.lastMove == position[fromX][fromY].getColor()) {
+                        /*
+                        if (ChessGame.lastMove == position[fromX][fromY].getColor()) {
+                            if (position[i][j].getColor() == position[fromX][fromY].getColor()) {
+                                Pawn pawn = (Pawn) position[i][j];
+                                if (pawn.getEnPassant()) {
+                                    pawn.setEnPassant(false);
+                                    break;
+                                }
+                            }
+                        }
+                        */
+                        if (lastMove == position[fromX][fromY].getColor()) {
                             if (position[i][j].getColor() == position[fromX][fromY].getColor()) {
                                 Pawn pawn = (Pawn) position[i][j];
                                 if (pawn.getEnPassant()) {
@@ -238,7 +251,7 @@ public class Board {
                 }
             }
         }
-        System.out.println();
+
 /*
         for (int i = 0; i < 8; i++) {
             Pawn tempPawn = null;
@@ -272,6 +285,15 @@ public class Board {
     public void removePiece(int x, int y){
         //removedPieces.add(position[x][y]);
         position[x][y] = null;
+    }
+
+    public void addTakenPiece(Piece piece) {
+        takenPieces.add(piece);
+        System.out.println(piece.toString());
+    }
+
+    public ArrayList<Piece> getTakenPieces() {
+        return takenPieces;
     }
 
     public void setPiece(Piece piece, int x, int y){
