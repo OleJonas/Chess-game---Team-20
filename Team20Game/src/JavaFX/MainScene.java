@@ -654,7 +654,6 @@ class MainScene {
         service.start();
     }
 
-
 }
 
 @SuppressWarnings("Duplicates")
@@ -671,7 +670,7 @@ class InviteFriendPopupBox{
     public static void Display(){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Create Game");
+        window.setTitle("Invite Friend");
 
         //Labels
         Label titleLabel = new Label("Game settings");
@@ -1133,7 +1132,7 @@ class JoinGamePopupBox{
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Create Game");
+        window.setTitle("Join Game");
 
         //Labels
         Label titleLabel = new Label("Game settings");
