@@ -529,7 +529,7 @@ class MainScene {
                                             inGame = true;
                                             showGameScene();
                                         }
-                                    }else if(inQueueJoin){
+                                    } else if(inQueueJoin){
                                         System.out.println("Looking for opponent");
                                         int game_id = pollQueue(sql, connection);
                                         System.out.println(sql);
