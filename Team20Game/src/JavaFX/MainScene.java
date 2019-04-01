@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -39,9 +40,8 @@ import static JavaFX.UserProfile.showUserProfileScene;
 @SuppressWarnings("Duplicates")
 class MainScene {
     static Scene mainScene;
-    static GridPane leftGrid;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, backButton, clearBoard, realBackButton, leaderboardButton;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, cancelGameButton, clearBoard, backToMainButton, leaderboardButton;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     static boolean inQueueFriend = false;
@@ -55,7 +55,7 @@ class MainScene {
     private static String user_id;
     static Parent chessGame;
     static Label sandboxLabel;
-    static GridPane rightGrid;
+    static GridPane rightGrid, leftGrid, mainLayout;
 
     static void showMainScene() {
         User.updateUser();
@@ -78,6 +78,7 @@ class MainScene {
             created = false;
             CreateGamePopupBox.Display(); //opens Popup
             if(created){
+                title.setText("Creating Game");
                 System.out.println(Login.USERNAME);
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
@@ -85,7 +86,7 @@ class MainScene {
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
-                leftGrid.getChildren().add(backButton);
+                leftGrid.getChildren().add(cancelGameButton);
                 inQueueCreate = true;
             }
         });
@@ -95,13 +96,14 @@ class MainScene {
             JoinGamePopupBox.Display(); //opens Popup
 
             if(joined){
+                title.setText("Joining Game");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
                 queLabel.setFont(Font.font("Copperplate", 34));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
-                leftGrid.getChildren().add(backButton);
+                leftGrid.getChildren().add(cancelGameButton);
             }
         });
 
@@ -111,13 +113,14 @@ class MainScene {
             InviteFriendPopupBox.Display();
 
             if (invitedFriend) {
+                title.setText("Inviting Friend");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
                 queLabel.setFont(Font.font("Copperplate", 34));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.getChildren().add(queLabel);
                 leftGrid.setVgap(10);
-                leftGrid.getChildren().add(backButton);
+                leftGrid.getChildren().add(cancelGameButton);
                 inQueueFriend = true;
             }
         });
@@ -128,26 +131,33 @@ class MainScene {
         leftGrid.setPadding(new Insets(150, 100, 100, 170));
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
+            title.setText("New Game");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.setPadding(new Insets(150, 100, 100, 170));
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
-            backButton.setPrefSize(150, 80);
+            cancelGameButton.setPrefSize(150, 80);
             leftGrid.add(createGameButton, 0, 0);
             leftGrid.setHalignment(createGameButton, HPos.CENTER);
             leftGrid.add(joinGameButton, 0, 1);
             leftGrid.setHalignment(joinGameButton, HPos.CENTER);
             leftGrid.add(inviteFriendButton, 0, 2);
             leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
-            leftGrid.add(backButton, 0, 3);
-            leftGrid.setHalignment(backButton, HPos.CENTER);
-
         });
 
-        realBackButton = new Button("Back");
-        realBackButton.setOnAction(e -> {
+        backToMainButton = new Button("Back");
+        Image imageBackToMain = new Image("Images/ButtonImages/ArrowLeft.png");
+        ImageView imageViewBackToMain = new ImageView(imageBackToMain);
+        imageViewBackToMain.setFitWidth(20);
+        imageViewBackToMain.setFitHeight(20);
+        backToMainButton.setGraphic(imageViewBackToMain);
+        backToMainButton.setOnAction(e -> {
+            mainLayout.getChildren().remove(backToMainButton);
+            title.setText("Recess Chess");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.add(newGameButton, 0, 0);
@@ -170,20 +180,35 @@ class MainScene {
             */
         });
 
+        findUserButton = new Button("Find User");
+        findUserButton.setOnAction(e -> {
+            title.setText("Find User");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            showFindUserScene();
+        });
+
+        userProfileButton = new Button("User profile");
+        userProfileButton.setOnAction(e -> {
+            title.setText("User Profile");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            showUserProfileScene();
+        });
+
         leaderboardButton = new Button("Leaderboard");
         leaderboardButton.setOnAction(e -> {
+            title.setText("Leaderboard");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
             leftGrid.getChildren().clear();
-            realBackButton.setPrefSize(150,80);
-            leftGrid.add(realBackButton, 0,0);
             rightGrid.getChildren().clear();
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
         });
-
-        findUserButton = new Button("Find User");
-        findUserButton.setOnAction(e -> showFindUserScene());
-
-        userProfileButton = new Button("User profile");
-        userProfileButton.setOnAction(e -> showUserProfileScene());
 
         settingsButton = new Button("Settings");
         settingsButton.setOnAction(e -> showSettings());
@@ -207,25 +232,27 @@ class MainScene {
 
 
         //updated leftGrid
-
-        backButton = new Button("Cancel Game");
-        backButton.setOnAction(e -> {
+        cancelGameButton = new Button("Cancel Game");
+        cancelGameButton.setOnAction(e -> {
+            title.setText("Recess Chess");
             inQueueJoin = false;
             inQueueCreate = false;
             removeActiveFromGame();
 
+            title.setText("New Game");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            leftGrid.add(newGameButton, 0, 0);
-            leftGrid.setHalignment(newGameButton, HPos.CENTER);
-            leftGrid.add(findUserButton, 0, 1);
-            leftGrid.setHalignment(findUserButton, HPos.CENTER);
-            leftGrid.add(userProfileButton, 0, 2);
-            leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-            leftGrid.add(leaderboardButton,0,3);
-            leftGrid.setHalignment(leaderboardButton,HPos.CENTER);
-            leftGrid.add(settingsButton, 0, 4);
-            leftGrid.setHalignment(settingsButton, HPos.CENTER);
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            //cancelGameButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0, 0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
         });
 
         //Right GridPane
@@ -246,14 +273,14 @@ class MainScene {
         rightGrid.add(sandboxLabel, 0, 1);
 
         //mainLayout
-        GridPane mainLayout = new GridPane();
+        mainLayout = new GridPane();
         mainLayout.setPadding(new Insets(30, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(525));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(725));
         mainLayout.add(logOutButton, 0, 0, 2, 1);
-        mainLayout.setHalignment(logOutButton, HPos.LEFT);
+        mainLayout.setHalignment(logOutButton, HPos.RIGHT);
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
@@ -649,7 +676,6 @@ class MainScene {
         service.start();
     }
 
-
 }
 
 @SuppressWarnings("Duplicates")
@@ -666,7 +692,7 @@ class InviteFriendPopupBox{
     public static void Display(){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Create Game");
+        window.setTitle("Invite Friend");
 
         //Labels
         Label titleLabel = new Label("Game settings");
@@ -1128,7 +1154,7 @@ class JoinGamePopupBox{
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Create Game");
+        window.setTitle("Join Game");
 
         //Labels
         Label titleLabel = new Label("Game settings");

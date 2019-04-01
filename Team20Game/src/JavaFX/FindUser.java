@@ -30,16 +30,9 @@ class FindUser{
     static int findUser_ELOrating;
 
     static void showFindUserScene(){
-        //GridPane mainLayout = new GridPane();
         gamesInfoString = "";
         findAvatarImage = new Image("Images/Avatars/emptyAvatar.png");
         findAvatarImageView = new ImageView(findAvatarImage);
-
-        String userTitle = "Find User";
-        Label title = new Label(userTitle);
-        title.setFont(Font.font("Copperplate", 40));
-        title.setStyle("-fx-font-weight: bold");
-        title.setTextFill(Color.WHITE);
 
         //Buttons
         Button backToMainButton = new Button("Back");
@@ -106,9 +99,6 @@ class FindUser{
                 findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
             }
         });
-        MainScene.leftGrid.add(backToMainButton, 1, 4, 2, 1);
-        MainScene.leftGrid.setHalignment(backToMainButton, HPos.LEFT);
-        MainScene.leftGrid.add(title, 1, 0);
         MainScene.leftGrid.add(usernameLabel, 1,1,2,1);
         MainScene.leftGrid.add(searchField, 1, 2);
         MainScene.leftGrid.add(searchButton, 3, 2);
