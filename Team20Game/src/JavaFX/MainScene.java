@@ -907,7 +907,12 @@ class InviteFriendPopupBox{
         int opponent = 0;
         if (searchField.getText() != null) {
             if (User.getGameID(searchField.getText()) != -1) {
-                opponent = User.getGameID(searchField.getText());
+                if (USERNAME.equals(searchField.getText())) {
+                    searchComment.setText("You can't invite yourself!");
+                    return;
+                } else {
+                    opponent = User.getGameID(searchField.getText());
+                }
             } else {
                 MainScene.invitedFriend = false;
                 searchComment.setText("User doesn't exist");
@@ -1429,7 +1434,7 @@ class GameOverPopupBox{
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 450, 310);
+        Scene scene = new Scene(windowLayout, 350, 310);
         window.setScene(scene);
         window.showAndWait();
     }
