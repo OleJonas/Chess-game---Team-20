@@ -84,7 +84,7 @@ public class Game {
     public static String getEverythingAboutGame(int game_id){
         String everyThingAboutGame = "";
         DBOps db = new DBOps();
-        ArrayList<String> arrayString = db.exQuery("SELECT mode, time, increment, rated FROM Game WHERE game_id = " + game_id + ";",4);
+        ArrayList<String> arrayString = db.exQuery("SELECT mode, time, increment, rated, user_id1 FROM Game WHERE game_id = " + game_id + ";",5);
         int mode = Integer.parseInt(arrayString.get(0));
         everyThingAboutGame += "Mode: ";
         if(mode == 0){
@@ -98,6 +98,7 @@ public class Game {
         }else if(mode >1000){
             everyThingAboutGame += "Fischer Random";
         }
+        everyThingAboutGame += "\nYour chess color: " + (arrayString.get(4) == null?"White": "Black");
         int time = Integer.parseInt(arrayString.get(1));
         everyThingAboutGame += "\nTime: " + (time == 0?"No time":time);
         int increment = Integer.parseInt(arrayString.get(2));
