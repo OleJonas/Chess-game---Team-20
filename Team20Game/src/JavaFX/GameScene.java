@@ -66,12 +66,15 @@ class GameScene {
         Label time2label = new Label(player2);
         time2label.setFont(Font.font("Copperplate", 40));
         time2label.setStyle("-fx-font-weight: bold");
+        /*
         GameTimerFX player1Time = new GameTimerFX();
         GameTimerFX player2Time = new GameTimerFX();
+
         rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
         rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
         rightGrid.add(time1label, 1, 3);
         rightGrid.add(time2label, 1, 4);
+        */
 
 
         //forfeitButton
@@ -88,6 +91,7 @@ class GameScene {
         rightGrid.add(resignButton, 0, 3);
 
         Button offerDrawButton = new Button("Offer draw");
+
         offerDrawButton.setOnAction(e->{
             if(!remiOffered) {
                 int a = ChessGame.color ? 1 : 2;
@@ -97,6 +101,19 @@ class GameScene {
             }
         });
         rightGrid.add(offerDrawButton, 0, 4);
+
+        Button acceptDrawButton = new Button("Accept offer");
+        acceptDrawButton.setOnAction(e -> {
+            MainScene.inGame = false;
+            ChessGame.isDone = true;
+            Game.setResult(ChessGame.gameID, 0);
+            User.updateEloByGame(ChessGame.gameID);
+            GameOverPopupBox.Display();
+        });
+        Button declineDrawButton = new Button("Decline offer");
+        declineDrawButton.setOnAction(e -> {
+            Game.setResult(ChessGame.gameID, -1);
+        });
 
 
         //mainLayout
