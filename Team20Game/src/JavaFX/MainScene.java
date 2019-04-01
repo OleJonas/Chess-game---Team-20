@@ -604,6 +604,7 @@ class MainScene {
                                     }*/
                                     if (inGame) {
                                         int result = Game.getResult(ChessGame.gameID);
+                                        System.out.println("result: "+ result);
                                         if (result != -1) {
                                             int a = ChessGame.color?2:1;
                                             if(result == a){
@@ -613,6 +614,7 @@ class MainScene {
                                                     inGame = false;
                                                     ChessGame.isDone = true;
                                                     Game.setResult(ChessGame.gameID, 0);
+                                                    User.updateEloByGame(ChessGame.gameID);
                                                     GameOverPopupBox.Display();
                                                 }else{
                                                     Game.setResult(ChessGame.gameID, -1);
@@ -622,9 +624,8 @@ class MainScene {
                                                 ChessGame.isDone = true;
                                                 inGame = false;
                                                 GameOverPopupBox.Display();
-                                            }
-                                            else {
-                                                System.out.println(ChessGame.gameID);
+                                            } else {
+                                                //System.out.println(ChessGame.gameID);
                                                 ChessGame.gameWon = true;
                                                 inGame = false;
                                                 ChessGame.isDone = true;
@@ -1339,12 +1340,13 @@ class GameOverPopupBox{
         titleLabel.setFont(Font.font("Copperplate", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
+        int result = Game.getResult(ChessGame.gameID);
         String text = ChessGame.gameWon?"YOU WON :D":"YOU LOST :(";
+        if(result == 0)text = "DRAW";
         Label textLabel = new Label(text);
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
-        int result = Game.getResult(ChessGame.gameID);
         if(result == 0){
             result = 2;
         }else if(result == Game.getUser_id1(ChessGame.gameID)){
