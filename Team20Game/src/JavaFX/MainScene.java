@@ -659,8 +659,9 @@ class MainScene {
                                                 User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
                                                 inGame = false;
+                                                remiOffered = false;
                                                 GameOverPopupBox.Display();
-                                            } else {
+                                            } else if (!remiOffered){
                                                 //System.out.println(ChessGame.gameID);
                                                 ChessGame.gameWon = true;
                                                 inGame = false;
