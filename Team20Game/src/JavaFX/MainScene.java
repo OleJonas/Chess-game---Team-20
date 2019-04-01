@@ -555,6 +555,7 @@ class MainScene {
                                             System.out.println("Success!");
                                             System.out.println("Started game with gameID: " + ChessGame.gameID);
                                             inQueueFriend = false;
+                                            inGame = true;
                                             showGameScene();
                                         }
                                     } else if(searchFriend) {
@@ -1438,6 +1439,7 @@ class FriendInviteBox {
                 }
                 System.out.println("Started game with gameID: " + ChessGame.gameID);
                 MainScene.searchFriend = false;
+                MainScene.inGame = true;
                 MainScene.removeActiveFromGame();
                 window.close();
                 showGameScene();
