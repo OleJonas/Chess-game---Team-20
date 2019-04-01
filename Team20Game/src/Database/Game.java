@@ -6,6 +6,7 @@ import JavaFX.Login;
 import java.util.ArrayList;
 
 public class Game {
+    static boolean firstMove = true;
 
     static void createGame(int mode, int time, int increment, boolean color, int rated) {
         Thread t = new Thread(new Runnable() {
@@ -18,6 +19,31 @@ public class Game {
                 } else {
                     ChessGame.color = false;
                     connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + Login.userID + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
+                }
+            }
+        });
+        t.start();
+    }
+
+    public static void uploadMove(int fromX, int fromY, int toX, int toY, int movenr){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps db = new DBOps();
+                if (ChessGame.color) {
+                    if(firstMove){
+                        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                        firstMove = false;
+                    }
+                    else if (Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 0) {
+                        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                        System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                    }
+                }
+                else {
+                    if ((Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 1)) {
+                        db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                        System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                    }
                 }
             }
         });
