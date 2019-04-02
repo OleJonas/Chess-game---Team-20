@@ -11,6 +11,7 @@ public class Game {
     public static boolean inGame = false;
     public static boolean inQueueFriend = false;
     public static boolean searchFriend = false;
+    public static boolean invitedFriend = false;
     public static String sql;
 
     public static void createGame(int mode, int time, int increment, boolean color, int rated) {
@@ -243,10 +244,10 @@ public class Game {
     public static boolean startGame(){
         DBOps connection = new DBOps();
         System.out.println("waiting for opponent");
-        if(!Game.playersReady(connection)) {
+        if(!playersReady(connection)) {
             connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
-            System.out.println("Success!");
-            System.out.println("Started game with gameID: " + ChessGame.gameID);
+            //System.out.println("Success!");
+            //System.out.println("Started game with gameID: " + ChessGame.gameID);
             inQueueCreate = false;
             inGame = true;
             return true;
@@ -312,6 +313,7 @@ public class Game {
             }
             System.out.println("Started game with gameID: " + ChessGame.gameID);
             searchFriend = false;
+            inGame = true;
             removeActiveFromGame();
             return true;
         }
