@@ -74,8 +74,7 @@ class FindUser{
         MainScene.rightGrid.add(gamesInfoLabel, 0, 1);
 
         //Left GridPane
-       // GridPane leftGrid = new GridPane();
-        //leftGrid.setPadding(new Insets(0, 0, 200, 400));
+        MainScene.leftGrid.setPadding(new Insets(0, 100, 0, 0));
         MainScene.leftGrid.setHgap(10);
         MainScene.leftGrid.setVgap(10);
         Label usernameLabel = new Label("Username: ");

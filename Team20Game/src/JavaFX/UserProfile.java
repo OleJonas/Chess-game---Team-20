@@ -29,6 +29,8 @@ class UserProfile{
 
     static void showUserProfileScene(){
         User.updateUser();
+        updateStats();
+
         avatar = new Image("Images/Avatars/" + AVATAR);
 
         //Title
@@ -154,6 +156,14 @@ class UserProfile{
             AVATAR = "avatar9.png";
         }
 
+    }
+
+    static void updateStats(){
+        gamesPlayed = User.getGamesPlayed(Login.userID);
+        gamesLost = User.getGamesLost(Login.userID);
+        gamesWon = User.getGamesWon(Login.userID);
+        gamesRemis = User.getGamesRemis(Login.userID);
+        ELOrating = User.getElo(Login.userID);
     }
 
     static void setAvatar(String avatar){
