@@ -33,8 +33,8 @@ class GameScene {
         int userid1 = Game.getUser_id1(ChessGame.gameID);
         int userid2 = Game.getUser_id2(ChessGame.gameID);
 
-        player1 = User.getUsername(userid1);
-        player2 = User.getUsername(userid2);
+        player1 = User.getUsername(userid1) + " (" +User.getElo(userid1)+")";
+        player2 = User.getUsername(userid2) + " (" +User.getElo(userid2)+")";
 
         //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
         //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
@@ -51,19 +51,32 @@ class GameScene {
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(70, 50, 50, 50));
+        rightGrid.setPadding(new Insets(70, 0, 50, 20));
         rightGrid.setHgap(10);
         rightGrid.setVgap(10);
+        /*
         Label gameidLabel = new Label("GameID: " + ChessGame.gameID);
         gameidLabel.setFont(Font.font("Copperplate", 40));
         gameidLabel.setStyle("-fx-font-weight: bold");
         gameidLabel.setTextFill(Color.WHITE);
         rightGrid.add(gameidLabel, 0, 0);
-        Label playersLabel = new Label(player1 + " vs " + player2);
-        playersLabel.setFont(Font.font("Copperplate", 40));
-        playersLabel.setStyle("-fx-font-weight: bold");
-        playersLabel.setTextFill(Color.LIGHTSKYBLUE);
-        rightGrid.add(playersLabel, 0, 1);
+        */
+        //Label playersLabel = new Label(player1 + " vs " + player2);
+        Label playerOne = new Label(player1);
+        Label playerTwo = new Label(player2);
+        //playersLabel.setFont(Font.font("Copperplate", 25));
+        //playersLabel.setStyle("-fx-font-weight: bold");
+        //playersLabel.setTextFill(Color.LIGHTSKYBLUE);
+        //rightGrid.add(playersLabel, 0, 1);
+        playerOne.setFont(Font.font("Copperplate", 25));
+        playerOne.setStyle("-fx-font-weight: bold");
+        playerOne.setTextFill(Color.LIGHTSKYBLUE);
+        playerTwo.setFont(Font.font("Copperplate", 25));
+        playerTwo.setStyle("-fx-font-weight: bold");
+        playerTwo.setTextFill(Color.LIGHTSKYBLUE);
+
+        rightGrid.add(playerOne, 0, 1);
+        rightGrid.add(playerTwo, 0, 3);
         Label time1label = new Label(player1);
         time1label.setFont(Font.font("Copperplate", 40));
         time1label.setStyle("-fx-font-weight: bold");
@@ -81,7 +94,7 @@ class GameScene {
 
         //forfeitButton
 
-        Button resignButton = new Button("resign");
+        Button resignButton = new Button("Resign");
         resignButton.setOnAction(e->{
             MainScene.inGame = false;
             ChessGame.isDone = true;
@@ -90,7 +103,7 @@ class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 0, 3);
+        rightGrid.add(resignButton, 0, 2);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -102,7 +115,7 @@ class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
-        rightGrid.add(offerDrawButton, 0, 4);
+        rightGrid.add(offerDrawButton, 1, 2);
 
 
         //mainLayout
