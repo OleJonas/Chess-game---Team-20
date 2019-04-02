@@ -659,8 +659,9 @@ class MainScene {
                                         if (result != -1) {
                                             int a = ChessGame.color?2:1;
                                             if(result == a){
+                                                DrawOfferPopupBox.Display();
                                                 //add accept or decline draw option onscreen here
-                                                boolean accept = true;
+                                                /*
                                                 if(accept){
                                                     inGame = false;
                                                     ChessGame.isDone = true;
@@ -669,13 +670,14 @@ class MainScene {
                                                     GameOverPopupBox.Display();
                                                 }else{
                                                     Game.setResult(ChessGame.gameID, -1);
-                                                }
+                                                }*/
                                             }else if(result == 0){
                                                 User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
                                                 inGame = false;
+                                                remiOffered = false;
                                                 GameOverPopupBox.Display();
-                                            } else {
+                                            } else if (!remiOffered){
                                                 //System.out.println(ChessGame.gameID);
                                                 ChessGame.gameWon = true;
                                                 inGame = false;

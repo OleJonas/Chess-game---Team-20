@@ -22,6 +22,7 @@ class GameScene {
     static String player1;
     static String player2;
     public static boolean remiOffered;
+    public static Button offerDrawButton;
 
     static void showGameScene(){
         Label title = new Label("Recess Chess");
@@ -40,9 +41,12 @@ class GameScene {
 
         //Left GridPane
         GridPane leftGrid = new GridPane();
-        leftGrid.setPadding(new Insets(70, 100, 100, 50));
+        leftGrid.add(ChatFX.createChat(), 0, 2);
+
+        GridPane centerGrid = new GridPane();
+        centerGrid.setPadding(new Insets(70, 100, 100, 50));
         Parent chessGame = new ChessGame().setupBoard();
-        leftGrid.add(chessGame,0,0);
+        centerGrid.add(chessGame,0,0);
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -59,19 +63,19 @@ class GameScene {
         playersLabel.setStyle("-fx-font-weight: bold");
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
-        rightGrid.add(ChatFX.createChat(), 0, 2);
         Label time1label = new Label(player1);
         time1label.setFont(Font.font("Copperplate", 40));
         time1label.setStyle("-fx-font-weight: bold");
         Label time2label = new Label(player2);
         time2label.setFont(Font.font("Copperplate", 40));
         time2label.setStyle("-fx-font-weight: bold");
-        GameTimerFX player1Time = new GameTimerFX();
+        /*GameTimerFX player1Time = new GameTimerFX();
         GameTimerFX player2Time = new GameTimerFX();
         rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
         rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
         rightGrid.add(time1label, 1, 3);
         rightGrid.add(time2label, 1, 4);
+        */
 
 
         //forfeitButton
@@ -87,13 +91,14 @@ class GameScene {
 
         rightGrid.add(resignButton, 0, 3);
 
-        Button offerDrawButton = new Button("Offer draw");
+        offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
             if(!remiOffered) {
                 int a = ChessGame.color ? 1 : 2;
                 Game.setResult(ChessGame.gameID, a);
                 remiOffered = true;
                 offerDrawButton.setText("Draw offered");
+                offerDrawButton.setOpacity(0.5);
             }
         });
         rightGrid.add(offerDrawButton, 0, 4);
@@ -104,13 +109,16 @@ class GameScene {
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
         mainLayout.add(title, 0, 0, 2, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
-        mainLayout.add(rightGrid, 1,1);
+        mainLayout.add(centerGrid, 1,1);
+        mainLayout.setHalignment(centerGrid, HPos.CENTER);
+        mainLayout.add(rightGrid, 2,1);
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
 
         //mainLayout.setGridLinesVisible(true);
