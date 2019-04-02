@@ -106,6 +106,8 @@ public class Login{
             }
         });
         Main.window.setScene(startScene);
+        Main.window.setX((MainScene.primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
+        Main.window.setY((MainScene.primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
     }
 
     static void tryLogin(){
@@ -252,7 +254,7 @@ public class Login{
         return avatar;
     }
 
-    static int getUserID(){
+    public static int getUserID(){
         DBOps connection = new DBOps();
         int out = Integer.parseInt(connection.exQuery("SELECT user_id FROM User WHERE username = '" + USERNAME + "';", 1).get(0));
         return out;
