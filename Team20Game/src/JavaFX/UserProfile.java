@@ -38,7 +38,7 @@ class UserProfile{
         //GamesInfo
         String gamesInfoString = "User: " + USERNAME + "\nGames Played: " + gamesPlayed
                 + "\nGames Won: " + gamesWon + "\nGames Lost: " + gamesLost
-                + "\nRemis: " + gamesRemis + "\nElo-rating: " + ELOrating;
+                + "\nGames Drawn: " + gamesRemis + "\nElo-rating: " + ELOrating;
         Label gamesInfoLabel = new Label(gamesInfoString);
         gamesInfoLabel.setFont(Font.font("Georgia", 25));
         gamesInfoLabel.setStyle("-fx-font-weight: bold");
