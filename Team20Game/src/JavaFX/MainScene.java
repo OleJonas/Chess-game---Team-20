@@ -281,10 +281,25 @@ public class MainScene {
         leftGrid.add(findUserButton, 0, 1);
         leftGrid.setHalignment(findUserButton, HPos.CENTER);
         leftGrid.add(userProfileButton, 0, 2);
+
+
+        //Kjerand, fjern linjene under her for å fjerne GIF
+
+        Image KjerandsGIF = new Image("Images/KjerandsGIF.gif");
+        ImageView KjerandsGIFView = new ImageView(KjerandsGIF);
+        KjerandsGIFView.setFitWidth(400);
+        KjerandsGIFView.setFitHeight(300);
+        leftGrid.add(KjerandsGIFView, 0, 3);
+
+        // KjerandsGIF slutt
+
+
+
+
         leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-        leftGrid.add(leaderboardButton,0,3);
+        leftGrid.add(leaderboardButton,0,4);
         leftGrid.setHalignment(leaderboardButton, HPos.CENTER);
-        leftGrid.add(settingsButton, 0, 4);
+        leftGrid.add(settingsButton, 0, 5);
         leftGrid.setHalignment(settingsButton, HPos.CENTER);
 
 
