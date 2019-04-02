@@ -243,8 +243,8 @@ class MainScene {
             leftGrid.getChildren().clear();
             rightGrid.getChildren().clear();
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
-            rightGrid.setPadding(new Insets(50,50,50,50));
-            BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 700, false, true),
+            rightGrid.setPadding(new Insets(150,50,200,160));
+            BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT);
             rightGrid.setBackground(new Background(frame));

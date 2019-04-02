@@ -17,15 +17,15 @@ public class LeaderboardFX {
         gridPane = new GridPane();
         positionLabel = new Label("Rank");
         nameLabel = new Label("Username");
-        eloLabel = new Label("ELO-rating");
+        eloLabel = new Label("ELO");
 
         positionLabel.setFont(Font.font("Georgia", 30));
         nameLabel.setFont(Font.font("Georgia", 30));
         eloLabel.setFont(Font.font("Georgia", 30));
 
-        positionLabel.setTextFill(Color.WHITE);
-        nameLabel.setTextFill(Color.WHITE);
-        eloLabel.setTextFill(Color.WHITE);
+        positionLabel.setTextFill(Color.BLACK);
+        nameLabel.setTextFill(Color.BLACK);
+        eloLabel.setTextFill(Color.BLACK);
 
         // Setting up main structure of the leaderboard
         gridPane.setVgap(15);
@@ -37,18 +37,29 @@ public class LeaderboardFX {
         String[] leadersName = leaderboard.getLeadersName();
         String[] leadersELO = leaderboard.getLeadersELO();
         for(int i = 0; i < leadersELO.length; i++){
+            Color color;
+            if (i == 0){
+                color = Color.GOLD;
+            } else if (i == 1){
+                color = Color.web("#6b6b6b",1.0) ;
+            } else if (i == 2){
+                color = Color.SADDLEBROWN;
+            } else {
+                color = Color.BLACK;
+            }
+
             label = new Label(""+ (i+1) + ".");
-            label.setTextFill(Color.WHITE);
+            label.setTextFill(color);
             label.setFont(Font.font("Georgia", 30));
             gridPane.add(label, 0, i+1);
 
             label = new Label(leadersName[i]);
-            label.setTextFill(Color.WHITE);
+            label.setTextFill(color);
             label.setFont(Font.font("Georgia", 30));
             gridPane.add(label,1,i+1);
 
             label = new Label(leadersELO[i]);
-            label.setTextFill(Color.WHITE);
+            label.setTextFill(color);
             label.setFont(Font.font("Georgia", 30));
             gridPane.add(label, 2,i+1);
         }
