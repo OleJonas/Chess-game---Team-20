@@ -37,18 +37,18 @@ import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
 @SuppressWarnings("Duplicates")
-class MainScene {
+public class MainScene {
     static Scene mainScene;
     static Timer timer = new Timer(true);
     static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, cancelGameButton, clearBoard, backToMainButton, leaderboardButton, backToMainButtonWithoutSandboxReload;
-    //static boolean inQueueCreate = false;
-    //static boolean inQueueJoin = false;
-    //static boolean inQueueFriend = false;
-    //public static boolean searchFriend = false;
+    public static boolean inQueueCreate = false;
+    public static boolean inQueueJoin = false;
+    public static boolean inQueueFriend = false;
+    public static boolean searchFriend = false;
     static boolean created = false;
     static boolean joined = false;
-    //static boolean invitedFriend = false;
-    //static boolean inGame = false;
+    static boolean invitedFriend = false;
+    public static boolean inGame = false;
     private static boolean syncTurn = false;
     //public static String sql;
     private static String user_id;
@@ -68,7 +68,7 @@ class MainScene {
         logOutButton.setPrefSize(100, 50);
         logOutButton.setOnAction(e -> {
             Game.removeActiveFromGame();
-            Game.searchFriend = false;
+            searchFriend = false;
             runLogin();
         });
 
@@ -89,7 +89,7 @@ class MainScene {
                 leftGrid.setVgap(15);
                 leftGrid.add(queLabel, 0, 0);
                 leftGrid.add(cancelGameButton, 0, 1);
-                Game.inQueueCreate = true;
+                inQueueCreate = true;
             }
         });
         joinGameButton = new Button("Join Game");
@@ -111,10 +111,10 @@ class MainScene {
 
         inviteFriendButton = new Button("Invite Friend");
         inviteFriendButton.setOnAction(e -> {
-            Game.invitedFriend = true;
+            invitedFriend = true;
             InviteFriendPopupBox.Display();
 
-            if (Game.invitedFriend) {
+            if (invitedFriend) {
                 title.setText("Inviting Friend");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
@@ -123,8 +123,8 @@ class MainScene {
                 leftGrid.setVgap(15);
                 leftGrid.add(queLabel, 0, 0);
                 leftGrid.add(cancelGameButton, 0, 1);
-                Game.inQueueFriend = true;
-                Game.invitedFriend = false;
+                inQueueFriend = true;
+                invitedFriend = false;
             }
         });
 
@@ -275,9 +275,9 @@ class MainScene {
         cancelGameButton = new Button("Cancel Game");
         cancelGameButton.setOnAction(e -> {
             title.setText("Recess Chess");
-            Game.inQueueJoin = false;
-            Game.inQueueCreate = false;
-            Game.invitedFriend = false;
+            inQueueJoin = false;
+            inQueueCreate = false;
+            invitedFriend = false;
             Game.removeActiveFromGame();
 
             title.setText("New Game");
@@ -347,7 +347,7 @@ class MainScene {
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         Main.window.setResizable(true);
         refresh();
-        Game.searchFriend = true;
+        searchFriend = true;
     }
 
     static void reloadSandbox(){
@@ -410,25 +410,25 @@ class MainScene {
                             public void run() {
                                 DBOps connection = new DBOps();
                                 try {
-                                    if(Game.inQueueCreate){
+                                    if(inQueueCreate){
                                         if(Game.startGame()){
                                             showGameScene();
                                         }
-                                    } else if(Game.inQueueJoin){
+                                    } else if(inQueueJoin){
                                         if(Game.joinGame()){
                                             showGameScene();
                                         }
-                                    }else if (Game.inQueueFriend) {
+                                    }else if (inQueueFriend) {
                                         if(Game.joinFriend()){
                                             showGameScene();
                                         }
-                                    } else if(Game.searchFriend) {
+                                    } else if(searchFriend) {
                                         int game_id = Game.searchFriend();
                                         if (game_id != -1) {
                                             FriendInviteBox.Display(game_id);
                                         }
                                     }
-                                    if (Game.inGame) {
+                                    if (inGame) {
                                         int result = Game.getResult(ChessGame.gameID);
                                         System.out.println("result: "+ result);
                                         if (result != -1) {
@@ -438,13 +438,13 @@ class MainScene {
                                             }else if(result == 0){
                                                 User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
-                                                Game.inGame = false;
+                                                inGame = false;
                                                 remiOffered = false;
                                                 GameOverPopupBox.Display();
                                             } else if (!remiOffered){
                                                 //System.out.println(ChessGame.gameID);
                                                 ChessGame.gameWon = true;
-                                                Game.inGame = false;
+                                                inGame = false;
                                                 ChessGame.isDone = true;
                                                 GameOverPopupBox.Display();
                                             }
@@ -589,7 +589,7 @@ class InviteFriendPopupBox{
         //Create Game Button
         Button createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
-            Game.invitedFriend = true;
+            MainScene.invitedFriend = true;
             tryInviteCreate();
         });
 
@@ -626,7 +626,7 @@ class InviteFriendPopupBox{
         Scene scene = new Scene(windowLayout, 430, 470);
         scene.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER)){
-                Game.invitedFriend = true;
+                MainScene.invitedFriend = true;
                 tryInviteCreate();
             }
         });
@@ -702,7 +702,7 @@ class InviteFriendPopupBox{
                     opponent = User.getGameID(searchField.getText());
                 }
             } else {
-                Game.invitedFriend = false;
+                MainScene.invitedFriend = false;
                 searchComment.setText("User doesn't exist");
                 System.out.println("Feil");
                 return;
@@ -926,7 +926,7 @@ class CreateGamePopupBox{
         }
 
         Game.createGame(mode, time, increment, color, rated);  //Here you can change time
-        Game.inQueueCreate = true;
+        MainScene.inQueueCreate = true;
         System.out.println("Mode: "+modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
@@ -1139,7 +1139,7 @@ class JoinGamePopupBox{
 
         Game.sql = Game.createSearch(mode, time, increment, color, rated);
         System.out.println(Game.sql);
-        Game.inQueueJoin = true;
+        MainScene.inQueueJoin = true;
         System.out.println("Mode: " +modeChoice+ "\nTime: " + timeChoice + "\nIncrement: " + incrementChoice + "\nRated: " + ratedChoiceString + "\nColor: " + colorChoiceString);
         window.close();
     }
@@ -1186,8 +1186,8 @@ class GameOverPopupBox{
         Button leaveGameButton = new Button("Leave Game");
         leaveGameButton.setOnAction(e -> {
             MainScene.showMainScene();
-            Game.inGame = false;
-            Game.searchFriend = true;
+            MainScene.inGame = false;
+            MainScene.searchFriend = true;
             window.close();
         });
 
@@ -1248,7 +1248,7 @@ class FriendInviteBox {
         Button declineInvite = new Button("Decline");
         declineInvite.setOnAction(e -> {
             Game.setInactiveByGame_id(game_id);
-            Game.searchFriend = true;
+            MainScene.searchFriend = true;
             window.close();
         });
 

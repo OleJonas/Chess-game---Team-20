@@ -2,16 +2,11 @@ package Database;
 
 import JavaFX.ChessGame;
 import JavaFX.Login;
+import JavaFX.MainScene;
 
 import java.util.ArrayList;
 
 public class Game {
-    public static boolean inQueueJoin = false;
-    public static boolean inQueueCreate = false;
-    public static boolean inGame = false;
-    public static boolean inQueueFriend = false;
-    public static boolean searchFriend = false;
-    public static boolean invitedFriend = false;
     public static String sql;
 
     public static void createGame(int mode, int time, int increment, boolean color, int rated) {
@@ -248,8 +243,8 @@ public class Game {
             connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
             //System.out.println("Success!");
             //System.out.println("Started game with gameID: " + ChessGame.gameID);
-            inQueueCreate = false;
-            inGame = true;
+            MainScene.inQueueCreate = false;
+            MainScene.inGame = true;
             return true;
         }
         return false;
@@ -269,8 +264,8 @@ public class Game {
                 ChessGame.color = false;
             }
             System.out.println("Started game with gameID: " + ChessGame.gameID);
-            inQueueJoin = false;
-            inGame = true;
+            MainScene.inQueueJoin = false;
+            MainScene.inGame = true;
             return true;
         }
         return false;
@@ -283,7 +278,7 @@ public class Game {
             connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
             System.out.println("Success!");
             System.out.println("Started game with gameID: " + ChessGame.gameID);
-            inQueueFriend = false;
+            MainScene.inQueueFriend = false;
             return true;
         }
         return false;
@@ -295,7 +290,7 @@ public class Game {
         System.out.println(sql);
         int game_id = pollQueue(Game.sql, connection);
         if (game_id != -1) {
-            searchFriend = false;
+            MainScene.searchFriend = false;
             return game_id;
         }
         return -1;
@@ -312,8 +307,8 @@ public class Game {
                 ChessGame.color = false;
             }
             System.out.println("Started game with gameID: " + ChessGame.gameID);
-            searchFriend = false;
-            inGame = true;
+            MainScene.searchFriend = false;
+            MainScene.inGame = true;
             removeActiveFromGame();
             return true;
         }
