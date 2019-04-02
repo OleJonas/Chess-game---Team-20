@@ -163,6 +163,7 @@ public class MainScene {
         backToMainButton.setOnAction(e -> {
             mainLayout.getChildren().remove(backToMainButton);
             title.setText("Recess Chess");
+            mainLayout.setVgap(12);
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.setPadding(new Insets(150, 100, 100, 170));
@@ -194,6 +195,7 @@ public class MainScene {
         backToMainButtonWithoutSandboxReload.setOnAction(e -> {
             mainLayout.getChildren().remove(backToMainButtonWithoutSandboxReload);
             title.setText("Recess Chess");
+            mainLayout.setVgap(12);
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             rightGrid.setPadding(new Insets(40, 150, 20, 0));
@@ -242,6 +244,7 @@ public class MainScene {
             mainLayout.setHalignment(backToMainButton, HPos.LEFT);
             leftGrid.getChildren().clear();
             rightGrid.getChildren().clear();
+            mainLayout.setVgap(70);
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
             rightGrid.setPadding(new Insets(150,50,200,160));
             BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
