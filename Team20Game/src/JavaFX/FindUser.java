@@ -62,8 +62,9 @@ class FindUser{
         });
 
         //Right GridPane
+        MainScene.rightGrid.setPadding(new Insets(100,0,0,350));
         gamesInfoLabel = new Label(gamesInfoString);
-        gamesInfoLabel.setFont(Font.font("Copperplate", 25));
+        gamesInfoLabel.setFont(Font.font("Georgia", 25));
         gamesInfoLabel.setStyle("-fx-font-weight: bold");
         gamesInfoLabel.setTextFill(Color.WHITE);
         findAvatarImageView = new ImageView(findAvatarImage);
@@ -77,7 +78,7 @@ class FindUser{
         MainScene.leftGrid.setHgap(10);
         MainScene.leftGrid.setVgap(10);
         Label usernameLabel = new Label("Username: ");
-        usernameLabel.setFont(Font.font("Copperplate", 30));
+        usernameLabel.setFont(Font.font("Georgia", 30));
         usernameLabel.setStyle("-fx-font-weight: bold");
         usernameLabel.setTextFill(Color.WHITE);
         TextField searchField = new TextField();

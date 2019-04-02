@@ -54,7 +54,7 @@ public class Login{
 
         //Label
         Label loginLabel = new Label("Login");
-        loginLabel.setFont(Font.font("Copperplate", 36));
+        loginLabel.setFont(Font.font("Georgia", 36));
         loginLabel.setTextFill(Color.WHITE);
 
         loginComment = new Label();
@@ -74,7 +74,7 @@ public class Login{
         GridPane usernamePane = new GridPane();
         usernamePane.setHgap(15);
         Label usernameLabel = new Label("Username:");
-        usernameLabel.setFont(Font.font("Copperplate", 18));
+        usernameLabel.setFont(Font.font("Georgia", 18));
         usernameLabel.setTextFill(Color.WHITE);
         usernamePane.add(usernameLabel, 0, 0);
         usernamePane.add(loginUsernameField, 1, 0);
@@ -82,7 +82,7 @@ public class Login{
         GridPane passwordPane = new GridPane();
         passwordPane.setHgap(15);
         Label passwordLabel = new Label("Password:");
-        passwordLabel.setFont(Font.font("Copperplate", 18));
+        passwordLabel.setFont(Font.font("Georgia", 18));
         passwordLabel.setTextFill(Color.WHITE);
         passwordPane.add(passwordLabel, 0, 0);
         passwordPane.add(loginPasswordField, 1, 0);

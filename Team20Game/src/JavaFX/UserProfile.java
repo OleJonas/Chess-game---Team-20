@@ -40,7 +40,7 @@ class UserProfile{
                 + "\nGames Won: " + gamesWon + "\nGames Lost: " + gamesLost
                 + "\nRemis: " + gamesRemis + "\nElo-rating: " + ELOrating;
         Label gamesInfoLabel = new Label(gamesInfoString);
-        gamesInfoLabel.setFont(Font.font("Copperplate", 25));
+        gamesInfoLabel.setFont(Font.font("Georgia", 25));
         gamesInfoLabel.setStyle("-fx-font-weight: bold");
         gamesInfoLabel.setTextFill(Color.WHITE);
 
@@ -77,7 +77,7 @@ class UserProfile{
         avatarImageview.setFitWidth(250);
         MainScene.rightGrid.add(avatarImageview, 1, 0, 3, 1);
         Label changeAvatarLabel = new Label("Change avatar");
-        changeAvatarLabel.setFont(Font.font("Copperplate", 18));
+        changeAvatarLabel.setFont(Font.font("Georgia", 18));
         changeAvatarLabel.setStyle("-fx-font-weight: bold");
         changeAvatarLabel.setTextFill(Color.WHITE);
         MainScene.rightGrid.add(changeAvatarLabel, 1, 1, 3, 1);
