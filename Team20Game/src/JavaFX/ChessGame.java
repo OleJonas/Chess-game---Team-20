@@ -5,28 +5,23 @@
 package JavaFX;
 import Database.DBOps;
 import Database.Game;
-import Database.User;
+import Game.GameEngine;
 import Pieces.*;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-import Game.GameEngine;
-
-import java.lang.reflect.Array;
-import java.util.TimerTask;
-import java.util.Timer;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
@@ -66,7 +61,7 @@ public class ChessGame{
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        bg.setOnMouseClicked(r -> {
+        bg.setOnMouseClicked((MouseEvent r) -> {
             hboxGroup.getChildren().clear();
             hboxGroup = new Group();
         });
@@ -447,8 +442,6 @@ public class ChessGame{
                     }
                     if(GameScene.remiOffered){
                         GameScene.remiOffered = false;
-                        GameScene.offerDrawButton.setText("Offer draw");
-                        GameScene.offerDrawButton.setOpacity(1.0);
                     }
                 }
             }
@@ -458,6 +451,3 @@ public class ChessGame{
         polling = false;
     }
 }
-
-
-

@@ -12,7 +12,7 @@ public class GameTimer{
 
     private Timer timer;
     private final int increment;
-    private int interval;
+    private static int interval;
     private boolean end = false;
 
     public GameTimer(int interval, int increment){
@@ -24,12 +24,19 @@ public class GameTimer{
     public GameTimer(int interval){
         this.interval = interval;
         this.increment = 0;
-        this.timer = new Timer(true);
+        this.timer = new Timer();
     }
 
+    public String getTime(){
+        return interval/600+":"+interval%600+":"+(increment%600)%10;
+    }
 
-    public int getTime(){
-        return interval;
+    public void pause() {
+        timer.cancel();
+    }
+
+    public void resume() {
+        timer = new Timer();
     }
 
     public void clock(){

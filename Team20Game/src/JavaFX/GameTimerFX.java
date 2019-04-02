@@ -52,12 +52,12 @@ public class GameTimerFX {
             public void run() {
                 service();
             }
-        }, 1, 1);
+        }, 1000, 1000);
     }
 
 
     private static void updateTime() {
-        time.setText((""+gameTime.getTime()));
+        time.setText((gameTime.getTime()));
         //System.out.println(gameTime.getTime());
     }
 

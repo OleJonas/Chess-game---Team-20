@@ -2,11 +2,9 @@ package Game;
 
 //import JavaFX.Tile;
 import Pieces.*;
-import Pieces.Piece;
-import javafx.scene.Group;
 
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class GameLogic{
@@ -103,12 +101,12 @@ public class GameLogic{
 
     // Suggestion for a game over method checking if time's up. Could add a boolean like checkmate later on.
     // Would also suggest moving this method to GameEngine instead
-    public static boolean isDone(Board board, GameTimer timer){
+    /*public static boolean isDone(Board board, GameTimer timer){
         while(timer.getTime() > 0){
             return false;
         }
         return true;
-    }
+    }*/
 
     static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState) {
         // Maybe implement an int that is either 1 or -1 depending on getColor(). This int is then used to multiply with each move.
@@ -145,8 +143,10 @@ public class GameLogic{
                     if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
                         Pawn pawn = (Pawn) boardState[x + 1][y];
                         if (pawn.getEnPassant()) {
-                            validMoves.add(x + 1);
-                            validMoves.add(y + 1);
+                            if (y != 2) {
+                                validMoves.add(x + 1);
+                                validMoves.add(y + 1);
+                            }
                         }
                     }
                 }
@@ -156,8 +156,10 @@ public class GameLogic{
                     if (boardState[x - 1][y].getColor() != boardState[x][y].getColor()) {
                         Pawn pawn = (Pawn) boardState[x - 1][y];
                         if (pawn.getEnPassant()) {
-                            validMoves.add(x - 1);
-                            validMoves.add(y + 1);
+                            if (y != 2) {
+                                validMoves.add(x - 1);
+                                validMoves.add(y + 1);
+                            }
                         }
                     }
                 }
@@ -192,8 +194,10 @@ public class GameLogic{
                     if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
                         Pawn pawn = (Pawn) boardState[x + 1][y];
                         if (pawn.getEnPassant()) {
-                            validMoves.add(x + 1);
-                            validMoves.add(y - 1);
+                            if (y != 6) {
+                                validMoves.add(x + 1);
+                                validMoves.add(y - 1);
+                            }
                         }
                     }
                 }
@@ -203,8 +207,10 @@ public class GameLogic{
                     if (boardState[x - 1][y].getColor() != boardState[x][y].getColor()) {
                         Pawn pawn = (Pawn) boardState[x - 1][y];
                         if (pawn.getEnPassant()) {
-                            validMoves.add(x - 1);
-                            validMoves.add(y - 1);
+                            if (y != 6) {
+                                validMoves.add(x - 1);
+                                validMoves.add(y - 1);
+                            }
                         }
                     }
                 }

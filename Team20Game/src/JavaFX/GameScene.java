@@ -189,7 +189,6 @@ public class GameScene {
         });
         rightGrid.add(offerDrawButton, 0, 2);
 
-
         if (yourTime != 0) {
             rightGrid.add(yourClock, 0, 3);
             rightGrid.add(opponentClock, 0, 1);
