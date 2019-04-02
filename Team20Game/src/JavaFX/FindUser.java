@@ -6,10 +6,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import java.util.ArrayList;
+
+import static JavaFX.MainScene.mainScene;
 import static JavaFX.MainScene.showMainScene;
 
 @SuppressWarnings("Duplicates")
@@ -17,7 +20,8 @@ class FindUser{
     static Scene findProfileScene;
     static Image findAvatarImage;
     static ImageView findAvatarImageView;
-    static Label gamesInfoLabel;
+    static Label gamesInfoLabel, searchComment;
+    static TextField searchField;
     static String gamesInfoString;
 
     //This will be changed by SQL-queries
@@ -81,21 +85,18 @@ class FindUser{
         usernameLabel.setFont(Font.font("Georgia", 30));
         usernameLabel.setStyle("-fx-font-weight: bold");
         usernameLabel.setTextFill(Color.WHITE);
-        TextField searchField = new TextField();
+        searchField = new TextField();
         searchField.setPrefSize(200, 30);
-        Label searchComment = new Label("");
+        searchComment = new Label("");
         searchComment.setTextFill(Color.RED);
         Button searchButton = new Button("Search");
         searchButton.setPrefSize(100, 30);;
         searchButton.setOnAction(e -> {
-            if(searchForUser(searchField.getText())){
-                setUserPane();
-                searchComment.setText("");
-            } else {
-                searchComment.setText("User doesn't exist");
-                findUser_AvatarString = "emptyAvatar.png";
-                gamesInfoLabel.setText("");
-                findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
+            searchButtonPressed();
+        });
+        mainScene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                searchButtonPressed();
             }
         });
         MainScene.leftGrid.add(usernameLabel, 1,1,2,1);
@@ -127,5 +128,17 @@ class FindUser{
             return true;
         }
         return false;
+    }
+
+    static void searchButtonPressed(){
+        if(searchForUser(searchField.getText())){
+            setUserPane();
+            searchComment.setText("");
+        } else {
+            searchComment.setText("User doesn't exist");
+            findUser_AvatarString = "emptyAvatar.png";
+            gamesInfoLabel.setText("");
+            findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
+        }
     }
 }

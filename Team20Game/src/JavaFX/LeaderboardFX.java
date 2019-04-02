@@ -50,17 +50,17 @@ public class LeaderboardFX {
 
             label = new Label(""+ (i+1) + ".");
             label.setTextFill(color);
-            label.setFont(Font.font("Georgia", 30));
+            label.setFont(Font.font("Georgia", 25));
             gridPane.add(label, 0, i+1);
 
             label = new Label(leadersName[i]);
             label.setTextFill(color);
-            label.setFont(Font.font("Georgia", 30));
+            label.setFont(Font.font("Georgia", 25));
             gridPane.add(label,1,i+1);
 
             label = new Label(leadersELO[i]);
             label.setTextFill(color);
-            label.setFont(Font.font("Georgia", 30));
+            label.setFont(Font.font("Georgia", 25));
             gridPane.add(label, 2,i+1);
         }
         return gridPane;

@@ -106,6 +106,8 @@ public class Login{
             }
         });
         Main.window.setScene(startScene);
+        Main.window.setX((MainScene.primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
+        Main.window.setY((MainScene.primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
     }
 
     static void tryLogin(){
