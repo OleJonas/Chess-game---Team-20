@@ -1,4 +1,5 @@
 package JavaFX;
+import Database.Game;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Menu;
@@ -47,6 +48,8 @@ public class WindowMenuBar {
         userMenu.getItems().add(findUserMenuItem);
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
+            Game.removeActiveFromGame();
+            Game.searchFriend = false;
             runLogin();
         });
         userMenu.getItems().add(logOutMenuItem);

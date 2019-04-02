@@ -130,6 +130,7 @@ class Settings{
         skinNameChoiceBox.getItems().add("Standard");
         skinNameChoiceBox.getItems().add("Chrome");
         skinNameChoiceBox.getItems().add("Pink");
+        skinNameChoiceBox.getItems().add("Wood");
 
         //Fetch selected skinName for setValue()
         if(ChessGame.skin.equals("Standard")){
@@ -138,6 +139,8 @@ class Settings{
             skinNameChoiceBox.setValue("Chrome");
         } else if(ChessGame.skin.equals("Pink")){
             skinNameChoiceBox.setValue("Pink");
+        }else if(ChessGame.skin.equals("Wood")){
+            skinNameChoiceBox.setValue("Wood");
         }
 
         mainLayout.add(skinNameChoiceBox, 1,3);
@@ -196,6 +199,8 @@ class Settings{
                 ChessGame.skin = "Chrome";
             } else if(skinNameChoice.equals("Pink")){
                 ChessGame.skin = "Pink";
+            } else if(skinNameChoice.equals("Wood")){
+                ChessGame.skin = "Wood";
             }
             storeSettings();
             MainScene.reloadSandbox();
