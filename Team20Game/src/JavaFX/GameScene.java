@@ -36,7 +36,7 @@ public class GameScene {
     static boolean yourIncrement = true;
     static boolean opponentIncrement = true;
 
-    static int increment = Game.getIncrement(ChessGame.gameID);
+    public static int increment = Game.getIncrement(ChessGame.gameID);
     public static ArrayList<String> allMoves = new ArrayList<>();
     public static ArrayList<String> whiteMoves = new ArrayList<>();
     public static ArrayList<String> blackMoves = new ArrayList<>();
@@ -263,18 +263,18 @@ public class GameScene {
             opponentTimer.cancel();
         }
         if (ChessGame.myTurn) {
-            if (opponentIncrement) {
+            /*if (opponentIncrement) {
                 opponentTime += increment + 1;
                 opponentIncrement = false;
                 yourIncrement = true;
-            }
+            }*/
             return yourTime--;
         } else {
-            if (yourIncrement) {
+            /*if (yourIncrement) {
                 yourTime += increment + 1;
                 yourIncrement = false;
                 opponentIncrement = true;
-            }
+            }*/
             return opponentTime--;
         }
 
