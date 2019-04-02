@@ -31,8 +31,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
     private Timer timer;
-    public static int TILE_SIZE = 80;
-    public static final double imageSize = 0.8;
+    public static int TILE_SIZE = 50;
+    public static final double imageSize = 0.5;
     public static boolean color = true;
     public static boolean myTurn = true;
     public static boolean gameWon = false;
@@ -282,7 +282,7 @@ public class ChessGame{
                         System.out.println("Checkmate for White");
                         if(!color){
                             timer.cancel();
-                            Game.inGame =false;
+                            MainScene.inGame =false;
                             ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
@@ -293,7 +293,7 @@ public class ChessGame{
                         System.out.println("Checkmate for Black");
                         if(color){
                             timer.cancel();
-                            Game.inGame =false;
+                            MainScene.inGame =false;
                             ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
@@ -349,7 +349,7 @@ public class ChessGame{
 
     private void setupGameEngine() {
         ge = new GameEngine(Game.getTime(gameID), Game.getMode(gameID));
-        Game.searchFriend = false;
+        MainScene.searchFriend = false;
         whiteELO = Game.getWhiteELO(gameID);
         blackELO = Game.getBlackELO(gameID);
         myTurn = true;

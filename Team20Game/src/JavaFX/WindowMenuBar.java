@@ -49,7 +49,7 @@ public class WindowMenuBar {
         MenuItem logOutMenuItem = new MenuItem("Log out");
         logOutMenuItem.setOnAction(e -> {
             Game.removeActiveFromGame();
-            Game.searchFriend = false;
+            MainScene.searchFriend = false;
             runLogin();
         });
         userMenu.getItems().add(logOutMenuItem);
