@@ -41,10 +41,11 @@ class GameScene {
 
         //Left GridPane
         GridPane leftGrid = new GridPane();
-        leftGrid.add(ChatFX.createChat(), 0, 2);
+        leftGrid.setPadding(new Insets(110, 0, 0, 0));
+        leftGrid.add(ChatFX.createChat(), 0, 4);
 
         GridPane centerGrid = new GridPane();
-        centerGrid.setPadding(new Insets(70, 100, 100, 50));
+        centerGrid.setPadding(new Insets(70, 100, 100, 0));
         Parent chessGame = new ChessGame().setupBoard();
         centerGrid.add(chessGame,0,0);
 
@@ -111,8 +112,8 @@ class GameScene {
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.add(title, 0, 0, 2, 1);
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        mainLayout.add(title, 0, 0, 3, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
