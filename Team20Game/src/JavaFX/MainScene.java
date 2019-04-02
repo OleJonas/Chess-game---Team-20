@@ -246,7 +246,7 @@ public class MainScene {
             rightGrid.getChildren().clear();
             mainLayout.setVgap(70);
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
-            rightGrid.setPadding(new Insets(150,50,200,160));
+            rightGrid.setPadding(new Insets(150,50,200,180));
             BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                     BackgroundSize.DEFAULT);
@@ -268,9 +268,9 @@ public class MainScene {
         leftGrid.setHalignment(findUserButton, HPos.CENTER);
         leftGrid.add(userProfileButton, 0, 2);
         leftGrid.setHalignment(userProfileButton, HPos.CENTER);
-        leftGrid.add(leaderboardButton,0,4);
+        leftGrid.add(leaderboardButton,0,3);
         leftGrid.setHalignment(leaderboardButton, HPos.CENTER);
-        leftGrid.add(settingsButton, 0, 5);
+        leftGrid.add(settingsButton, 0, 4);
         leftGrid.setHalignment(settingsButton, HPos.CENTER);
 
 
@@ -290,7 +290,6 @@ public class MainScene {
             createGameButton.setPrefSize(150, 80);
             joinGameButton.setPrefSize(150, 80);
             inviteFriendButton.setPrefSize(150, 80);
-            //cancelGameButton.setPrefSize(150, 80);
             leftGrid.add(createGameButton, 0, 0);
             leftGrid.setHalignment(createGameButton, HPos.CENTER);
             leftGrid.add(joinGameButton, 0, 1);
