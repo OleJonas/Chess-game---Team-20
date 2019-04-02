@@ -62,7 +62,7 @@ class FindUser{
         });
 
         //Right GridPane
-       // GridPane rightGrid = new GridPane();
+        // GridPane rightGrid = new GridPane();
         //rightGrid.setVgap(40);
         //rightGrid.setPadding(new Insets(50, 200, 100, 250));
         gamesInfoLabel = new Label(gamesInfoString);

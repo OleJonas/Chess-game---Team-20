@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
 
@@ -51,8 +52,8 @@ class GameScene {
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(70, 0, 50, 20));
-        rightGrid.setHgap(10);
+        rightGrid.setPadding(new Insets(70, 0, 50, 10));
+        //rightGrid.setHgap(10);
         rightGrid.setVgap(10);
         /*
         Label gameidLabel = new Label("GameID: " + ChessGame.gameID);
@@ -75,8 +76,16 @@ class GameScene {
         playerTwo.setStyle("-fx-font-weight: bold");
         playerTwo.setTextFill(Color.LIGHTSKYBLUE);
 
-        rightGrid.add(playerOne, 0, 1);
-        rightGrid.add(playerTwo, 0, 3);
+        if (Login.userID == userid1) {
+            System.out.println(player1 +"gallo");
+            rightGrid.add(playerTwo, 0, 1);
+            rightGrid.add(playerOne, 0, 3);
+
+        } else {
+            rightGrid.add(playerOne, 0, 1);
+            rightGrid.add(playerTwo, 0, 3);
+        }
+
         Label time1label = new Label(player1);
         time1label.setFont(Font.font("Copperplate", 40));
         time1label.setStyle("-fx-font-weight: bold");
@@ -103,7 +112,9 @@ class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 0, 2);
+        resignButton.setStyle("-fx-background-color: #FF0000");
+        resignButton.setTextFill(Color.WHITE);
+        rightGrid.add(resignButton, 1, 2);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -115,7 +126,7 @@ class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
-        rightGrid.add(offerDrawButton, 1, 2);
+        rightGrid.add(offerDrawButton, 0, 2);
 
 
         //mainLayout
