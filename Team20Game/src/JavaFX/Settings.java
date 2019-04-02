@@ -40,7 +40,7 @@ class Settings{
         //Title
         String settingsTitle = "Settings";
         Label title = new Label(settingsTitle);
-        title.setFont(Font.font("Copperplate", 40));
+        title.setFont(Font.font("Georgia", 40));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
@@ -85,7 +85,7 @@ class Settings{
 
         //Board Color
         Label boardColorLabel = new Label("Board color");
-        boardColorLabel.setFont(Font.font("Copperplate", 25));
+        boardColorLabel.setFont(Font.font("Georgia", 25));
         boardColorLabel.setTextFill(Color.WHITE);
         mainLayout.add(boardColorLabel, 0, 2);
 
@@ -122,7 +122,7 @@ class Settings{
 
         //SkinName
         Label skinNameLabel = new Label("Skin name");
-        skinNameLabel.setFont(Font.font("Copperplate", 25));
+        skinNameLabel.setFont(Font.font("Georgia", 25));
         skinNameLabel.setTextFill(Color.WHITE);
         mainLayout.add(skinNameLabel, 0, 3);
 

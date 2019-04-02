@@ -50,6 +50,8 @@ class HighlightBox extends Pane{
 
             ChessGame.myTurn = false;
 
+            GameScene.allMoves.add(tile.getY() + "" + tile.getX());
+            GameScene.updateMoves();
             int fromX = tile.getX();
             int fromY = tile.getY();
             int toX = this.x;
@@ -113,7 +115,7 @@ class HighlightBox extends Pane{
                         Game.setResult(ChessGame.gameID, Login.userID);
                         User.updateEloByGame(ChessGame.gameID);
                         ChessGame.gameWon = true;
-                        MainScene.inGame = false;
+                        Game.inGame = false;
                         GameOverPopupBox.Display();
                     }
                 }
@@ -125,7 +127,7 @@ class HighlightBox extends Pane{
                         Game.setResult(ChessGame.gameID, Login.userID);
                         User.updateEloByGame(ChessGame.gameID);
                         ChessGame.gameWon = true;
-                        MainScene.inGame = false;
+                        Game.inGame = false;
                         GameOverPopupBox.Display();
                     }
                 }

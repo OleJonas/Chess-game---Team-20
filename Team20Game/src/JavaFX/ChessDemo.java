@@ -293,6 +293,7 @@ class TestHighlightBox extends Pane{
                 specialMoves(x, y, height, tile, hboxGroup, tileGroup, gameEngine, board);
                 //ChessDemo.myTurn = false;
                 //uploadMove(tile.getX(), tile.getY(), x, y);
+
                 int fromX = tile.getX();
                 int fromY = tile.getY();
                 int totWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
