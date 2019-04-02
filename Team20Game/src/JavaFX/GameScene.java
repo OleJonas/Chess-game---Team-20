@@ -30,7 +30,7 @@ public class GameScene {
     static Timer yourTimer;
     static Timer opponentTimer;
     public static int yourTime = Game.getTime(ChessGame.gameID) * 60;
-    static int opponentTime = (Game.getTime(ChessGame.gameID)*60) -16;
+    static int opponentTime = Game.getTime(ChessGame.gameID)*60;
     static Label yourClock;
     static Label opponentClock;
     static boolean yourIncrement = true;
@@ -68,8 +68,8 @@ public class GameScene {
     static void showGameScene() {
         yourTimer = new Timer();
         opponentTimer = new Timer();
-        yourClock = new Label(""+yourTimer);
-        opponentClock = new Label(""+opponentTimer);
+        yourClock = new Label(secToMinSec(yourTime));
+        opponentClock = new Label(secToMinSec(opponentTime));
 
 
         yourClock.setFont(Font.font("Ubuntu", 30));
@@ -87,7 +87,7 @@ public class GameScene {
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-        refresh();
+
 
         int userid1 = Game.getUser_id1(ChessGame.gameID);
         int userid2 = Game.getUser_id2(ChessGame.gameID);

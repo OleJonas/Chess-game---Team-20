@@ -120,7 +120,7 @@ public class MainScene {
 
         inviteFriendButton = new Button("Invite Friend");
         inviteFriendButton.setOnAction(e -> {
-            invitedFriend = true;
+            invitedFriend = false;
             InviteFriendPopupBox.Display();
 
             if (invitedFriend) {
