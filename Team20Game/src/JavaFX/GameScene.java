@@ -121,7 +121,6 @@ class GameScene {
 
 
         //forfeitButton
-
         Button resignButton = new Button("Resign");
         resignButton.setOnAction(e->{
             MainScene.inGame = false;
@@ -173,7 +172,7 @@ class GameScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
 
         gameScene = new Scene(layout, 1450, 950);

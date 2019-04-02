@@ -103,7 +103,7 @@ class FindUser{
         MainScene.leftGrid.add(searchField, 1, 2);
         MainScene.leftGrid.add(searchButton, 3, 2);
         MainScene.leftGrid.add(searchComment, 1, 3, 2, 1);
-
+        searchField.requestFocus();
     }
 
     static void setUserPane(){
