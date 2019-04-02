@@ -80,7 +80,7 @@ public class ChatFX{
             public void run() {
                 service();
             }
-        }, 1, 1);
+        }, 1000, 1000);
     }
 
     static void service() {
