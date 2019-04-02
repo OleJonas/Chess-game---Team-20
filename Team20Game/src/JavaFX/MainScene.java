@@ -244,20 +244,6 @@ public class MainScene {
             mainLayout.setHalignment(backToMainButton, HPos.LEFT);
             leftGrid.getChildren().clear();
             rightGrid.getChildren().clear();
-
-            //Kjerand, fjern linjene under her for å fjerne GIF
-
-            Image KjerandsGIF = new Image("Images/KjerandsGIF.gif");
-            ImageView KjerandsGIFView = new ImageView(KjerandsGIF);
-            KjerandsGIFView.setFitWidth(400);
-            KjerandsGIFView.setFitHeight(300);
-            leftGrid.add(KjerandsGIFView, 0, 0);
-
-            // KjerandsGIF slutt
-
-
-
-
             mainLayout.setVgap(70);
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
             rightGrid.setPadding(new Insets(150,50,200,160));
@@ -281,21 +267,6 @@ public class MainScene {
         leftGrid.add(findUserButton, 0, 1);
         leftGrid.setHalignment(findUserButton, HPos.CENTER);
         leftGrid.add(userProfileButton, 0, 2);
-
-
-        //Kjerand, fjern linjene under her for å fjerne GIF
-
-        Image KjerandsGIF = new Image("Images/KjerandsGIF.gif");
-        ImageView KjerandsGIFView = new ImageView(KjerandsGIF);
-        KjerandsGIFView.setFitWidth(400);
-        KjerandsGIFView.setFitHeight(300);
-        leftGrid.add(KjerandsGIFView, 0, 3);
-
-        // KjerandsGIF slutt
-
-
-
-
         leftGrid.setHalignment(userProfileButton, HPos.CENTER);
         leftGrid.add(leaderboardButton,0,4);
         leftGrid.setHalignment(leaderboardButton, HPos.CENTER);
