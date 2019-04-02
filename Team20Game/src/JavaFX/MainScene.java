@@ -1463,6 +1463,7 @@ class GameOverPopupBox{
         Scene scene = new Scene(windowLayout, 350, 310);
         window.setScene(scene);
         window.showAndWait();
+        User.updateUser();
     }
 }
 class FriendInviteBox {

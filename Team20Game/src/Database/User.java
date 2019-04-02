@@ -26,6 +26,24 @@ public class User {
         return Integer.parseInt(db.exQuery("SELECT ELOrating FROM User WHERE user_id = " + user_id+ "; ", 1).get(0));
     }
 
+    public static int getGamesPlayed(int user_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT gamesPlayed FROM User WHERE user_id = " + user_id, 1).get(0));
+    }
+
+    public static int getGamesWon(int user_id){
+            DBOps db = new DBOps();
+            return Integer.parseInt(db.exQuery("SELECT gamesWon FROM User WHERE user_id = " + user_id, 1).get(0));
+    }
+    public static int getGamesLost(int user_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT gamesLost FROM User WHERE user_id = " + user_id, 1).get(0));
+    }
+
+    public static int getGamesRemis(int user_id){
+        DBOps db = new DBOps();
+        return Integer.parseInt(db.exQuery("SELECT gamesRemis FROM User WHERE user_id = " + user_id, 1).get(0));
+    }
     public static void updateGamesPlayed(){
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -61,10 +79,23 @@ public class User {
         t.start();
     }
 
+    public static void updateGamesRemis(){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps db = new DBOps();
+                int gamesRemis = Integer.parseInt(db.exQuery("SELECT COUNT(game_id) FROM Game WHERE (user_id1 = "
+                        + Login.userID +" OR user_id2 = " + Login.userID+ ") AND result = 0",1).get(0));
+                db.exUpdate("UPDATE User SET gamesRemis = " + gamesRemis + " WHERE user_id = " + Login.userID);
+            }
+        });
+        t.start();
+    }
+
     public static void updateUser(){
         updateGamesPlayed();
         updateGamesLost();
         updateGamesWon();
+        updateGamesRemis();
     }
 
     public static void updateElo(int user_id, int elo){
