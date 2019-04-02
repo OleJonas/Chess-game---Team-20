@@ -41,9 +41,13 @@ class GameScene {
 
         //Left GridPane
         GridPane leftGrid = new GridPane();
-        leftGrid.setPadding(new Insets(70, 100, 100, 50));
+        leftGrid.setPadding(new Insets(110, 0, 0, 0));
+        leftGrid.add(ChatFX.createChat(), 0, 4);
+
+        GridPane centerGrid = new GridPane();
+        centerGrid.setPadding(new Insets(70, 100, 100, 0));
         Parent chessGame = new ChessGame().setupBoard();
-        leftGrid.add(chessGame,0,0);
+        centerGrid.add(chessGame,0,0);
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -60,7 +64,6 @@ class GameScene {
         playersLabel.setStyle("-fx-font-weight: bold");
         playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         rightGrid.add(playersLabel, 0, 1);
-        rightGrid.add(ChatFX.createChat(), 0, 2);
         Label time1label = new Label(player1);
         time1label.setFont(Font.font("Copperplate", 40));
         time1label.setStyle("-fx-font-weight: bold");
@@ -107,13 +110,16 @@ class GameScene {
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.add(title, 0, 0, 2, 1);
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        mainLayout.add(title, 0, 0, 3, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
         mainLayout.setHalignment(leftGrid, HPos.CENTER);
-        mainLayout.add(rightGrid, 1,1);
+        mainLayout.add(centerGrid, 1,1);
+        mainLayout.setHalignment(centerGrid, HPos.CENTER);
+        mainLayout.add(rightGrid, 2,1);
         mainLayout.setHalignment(rightGrid, HPos.CENTER);
 
         //mainLayout.setGridLinesVisible(true);
