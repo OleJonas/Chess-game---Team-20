@@ -276,7 +276,7 @@ class MainScene {
 
         //Right GridPane
         rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(50, 150, 20, 0));
+        rightGrid.setPadding(new Insets(40, 150, 20, 0));
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
