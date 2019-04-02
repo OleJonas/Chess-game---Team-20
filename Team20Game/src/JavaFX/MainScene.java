@@ -1159,6 +1159,8 @@ class JoinGamePopupBox{
 class GameOverPopupBox{
 
     public static void Display(){
+        yourTimer.cancel();
+        opponentTimer.cancel();
         int oldElo = ChessGame.color?ChessGame.whiteELO:ChessGame.blackELO;
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
