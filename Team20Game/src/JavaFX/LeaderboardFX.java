@@ -33,10 +33,6 @@ public class LeaderboardFX {
         gridPane.add(positionLabel,0,0);
         gridPane.add(nameLabel,1,0);
         gridPane.add(eloLabel,2,0);
-        BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 1200, 1200, false, true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        gridPane.setBackground(new Background(frame));
 
         String[] leadersName = leaderboard.getLeadersName();
         String[] leadersELO = leaderboard.getLeadersELO();

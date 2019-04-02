@@ -11,8 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import sun.rmi.runtime.Log;
-//import sun.security.pkcs11.Secmod;
 
 
 @SuppressWarnings("Duplicates")

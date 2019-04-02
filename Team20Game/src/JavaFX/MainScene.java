@@ -176,6 +176,10 @@ class MainScene {
             leftGrid.setHalignment(settingsButton, HPos.CENTER);
 
             rightGrid.getChildren().clear();
+            BackgroundImage empty = new BackgroundImage(new Image("Images/Avatars/emptyAvatar.png", 700, 700, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            rightGrid.setBackground(new Background(empty));
             reloadSandbox();
         });
 
@@ -202,6 +206,11 @@ class MainScene {
             leftGrid.setHalignment(leaderboardButton,HPos.CENTER);
             leftGrid.add(settingsButton, 0, 4);
             leftGrid.setHalignment(settingsButton, HPos.CENTER);
+
+            BackgroundImage empty = new BackgroundImage(new Image("Images/Avatars/emptyAvatar.png", 700, 700, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            rightGrid.setBackground(new Background(empty));
         });
 
         findUserButton = new Button("Find User");
@@ -232,6 +241,11 @@ class MainScene {
             leftGrid.getChildren().clear();
             rightGrid.getChildren().clear();
             rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
+            rightGrid.setPadding(new Insets(50,50,50,50));
+            BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 700, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            rightGrid.setBackground(new Background(frame));
         });
 
         settingsButton = new Button("Settings");
