@@ -12,6 +12,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -59,7 +60,15 @@ class MainScene {
 
     static void showMainScene() {
         User.updateUser();
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+
         Label title = new Label("Recess Chess");
+        title.setEffect(dropShadow);
         title.setFont(Font.font("Georgia", 70));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);

@@ -100,11 +100,16 @@ class GameScene {
         playerTwo.setStyle("-fx-font-weight: bold");
         playerTwo.setTextFill(Color.LIGHTSKYBLUE);
 
-        rightGrid.add(playerOne, 0, 1);
+        if (Login.userID == userid1) {
+            rightGrid.add(playerTwo, 0, 0);
+            rightGrid.add(playerOne, 0, 2);
+
+        } else {
+            rightGrid.add(playerOne, 0, 0);
+            rightGrid.add(playerTwo, 0, 2);
+        }
 
 
-        //bruk 3
-        rightGrid.add(playerTwo, 0, 4);
         Label time1label = new Label(player1);
         time1label.setFont(Font.font("Copperplate", 40));
         time1label.setStyle("-fx-font-weight: bold");
@@ -123,6 +128,9 @@ class GameScene {
         //forfeitButton
 
         Button resignButton = new Button("Resign");
+        resignButton.setStyle("-fx-background-color: #ff0000");
+        resignButton.setTextFill(Color.WHITE);
+
         resignButton.setOnAction(e->{
             MainScene.inGame = false;
             ChessGame.isDone = true;
@@ -131,7 +139,7 @@ class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 0, 2);
+        rightGrid.add(resignButton, 1, 1);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -143,7 +151,7 @@ class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
-        rightGrid.add(offerDrawButton, 1, 2);
+        rightGrid.add(offerDrawButton, 0, 1);
 
 
         //mainLayout
