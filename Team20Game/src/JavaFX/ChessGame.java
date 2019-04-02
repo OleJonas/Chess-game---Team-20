@@ -5,28 +5,23 @@
 package JavaFX;
 import Database.DBOps;
 import Database.Game;
-import Database.User;
+import Game.GameEngine;
 import Pieces.*;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.image.ImageView;
-import Game.GameEngine;
-
-import java.lang.reflect.Array;
-import java.util.TimerTask;
-import java.util.Timer;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
@@ -49,7 +44,7 @@ public class ChessGame{
     private GameEngine ge = new GameEngine(0, 0);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
-    public static int gameID;              //new Random().nextInt(500000);
+    public static int gameID;
     private String darkTileColor = Settings.darkTileColor;
     private String lightTileColor = Settings.lightTileColor;
     public static boolean isDone = false;
@@ -66,7 +61,7 @@ public class ChessGame{
         Pane root = new Pane();
         Pane bg = new Pane();
         bg.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        bg.setOnMouseClicked(r -> {
+        bg.setOnMouseClicked((MouseEvent r) -> {
             hboxGroup.getChildren().clear();
             hboxGroup = new Group();
         });
@@ -385,7 +380,7 @@ public class ChessGame{
                     serviceDBThings();
                 }
             }
-        }, 0, 100);
+        }, 0, 500);
     }
 
     public void serviceDBThings() {
@@ -431,6 +426,7 @@ public class ChessGame{
                 int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
+                int timeStamp = Integer.parseInt(db.exQuery("SELECT timeStamp FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 //System.out.println("test" + fromX);
                 GameScene.allMoves.add(toY + "" + toX);
                 GameScene.updateMoves();
@@ -438,10 +434,14 @@ public class ChessGame{
                     enemyMove(fromX, fromY, toX, toY);
                     System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
                     myTurn = true;
+                    GameScene.opponentTime = timeStamp;
+                    if(firstMove && !color){
+                        System.out.println("started timer in chessGame");
+                        GameScene.refresh();
+                        firstMove = false;
+                    }
                     if(GameScene.remiOffered){
                         GameScene.remiOffered = false;
-                        GameScene.offerDrawButton.setText("Offer draw");
-                        GameScene.offerDrawButton.setOpacity(1.0);
                     }
                 }
             }
@@ -451,6 +451,3 @@ public class ChessGame{
         polling = false;
     }
 }
-
-
-

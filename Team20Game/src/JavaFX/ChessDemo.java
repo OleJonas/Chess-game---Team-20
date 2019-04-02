@@ -450,7 +450,7 @@ class TestHighlightBox extends Pane{
                             //System.out.println("Hallo2");
                             if (pawn.getEnPassant()) {
                                 //System.out.println("Hallo3");
-                                if (y == 3) {
+                                if (y == 2 || y == 3) {
                                     tileGroup.getChildren().remove(board[tile.getX()+1][tile.getY()]);
                                     gameEngine.removePiece(tile.getX()+1, tile.getY());
                                 }
@@ -476,7 +476,7 @@ class TestHighlightBox extends Pane{
                         Pawn pawn = (Pawn) gameEngine.getBoard().getBoardState()[tile.getX()-1][tile.getY()];
                         if (pawn.getColor() != gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                             if (pawn.getEnPassant()) {
-                                if (y == 4) {
+                                if (y == 4 || y == 5) {
                                     tileGroup.getChildren().remove(board[tile.getX()-1][tile.getY()]);
                                     gameEngine.removePiece(tile.getX()-1, tile.getY());
                                 }
