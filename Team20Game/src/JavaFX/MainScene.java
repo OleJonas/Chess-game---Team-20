@@ -24,10 +24,7 @@ import javafx.stage.Stage;
 
 import javax.management.monitor.Monitor;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -63,7 +60,7 @@ class MainScene {
     static void showMainScene() {
         User.updateUser();
         Label title = new Label("Recess Chess");
-        title.setFont(Font.font("Copperplate", 70));
+        title.setFont(Font.font("Georgia", 70));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
@@ -78,6 +75,7 @@ class MainScene {
 
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
+
         createGameButton.setOnAction(e -> {
             created = false;
             CreateGamePopupBox.Display(); //opens Popup
@@ -86,7 +84,7 @@ class MainScene {
                 System.out.println(Login.USERNAME);
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
-                queLabel.setFont(Font.font("Copperplate", 30));
+                queLabel.setFont(Font.font("Georgia", 30));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.setVgap(15);
                 leftGrid.add(queLabel, 0, 0);
@@ -103,7 +101,7 @@ class MainScene {
                 title.setText("Joining Game");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
-                queLabel.setFont(Font.font("Copperplate", 30));
+                queLabel.setFont(Font.font("Georgia", 30));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.setVgap(15);
                 leftGrid.add(queLabel, 0, 0);
@@ -120,7 +118,7 @@ class MainScene {
                 title.setText("Inviting Friend");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
-                queLabel.setFont(Font.font("Copperplate", 30));
+                queLabel.setFont(Font.font("Georgia", 30));
                 queLabel.setTextFill(Color.WHITE);
                 leftGrid.setVgap(15);
                 leftGrid.add(queLabel, 0, 0);
@@ -135,6 +133,8 @@ class MainScene {
         leftGrid.setVgap(40);
         leftGrid.setPadding(new Insets(150, 100, 100, 170));
         newGameButton = new Button("New Game");
+        newGameButton.setStyle("-fx-background-color: #29AC29");
+        newGameButton.setTextFill(Color.WHITE);
         newGameButton.setOnAction(e -> {
             title.setText("New Game");
             mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
@@ -165,7 +165,6 @@ class MainScene {
             title.setText("Recess Chess");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            rightGrid.setPadding(new Insets(40, 150, 20, 0));
             leftGrid.setPadding(new Insets(150, 100, 100, 170));
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
@@ -339,7 +338,7 @@ class MainScene {
 
     static void reloadSandbox(){
         rightGrid.getChildren().clear();
-        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setPadding(new Insets(40, 150, 20, 0));
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
@@ -479,26 +478,26 @@ class InviteFriendPopupBox{
 
         //Labels
         Label titleLabel = new Label("Game settings");
-        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setFont(Font.font("Georgia", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
         Label modeLabel = new Label("Mode");
-        modeLabel.setFont(Font.font("Copperplate", 18));
+        modeLabel.setFont(Font.font("Georgia", 18));
         modeLabel.setTextFill(Color.WHITE);
         Label timeLabel = new Label("Time");
-        timeLabel.setFont(Font.font("Copperplate", 18));
+        timeLabel.setFont(Font.font("Georgia", 18));
         timeLabel.setTextFill(Color.WHITE);
         Label incrementLabel = new Label("Increment");
-        incrementLabel.setFont(Font.font("Copperplate", 18));
+        incrementLabel.setFont(Font.font("Georgia", 18));
         incrementLabel.setTextFill(Color.WHITE);
         Label ratedLabel = new Label("Rated?");
-        ratedLabel.setFont(Font.font("Copperplate", 18));
+        ratedLabel.setFont(Font.font("Georgia", 18));
         ratedLabel.setTextFill(Color.WHITE);
         Label colorLabel = new Label("Color");
-        colorLabel.setFont(Font.font("Copperplate", 18));
+        colorLabel.setFont(Font.font("Georgia", 18));
         colorLabel.setTextFill(Color.WHITE);
         Label friendLabel = new Label("Invite friend");
-        friendLabel.setFont(Font.font("Copperplate", 18));
+        friendLabel.setFont(Font.font("Georgia", 18));
         friendLabel.setTextFill(Color.WHITE);
 
         modeChoiceBox.getItems().add("Standard");
@@ -564,7 +563,7 @@ class InviteFriendPopupBox{
 
         //Textfield with label and comment
         Label usernameLabel = new Label("Username: ");
-        usernameLabel.setFont(Font.font("Copperplate", 30));
+        usernameLabel.setFont(Font.font("Georgia", 30));
         usernameLabel.setStyle("-fx-font-weight: bold");
         usernameLabel.setTextFill(Color.WHITE);
         searchField = new TextField();
@@ -727,23 +726,23 @@ class CreateGamePopupBox{
 
         //Labels
         Label titleLabel = new Label("Game settings");
-        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setFont(Font.font("Georgia", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
         Label modeLabel = new Label("Mode");
-        modeLabel.setFont(Font.font("Copperplate", 18));
+        modeLabel.setFont(Font.font("Georgia", 18));
         modeLabel.setTextFill(Color.WHITE);
         Label timeLabel = new Label("Time");
-        timeLabel.setFont(Font.font("Copperplate", 18));
+        timeLabel.setFont(Font.font("Georgia", 18));
         timeLabel.setTextFill(Color.WHITE);
         Label incrementLabel = new Label("Increment");
-        incrementLabel.setFont(Font.font("Copperplate", 18));
+        incrementLabel.setFont(Font.font("Georgia", 18));
         incrementLabel.setTextFill(Color.WHITE);
         Label ratedLabel = new Label("Rated?");
-        ratedLabel.setFont(Font.font("Copperplate", 18));
+        ratedLabel.setFont(Font.font("Georgia", 18));
         ratedLabel.setTextFill(Color.WHITE);
         Label colorLabel = new Label("Color");
-        colorLabel.setFont(Font.font("Copperplate", 18));
+        colorLabel.setFont(Font.font("Georgia", 18));
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
@@ -938,23 +937,23 @@ class JoinGamePopupBox{
 
         //Labels
         Label titleLabel = new Label("Game settings");
-        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setFont(Font.font("Georgia", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
         Label modeLabel = new Label("Mode");
-        modeLabel.setFont(Font.font("Copperplate", 18));
+        modeLabel.setFont(Font.font("Georgia", 18));
         modeLabel.setTextFill(Color.WHITE);
         Label timeLabel = new Label("Time");
-        timeLabel.setFont(Font.font("Copperplate", 18));
+        timeLabel.setFont(Font.font("Georgia", 18));
         timeLabel.setTextFill(Color.WHITE);
         Label incrementLabel = new Label("Increment");
-        incrementLabel.setFont(Font.font("Copperplate", 18));
+        incrementLabel.setFont(Font.font("Georgia", 18));
         incrementLabel.setTextFill(Color.WHITE);
         Label ratedLabel = new Label("Rated?");
-        ratedLabel.setFont(Font.font("Copperplate", 18));
+        ratedLabel.setFont(Font.font("Georgia", 18));
         ratedLabel.setTextFill(Color.WHITE);
         Label colorLabel = new Label("Color");
-        colorLabel.setFont(Font.font("Copperplate", 18));
+        colorLabel.setFont(Font.font("Georgia", 18));
         colorLabel.setTextFill(Color.WHITE);
 
         //Choiceboxes
@@ -1154,7 +1153,7 @@ class GameOverPopupBox{
             result = 1;
         }
         Label titleLabel = new Label(text);
-        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setFont(Font.font("Georgia", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
 
@@ -1164,7 +1163,7 @@ class GameOverPopupBox{
         System.out.println("old ELO: " + oldElo + " your new ELO: "+ myNewElo + " \nEnemy's new ELO: " + enemyElo);
         String newElo = Login.USERNAME + "'s new ELO rating: \n" + myNewElo + " (" +((myNewElo-oldElo)>0?"+":"") +(myNewElo-oldElo) + ")";
         Label eloLabel = new Label(newElo);
-        eloLabel.setFont(Font.font("Copperplate", 22));
+        eloLabel.setFont(Font.font("Georgia", 22));
         eloLabel.setStyle("-fx-font-weight: bold");
         eloLabel.setTextFill(Color.WHITE);
 
@@ -1211,12 +1210,12 @@ class FriendInviteBox {
         ArrayList<String> text = Game.friendInviteInfo(game_id);
         //Labels
         Label titleLabel = new Label(text.get(0));
-        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setFont(Font.font("Georgia", 26));
         titleLabel.setStyle("-fx-font-weight: bold");
         titleLabel.setTextFill(Color.WHITE);
 
         Label textLabel = new Label(text.get(1));
-        textLabel.setFont(Font.font("Copperplate", 22));
+        textLabel.setFont(Font.font("Georgia", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
 
