@@ -1,6 +1,9 @@
 package JavaFX;
 import Database.Game;
 import Database.User;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -12,6 +15,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 //import sun.security.pkcs11.Secmod;
@@ -20,6 +27,16 @@ import javafx.scene.control.TableView;
 @SuppressWarnings("Duplicates")
 class GameScene {
     static Scene gameScene;
+    static Timer yourTimer;
+    static Timer opponentTimer;
+    static int yourTime = Game.getTime(ChessGame.gameID) * 60;
+    static int opponentTime = Game.getTime(ChessGame.gameID)*60;
+    static Label yourClock;
+    static Label opponentClock;
+    static boolean yourIncrement = true;
+    static boolean opponentIncrement = true;
+
+    static int increment = Game.getIncrement(ChessGame.gameID);
     public static ArrayList<String> allMoves = new ArrayList<>();
     public static ArrayList<String> whiteMoves = new ArrayList<>();
     public static ArrayList<String> blackMoves = new ArrayList<>();
@@ -49,10 +66,28 @@ class GameScene {
     }
 
     static void showGameScene() {
+        yourTimer = new Timer();
+        opponentTimer = new Timer();
+        yourClock = new Label(""+yourTimer);
+        opponentClock = new Label(""+opponentTimer);
+
+
+        yourClock.setFont(Font.font("Ubuntu", 30));
+        yourClock.setStyle("-fx-font-weight: bold");
+        yourClock.setTextFill(Color.WHITE);
+
+        opponentClock.setFont(Font.font("Ubuntu", 30));
+        opponentClock.setStyle("-fx-font-weight: bold");
+        opponentClock.setTextFill(Color.WHITE);
+
+
+
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
+
+        refresh();
 
         int userid1 = Game.getUser_id1(ChessGame.gameID);
         int userid2 = Game.getUser_id2(ChessGame.gameID);
@@ -79,6 +114,7 @@ class GameScene {
         rightGrid.setHgap(10);
         rightGrid.setVgap(10);
 
+
         /*
         Label gameidLabel = new Label("GameID: " + ChessGame.gameID);
         gameidLabel.setFont(Font.font("Copperplate", 40));
@@ -102,11 +138,11 @@ class GameScene {
 
         if (Login.userID == userid1) {
             rightGrid.add(playerTwo, 0, 0);
-            rightGrid.add(playerOne, 0, 2);
+            rightGrid.add(playerOne, 0, 4);
 
         } else {
             rightGrid.add(playerOne, 0, 0);
-            rightGrid.add(playerTwo, 0, 2);
+            rightGrid.add(playerTwo, 0, 4);
         }
 
 
@@ -139,7 +175,7 @@ class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 1, 1);
+        rightGrid.add(resignButton, 1, 2);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -151,7 +187,13 @@ class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
-        rightGrid.add(offerDrawButton, 0, 1);
+        rightGrid.add(offerDrawButton, 0, 2);
+
+        if (yourTime != 0) {
+            rightGrid.add(yourClock, 0, 3);
+            rightGrid.add(opponentClock, 0, 1);
+        }
+
 
 
         //mainLayout
@@ -187,5 +229,98 @@ class GameScene {
         gameScene = new Scene(layout, 1450, 950);
         Main.window.setScene(gameScene);
         ChatFX.refresh();
+    }
+
+    public static String secToMinSec(int time) {
+        if (time < 60) {
+            return "00:"+time;
+        }
+        int min = (time % 3600) / 60;
+        int sec = ((time % 3600) % 60);
+        if (Math.floor(Math.log10((double)min)+1) < 2 && sec == 0) {
+            return "0" + min + ":00";
+        }
+        if (Math.floor(Math.log10((double)min)+1) >= 2 && sec == 0) {
+            return min + ":00";
+        }
+        if (Math.floor(Math.log10((double)min)+1) < 2 && Math.floor(Math.log10((double)sec)+1) < 2) {
+            return "0" + min + ":0" + sec;
+        }
+        if (Math.floor(Math.log10((double)min)+1) >= 2 && Math.floor(Math.log10((double)sec)+1) < 2) {
+            return min + ":0" + sec;
+        }
+        if (Math.floor(Math.log10((double)min)+1) < 2 && Math.floor(Math.log10((double)sec)+1) >= 2) {
+            return "0" + min + ":" + sec;
+        }
+        return min + ":" + sec;
+    }
+
+    private static final int setInterval() {
+        if (yourTime == 1)
+            yourTimer.cancel();
+        if (opponentTime == 1 ) {
+            opponentTimer.cancel();
+        }
+        if (ChessGame.myTurn) {
+            if (opponentIncrement) {
+                opponentTime += increment + 1;
+                opponentIncrement = false;
+                yourIncrement = true;
+            }
+            return yourTime--;
+        } else {
+            if (yourIncrement) {
+                yourTime += increment + 1;
+                yourIncrement = false;
+                opponentIncrement = true;
+            }
+            return opponentTime--;
+        }
+
+    }
+
+    public static void refresh() {
+       yourTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                serviceTimer();
+            }
+        }, 1000, 1000);
+    }
+
+    public static void serviceTimer() {
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        //Background work
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    if (ChessGame.myTurn) {
+
+                                        yourClock.setText(secToMinSec(setInterval()));
+                                        opponentClock.setText(secToMinSec(opponentTime));
+                                    } else {
+                                        opponentClock.setText(secToMinSec(setInterval()));
+                                        yourClock.setText(secToMinSec(yourTime));
+                                    }
+
+                                } finally {
+                                    latch.countDown();
+                                }
+                            }
+                        });
+                        latch.await();
+                        return null;
+                    }
+                };
+            }
+        };
+        service.start();
     }
 }
