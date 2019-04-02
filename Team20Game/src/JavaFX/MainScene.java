@@ -163,6 +163,8 @@ class MainScene {
             title.setText("Recess Chess");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
+            rightGrid.setPadding(new Insets(40, 150, 20, 0));
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
             leftGrid.add(findUserButton, 0, 1);
@@ -179,14 +181,18 @@ class MainScene {
         });
 
         backToMainButtonWithoutSandboxReload = new Button("Back");
-        imageViewBackToMain.setFitWidth(20);
-        imageViewBackToMain.setFitHeight(20);
-        backToMainButtonWithoutSandboxReload.setGraphic(imageViewBackToMain);
+        Image imageBackToMain2 = new Image("Images/ButtonImages/ArrowLeft.png");
+        ImageView imageViewBackToMain2 = new ImageView(imageBackToMain2);
+        imageViewBackToMain2.setFitWidth(20);
+        imageViewBackToMain2.setFitHeight(20);
+        backToMainButtonWithoutSandboxReload.setGraphic(imageViewBackToMain2);
         backToMainButtonWithoutSandboxReload.setOnAction(e -> {
             mainLayout.getChildren().remove(backToMainButtonWithoutSandboxReload);
             title.setText("Recess Chess");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
+            rightGrid.setPadding(new Insets(40, 150, 20, 0));
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
             leftGrid.add(findUserButton, 0, 1);
