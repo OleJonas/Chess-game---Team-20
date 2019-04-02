@@ -1,38 +1,21 @@
 package JavaFX;
-import Pieces.*;
+import Database.ChatDB;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
-import javafx.scene.image.ImageView;
-import Game.GameEngine;
-import javafx.scene.text.Font;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Modality;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-
-import Database.ChatDB;
-import javafx.application.Application;
-import javafx.scene.Scene;
-
 import java.util.Timer;
-import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
@@ -97,7 +80,7 @@ public class ChatFX{
             public void run() {
                 service();
             }
-        }, 1000, 1000);
+        }, 1, 1);
     }
 
     static void service() {

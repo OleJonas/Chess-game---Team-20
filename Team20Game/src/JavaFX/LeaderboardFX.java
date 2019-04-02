@@ -1,9 +1,8 @@
 package JavaFX;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
 import Database.LeaderboardDB;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -39,7 +38,7 @@ public class LeaderboardFX {
         for(int i = 0; i < leadersELO.length; i++){
             Color color;
             if (i == 0){
-                color = Color.GOLD;
+                color = Color.YELLOW;
             } else if (i == 1){
                 color = Color.web("#6b6b6b",1.0) ;
             } else if (i == 2){
