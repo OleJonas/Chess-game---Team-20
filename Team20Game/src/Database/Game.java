@@ -14,7 +14,6 @@ public class Game {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps connection = new DBOps();
-
                 if (color) {
                     ChessGame.color = true;
                     connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
