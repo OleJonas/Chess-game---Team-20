@@ -252,7 +252,7 @@ public class Login{
         return avatar;
     }
 
-    static int getUserID(){
+    public static int getUserID(){
         DBOps connection = new DBOps();
         int out = Integer.parseInt(connection.exQuery("SELECT user_id FROM User WHERE username = '" + USERNAME + "';", 1).get(0));
         return out;

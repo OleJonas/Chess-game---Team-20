@@ -83,7 +83,7 @@ class GameScene {
 
         Button resignButton = new Button("resign");
         resignButton.setOnAction(e->{
-            MainScene.inGame = false;
+            Game.inGame = false;
             ChessGame.isDone = true;
             Game.setResult(ChessGame.gameID, ChessGame.color?Game.getUser_id2(ChessGame.gameID):Game.getUser_id1(ChessGame.gameID));
             User.updateEloByGame(ChessGame.gameID);

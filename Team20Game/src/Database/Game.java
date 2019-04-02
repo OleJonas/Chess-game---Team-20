@@ -6,8 +6,14 @@ import JavaFX.Login;
 import java.util.ArrayList;
 
 public class Game {
+    public static boolean inQueueJoin = false;
+    public static boolean inQueueCreate = false;
+    public static boolean inGame = false;
+    public static boolean inQueueFriend = false;
+    public static boolean searchFriend = false;
+    public static String sql;
 
-    static void createGame(int mode, int time, int increment, boolean color, int rated) {
+    public static void createGame(int mode, int time, int increment, boolean color, int rated) {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps connection = new DBOps();
@@ -50,20 +56,15 @@ public class Game {
         t.start();
     }
 
-    static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
-        Thread t = new Thread(new Runnable() {
-            public void run(){
-                DBOps connection = new DBOps();
-                int userid = Login.userID;
+    public static void createGame(int mode, int time, int increment, boolean color, int rated, int friendid) {
+        DBOps connection = new DBOps();
+        int userid = Login.getUserID();
 
-                if (color) {
-                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-                } else {
-                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-                }
-            }
-        });
-        t.start();
+        if (color) {
+            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+        } else {
+            connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", null, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
+        }
     }
 
     public static int getTime(int game_id){
@@ -162,7 +163,6 @@ public class Game {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps db = new DBOps();
-
                 db.exUpdate("UPDATE Game SET result = " + user_id + " WHERE game_id = "+game_id + ";");
             }
         });
@@ -215,5 +215,199 @@ public class Game {
             }
         });
         t.start();
+    }
+
+    private static boolean playersReady(DBOps connection) {
+        System.out.println(ChessGame.gameID);
+        String sql = "SELECT * FROM Game WHERE user_id1 IS NOT NULL AND user_id2 IS NOT NULL AND game_id = " +ChessGame.gameID +";";
+        try {
+            if (connection.exQuery(sql, 1).size() > 0) {
+                //showGameScene();
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static int pollQueue(String sql, DBOps connection) {
+        ArrayList<String> opponent = connection.exQuery(sql, 1);
+        if (opponent.size() > 0) {
+            return Integer.parseInt(opponent.get(0));
+        }
+        return -1;
+    }
+
+    public static boolean startGame(){
+        DBOps connection = new DBOps();
+        System.out.println("waiting for opponent");
+        if(!Game.playersReady(connection)) {
+            connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
+            System.out.println("Success!");
+            System.out.println("Started game with gameID: " + ChessGame.gameID);
+            inQueueCreate = false;
+            inGame = true;
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean joinGame(){
+        DBOps connection = new DBOps();
+        System.out.println("Looking for opponent");
+        int game_id = pollQueue(sql, connection);
+        System.out.println(sql);
+        if(game_id!=-1) {
+            ChessGame.gameID = game_id;
+            if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                ChessGame.color = true;
+            } else {
+                connection.exUpdate("UPDATE Game SET user_id2 = " + Login.userID + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                ChessGame.color = false;
+            }
+            System.out.println("Started game with gameID: " + ChessGame.gameID);
+            inQueueJoin = false;
+            inGame = true;
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean joinFriend(){
+        DBOps connection = new DBOps();
+        System.out.println("waiting for opponent");
+        if(!playersReady(connection)) {
+            connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
+            System.out.println("Success!");
+            System.out.println("Started game with gameID: " + ChessGame.gameID);
+            inQueueFriend = false;
+            return true;
+        }
+        return false;
+    }
+
+    public static int searchFriend() {
+        DBOps connection = new DBOps();
+        sql = createSearchFriend(Login.getUserID());
+        System.out.println(sql);
+        int game_id = pollQueue(Game.sql, connection);
+        if (game_id != -1) {
+            searchFriend = false;
+            return game_id;
+        }
+        return -1;
+    }
+
+    public static boolean tryAcceptInvite(int game_id){
+        DBOps connection = new DBOps();
+        ChessGame.gameID = game_id;
+        if (getActive(ChessGame.gameID)) {
+            if (connection.exUpdate("UPDATE Game SET user_id1 = " + Login.userID + " WHERE user_id1 IS NULL AND game_id = " + game_id + ";") == 1) {
+                ChessGame.color = true;
+            } else {
+                connection.exUpdate("UPDATE Game SET user_id2 = " + Login.userID + " WHERE user_id2 IS NULL AND game_id = " + game_id + ";");
+                ChessGame.color = false;
+            }
+            System.out.println("Started game with gameID: " + ChessGame.gameID);
+            searchFriend = false;
+            removeActiveFromGame();
+            return true;
+        }
+        return false;
+    }
+
+    public static int newGameID(){
+        DBOps connection = new DBOps();
+        ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(game_id) FROM Game;", 1); //Change this SQLQuery to match the database
+        if (matchingGameIDs.size() == 0) {
+            return 1;
+        }
+        int out = Integer.parseInt((String) matchingGameIDs.get(0));
+        return out + 1;
+    }
+
+    public static String createSearchFriend(int friendid) {
+        String sql = "SELECT game_id FROM Game WHERE opponent = " +friendid + " AND active = 1;";
+        return sql;
+    }
+
+    public static String createSearch(int mode, int time, int increment, boolean[] color, int rated) {
+        String sql = "SELECT game_id FROM Game";
+        boolean firstCheck = true;
+        if (mode != -1) {
+            if (mode == 1) {
+                if (firstCheck) {
+                    sql += " WHERE mode > 1000 ";
+                    firstCheck = false;
+                } else {
+                    sql += " AND mode > 1000 ";
+                }
+            }
+            else if (firstCheck) {
+                sql += " WHERE mode = " +mode;
+                firstCheck = false;
+            } else {
+                sql += " AND mode = " +mode;
+            }
+        }
+        if (time != -1) {
+            if (firstCheck) {
+                sql += " WHERE time = " +time;
+                firstCheck = false;
+            } else {
+                sql += " AND time = " +time;
+            }
+        }
+        if (increment != -1) {
+            if (firstCheck) {
+                sql += " WHERE increment = " +increment;
+                firstCheck = false;
+            } else {
+                sql += " AND increment = " +increment;
+            }
+        }
+        if (color[1]) {
+            if (firstCheck) {
+                sql += " WHERE(user_id1 IS null OR user_id2 IS null)";
+                firstCheck = false;
+            } else {
+                sql += " AND(user_id1 IS null OR user_id2 IS null)";
+            }
+        } else {
+            if (color[0]) {
+                if (firstCheck) {
+                    sql += " WHERE user_id2 IS null";
+                    firstCheck = false;
+                } else {
+                    sql += " AND user_id2 IS null";
+                }
+            } else {
+                if (firstCheck) {
+                    sql += " WHERE user_id1 IS null";
+                    firstCheck = false;
+                } else {
+                    sql += " AND user_id1 IS null";
+                }
+            }
+        }
+        if (rated != -1) {
+            if (firstCheck) {
+                sql += " WHERE rated = " +rated;
+                firstCheck = false;
+            } else {
+                sql += " AND rated = " +rated;
+            }
+        }
+        sql += " AND active = 1;";
+        System.out.println(sql);
+        return sql;
+    }
+
+    public static void removeActiveFromGame(){
+        DBOps temp = new DBOps();
+        int game_id = ChessGame.gameID;
+        temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
     }
 }

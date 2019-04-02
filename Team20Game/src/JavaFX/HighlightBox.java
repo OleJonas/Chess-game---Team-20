@@ -113,7 +113,7 @@ class HighlightBox extends Pane{
                         Game.setResult(ChessGame.gameID, Login.userID);
                         User.updateEloByGame(ChessGame.gameID);
                         ChessGame.gameWon = true;
-                        MainScene.inGame = false;
+                        Game.inGame = false;
                         GameOverPopupBox.Display();
                     }
                 }
@@ -125,7 +125,7 @@ class HighlightBox extends Pane{
                         Game.setResult(ChessGame.gameID, Login.userID);
                         User.updateEloByGame(ChessGame.gameID);
                         ChessGame.gameWon = true;
-                        MainScene.inGame = false;
+                        Game.inGame = false;
                         GameOverPopupBox.Display();
                     }
                 }
