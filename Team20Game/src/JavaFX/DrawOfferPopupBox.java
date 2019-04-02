@@ -35,11 +35,11 @@ class DrawOfferPopupBox {
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
-        MainScene.inGame = false;
+        Game.inGame = false;
 
         Button acceptDrawButton = new Button("Accept offer");
         acceptDrawButton.setOnAction(e -> {
-            MainScene.inGame = false;
+            Game.inGame = false;
             ChessGame.isDone = true;
             Game.setResult(ChessGame.gameID, 0);
             User.updateEloByGame(ChessGame.gameID);
@@ -49,7 +49,7 @@ class DrawOfferPopupBox {
         });
         Button declineDrawButton = new Button("Decline offer");
         declineDrawButton.setOnAction(e -> {
-            MainScene.inGame = true;
+            Game.inGame = true;
             Game.setResult(ChessGame.gameID, -1);
             window.close();
         });

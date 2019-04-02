@@ -282,7 +282,7 @@ public class ChessGame{
                         System.out.println("Checkmate for White");
                         if(!color){
                             timer.cancel();
-                            MainScene.inGame =false;
+                            Game.inGame =false;
                             ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
@@ -293,7 +293,7 @@ public class ChessGame{
                         System.out.println("Checkmate for Black");
                         if(color){
                             timer.cancel();
-                            MainScene.inGame =false;
+                            Game.inGame =false;
                             ChessGame.isDone = true;
                             GameOverPopupBox.Display();
                         }
@@ -349,7 +349,7 @@ public class ChessGame{
 
     private void setupGameEngine() {
         ge = new GameEngine(Game.getTime(gameID), Game.getMode(gameID));
-        MainScene.searchFriend = false;
+        Game.searchFriend = false;
         whiteELO = Game.getWhiteELO(gameID);
         blackELO = Game.getBlackELO(gameID);
         myTurn = true;
