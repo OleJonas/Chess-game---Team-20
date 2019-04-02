@@ -44,6 +44,8 @@ class FindUser{
         backToMainButton.setOnAction(e -> {
             MainScene.leftGrid.getChildren().clear();
             MainScene.leftGrid.setVgap(40);
+            MainScene.rightGrid.setPadding(new Insets(40, 150, 20, 0));
+            MainScene.leftGrid.setPadding(new Insets(150, 100, 100, 170));
             MainScene.leftGrid.add(MainScene.newGameButton, 0, 0);
             MainScene.leftGrid.setHalignment( MainScene.newGameButton, HPos.CENTER);
             MainScene.leftGrid.add(MainScene.findUserButton, 0, 1);
@@ -74,8 +76,7 @@ class FindUser{
         MainScene.rightGrid.add(gamesInfoLabel, 0, 1);
 
         //Left GridPane
-       // GridPane leftGrid = new GridPane();
-        //leftGrid.setPadding(new Insets(0, 0, 200, 400));
+        MainScene.leftGrid.setPadding(new Insets(0, 100, 0, 0));
         MainScene.leftGrid.setHgap(10);
         MainScene.leftGrid.setVgap(10);
         Label usernameLabel = new Label("Username: ");
