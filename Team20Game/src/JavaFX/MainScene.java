@@ -43,7 +43,7 @@ import static JavaFX.UserProfile.showUserProfileScene;
 class MainScene {
     static Scene mainScene;
     static Timer timer = new Timer(true);
-    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, cancelGameButton, clearBoard, backToMainButton, leaderboardButton;
+    static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, cancelGameButton, clearBoard, backToMainButton, leaderboardButton, backToMainButtonWithoutSandboxReload;
     static boolean inQueueCreate = false;
     static boolean inQueueJoin = false;
     static boolean inQueueFriend = false;
@@ -85,11 +85,11 @@ class MainScene {
                 System.out.println(Login.USERNAME);
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
-                queLabel.setFont(Font.font("Copperplate", 34));
+                queLabel.setFont(Font.font("Copperplate", 30));
                 queLabel.setTextFill(Color.WHITE);
-                leftGrid.getChildren().add(queLabel);
-                leftGrid.setVgap(10);
-                leftGrid.getChildren().add(cancelGameButton);
+                leftGrid.setVgap(15);
+                leftGrid.add(queLabel, 0, 0);
+                leftGrid.add(cancelGameButton, 0, 1);
                 inQueueCreate = true;
             }
         });
@@ -102,11 +102,11 @@ class MainScene {
                 title.setText("Joining Game");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
-                queLabel.setFont(Font.font("Copperplate", 34));
+                queLabel.setFont(Font.font("Copperplate", 30));
                 queLabel.setTextFill(Color.WHITE);
-                leftGrid.getChildren().add(queLabel);
-                leftGrid.setVgap(10);
-                leftGrid.getChildren().add(cancelGameButton);
+                leftGrid.setVgap(15);
+                leftGrid.add(queLabel, 0, 0);
+                leftGrid.add(cancelGameButton, 0, 1);
             }
         });
 
@@ -119,11 +119,11 @@ class MainScene {
                 title.setText("Inviting Friend");
                 leftGrid.getChildren().clear();
                 Label queLabel = new Label("Waiting for\nopponent ...");
-                queLabel.setFont(Font.font("Copperplate", 34));
+                queLabel.setFont(Font.font("Copperplate", 30));
                 queLabel.setTextFill(Color.WHITE);
-                leftGrid.getChildren().add(queLabel);
-                leftGrid.setVgap(10);
-                leftGrid.getChildren().add(cancelGameButton);
+                leftGrid.setVgap(15);
+                leftGrid.add(queLabel, 0, 0);
+                leftGrid.add(cancelGameButton, 0, 1);
                 inQueueFriend = true;
             }
         });
@@ -135,8 +135,8 @@ class MainScene {
         newGameButton = new Button("New Game");
         newGameButton.setOnAction(e -> {
             title.setText("New Game");
-            mainLayout.add(backToMainButton, 0, 0, 2, 1);
-            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButtonWithoutSandboxReload, HPos.LEFT);
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
             leftGrid.setPadding(new Insets(150, 100, 100, 170));
@@ -176,11 +176,27 @@ class MainScene {
 
             rightGrid.getChildren().clear();
             reloadSandbox();
-            /*
-            rightGrid.add(clearBoard, 0, 1);
-            rightGrid.setHalignment(clearBoard, HPos.RIGHT);
-            rightGrid.add(sandboxLabel, 0, 1);
-            */
+        });
+
+        backToMainButtonWithoutSandboxReload = new Button("Back");
+        imageViewBackToMain.setFitWidth(20);
+        imageViewBackToMain.setFitHeight(20);
+        backToMainButtonWithoutSandboxReload.setGraphic(imageViewBackToMain);
+        backToMainButtonWithoutSandboxReload.setOnAction(e -> {
+            mainLayout.getChildren().remove(backToMainButtonWithoutSandboxReload);
+            title.setText("Recess Chess");
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.add(newGameButton, 0, 0);
+            leftGrid.setHalignment(newGameButton, HPos.CENTER);
+            leftGrid.add(findUserButton, 0, 1);
+            leftGrid.setHalignment(findUserButton, HPos.CENTER);
+            leftGrid.add(userProfileButton, 0, 2);
+            leftGrid.setHalignment(userProfileButton, HPos.CENTER);
+            leftGrid.add(leaderboardButton,0,3);
+            leftGrid.setHalignment(leaderboardButton,HPos.CENTER);
+            leftGrid.add(settingsButton, 0, 4);
+            leftGrid.setHalignment(settingsButton, HPos.CENTER);
         });
 
         findUserButton = new Button("Find User");
@@ -260,7 +276,7 @@ class MainScene {
 
         //Right GridPane
         rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setPadding(new Insets(50, 150, 20, 0));
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
