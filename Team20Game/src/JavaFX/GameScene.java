@@ -25,12 +25,12 @@ import javafx.scene.control.TableView;
 
 
 @SuppressWarnings("Duplicates")
-class GameScene {
+public class GameScene {
     static Scene gameScene;
     static Timer yourTimer;
     static Timer opponentTimer;
-    static int yourTime = Game.getTime(ChessGame.gameID) * 60;
-    static int opponentTime = Game.getTime(ChessGame.gameID)*60;
+    public static int yourTime = Game.getTime(ChessGame.gameID) * 60;
+    static int opponentTime = (Game.getTime(ChessGame.gameID)*60) -16;
     static Label yourClock;
     static Label opponentClock;
     static boolean yourIncrement = true;
