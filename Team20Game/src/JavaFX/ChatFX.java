@@ -51,9 +51,10 @@ public class ChatFX{
     public static GridPane createChat(){
         //window = new Stage();
         sendButton = new Button("Send");
-        closeButton = new Button("Exit");
+        sendButton.setPrefWidth(60);
 
         inText = new TextField();
+        inText.setPrefWidth(180);
 
         sendButton.setOnAction(e -> {
             if(!inText.getText().trim().equals("")){
@@ -62,22 +63,18 @@ public class ChatFX{
             }
         });
 
-        /*closeButton.setOnAction(e -> {
-            chat.chatClose();
-            window.close();
-        });*/
-
         chatLayout = new VBox(5);
-        chatLayout.setPadding(new Insets(20,20,20,20));
+        chatLayout.setPadding(new Insets(0,15,10,15));
         chatLayout.getChildren().add(new Label(" "));
 
-        container.setPrefSize(216, 400);
+        container.setPrefSize(240, 440);
         container.setContent(chatLayout);
 
         GridPane gridPane = new GridPane();
-        gridPane.add(container, 0,0);
+        gridPane.add(container, 0,0,2,1);
         gridPane.add(inText,0,1);
-        gridPane.add(sendButton, 0,2);
+        gridPane.add(sendButton, 1,1);
+        gridPane.setHalignment(sendButton, HPos.RIGHT);
         gridPane.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER){
                 if(!inText.getText().trim().equals("")){

@@ -50,7 +50,7 @@ class GameScene {
 
     static void showGameScene() {
         Label title = new Label("Recess Chess");
-        title.setFont(Font.font("Copperplate", 60));
+        title.setFont(Font.font("Georgia", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
@@ -66,7 +66,11 @@ class GameScene {
         //Left GridPane
         GridPane leftGrid = new GridPane();
         leftGrid.setPadding(new Insets(110, 0, 0, 0));
-        leftGrid.add(ChatFX.createChat(), 0, 4);
+        Label chatLabel = new Label("Chat");
+        chatLabel.setTextFill(Color.WHITE);
+        chatLabel.setFont(Font.font("Georgia", 30));
+        leftGrid.add(chatLabel, 0, 0);
+        leftGrid.add(ChatFX.createChat(), 0, 1);
 
         GridPane centerGrid = new GridPane();
         centerGrid.setPadding(new Insets(70, 100, 100, 0));
