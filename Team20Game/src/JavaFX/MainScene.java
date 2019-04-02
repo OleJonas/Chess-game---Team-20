@@ -24,10 +24,7 @@ import javafx.stage.Stage;
 
 import javax.management.monitor.Monitor;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -77,6 +74,7 @@ class MainScene {
 
         //buttons for newGameOption
         createGameButton = new Button("Create Game");
+
         createGameButton.setOnAction(e -> {
             created = false;
             CreateGamePopupBox.Display(); //opens Popup
@@ -133,6 +131,8 @@ class MainScene {
         leftGrid.setVgap(40);
         leftGrid.setPadding(new Insets(150, 100, 100, 170));
         newGameButton = new Button("New Game");
+        newGameButton.setStyle("-fx-background-color: #29AC29");
+        newGameButton.setTextFill(Color.WHITE);
         newGameButton.setOnAction(e -> {
             title.setText("New Game");
             mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
