@@ -163,7 +163,6 @@ class MainScene {
             title.setText("Recess Chess");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
-            rightGrid.setPadding(new Insets(40, 150, 20, 0));
             leftGrid.setPadding(new Insets(150, 100, 100, 170));
             leftGrid.add(newGameButton, 0, 0);
             leftGrid.setHalignment(newGameButton, HPos.CENTER);
@@ -336,7 +335,7 @@ class MainScene {
 
     static void reloadSandbox(){
         rightGrid.getChildren().clear();
-        rightGrid.setPadding(new Insets(60, 150, 20, 0));
+        rightGrid.setPadding(new Insets(40, 150, 20, 0));
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);

@@ -62,9 +62,6 @@ class FindUser{
         });
 
         //Right GridPane
-       // GridPane rightGrid = new GridPane();
-        //rightGrid.setVgap(40);
-        //rightGrid.setPadding(new Insets(50, 200, 100, 250));
         gamesInfoLabel = new Label(gamesInfoString);
         gamesInfoLabel.setFont(Font.font("Copperplate", 25));
         gamesInfoLabel.setStyle("-fx-font-weight: bold");
@@ -76,7 +73,7 @@ class FindUser{
         MainScene.rightGrid.add(gamesInfoLabel, 0, 1);
 
         //Left GridPane
-        MainScene.leftGrid.setPadding(new Insets(0, 100, 0, 0));
+        MainScene.leftGrid.setPadding(new Insets(20, 0, 0, 20));
         MainScene.leftGrid.setHgap(10);
         MainScene.leftGrid.setVgap(10);
         Label usernameLabel = new Label("Username: ");
