@@ -23,17 +23,17 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import javax.management.monitor.Monitor;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
-import static JavaFX.Login.*;
+import static JavaFX.Login.USERNAME;
+import static JavaFX.Login.runLogin;
 import static JavaFX.Settings.showSettings;
-import static JavaFX.Settings.window;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -1286,7 +1286,7 @@ class FriendInviteBox {
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 530, 360);
+        Scene scene = new Scene(windowLayout, 550, 360);
         window.setScene(scene);
         window.showAndWait();
     }
