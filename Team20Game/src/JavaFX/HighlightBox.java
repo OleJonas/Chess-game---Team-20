@@ -50,6 +50,8 @@ class HighlightBox extends Pane{
 
             ChessGame.myTurn = false;
 
+            GameScene.allMoves.add(tile.getY() + "" + tile.getX());
+            GameScene.updateMoves();
             int fromX = tile.getX();
             int fromY = tile.getY();
             int toX = this.x;

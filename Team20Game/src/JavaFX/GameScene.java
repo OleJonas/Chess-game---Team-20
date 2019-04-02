@@ -11,13 +11,21 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import sun.rmi.runtime.Log;
+import java.util.ArrayList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 //import sun.security.pkcs11.Secmod;
 
 
 @SuppressWarnings("Duplicates")
 class GameScene {
     static Scene gameScene;
+    public static ArrayList<String> allMoves = new ArrayList<>();
+    public static ArrayList<String> whiteMoves = new ArrayList<>();
+    public static ArrayList<String> blackMoves = new ArrayList<>();
+    public static ArrayList<Integer> moveNumbers = new ArrayList<>();
+
+    private static TableView table = new TableView();
 
     //Stats which will be initialized with DBOps while starting a game
     static String player1;
@@ -25,17 +33,32 @@ class GameScene {
     public static boolean remiOffered;
     public static Button offerDrawButton;
 
-    static void showGameScene(){
+    static void updateMoves(){
+        String s = allMoves.get(allMoves.size() - 1);
+        String help = "0a";
+        int letter = (int)s.charAt(1) - (int)help.charAt(0) + (int)(help.charAt(1));
+        s = (char)(letter) + Character.toString(s.charAt(0));
+
+        if (allMoves.size() % 2 == 0){
+            blackMoves.add(s);
+        }
+        else{
+            whiteMoves.add(s);
+            moveNumbers.add((allMoves.size() + 1) / 2);
+        }
+    }
+
+    static void showGameScene() {
         Label title = new Label("Recess Chess");
-        title.setFont(Font.font("Georgia", 60));
+        title.setFont(Font.font("Copperplate", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
         int userid1 = Game.getUser_id1(ChessGame.gameID);
         int userid2 = Game.getUser_id2(ChessGame.gameID);
 
-        player1 = User.getUsername(userid1) + " (" +User.getElo(userid1)+")";
-        player2 = User.getUsername(userid2) + " (" +User.getElo(userid2)+")";
+        player1 = User.getUsername(userid1) + " (" + User.getElo(userid1) + ")";
+        player2 = User.getUsername(userid2) + " (" + User.getElo(userid2) + ")";
 
         //Now im going to code the centerPane, which have to consist of one GridPane, with 2x2 cols/rows. Col 0, row 0 will consist of the title with colspan 2, rowspan 1
         //Column 0, row 2 will have the buttons, and column 1, row 2 will have a sandobox chessboard
@@ -43,27 +66,22 @@ class GameScene {
         //Left GridPane
         GridPane leftGrid = new GridPane();
         leftGrid.setPadding(new Insets(110, 0, 0, 0));
-        Label chatLabel = new Label("Chat");
-        chatLabel.setFont(Font.font("Georgia", 25));
-        chatLabel.setStyle("-fx-font-weight: bold");
-        chatLabel.setTextFill(Color.WHITE);
-        leftGrid.setVgap(5);
-        leftGrid.add(chatLabel, 0, 0);
-        leftGrid.add(ChatFX.createChat(), 0, 1);
+        leftGrid.add(ChatFX.createChat(), 0, 4);
 
         GridPane centerGrid = new GridPane();
         centerGrid.setPadding(new Insets(70, 100, 100, 0));
         Parent chessGame = new ChessGame().setupBoard();
-        centerGrid.add(chessGame,0,0);
+        centerGrid.add(chessGame, 0, 0);
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
-        rightGrid.setPadding(new Insets(70, 0, 50, 10));
-        //rightGrid.setHgap(10);
+        rightGrid.setPadding(new Insets(70, 0, 50, 20));
+        rightGrid.setHgap(10);
         rightGrid.setVgap(10);
+
         /*
         Label gameidLabel = new Label("GameID: " + ChessGame.gameID);
-        gameidLabel.setFont(Font.font("Georgia", 40));
+        gameidLabel.setFont(Font.font("Copperplate", 40));
         gameidLabel.setStyle("-fx-font-weight: bold");
         gameidLabel.setTextFill(Color.WHITE);
         rightGrid.add(gameidLabel, 0, 0);
@@ -71,32 +89,27 @@ class GameScene {
         //Label playersLabel = new Label(player1 + " vs " + player2);
         Label playerOne = new Label(player1);
         Label playerTwo = new Label(player2);
-        //playersLabel.setFont(Font.font("Georgia", 25));
+        //playersLabel.setFont(Font.font("Copperplate", 25));
         //playersLabel.setStyle("-fx-font-weight: bold");
         //playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         //rightGrid.add(playersLabel, 0, 1);
-        playerOne.setFont(Font.font("Georgia", 25));
+        playerOne.setFont(Font.font("Copperplate", 25));
         playerOne.setStyle("-fx-font-weight: bold");
         playerOne.setTextFill(Color.LIGHTSKYBLUE);
-        playerTwo.setFont(Font.font("Georgia", 25));
+        playerTwo.setFont(Font.font("Copperplate", 25));
         playerTwo.setStyle("-fx-font-weight: bold");
         playerTwo.setTextFill(Color.LIGHTSKYBLUE);
 
-        if (Login.userID == userid1) {
-            System.out.println(player1 +"gallo");
-            rightGrid.add(playerTwo, 0, 1);
-            rightGrid.add(playerOne, 0, 3);
+        rightGrid.add(playerOne, 0, 1);
 
-        } else {
-            rightGrid.add(playerOne, 0, 1);
-            rightGrid.add(playerTwo, 0, 3);
-        }
 
+        //bruk 3
+        rightGrid.add(playerTwo, 0, 4);
         Label time1label = new Label(player1);
-        time1label.setFont(Font.font("Georgia", 40));
+        time1label.setFont(Font.font("Copperplate", 40));
         time1label.setStyle("-fx-font-weight: bold");
         Label time2label = new Label(player2);
-        time2label.setFont(Font.font("Georgia", 40));
+        time2label.setFont(Font.font("Copperplate", 40));
         time2label.setStyle("-fx-font-weight: bold");
         /*GameTimerFX player1Time = new GameTimerFX();
         GameTimerFX player2Time = new GameTimerFX();
@@ -118,9 +131,7 @@ class GameScene {
             GameOverPopupBox.Display();
         });
 
-        resignButton.setStyle("-fx-background-color: #FF0000");
-        resignButton.setTextFill(Color.WHITE);
-        rightGrid.add(resignButton, 1, 2);
+        rightGrid.add(resignButton, 0, 2);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -132,7 +143,7 @@ class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
-        rightGrid.add(offerDrawButton, 0, 2);
+        rightGrid.add(offerDrawButton, 1, 2);
 
 
         //mainLayout

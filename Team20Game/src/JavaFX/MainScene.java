@@ -328,7 +328,7 @@ class MainScene {
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
-        Main.window.setResizable(false);
+        Main.window.setResizable(true);
         refresh();
         searchFriend = true;
     }

@@ -423,7 +423,7 @@ public class ChessGame{
         polling = true;
         try {
             DBOps db = new DBOps();
-            System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
+            //System.out.println("SELECT fromX, fromY, toX, toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";");
             //ArrayList<String> res = db.exQuery("SELECT fromX, fromY, toX, toY FROM GameIDMove WHERE GameID = " + gameID + " AND MoveNumber = " + (movenr + 1) + ";");
             ArrayList<String> fromXlist = db.exQuery("SELECT fromX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1);
             if(fromXlist.size()>0) {
@@ -432,6 +432,8 @@ public class ChessGame{
                 int toX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int toY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 //System.out.println("test" + fromX);
+                GameScene.allMoves.add(toY + "" + toX);
+                GameScene.updateMoves();
                 if (board[fromX][fromY] != null) {
                     enemyMove(fromX, fromY, toX, toY);
                     System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
