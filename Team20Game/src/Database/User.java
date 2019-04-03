@@ -111,6 +111,7 @@ public class User {
             int user_id1 = Game.getUser_id1(game_id);
             int user_id2 = Game.getUser_id2(game_id);
             int result = Game.getResult(game_id);
+            int rated = Game.getRated(game_id);
 
             public void run() {
 
@@ -125,8 +126,11 @@ public class User {
                 int [] elo = GameEngine.getElo(ELOuser1, ELOuser2, a);
                 System.out.println(" white oldELO: "+ ELOuser1+ " white NewELO"+ elo[0] + " black oldELO: "+ ELOuser2 + " black newELO" + elo[1] +
                         "\nResult: " + a);
-                updateElo(user_id1, elo[0]);
-                updateElo(user_id2, elo[1]);
+                if (rated == 1) {
+                    updateElo(user_id1, elo[0]);
+                    updateElo(user_id2, elo[1]);
+                }
+
 
             }
         });

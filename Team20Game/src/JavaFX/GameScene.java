@@ -69,12 +69,12 @@ public class GameScene {
     static void showGameScene() {
         increment = Game.getIncrement(ChessGame.gameID);
 
-        /*
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
-        */
+        /*
         yourTime = 30;
         opponentTime = 30;
+        */
 
         yourTimer = new Timer();
         opponentTimer = new Timer();

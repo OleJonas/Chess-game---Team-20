@@ -272,10 +272,10 @@ public class ChessGame{
                     }
                 }
                 if (ge.isCheckmate(ge.getBoard(), !ge.getBoard().getBoardState()[toX][toY].getColor())) {
-
                     if (ge.getBoard().getBoardState()[toX][toY].getColor()) {
                         System.out.println("Checkmate for White");
                         if(!color){
+
                             timer.cancel();
                             MainScene.inGame =false;
                             ChessGame.isDone = true;

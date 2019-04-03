@@ -1204,8 +1204,16 @@ class GameOverPopupBox {
         titleLabel.setTextFill(Color.WHITE);
 
         int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
-        int myNewElo = ChessGame.color?elo[0]:elo[1];
-        int enemyElo = ChessGame.color?elo[1]:elo[0];
+
+        int myNewElo = 0;
+        int enemyElo = 0;
+        if (Game.getRated(ChessGame.gameID) == 1) {
+            myNewElo = oldElo;
+        } else {
+            myNewElo = ChessGame.color?elo[0]:elo[1];
+        }
+
+        //enemyElo = ChessGame.color?elo[1]:elo[0];
         System.out.println("old ELO: " + oldElo + " your new ELO: "+ myNewElo + " \nEnemy's new ELO: " + enemyElo);
         String newElo = Login.USERNAME + "'s new ELO rating: \n" + myNewElo + " (" +((myNewElo-oldElo)>0?"+":"") +(myNewElo-oldElo) + ")";
         Label eloLabel = new Label(newElo);
