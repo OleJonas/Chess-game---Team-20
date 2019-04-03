@@ -108,12 +108,7 @@ class Register {
         } else if (!registerPasswordAgainInput.equals(registerPasswordInput)) {
             registerComment.setText("Passwords not matching");
         }else {
-            boolean registrationOK = false;
-            try {
-                registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+            boolean registrationOK = Login.register(registerUsernameInput, registerPasswordInput);
             if (registrationOK) {
                 registerUsernameField.clear();
                 registerPasswordField.clear();

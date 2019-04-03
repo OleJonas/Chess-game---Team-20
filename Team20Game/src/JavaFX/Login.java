@@ -140,16 +140,7 @@ public class Login{
 
     static boolean checkUsername(String username){
         DBOps connection = new DBOps();
-        String matchingUsername = "";
-        try{
-            ArrayList<String> result = connection.exQuery("SELECT username FROM User WHERE username=\"" + username + "\"",1);
-
-            if(result.size() > 0){
-                matchingUsername = result.get(0);
-            }
-        }catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
-        }
+        String matchingUsername = connection.checkUsername(username);
         if(matchingUsername.toLowerCase().equals(username.toLowerCase())){
             return true;
         }
@@ -160,8 +151,7 @@ public class Login{
         DBOps connection = new DBOps();
         String matchingPassword = "";
         byte[] saltByte = new byte[20];
-        try{
-            ArrayList<String> result = connection.exQuery("SELECT password, SALT FROM User WHERE username=\"" + username + "\"",2);
+            ArrayList<String> result = connection.checkPW(password, username);
             if(result.size() > 0){
                 matchingPassword = result.get(0);
                 String saltString = result.get(1);
@@ -169,9 +159,6 @@ public class Login{
             } else {
                 return false;
             }
-        }catch (Exception sq) {
-            System.out.println("SQL-Feil: " + sq);
-        }
         if(matchingPassword.equals(generateHash(password, saltByte))){
             return true;
         }
@@ -180,26 +167,21 @@ public class Login{
     }
 
     //Denne metoden registrerer en bruker i User-tabellen med brukernavn, passord, SALT, en default avatar og en user_id (AUTO_INCREMENT)
-    static boolean register(String username, String password) throws SQLException {
+    static boolean register(String username, String password){
         DBOps connection = new DBOps();
+        if(checkUsername(username)) return false;
+
         try{
-            if(checkUsername(username)) return false;
             //Create salt hash password
             byte[] salt = createSalt();
             String passwordHash = generateHash(password, salt);
             String saltString = bytesToStringHex(salt);
             //Insert into User
-            int rowsAffected = connection.exUpdate("INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values('" + username + "','" + passwordHash + "','" + saltString + "', 'avatar1.jpg', 0, 0, 0, 0, 1000);");
-            if(rowsAffected==0) return false;
-            //Insert into UserSettings
-            int newID = Integer.parseInt(connection.exQuery(("SELECT MAX(user_id) FROM User"),1).get(0));
-            System.out.println(newID);
-            rowsAffected = connection.exUpdate("INSERT INTO UserSettings(user_id , username, darkTileColor, lightTileColor, skinName) values(" + newID + ", '" + username + "', '#8B4513', '#FFEBCD', 'Standard');");
-            if(rowsAffected==1) return true;
-        }catch (Exception sq) {
-            sq.printStackTrace();
+            if(!connection.register(username, passwordHash, saltString)) return false;
+        }catch (Exception nosuchalgorithm) {
+            nosuchalgorithm.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     //Arpit Shah on Youtube, SALT Hashing

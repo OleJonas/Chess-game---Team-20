@@ -116,7 +116,7 @@ class FindUser{
 
     static boolean searchForUser(String username){
         DBOps connection = new DBOps();
-        ArrayList<String> result = connection.exQuery("SELECT avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User where username = '" + username + "';", 6);
+        ArrayList<String> result = connection.findUser(username,6);
         if(result.size() > 0) {
             findUser_USERNAME = username;
             findUser_AvatarString = result.get(0);
