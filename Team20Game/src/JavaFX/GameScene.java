@@ -37,9 +37,6 @@ public class GameScene {
     static int userid1;
     static int userid2;
 
-    static boolean yourIncrement = true;
-    static boolean opponentIncrement = true;
-
     public static int increment;
     public static ArrayList<String> allMoves = new ArrayList<>();
     public static ArrayList<String> whiteMoves = new ArrayList<>();
@@ -72,13 +69,13 @@ public class GameScene {
     static void showGameScene() {
         increment = Game.getIncrement(ChessGame.gameID);
 
-
+        /*
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
-        /*
+        */
         yourTime = 30;
         opponentTime = 30;
-        */
+
         yourTimer = new Timer();
         opponentTimer = new Timer();
 
@@ -161,17 +158,8 @@ public class GameScene {
         Label time2label = new Label(player2);
         time2label.setFont(Font.font("Copperplate", 40));
         time2label.setStyle("-fx-font-weight: bold");
-        /*GameTimerFX player1Time = new GameTimerFX();
-        GameTimerFX player2Time = new GameTimerFX();
-        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
-        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
-        rightGrid.add(time1label, 1, 3);
-        rightGrid.add(time2label, 1, 4);
-        */
-
 
         //forfeitButton
-
         Button resignButton = new Button("Resign");
         resignButton.setStyle("-fx-background-color: #ff0000");
         resignButton.setTextFill(Color.WHITE);
@@ -283,18 +271,8 @@ public class GameScene {
         }
 
         if (ChessGame.myTurn) {
-            /*if (opponentIncrement) {
-                opponentTime += increment + 1;
-                opponentIncrement = false;
-                yourIncrement = true;
-            }*/
             return yourTime--;
         } else {
-            /*if (yourIncrement) {
-                yourTime += increment + 1;
-                yourIncrement = false;
-                opponentIncrement = true;
-            }*/
             return opponentTime--;
         }
 

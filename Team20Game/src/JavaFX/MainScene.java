@@ -421,6 +421,7 @@ public class MainScene {
                             @Override
                             public void run() {
                                 DBOps connection = new DBOps();
+                                System.out.println(ChessGame.gameWon);
                                 try {
                                     if(inQueueCreate){
                                         if(Game.startGame()){
@@ -1158,9 +1159,7 @@ class JoinGamePopupBox{
     }
 }
 
-class GameOverPopupBox{
-
-
+class GameOverPopupBox {
     public static void Display(){
         yourTimer.cancel();
         opponentTimer.cancel();
@@ -1169,10 +1168,14 @@ class GameOverPopupBox{
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
 
-
         //Labels
         int result = Game.getResult(ChessGame.gameID);
-        String text = ChessGame.gameWon?"VICTORY":"DEFEAT";
+        String text = "";
+        if (userID == result) {
+            text = "VICTORY";
+        } else {
+            text = "DEFEAT";
+        }
 
         if(result == 0){
             result = 2;
