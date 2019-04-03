@@ -27,12 +27,15 @@ public class Game {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps db = new DBOps();
-                GameScene.yourTime += GameScene.increment;
+                GameScene.yourTime += (GameScene.yourTime == 0 ? 0 : GameScene.increment + 1);
                 if (ChessGame.color) {
                     if(ChessGame.firstMove){
+                        GameScene.yourTime--;
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime +");");
                         ChessGame.firstMove = false;
-                        GameScene.refresh();
+                        if (GameScene.yourTime != 0) {
+                            GameScene.refresh();
+                        }
                         System.out.println("started timer in Game class");
 
                     }

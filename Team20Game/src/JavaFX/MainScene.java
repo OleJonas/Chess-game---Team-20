@@ -289,6 +289,7 @@ public class MainScene {
             title.setText("Recess Chess");
             inQueueJoin = false;
             inQueueCreate = false;
+            inQueueFriend = false;
             invitedFriend = false;
             Game.removeActiveFromGame();
 
@@ -419,7 +420,6 @@ public class MainScene {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                DBOps connection = new DBOps();
                                 try {
                                     if(inQueueCreate){
                                         if(Game.startGame()){
@@ -439,6 +439,7 @@ public class MainScene {
                                             FriendInviteBox.Display(game_id);
                                         }
                                     }
+
                                     if (inGame) {
                                         int result = Game.getResult(ChessGame.gameID);
                                         System.out.println("result: "+ result);
@@ -534,13 +535,18 @@ class InviteFriendPopupBox{
 
         //Choiceboxes
         timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("1 min");
+        timeChoiceBox.getItems().add("3 min");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
         timeChoiceBox.getItems().add("15 min");
         timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("45 min");
         timeChoiceBox.setValue("No timer");
 
         incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("1 sec");
+        incrementChoiceBox.getItems().add("2 sec");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
         incrementChoiceBox.getItems().add("15 sec");
@@ -670,7 +676,7 @@ class InviteFriendPopupBox{
 
         int time = 0;
         if (!timeChoice.equals("No timer")) {
-            if (timeChoice.startsWith("5")) {
+            if (timeChoice.length() == 5) {
                 time = Integer.parseInt(timeChoice.substring(0, 1));
             } else {
                 time = Integer.parseInt(timeChoice.substring(0, 2));
@@ -679,10 +685,10 @@ class InviteFriendPopupBox{
 
         int increment = 0;
         if (!incrementChoice.equals("No increment")) {
-            if (incrementChoice.startsWith("1")) {
-                increment = Integer.parseInt(incrementChoice.substring(0, 2));
-            } else {
+            if (incrementChoice.length() == 5) {
                 increment = Integer.parseInt(incrementChoice.substring(0, 1));
+            } else {
+                increment = Integer.parseInt(incrementChoice.substring(0, 2));
             }
         }
         boolean color = true;
@@ -779,13 +785,18 @@ class CreateGamePopupBox{
         modeChoiceBox.setValue("Standard");
 
         timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("1 min");
+        timeChoiceBox.getItems().add("3 min");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
         timeChoiceBox.getItems().add("15 min");
         timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("45 min");
         timeChoiceBox.setValue("No timer");
 
         incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("1 sec");
+        incrementChoiceBox.getItems().add("2 sec");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
         incrementChoiceBox.getItems().add("15 sec");
@@ -903,7 +914,7 @@ class CreateGamePopupBox{
 
         int time = 0;
         if (!timeChoice.equals("No timer")) {
-            if (timeChoice.startsWith("5")) {
+            if (timeChoice.length() == 5) {
                 time = Integer.parseInt(timeChoice.substring(0, 1));
             } else {
                 time = Integer.parseInt(timeChoice.substring(0, 2));
@@ -912,10 +923,10 @@ class CreateGamePopupBox{
 
         int increment = 0;
         if (!incrementChoice.equals("No increment")) {
-            if (incrementChoice.startsWith("1")) {
-                increment = Integer.parseInt(incrementChoice.substring(0, 2));
-            } else {
+            if (incrementChoice.length() == 5) {
                 increment = Integer.parseInt(incrementChoice.substring(0, 1));
+            } else {
+                increment = Integer.parseInt(incrementChoice.substring(0, 2));
             }
         }
         boolean color = true;
@@ -993,15 +1004,20 @@ class JoinGamePopupBox{
 
         timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("1 min");
+        timeChoiceBox.getItems().add("3 min");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
         timeChoiceBox.getItems().add("15 min");
         timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("45 min");
         timeChoiceBox.getItems().add("Any");
         timeChoiceBox.setValue("Any");
 
         incrementChoiceBox = new ChoiceBox<>();
         incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("1 sec");
+        incrementChoiceBox.getItems().add("2 sec");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
         incrementChoiceBox.getItems().add("15 sec");
@@ -1119,7 +1135,7 @@ class JoinGamePopupBox{
         if (!timeChoice.equals("Any")) {
             if (timeChoice.equals("No timer")) {
                 time = 0;
-            } else if (timeChoice.startsWith("5")) {
+            } else if (timeChoice.length() == 5) {
                 time = Integer.parseInt(timeChoice.substring(0, 1));
             } else {
                 time = Integer.parseInt(timeChoice.substring(0, 2));
@@ -1129,10 +1145,10 @@ class JoinGamePopupBox{
         if (!incrementChoice.equals("Any")) {
             if (incrementChoice.equals("No increment")) {
                 time = 0;
-            } else if (incrementChoice.startsWith("1")) {
-                increment = Integer.parseInt(incrementChoice.substring(0, 2));
-            } else {
+            } else if (incrementChoice.length() == 5) {
                 increment = Integer.parseInt(incrementChoice.substring(0, 1));
+            } else {
+                increment = Integer.parseInt(incrementChoice.substring(0, 2));
             }
         }
         boolean[] color = {false, false};
@@ -1156,9 +1172,7 @@ class JoinGamePopupBox{
     }
 }
 
-class GameOverPopupBox{
-
-
+class GameOverPopupBox {
     public static void Display(){
         yourTimer.cancel();
         opponentTimer.cancel();
@@ -1167,10 +1181,14 @@ class GameOverPopupBox{
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
 
-
         //Labels
         int result = Game.getResult(ChessGame.gameID);
-        String text = ChessGame.gameWon?"VICTORY":"DEFEAT";
+        String text = "";
+        if (userID == result) {
+            text = "VICTORY";
+        } else {
+            text = "DEFEAT";
+        }
 
         if(result == 0){
             result = 2;
@@ -1251,6 +1269,7 @@ class FriendInviteBox {
         Button acceptInvite = new Button("Accept");
         acceptInvite.setOnAction(e -> {
             if(Game.tryAcceptInvite(game_id)){
+                MainScene.inGame = true;
                 window.close();
                 showGameScene();
             } else {
