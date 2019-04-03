@@ -67,11 +67,12 @@ class HighlightBox extends Pane{
                 gameEngine.getBoard().addTakenPiece(gameEngine.getBoard().getBoardState()[x][y]);
             }
             tile.move(x, y, board, false);
-            Piece temp = (Piece)gameEngine.getBoard().getBoardState()[toX][toY];
-            if (ChessGame.color) {
-                GameScene.viewMoves.add(new Label(ChessGame.movenr + ". " + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
+            Piece temp = (Piece)gameEngine.getBoard().getBoardState()[x][y];
+            if (!ChessGame.color) {
+                GameScene.viewMoves.add(new Label(GameScene.spacing + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
             } else {
-                GameScene.viewMoves.add(new Label(". " + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
+                GameScene.viewMoves.add(new Label((((ChessGame.movenr + 1)/2)+1) + ". "), 0, (ChessGame.movenr + 1)/2);
+                GameScene.viewMoves.add(new Label(GameScene.spacing + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
             }
 
             ChessGame.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();

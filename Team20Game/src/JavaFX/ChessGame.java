@@ -152,17 +152,21 @@ public class ChessGame{
                         if (toX > fromX) {
                             board[7][0].move(toX - 1, 0, board, true);
                             board[4][0].move(6, 0, board, false);
+                            toY = 0;
                         } else {
                             board[0][0].move(toX + 1, 0, board, true);
                             board[4][0].move(2, 0, board, false);
+                            toY = 0;
                         }
                     } else {
                         if (toX > fromX) {
                             board[7][7].move(toX - 1, 7, board, true);
                             board[4][7].move(6, 7, board, false);
+                            toY=7;
                         } else {
                             board[0][7].move(toX + 1, 7, board, true);
                             board[4][7].move(2, 7, board, false);
+                            toY = 7;
                         }
                     }
 
@@ -184,6 +188,7 @@ public class ChessGame{
                     ImageView tempimg = newPiece.getImageView();
                     ChessGame.skin = awaySkin;
                     ge.setPiece(newPiece, toX, 7);
+                    toY=7;
 
                     tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
 
@@ -226,6 +231,7 @@ public class ChessGame{
                     ImageView tempimg = newPiece.getImageView();
                     ChessGame.skin = homeSkin;
                     ge.setPiece(newPiece, toX, 0);
+                    toY= 0;
 
                     board[toX][0].setImageView(tempimg,
                             ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
@@ -256,8 +262,6 @@ public class ChessGame{
                 }
             } else {
                 board[fromX][fromY].move(toX, toY, board, false);
-                toeX = toX;
-                toeY = toY;
 
                 //lastMoveGroup.getChildren().clear();
                 Piece[][] boardState = ge.getBoard().getBoardState();
@@ -307,7 +311,6 @@ public class ChessGame{
                 squareTo.setOpacity(0.9);
                 squareTo.setTranslateX(toX*ChessDemo.TILE_SIZE);
                 squareTo.setTranslateY((HEIGHT-1-toY)*ChessDemo.TILE_SIZE);
-                //lastMoveGroup.getChildren().add(squareTo);
             }
 
 
@@ -342,6 +345,8 @@ public class ChessGame{
             squareFrom.setTranslateX(fromX*ChessDemo.TILE_SIZE);
             squareFrom.setTranslateY((HEIGHT-1-fromY)*ChessDemo.TILE_SIZE);
             //lastMoveGroup.getChildren().add(squareFrom);
+                toeX = toX;
+                toeY = toY;
             return true;
 
         }
@@ -442,16 +447,17 @@ public class ChessGame{
                     enemyMove(fromX, fromY, toeX, toeY);
                     Piece temp = (Piece)ge.getBoard().getBoardState()[toeX][toeY];
                     int column = 0;
-                    if(color){
-                        column = GameScene.myColumn+1;
-                    } else{
-                        column = GameScene.myColumn-1;
-                        GameScene.viewMoves.add(new Label((movenr+1)/2 + ". " + temp.toString()), column, (movenr+1)/2);
+                    int movenrVariableForRow = 1;
+                    if(color) {
+                        movenrVariableForRow = -1;
                     }
-                    if (!color) {
-                        GameScene.viewMoves.add(new Label(temp.toString()), column, (movenr+1)/2);
+                    column = color ? 2 : 1;
+                    if (ChessGame.color) {
+                        GameScene.viewMoves.add(new Label(GameScene.spacing +temp.toString()), column, (movenr + movenrVariableForRow)/2);
+                    } else {
+                        GameScene.viewMoves.add(new Label((((movenr + 1)/2)) + ". "), 0, (movenr + movenrVariableForRow)/2);
+                        GameScene.viewMoves.add(new Label(GameScene.spacing+temp.toString()), column, (movenr + 1)/2);
                     }
-                    GameScene.viewMoves.add(new Label(temp.toString()), column, (movenr+1)/2);
                     myTurn = true;
                     GameScene.opponentTime = timeStamp;
                     if(firstMove && !color){

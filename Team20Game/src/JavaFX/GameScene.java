@@ -38,6 +38,8 @@ public class GameScene {
     static GridPane viewMoves;
     static int myColumn;
 
+    static String spacing = "     ";
+
     public static int increment;
     public static ArrayList<String> allMoves = new ArrayList<>();
     public static ArrayList<String> whiteMoves = new ArrayList<>();
@@ -187,7 +189,7 @@ public class GameScene {
         });
         rightGrid.add(offerDrawButton, 0, 3);
 
-        rightGrid.add(yourClock, 0, 3);
+        rightGrid.add(yourClock, 0, 4);
         rightGrid.add(opponentClock, 0, 1);
         //tiss
 
@@ -196,6 +198,7 @@ public class GameScene {
         container = new ScrollPane();
         viewMoves = new GridPane();
         container.setPrefSize(216, 400);
+        container.setStyle("-fx-background-color: green");
         container.setContent(viewMoves);
         rightGrid.add(container, 0, 2);
 
