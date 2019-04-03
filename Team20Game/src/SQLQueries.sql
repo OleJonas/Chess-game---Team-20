@@ -119,3 +119,10 @@ SELECT user_id FROM User WHERE username = "Test";
 SET GLOBAL time_zone = '+1:00';
 
 SELECT * FROM Game where  game_id > 100501;
+
+SELECT * FROM userElo WHERE game > 500;
+
+SELECT * FROM User;
+
+
+
