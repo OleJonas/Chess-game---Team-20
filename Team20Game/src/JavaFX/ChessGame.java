@@ -446,6 +446,10 @@ public class ChessGame{
                         column = GameScene.myColumn+1;
                     } else{
                         column = GameScene.myColumn-1;
+                        GameScene.viewMoves.add(new Label((movenr+1)/2 + ". " + temp.toString()), column, (movenr+1)/2);
+                    }
+                    if (!color) {
+                        GameScene.viewMoves.add(new Label(temp.toString()), column, (movenr+1)/2);
                     }
                     GameScene.viewMoves.add(new Label(temp.toString()), column, (movenr+1)/2);
                     myTurn = true;
