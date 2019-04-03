@@ -372,7 +372,6 @@ public class MainScene {
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
-        clearBoard = new Button("Clear Board");
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
@@ -1309,11 +1308,14 @@ class FriendInviteBox {
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.setPadding(new Insets(0,50,15,50));
         bottomLayout.add(acceptInvite, 0,0);
         bottomLayout.setHalignment(acceptInvite, HPos.LEFT);
-        bottomLayout.add(declineInvite, 1, 0);
-        bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
+        Pane spacing = new Pane();
+        //spacing.setPadding(new Insets(0, 25, 15, 50));
+        //bottomLayout.add(spacing, 1, 0);
+        bottomLayout.add(declineInvite, 2, 0);
+        //bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");

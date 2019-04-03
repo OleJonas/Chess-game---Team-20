@@ -192,6 +192,7 @@ public class GameScene {
 
         // View moves
         container = new ScrollPane();
+        container.setVvalue(1.0);
         viewMoves = new GridPane();
         viewMoves.setPadding(new Insets(0,0,0,10));
 
