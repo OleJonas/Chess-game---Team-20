@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,6 +19,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
@@ -115,7 +118,24 @@ public class GameScene {
         GridPane centerGrid = new GridPane();
         centerGrid.setPadding(new Insets(70, 100, 100, 0));
         Parent chessGame = new ChessGame().setupBoard();
-        centerGrid.add(chessGame, 0, 0);
+        if(ChessGame.color) {
+            Image ah = new Image("Images/RowsAndColumns/aToH.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView ahView = new ImageView(ah);
+            Image oneeight = new Image("Images/RowsAndColumns/1to8.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView oneeightView = new ImageView(oneeight);
+            centerGrid.add(ahView, 1, 1);
+            centerGrid.add(oneeightView, 0, 0);
+        }else {
+            Image ah = new Image("Images/RowsAndColumns/HtoA.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView ahView = new ImageView(ah);
+            Image oneeight = new Image("Images/RowsAndColumns/8to1.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView oneeightView = new ImageView(oneeight);
+            centerGrid.add(ahView, 1, 1);
+            centerGrid.add(oneeightView, 0, 0);
+        }
+
+
+        centerGrid.add(chessGame, 1, 0);
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
