@@ -8,8 +8,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -19,8 +18,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
@@ -36,6 +33,12 @@ public class GameScene {
     static Label opponentClock;
     static int userid1;
     static int userid2;
+
+    static ScrollPane container;
+    static GridPane viewMoves;
+    static int myColumn;
+
+    static String spacing = "     ";
 
     public static int increment;
     public static ArrayList<String> allMoves = new ArrayList<>();
@@ -71,10 +74,6 @@ public class GameScene {
 
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
-        /*
-        yourTime = 30;
-        opponentTime = 30;
-        */
 
         yourTimer = new Timer();
         opponentTimer = new Timer();
@@ -91,7 +90,7 @@ public class GameScene {
         opponentClock.setTextFill(Color.WHITE);
 
         Label title = new Label("Recess Chess");
-        title.setFont(Font.font("Copperplate", 60));
+        title.setFont(Font.font("Georgia", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
@@ -107,6 +106,10 @@ public class GameScene {
         //Left GridPane
         GridPane leftGrid = new GridPane();
         leftGrid.setPadding(new Insets(110, 0, 0, 0));
+        Label chatLabel = new Label("Chat");
+        chatLabel.setFont(Font.font("Georgia", 30));
+        chatLabel.setTextFill(Color.WHITE);
+        leftGrid.add(chatLabel,0,3);
         leftGrid.add(ChatFX.createChat(), 0, 4);
 
         GridPane centerGrid = new GridPane();
@@ -135,20 +138,20 @@ public class GameScene {
         //playersLabel.setStyle("-fx-font-weight: bold");
         //playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         //rightGrid.add(playersLabel, 0, 1);
-        playerOne.setFont(Font.font("Copperplate", 25));
+        playerOne.setFont(Font.font("Georgia", 25));
         playerOne.setStyle("-fx-font-weight: bold");
         playerOne.setTextFill(Color.LIGHTSKYBLUE);
-        playerTwo.setFont(Font.font("Copperplate", 25));
+        playerTwo.setFont(Font.font("Georgia", 25));
         playerTwo.setStyle("-fx-font-weight: bold");
         playerTwo.setTextFill(Color.LIGHTSKYBLUE);
 
         if (Login.userID == userid1) {
             rightGrid.add(playerTwo, 0, 0);
-            rightGrid.add(playerOne, 0, 4);
+            rightGrid.add(playerOne, 0, 5);
 
         } else {
             rightGrid.add(playerOne, 0, 0);
-            rightGrid.add(playerTwo, 0, 4);
+            rightGrid.add(playerTwo, 0, 5);
         }
 
 
@@ -172,7 +175,7 @@ public class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 1, 2);
+        rightGrid.add(resignButton, 1, 3);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -184,12 +187,28 @@ public class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
+        rightGrid.add(offerDrawButton, 0, 3);
 
-        rightGrid.add(offerDrawButton, 0, 2);
-
-        rightGrid.add(yourClock, 0, 3);
+        rightGrid.add(yourClock, 0, 4);
         rightGrid.add(opponentClock, 0, 1);
         //tiss
+
+
+        // View moves
+        container = new ScrollPane();
+        container.setVvalue(1.0);
+        viewMoves = new GridPane();
+        viewMoves.setPadding(new Insets(0,0,0,10));
+
+
+        container.setPrefSize(216, 400);;
+        container.setStyle("-fx-background: #3e1c03;");
+        container.setContent(viewMoves);
+        rightGrid.add(container, 0, 2);
+
+        //rightGrid.add(yourClock, 0, 4);
+        //rightGrid.add(opponentClock, 0, 1);
+
         if (yourTime == 0) {
             yourClock.setText("No timer");
             opponentClock.setText("No timer");
@@ -205,7 +224,7 @@ public class GameScene {
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(400));
         mainLayout.add(title, 0, 0, 3, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);

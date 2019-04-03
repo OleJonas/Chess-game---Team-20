@@ -6,6 +6,7 @@ import Game.GameEngine;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
@@ -22,6 +23,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.management.monitor.Monitor;
 import java.lang.reflect.Array;
@@ -46,6 +48,7 @@ public class MainScene {
     public static boolean inQueueJoin = false;
     public static boolean inQueueFriend = false;
     public static boolean searchFriend = false;
+    public static boolean inDrawOffer = false;
     static boolean created = false;
     static boolean joined = false;
     static boolean invitedFriend = false;
@@ -321,6 +324,10 @@ public class MainScene {
         clearBoard.setOnAction(e -> {
             reloadSandbox();
         });
+
+        //scrollPane.setStyle("-fx-background: rgb(174,96,0);");
+        //scrollPane.setStyle("-fx-opacity: 0.3;");
+
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
@@ -358,6 +365,17 @@ public class MainScene {
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         Main.window.setResizable(true);
+        Main.window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+               if(inGame){
+                   Game.setResult(ChessGame.gameID,
+                           ChessGame.color?Game.getUser_id2(ChessGame.gameID):
+                                   Game.getUser_id1(ChessGame.gameID));
+                   User.updateEloByGame(ChessGame.gameID);
+               }
+            }
+        });
+
         refresh();
         searchFriend = true;
     }
@@ -368,7 +386,6 @@ public class MainScene {
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
-        clearBoard = new Button("Clear Board");
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
@@ -432,6 +449,9 @@ public class MainScene {
                                     }else if (inQueueFriend) {
                                         if(Game.joinFriend()){
                                             showGameScene();
+                                        }else if (!Game.getActive(ChessGame.gameID)){
+                                            inQueueFriend =false;
+                                            showMainScene();
                                         }
                                     } else if(searchFriend) {
                                         int game_id = Game.searchFriend();
@@ -446,7 +466,9 @@ public class MainScene {
                                         if (result != -1) {
                                             int a = ChessGame.color?2:1;
                                             if(result == a){
-                                                DrawOfferPopupBox.Display();
+                                                if(!inDrawOffer) {
+                                                    DrawOfferPopupBox.Display();
+                                                }
                                             }else if(result == 0){
                                                 User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
@@ -1228,6 +1250,9 @@ class GameOverPopupBox {
             MainScene.showMainScene();
             MainScene.inGame = false;
             MainScene.searchFriend = true;
+            if(MainScene.inDrawOffer){
+                DrawOfferPopupBox.close();
+            }
             window.close();
         });
 
@@ -1305,16 +1330,19 @@ class FriendInviteBox {
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.setPadding(new Insets(0,50,15,50));
         bottomLayout.add(acceptInvite, 0,0);
         bottomLayout.setHalignment(acceptInvite, HPos.LEFT);
-        bottomLayout.add(declineInvite, 1, 0);
-        bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
+        Pane spacing = new Pane();
+        //spacing.setPadding(new Insets(0, 25, 15, 50));
+        //bottomLayout.add(spacing, 1, 0);
+        bottomLayout.add(declineInvite, 2, 0);
+        //bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 530, 360);
+        Scene scene = new Scene(windowLayout, 560, 360);
         window.setScene(scene);
         window.showAndWait();
     }

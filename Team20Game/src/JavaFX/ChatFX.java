@@ -55,7 +55,9 @@ public class ChatFX{
         chatLayout.getChildren().add(new Label(" "));
 
         container.setPrefSize(216, 400);
+        container.setStyle("-fx-background: #3e1c03;");
         container.setContent(chatLayout);
+
 
         GridPane gridPane = new GridPane();
         gridPane.add(container, 0,0);

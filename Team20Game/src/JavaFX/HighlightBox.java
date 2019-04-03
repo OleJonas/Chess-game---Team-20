@@ -1,16 +1,17 @@
 package JavaFX;
 
-import Database.DBOps;
 import Database.Game;
 import Database.User;
 import Game.GameEngine;
 import Pieces.*;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 
 class HighlightBox extends Pane{
@@ -44,6 +45,7 @@ class HighlightBox extends Pane{
             square.setOpacity(0);
             getChildren().add(square);
         }
+
         setOnMouseClicked(e->{
             lastMoveGroup.getChildren().clear();
             specialMoves(x, y, tile, tileGroup, gameEngine, board);
@@ -52,6 +54,8 @@ class HighlightBox extends Pane{
 
             GameScene.allMoves.add(tile.getY() + "" + tile.getX());
             GameScene.updateMoves();
+            //GameScene.table_white.getItems().add(new WhiteMove(GameScene.whiteMoves.get(ChessGame.movenr)));
+
             int fromX = tile.getX();
             int fromY = tile.getY();
             int toX = this.x;
@@ -62,6 +66,19 @@ class HighlightBox extends Pane{
                 gameEngine.getBoard().addTakenPiece(gameEngine.getBoard().getBoardState()[x][y]);
             }
             tile.move(x, y, board, false);
+            Piece temp = (Piece)gameEngine.getBoard().getBoardState()[x][y];
+            if (!ChessGame.color) {
+                Label text = new Label(GameScene.spacing + temp.toString());
+                text.setFont(Font.font("Copperplate", 20));
+                GameScene.viewMoves.add(text, GameScene.myColumn, (ChessGame.movenr + 1)/2);
+            } else {
+                Label text = new Label((((ChessGame.movenr + 1)/2)+1) + ". ");
+                text.setFont(Font.font("Copperplate", 20));
+                Label nr = new Label(GameScene.spacing + temp.toString());
+                nr.setFont(Font.font("Copperplate", 20));
+                GameScene.viewMoves.add(text, 0, (ChessGame.movenr + 1)/2);
+                GameScene.viewMoves.add(nr, GameScene.myColumn, (ChessGame.movenr + 1)/2);
+            }
 
             ChessGame.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
             int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
