@@ -40,7 +40,7 @@ public class GameScene {
     static boolean yourIncrement = true;
     static boolean opponentIncrement = true;
 
-    public static int increment = Game.getIncrement(ChessGame.gameID);
+    public static int increment;
     public static ArrayList<String> allMoves = new ArrayList<>();
     public static ArrayList<String> whiteMoves = new ArrayList<>();
     public static ArrayList<String> blackMoves = new ArrayList<>();
@@ -70,6 +70,9 @@ public class GameScene {
     }
 
     static void showGameScene() {
+        increment = Game.getIncrement(ChessGame.gameID);
+
+
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
         /*
