@@ -450,6 +450,9 @@ public class MainScene {
                                     }else if (inQueueFriend) {
                                         if(Game.joinFriend()){
                                             showGameScene();
+                                        }else if (!Game.getActive(ChessGame.gameID)){
+                                            inQueueFriend =false;
+                                            showMainScene();
                                         }
                                     } else if(searchFriend) {
                                         int game_id = Game.searchFriend();
