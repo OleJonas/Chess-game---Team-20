@@ -6,6 +6,7 @@ import Game.GameEngine;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
@@ -22,6 +23,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.management.monitor.Monitor;
 import java.lang.reflect.Array;
@@ -358,6 +360,17 @@ public class MainScene {
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         Main.window.setResizable(true);
+        Main.window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+               if(inGame){
+                   Game.setResult(ChessGame.gameID,
+                           ChessGame.color?Game.getUser_id2(ChessGame.gameID):
+                                   Game.getUser_id1(ChessGame.gameID));
+                   User.updateEloByGame(ChessGame.gameID);
+               }
+            }
+        });
+
         refresh();
         searchFriend = true;
     }
