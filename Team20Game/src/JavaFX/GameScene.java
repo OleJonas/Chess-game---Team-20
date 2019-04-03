@@ -70,12 +70,12 @@ public class GameScene {
     }
 
     static void showGameScene() {
-        /*
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
-        */
+        /*
         yourTime = 10;
         opponentTime = 10;
+        */
         yourTimer = new Timer();
         opponentTimer = new Timer();
         yourClock = new Label(secToMinSec(yourTime));

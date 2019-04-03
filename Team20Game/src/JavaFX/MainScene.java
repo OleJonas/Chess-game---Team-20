@@ -1251,6 +1251,7 @@ class FriendInviteBox {
         Button acceptInvite = new Button("Accept");
         acceptInvite.setOnAction(e -> {
             if(Game.tryAcceptInvite(game_id)){
+                MainScene.inGame = true;
                 window.close();
                 showGameScene();
             } else {
