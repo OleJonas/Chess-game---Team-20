@@ -6,12 +6,14 @@ package JavaFX;
 import Database.DBOps;
 import Database.Game;
 import Game.GameEngine;
+import JavaFX.TableviewObjects.BlackMove;
 import Pieces.*;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -54,6 +56,8 @@ public class ChessGame{
     private Group hboxGroup = new Group();
     private Group selectedPieceGroup = new Group();
     private Group lastMoveGroup = new Group();
+    private int toeX;
+    private int toeY;
 
     public Parent setupBoard() {
         setupGameEngine();
@@ -252,6 +256,8 @@ public class ChessGame{
                 }
             } else {
                 board[fromX][fromY].move(toX, toY, board, false);
+                toeX = toX;
+                toeY = toY;
 
                 //lastMoveGroup.getChildren().clear();
                 Piece[][] boardState = ge.getBoard().getBoardState();
@@ -353,6 +359,7 @@ public class ChessGame{
         firstMove = true;
         movenr = 0;
         color = (Game.getUser_id1(gameID)==Login.userID)?true:false;
+        GameScene.myColumn = color?1:2;
     }
 
     public boolean setSkins(){
@@ -424,15 +431,23 @@ public class ChessGame{
             if(fromXlist.size()>0) {
                 int fromX = Integer.parseInt(fromXlist.get(0));
                 int fromY = Integer.parseInt(db.exQuery("SELECT fromY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
-                int toX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
-                int toY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
+                toeX = Integer.parseInt(db.exQuery("SELECT toX FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
+                toeY = Integer.parseInt(db.exQuery("SELECT toY FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 int timeStamp = Integer.parseInt(db.exQuery("SELECT timeStamp FROM Move WHERE game_id =" + gameID + " AND movenr = " + (movenr) + ";", 1).get(0));
                 //System.out.println("test" + fromX);
-                GameScene.allMoves.add(toY + "" + toX);
+                GameScene.allMoves.add(toeY + "" + toeX);
                 GameScene.updateMoves();
+                //GameScene.table_black.getItems().add(new BlackMove(GameScene.blackMoves.get(ChessGame.movenr)));
                 if (board[fromX][fromY] != null) {
-                    enemyMove(fromX, fromY, toX, toY);
-                    System.out.println("moved enemy  from : " + fromX + ", " + fromY + ", to: " + toX + ", " + toY);
+                    enemyMove(fromX, fromY, toeX, toeY);
+                    Piece temp = (Piece)ge.getBoard().getBoardState()[toeX][toeY];
+                    int column = 0;
+                    if(color){
+                        column = GameScene.myColumn+1;
+                    } else{
+                        column = GameScene.myColumn-1;
+                    }
+                    GameScene.viewMoves.add(new Label(temp.toString()), column, (movenr+1)/2);
                     myTurn = true;
                     GameScene.opponentTime = timeStamp;
                     if(firstMove && !color){

@@ -1,11 +1,13 @@
 package JavaFX;
 
-import Database.DBOps;
 import Database.Game;
 import Database.User;
 import Game.GameEngine;
+import JavaFX.TableviewObjects.MoveNr;
+import JavaFX.TableviewObjects.WhiteMove;
 import Pieces.*;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -44,6 +46,7 @@ class HighlightBox extends Pane{
             square.setOpacity(0);
             getChildren().add(square);
         }
+
         setOnMouseClicked(e->{
             lastMoveGroup.getChildren().clear();
             specialMoves(x, y, tile, tileGroup, gameEngine, board);
@@ -52,6 +55,8 @@ class HighlightBox extends Pane{
 
             GameScene.allMoves.add(tile.getY() + "" + tile.getX());
             GameScene.updateMoves();
+            //GameScene.table_white.getItems().add(new WhiteMove(GameScene.whiteMoves.get(ChessGame.movenr)));
+
             int fromX = tile.getX();
             int fromY = tile.getY();
             int toX = this.x;
@@ -62,6 +67,11 @@ class HighlightBox extends Pane{
                 gameEngine.getBoard().addTakenPiece(gameEngine.getBoard().getBoardState()[x][y]);
             }
             tile.move(x, y, board, false);
+            Piece temp = (Piece)gameEngine.getBoard().getBoardState()[toX][toY];
+            if (ChessGame.color) {
+                GameScene.viewMoves.add(new Label(". " + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
+            }
+            GameScene.viewMoves.add(new Label(". " + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
 
             ChessGame.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
             int updatedWhites = gameEngine.myPieces(gameEngine.getBoard(), true)[6];
