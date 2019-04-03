@@ -18,5 +18,6 @@ public class Main extends Application {
         primaryStage.centerOnScreen();
         window.setTitle("Recess Chess");
         window.show();
+
     }
 }

@@ -74,10 +74,6 @@ public class GameScene {
 
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
-        /*
-        yourTime = 30;
-        opponentTime = 30;
-        */
 
         yourTimer = new Timer();
         opponentTimer = new Timer();
@@ -94,7 +90,7 @@ public class GameScene {
         opponentClock.setTextFill(Color.WHITE);
 
         Label title = new Label("Recess Chess");
-        title.setFont(Font.font("Copperplate", 60));
+        title.setFont(Font.font("Georgia", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
@@ -138,10 +134,10 @@ public class GameScene {
         //playersLabel.setStyle("-fx-font-weight: bold");
         //playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         //rightGrid.add(playersLabel, 0, 1);
-        playerOne.setFont(Font.font("Copperplate", 25));
+        playerOne.setFont(Font.font("Georgia", 25));
         playerOne.setStyle("-fx-font-weight: bold");
         playerOne.setTextFill(Color.LIGHTSKYBLUE);
-        playerTwo.setFont(Font.font("Copperplate", 25));
+        playerTwo.setFont(Font.font("Georgia", 25));
         playerTwo.setStyle("-fx-font-weight: bold");
         playerTwo.setTextFill(Color.LIGHTSKYBLUE);
 
@@ -197,8 +193,11 @@ public class GameScene {
         // View moves
         container = new ScrollPane();
         viewMoves = new GridPane();
-        container.setPrefSize(216, 400);
-        container.setStyle("-fx-background-color: green");
+        viewMoves.setPadding(new Insets(0,0,0,10));
+
+
+        container.setPrefSize(216, 400);;
+        container.setStyle("-fx-background: #3e1c03;");
         container.setContent(viewMoves);
         rightGrid.add(container, 0, 2);
 
@@ -220,7 +219,7 @@ public class GameScene {
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(400));
         mainLayout.add(title, 0, 0, 3, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);

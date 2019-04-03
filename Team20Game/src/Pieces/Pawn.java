@@ -14,7 +14,7 @@ public class Pawn extends Piece {
     public void setEnPassant(boolean newValue) { enPassant = newValue; }
 
     public char getNotation() {
-        return 'P';
+        return ' ';
     }
 
     public ImageView getImageView(){

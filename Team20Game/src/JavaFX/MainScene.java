@@ -321,6 +321,10 @@ public class MainScene {
         clearBoard.setOnAction(e -> {
             reloadSandbox();
         });
+
+        //scrollPane.setStyle("-fx-background: rgb(174,96,0);");
+        //scrollPane.setStyle("-fx-opacity: 0.3;");
+
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
@@ -1314,7 +1318,7 @@ class FriendInviteBox {
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 530, 360);
+        Scene scene = new Scene(windowLayout, 560, 360);
         window.setScene(scene);
         window.showAndWait();
     }

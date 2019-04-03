@@ -40,7 +40,7 @@ public abstract class Piece{
     public abstract ImageView getImageView();
 
     public String toString() {
-        return getNotation() + "" + ((char) (getX() + 'A')) + "" + (getY() + 1);
+        return getNotation() + "" + ((char) (getX() + 'a')) + "" + (getY() + 1);
     }
 
     // Equals method for use in JUnit tests

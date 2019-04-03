@@ -6,7 +6,6 @@ package JavaFX;
 import Database.DBOps;
 import Database.Game;
 import Game.GameEngine;
-import JavaFX.TableviewObjects.BlackMove;
 import Pieces.*;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -19,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
@@ -453,10 +453,16 @@ public class ChessGame{
                     }
                     column = color ? 2 : 1;
                     if (ChessGame.color) {
-                        GameScene.viewMoves.add(new Label(GameScene.spacing +temp.toString()), column, (movenr + movenrVariableForRow)/2);
+                        Label text = new Label(GameScene.spacing + temp.toString());
+                        text.setFont(Font.font("Copperplate", 20));
+                        GameScene.viewMoves.add(text, column, (movenr + movenrVariableForRow)/2);
                     } else {
-                        GameScene.viewMoves.add(new Label((((movenr + 1)/2)) + ". "), 0, (movenr + movenrVariableForRow)/2);
-                        GameScene.viewMoves.add(new Label(GameScene.spacing+temp.toString()), column, (movenr + 1)/2);
+                        Label text = new Label(GameScene.spacing + temp.toString());
+                        Label nr = new Label((((movenr + 1)/2)) + ". ");
+                        text.setFont(Font.font("Copperplate", 20));
+                        nr.setFont(Font.font("Copperplate", 20));
+                        GameScene.viewMoves.add(nr, 0, (movenr + movenrVariableForRow)/2);
+                        GameScene.viewMoves.add(text, column, (movenr + 1)/2);
                     }
                     myTurn = true;
                     GameScene.opponentTime = timeStamp;

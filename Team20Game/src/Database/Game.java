@@ -129,7 +129,7 @@ public class Game {
         }else if(mode >1000){
             everyThingAboutGame += "Fischer Random";
         }
-        everyThingAboutGame += "\nYour chess color: " + (arrayString.get(4) == null?"White": "Black");
+        everyThingAboutGame += "\nYour color: " + (arrayString.get(4) == null?"White": "Black");
         int time = Integer.parseInt(arrayString.get(1));
         everyThingAboutGame += "\nTime: " + (time == 0?"No time":time);
         int increment = Integer.parseInt(arrayString.get(2));

@@ -3,8 +3,6 @@ package JavaFX;
 import Database.Game;
 import Database.User;
 import Game.GameEngine;
-import JavaFX.TableviewObjects.MoveNr;
-import JavaFX.TableviewObjects.WhiteMove;
 import Pieces.*;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -13,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 
 class HighlightBox extends Pane{
@@ -69,10 +68,16 @@ class HighlightBox extends Pane{
             tile.move(x, y, board, false);
             Piece temp = (Piece)gameEngine.getBoard().getBoardState()[x][y];
             if (!ChessGame.color) {
-                GameScene.viewMoves.add(new Label(GameScene.spacing + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
+                Label text = new Label(GameScene.spacing + temp.toString());
+                text.setFont(Font.font("Copperplate", 20));
+                GameScene.viewMoves.add(text, GameScene.myColumn, (ChessGame.movenr + 1)/2);
             } else {
-                GameScene.viewMoves.add(new Label((((ChessGame.movenr + 1)/2)+1) + ". "), 0, (ChessGame.movenr + 1)/2);
-                GameScene.viewMoves.add(new Label(GameScene.spacing + temp.toString()), GameScene.myColumn, (ChessGame.movenr + 1)/2);
+                Label text = new Label((((ChessGame.movenr + 1)/2)+1) + ". ");
+                text.setFont(Font.font("Copperplate", 20));
+                Label nr = new Label(GameScene.spacing + temp.toString());
+                nr.setFont(Font.font("Copperplate", 20));
+                GameScene.viewMoves.add(text, 0, (ChessGame.movenr + 1)/2);
+                GameScene.viewMoves.add(nr, GameScene.myColumn, (ChessGame.movenr + 1)/2);
             }
 
             ChessGame.lastMove = gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor();
