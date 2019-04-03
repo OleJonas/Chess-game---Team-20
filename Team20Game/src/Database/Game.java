@@ -60,12 +60,7 @@ public class Game {
             public void run() {
                 DBOps connection = new DBOps();
                 int userid = Login.getUserID();
-
-                if (color) {
-                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-                } else {
-                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-                }
+                connection.createGame(userid, mode, time, increment, color, rated, friendid);
             }
         });
         t.start();
