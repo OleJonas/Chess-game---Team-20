@@ -475,6 +475,8 @@ public class ChessGame{
                     }
                     if(GameScene.remiOffered){
                         GameScene.remiOffered = false;
+                        GameScene.offerDrawButton.setText("Offer draw");
+                        GameScene.offerDrawButton.setOpacity(1);
                     }
                 }
             }

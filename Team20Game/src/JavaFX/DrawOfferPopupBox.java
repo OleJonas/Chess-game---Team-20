@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import static JavaFX.GameScene.showGameScene;
 
 class DrawOfferPopupBox {
-    public static void Display(){
-        Stage window = new Stage();
+    static Stage window = new Stage();
+    public static void Display() {
+        window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Draw Offer");
         //Labels
@@ -35,7 +36,7 @@ class DrawOfferPopupBox {
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
-        MainScene.inGame = false;
+        MainScene.inDrawOffer = true;
 
         Button acceptDrawButton = new Button("Accept offer");
         acceptDrawButton.setOnAction(e -> {
@@ -49,8 +50,10 @@ class DrawOfferPopupBox {
         });
         Button declineDrawButton = new Button("Decline offer");
         declineDrawButton.setOnAction(e -> {
-            MainScene.inGame = true;
-            Game.setResult(ChessGame.gameID, -1);
+            MainScene.inDrawOffer = false;
+            int result = Game.getResult(ChessGame.gameID);
+            if (result == 2 || result == 1)
+                Game.setResult(ChessGame.gameID, -1);
             window.close();
         });
 
@@ -67,8 +70,8 @@ class DrawOfferPopupBox {
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0,25,15,0));
-        bottomLayout.add(acceptDrawButton, 0,0);
+        bottomLayout.setPadding(new Insets(0, 25, 15, 0));
+        bottomLayout.add(acceptDrawButton, 0, 0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
         bottomLayout.add(declineDrawButton, 1, 0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.RIGHT);
@@ -79,5 +82,8 @@ class DrawOfferPopupBox {
         Scene scene = new Scene(windowLayout, 450, 300);
         window.setScene(scene);
         window.showAndWait();
+    }
+    public static void close(){
+        window.close();
     }
 }

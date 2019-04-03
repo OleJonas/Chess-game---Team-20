@@ -48,6 +48,7 @@ public class MainScene {
     public static boolean inQueueJoin = false;
     public static boolean inQueueFriend = false;
     public static boolean searchFriend = false;
+    public static boolean inDrawOffer = false;
     static boolean created = false;
     static boolean joined = false;
     static boolean invitedFriend = false;
@@ -463,7 +464,9 @@ public class MainScene {
                                         if (result != -1) {
                                             int a = ChessGame.color?2:1;
                                             if(result == a){
-                                                DrawOfferPopupBox.Display();
+                                                if(!inDrawOffer) {
+                                                    DrawOfferPopupBox.Display();
+                                                }
                                             }else if(result == 0){
                                                 User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
@@ -1245,6 +1248,9 @@ class GameOverPopupBox {
             MainScene.showMainScene();
             MainScene.inGame = false;
             MainScene.searchFriend = true;
+            if(MainScene.inDrawOffer){
+                DrawOfferPopupBox.close();
+            }
             window.close();
         });
 
