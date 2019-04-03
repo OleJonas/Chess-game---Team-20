@@ -437,7 +437,9 @@ public class ChessGame{
                     GameScene.opponentTime = timeStamp;
                     if(firstMove && !color){
                         System.out.println("started timer in chessGame");
-                        GameScene.refresh();
+                        if (GameScene.yourTime != 0) {
+                            GameScene.refresh();
+                        }
                         firstMove = false;
                     }
                     if(GameScene.remiOffered){

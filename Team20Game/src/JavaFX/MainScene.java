@@ -439,6 +439,7 @@ public class MainScene {
                                             FriendInviteBox.Display(game_id);
                                         }
                                     }
+                                    
                                     if (inGame) {
                                         int result = Game.getResult(ChessGame.gameID);
                                         System.out.println("result: "+ result);

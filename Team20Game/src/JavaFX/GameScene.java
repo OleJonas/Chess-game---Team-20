@@ -73,19 +73,20 @@ public class GameScene {
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
         opponentTime =  Game.getTime(ChessGame.gameID) * 60;
         /*
-        yourTime = 10;
-        opponentTime = 10;
+        yourTime = 30;
+        opponentTime = 30;
         */
         yourTimer = new Timer();
         opponentTimer = new Timer();
+        
         yourClock = new Label(secToMinSec(yourTime));
         opponentClock = new Label(secToMinSec(opponentTime));
 
-        yourClock.setFont(Font.font("Ubuntu", 30));
+        yourClock.setFont(Font.font("Georgia", 30));
         yourClock.setStyle("-fx-font-weight: bold");
         yourClock.setTextFill(Color.WHITE);
 
-        opponentClock.setFont(Font.font("Ubuntu", 30));
+        opponentClock.setFont(Font.font("Georgia", 30));
         opponentClock.setStyle("-fx-font-weight: bold");
         opponentClock.setTextFill(Color.WHITE);
 
@@ -194,12 +195,8 @@ public class GameScene {
         });
         rightGrid.add(offerDrawButton, 0, 2);
 
-        if (yourTime != 0) {
-            rightGrid.add(yourClock, 0, 3);
-            rightGrid.add(opponentClock, 0, 1);
-        }
-
-
+        rightGrid.add(yourClock, 0, 3);
+        rightGrid.add(opponentClock, 0, 1);
 
         //mainLayout
         GridPane mainLayout = new GridPane();
@@ -269,6 +266,11 @@ public class GameScene {
             ChessGame.isDone = true;
             GameOverPopupBox.Display();
         }
+
+        if (opponentTime <= 0) {
+            return 0;
+        }
+
         if (ChessGame.myTurn) {
             /*if (opponentIncrement) {
                 opponentTime += increment + 1;

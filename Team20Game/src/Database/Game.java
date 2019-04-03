@@ -32,7 +32,9 @@ public class Game {
                     if(ChessGame.firstMove){
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime +");");
                         ChessGame.firstMove = false;
-                        GameScene.refresh();
+                        if (GameScene.yourTime != 0) {
+                            GameScene.refresh();
+                        }
                         System.out.println("started timer in Game class");
                     }
 
