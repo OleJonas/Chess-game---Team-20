@@ -184,11 +184,12 @@ public class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
+
         rightGrid.add(offerDrawButton, 0, 2);
 
         rightGrid.add(yourClock, 0, 3);
         rightGrid.add(opponentClock, 0, 1);
-
+        //tiss
         if (yourTime == 0) {
             yourClock.setText("No timer");
             opponentClock.setText("No timer");
