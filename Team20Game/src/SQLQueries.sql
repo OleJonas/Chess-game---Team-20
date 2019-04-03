@@ -122,3 +122,7 @@ SELECT * FROM Game where  game_id > 100501;
 
 SELECT * FROM userElo WHERE game > 500;
 
+SELECT * FROM User;
+
+
+

@@ -1207,7 +1207,7 @@ class GameOverPopupBox {
 
         int myNewElo = 0;
         int enemyElo = 0;
-        if (Game.getRated(ChessGame.gameID) == 1) {
+        if (Game.getRated(ChessGame.gameID) == 0) {
             myNewElo = oldElo;
         } else {
             myNewElo = ChessGame.color?elo[0]:elo[1];
