@@ -78,7 +78,7 @@ public class GameScene {
         */
         yourTimer = new Timer();
         opponentTimer = new Timer();
-        
+
         yourClock = new Label(secToMinSec(yourTime));
         opponentClock = new Label(secToMinSec(opponentTime));
 
@@ -197,6 +197,14 @@ public class GameScene {
 
         rightGrid.add(yourClock, 0, 3);
         rightGrid.add(opponentClock, 0, 1);
+
+        if (yourTime == 0) {
+            yourClock.setText("No timer");
+            opponentClock.setText("No timer");
+
+            yourClock.setFont(Font.font("Arial", 25));
+            opponentClock.setFont(Font.font("Arial", 25));
+        }
 
         //mainLayout
         GridPane mainLayout = new GridPane();

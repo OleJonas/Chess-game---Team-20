@@ -289,6 +289,7 @@ public class MainScene {
             title.setText("Recess Chess");
             inQueueJoin = false;
             inQueueCreate = false;
+            inQueueFriend = false;
             invitedFriend = false;
             Game.removeActiveFromGame();
 
@@ -439,7 +440,7 @@ public class MainScene {
                                             FriendInviteBox.Display(game_id);
                                         }
                                     }
-                                    
+
                                     if (inGame) {
                                         int result = Game.getResult(ChessGame.gameID);
                                         System.out.println("result: "+ result);
