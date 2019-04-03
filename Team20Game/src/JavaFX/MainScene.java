@@ -420,8 +420,6 @@ public class MainScene {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                DBOps connection = new DBOps();
-                                System.out.println(ChessGame.gameWon);
                                 try {
                                     if(inQueueCreate){
                                         if(Game.startGame()){
