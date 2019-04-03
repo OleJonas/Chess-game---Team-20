@@ -25,7 +25,7 @@ public class HikariCP {
     static{
 
         HikariConfig config1 = new HikariConfig();
-        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni");
+        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?serverTimezone=GMT");
         config1.setUsername("martijni");
         config1.setPassword("wrq71s2w");
         config1.setDriverClassName("com.mysql.cj.jdbc.Driver");

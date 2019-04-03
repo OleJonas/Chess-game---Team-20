@@ -21,6 +21,7 @@ import java.util.concurrent.CountDownLatch;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
 
@@ -29,10 +30,13 @@ public class GameScene {
     static Scene gameScene;
     static Timer yourTimer;
     static Timer opponentTimer;
-    public static int yourTime = Game.getTime(ChessGame.gameID) * 60;
-    static int opponentTime = Game.getTime(ChessGame.gameID)*60;
+    public static int yourTime;
+    static int opponentTime;
     static Label yourClock;
     static Label opponentClock;
+    static int userid1;
+    static int userid2;
+
     static boolean yourIncrement = true;
     static boolean opponentIncrement = true;
 
@@ -66,11 +70,16 @@ public class GameScene {
     }
 
     static void showGameScene() {
+        /*
+        yourTime =  Game.getTime(ChessGame.gameID) * 60;
+        opponentTime =  Game.getTime(ChessGame.gameID) * 60;
+        */
+        yourTime = 10;
+        opponentTime = 10;
         yourTimer = new Timer();
         opponentTimer = new Timer();
         yourClock = new Label(secToMinSec(yourTime));
         opponentClock = new Label(secToMinSec(opponentTime));
-
 
         yourClock.setFont(Font.font("Ubuntu", 30));
         yourClock.setStyle("-fx-font-weight: bold");
@@ -80,17 +89,13 @@ public class GameScene {
         opponentClock.setStyle("-fx-font-weight: bold");
         opponentClock.setTextFill(Color.WHITE);
 
-
-
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Copperplate", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-
-
-        int userid1 = Game.getUser_id1(ChessGame.gameID);
-        int userid2 = Game.getUser_id2(ChessGame.gameID);
+        userid1 = Game.getUser_id1(ChessGame.gameID);
+        userid2 = Game.getUser_id2(ChessGame.gameID);
 
         player1 = User.getUsername(userid1) + " (" + User.getElo(userid1) + ")";
         player2 = User.getUsername(userid2) + " (" + User.getElo(userid2) + ")";
@@ -232,9 +237,6 @@ public class GameScene {
     }
 
     public static String secToMinSec(int time) {
-        if (time < 60) {
-            return "00:"+time;
-        }
         int min = (time % 3600) / 60;
         int sec = ((time % 3600) % 60);
         if (Math.floor(Math.log10((double)min)+1) < 2 && sec == 0) {
@@ -256,10 +258,16 @@ public class GameScene {
     }
 
     private static final int setInterval() {
-        if (yourTime == 1)
-            yourTimer.cancel();
-        if (opponentTime == 1 ) {
-            opponentTimer.cancel();
+        if (yourTime == -1) {
+            int id = userid1;
+            if (Login.userID == userid1) {
+                id = userid2;
+            }
+            Game.setResult(ChessGame.gameID, id);
+            User.updateEloByGame(ChessGame.gameID);
+            MainScene.inGame = false;
+            ChessGame.isDone = true;
+            GameOverPopupBox.Display();
         }
         if (ChessGame.myTurn) {
             /*if (opponentIncrement) {

@@ -1,9 +1,6 @@
 package Database;
 
-import JavaFX.ChessGame;
-import JavaFX.GameScene;
-import JavaFX.Login;
-import JavaFX.MainScene;
+import JavaFX.*;
 
 import java.util.ArrayList;
 
@@ -287,6 +284,7 @@ public class Game {
             System.out.println("Success!");
             System.out.println("Started game with gameID: " + ChessGame.gameID);
             MainScene.inQueueFriend = false;
+            MainScene.inGame = true;
             return true;
         }
         return false;

@@ -41,7 +41,7 @@ public class ChessGame{
     private String homeSkin;
     private String awaySkin;
     public static String skin = "Standard";
-    private GameEngine ge = new GameEngine(0, 0);
+    private GameEngine ge = new GameEngine(0);
     private final int HEIGHT = ge.getBoard().getBoardState().length;
     private final int WIDTH = ge.getBoard().getBoardState()[0].length;
     public static int gameID;
@@ -343,7 +343,7 @@ public class ChessGame{
     }
 
     private void setupGameEngine() {
-        ge = new GameEngine(Game.getTime(gameID), Game.getMode(gameID));
+        ge = new GameEngine(Game.getMode(gameID));
         MainScene.searchFriend = false;
         whiteELO = Game.getWhiteELO(gameID);
         blackELO = Game.getBlackELO(gameID);

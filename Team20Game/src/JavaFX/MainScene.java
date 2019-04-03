@@ -1158,6 +1158,7 @@ class JoinGamePopupBox{
 
 class GameOverPopupBox{
 
+
     public static void Display(){
         yourTimer.cancel();
         opponentTimer.cancel();
