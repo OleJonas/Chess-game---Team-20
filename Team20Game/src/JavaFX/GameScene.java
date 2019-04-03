@@ -106,6 +106,10 @@ public class GameScene {
         //Left GridPane
         GridPane leftGrid = new GridPane();
         leftGrid.setPadding(new Insets(110, 0, 0, 0));
+        Label chatLabel = new Label("Chat");
+        chatLabel.setFont(Font.font("Georgia", 30));
+        chatLabel.setTextFill(Color.WHITE);
+        leftGrid.add(chatLabel,0,3);
         leftGrid.add(ChatFX.createChat(), 0, 4);
 
         GridPane centerGrid = new GridPane();
