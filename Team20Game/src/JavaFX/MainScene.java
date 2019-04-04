@@ -321,7 +321,7 @@ public class MainScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar()); //WindowMenuBar has to be fixed if were going to use it
         layout.setCenter(mainLayout);
 
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
