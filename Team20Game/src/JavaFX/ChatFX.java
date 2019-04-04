@@ -28,15 +28,12 @@ public class ChatFX{
     static Scene scene;
     static TextField inText;
     static Button sendButton, closeButton;
-    private static ArrayList<Label> messages = new ArrayList<Label>();
-    static VBox chatLayout;
-
     static Timer timer = new Timer(true);
     private static ArrayList<Label> messages = new ArrayList<Label>();
-    static ScrollPane container = new ScrollPane();
     //static FlowPane chatLayout;
-    static ScrollPane container = new ScrollPane();
+    static VBox chatLayout;
     //static JScrollPane container = new JScrollPane();
+    static ScrollPane container = new ScrollPane();
     static ChatDB chat = new ChatDB();
 
     public static GridPane createChat(){
@@ -53,10 +50,9 @@ public class ChatFX{
             }
         });
 
-        //chatLayout = new VBox(5);
-        chatLayout = new VBox();
+        chatLayout = new VBox(5);
         chatLayout.setPadding(new Insets(8,8,8,8));
-        chatLayout.getChildren().add(new Label(""));
+        //chatLayout.getChildren().add(new Label(""));
 
         container.setPrefSize(216, 400);
         //container.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -124,7 +120,7 @@ public class ChatFX{
         ArrayList<String> fetch = chat.fetchChat();
         for(String s : fetch){
             Label text = new Label(s);
-            text.setFont(Font.font("Calibri", 14));
+            text.setFont(Font.font("Calibri", 13));
             chatLayout.getChildren().add(text);
             messages.add(text);
         }
