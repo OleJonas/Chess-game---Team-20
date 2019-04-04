@@ -64,7 +64,7 @@ public abstract class Piece{
     public abstract char getNotation();
 
     /**
-     * fetch the right image of the piece
+     * fetch image of the piece
      */
     public abstract ImageView getImageView();
 
