@@ -25,13 +25,15 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class ChatFX{
-    static Timer timer = new Timer(true);
-    static Stage window;
     static Scene scene;
     static TextField inText;
     static Button sendButton, closeButton;
     private static ArrayList<Label> messages = new ArrayList<Label>();
     static VBox chatLayout;
+
+    static Timer timer = new Timer(true);
+    private static ArrayList<Label> messages = new ArrayList<Label>();
+    static ScrollPane container = new ScrollPane();
     //static FlowPane chatLayout;
     static ScrollPane container = new ScrollPane();
     //static JScrollPane container = new JScrollPane();
@@ -77,8 +79,6 @@ public class ChatFX{
                 }
             }
         });
-        //gridPane.add(closeButton,1,2);
-
         return gridPane;
     }
 
