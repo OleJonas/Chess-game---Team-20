@@ -1,23 +1,21 @@
 
-package JavaFX;
+package JavaFX.MainScene;
 import Database.DBOps;
 import Database.User;
+import JavaFX.LoginScreen.Login;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.application.Application;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.stage.Stage;
-import static JavaFX.Login.*;
-import static JavaFX.MainScene.showMainScene;
+
+import static JavaFX.LoginScreen.Login.*;
 
 
 @SuppressWarnings("Duplicates")

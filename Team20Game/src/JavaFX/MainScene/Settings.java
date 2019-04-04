@@ -1,4 +1,5 @@
-package JavaFX;
+package JavaFX.MainScene;
+import JavaFX.GameScene.ChessGame;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,23 +13,19 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileFilter;
-
-import static JavaFX.Login.storeSettings;
-import static JavaFX.MainScene.showMainScene;
-//import static JavaFX.MainScene.showMainScene;
+import static JavaFX.LoginScreen.Login.storeSettings;
+//import static JavaFX.MainScene.MainScene.showMainScene;
 
 
 @SuppressWarnings("Duplicates")
-class Settings{
+public class Settings{
     static Scene settingsScene;
     static Stage window;
     static ChoiceBox<String> boardColorChoiceBox, skinNameChoiceBox;
 
     //Color
-    static String darkTileColor = "#8B4513";
-    static String lightTileColor = "#FFEBCD";
+    public static String darkTileColor = "#8B4513";
+    public static String lightTileColor = "#FFEBCD";
 
 
     static void showSettings(){

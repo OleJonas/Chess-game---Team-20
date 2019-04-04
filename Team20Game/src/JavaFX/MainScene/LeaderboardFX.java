@@ -1,4 +1,4 @@
-package JavaFX;
+package JavaFX.MainScene;
 
 import Database.LeaderboardDB;
 import javafx.scene.control.Label;

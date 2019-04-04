@@ -1,8 +1,10 @@
-package JavaFX;
+package JavaFX.GameScene;
 
 import Database.Game;
 import Database.User;
 import Game.GameEngine;
+import JavaFX.LoginScreen.Login;
+import JavaFX.MainScene.MainScene;
 import Pieces.*;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -14,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 
-class HighlightBox extends Pane{
+public class HighlightBox extends Pane{
     int x;
     int y;
     int height;
@@ -27,21 +29,21 @@ class HighlightBox extends Pane{
         this.x = x;
         this.y = y;
         this.height = height;
-        relocate(x * ChessDemo.TILE_SIZE, (height - 1 - y) * ChessDemo.TILE_SIZE);
+        relocate(x * ChessGame.TILE_SIZE, (height - 1 - y) * ChessGame.TILE_SIZE);
         if(shapeOfBox.equalsIgnoreCase("rectangle")) {
-            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            Rectangle square = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
             square.setFill(Color.valueOf("#582"));
             square.setOpacity(hboxOpacity);
             getChildren().add(square);
         }else{
-            Circle circle = new Circle(ChessDemo.TILE_SIZE / 5);
+            Circle circle = new Circle(ChessGame.TILE_SIZE / 5);
             circle.setFill(Color.valueOf("582"));
             circle.setOpacity(hboxOpacity);
-            circle.setTranslateX(ChessDemo.TILE_SIZE/2);
-            circle.setTranslateY(ChessDemo.TILE_SIZE/2);
+            circle.setTranslateX(ChessGame.TILE_SIZE/2);
+            circle.setTranslateY(ChessGame.TILE_SIZE/2);
             getChildren().add(circle);
 
-            Rectangle square = new Rectangle(ChessDemo.TILE_SIZE*0.7, ChessDemo.TILE_SIZE*0.7);
+            Rectangle square = new Rectangle(ChessGame.TILE_SIZE*0.7, ChessGame.TILE_SIZE*0.7);
             square.setOpacity(0);
             getChildren().add(square);
         }
@@ -92,7 +94,7 @@ class HighlightBox extends Pane{
             if(y==top && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn){
                 PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
                 hboxGroup.getChildren().clear();
-                pawnChange.Display(ChessDemo.color);
+                pawnChange.Display(ChessGame.color);
 
                 Piece newPiece = null;
                 boolean pieceColor = ChessGame.color?tile.getMyColor():!tile.getMyColor();
@@ -113,10 +115,10 @@ class HighlightBox extends Pane{
                 gameEngine.setPiece(newPiece, x, y);
 
                 if(!ChessGame.color){
-                    tempimg.getTransforms().add(new Rotate(180, ChessDemo.TILE_SIZE/2, ChessDemo.TILE_SIZE/2));
+                    tempimg.getTransforms().add(new Rotate(180, ChessGame.TILE_SIZE/2, ChessGame.TILE_SIZE/2));
                 }
                 tile.setImageView(tempimg,
-                        ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2, ChessDemo.TILE_SIZE*(1-ChessDemo.imageSize)/2);
+                        ChessGame.TILE_SIZE*(1-ChessGame.imageSize)/2, ChessGame.TILE_SIZE*(1-ChessGame.imageSize)/2);
             }
 
             Game.uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
@@ -176,20 +178,19 @@ class HighlightBox extends Pane{
 
             getChildren().clear();
             hboxGroup.getChildren().clear();
-            //lastMoveGroup.getChildren().clear();
             selectedGroup.getChildren().clear();
 
-            Rectangle squareTo = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            Rectangle squareTo = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
             squareTo.setFill(Color.valueOf("#582"));
             squareTo.setOpacity(0.9);
-            squareTo.setTranslateX(x*ChessDemo.TILE_SIZE);
-            squareTo.setTranslateY((height-1-y)*ChessDemo.TILE_SIZE);
+            squareTo.setTranslateX(x*ChessGame.TILE_SIZE);
+            squareTo.setTranslateY((height-1-y)*ChessGame.TILE_SIZE);
 
-            Rectangle squareFrom = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+            Rectangle squareFrom = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
             squareFrom.setFill(Color.valueOf("#582"));
             squareFrom.setOpacity(0.5);
-            squareFrom.setTranslateX(fromX*ChessDemo.TILE_SIZE);
-            squareFrom.setTranslateY((height-1-fromY)*ChessDemo.TILE_SIZE);
+            squareFrom.setTranslateX(fromX*ChessGame.TILE_SIZE);
+            squareFrom.setTranslateY((height-1-fromY)*ChessGame.TILE_SIZE);
 
             Piece[][] boardState = gameEngine.getBoard().getBoardState();
             if (gameEngine.inCheck(boardState, !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
@@ -197,19 +198,17 @@ class HighlightBox extends Pane{
                     for (int j = 0; j < boardState[0].length; j++){
                         if (boardState[i][j] instanceof King){
                             if (boardState[i][j].getColor() == !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()){
-                                Rectangle check = new Rectangle(ChessDemo.TILE_SIZE, ChessDemo.TILE_SIZE);
+                                Rectangle check = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
                                 check.setFill(Color.valueOf("#F30000"));
                                 check.setOpacity(1);
-                                check.setTranslateX(i*ChessDemo.TILE_SIZE);
-                                check.setTranslateY((height-1-j)*ChessDemo.TILE_SIZE);
+                                check.setTranslateX(i*ChessGame.TILE_SIZE);
+                                check.setTranslateY((height-1-j)*ChessGame.TILE_SIZE);
                                 lastMoveGroup.getChildren().add(check);
                             }
                         }
                     }
                 }
             }
-            //lastMoveGroup.getChildren().add(squareTo);
-            //lastMoveGroup.getChildren().add(squareFrom);
         });
     }
 

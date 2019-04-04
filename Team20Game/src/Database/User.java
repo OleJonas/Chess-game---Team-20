@@ -1,9 +1,7 @@
 package Database;
 
-import JavaFX.Login;
+import JavaFX.LoginScreen.Login;
 import Game.GameEngine;
-
-import java.util.Random;
 
 public class User {
     public static int getGameID(String username){

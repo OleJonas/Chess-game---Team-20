@@ -1,6 +1,9 @@
-package JavaFX;
+package JavaFX.GameScene;
 import Database.Game;
 import Database.User;
+import JavaFX.LoginScreen.Login;
+import JavaFX.MainScene.Main;
+import JavaFX.MainScene.MainScene;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -18,9 +21,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
-
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 //import sun.security.pkcs11.Secmod;
 
 
@@ -71,7 +71,7 @@ public class GameScene {
         }
     }
 
-    static void showGameScene() {
+    public static void showGameScene() {
         increment = Game.getIncrement(ChessGame.gameID);
 
         yourTime =  Game.getTime(ChessGame.gameID) * 60;

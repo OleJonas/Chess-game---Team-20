@@ -1,4 +1,5 @@
-package JavaFX;
+package JavaFX.LoginScreen;
+import JavaFX.MainScene.Main;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import java.sql.SQLException;
+
 import static javafx.geometry.Pos.CENTER;
 
 @SuppressWarnings("Duplicates")
