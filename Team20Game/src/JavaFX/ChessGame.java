@@ -392,7 +392,7 @@ public class ChessGame{
                     serviceDBThings();
                 }
             }
-        }, 0, 500);
+        }, 0, 250);
     }
 
     public void serviceDBThings() {

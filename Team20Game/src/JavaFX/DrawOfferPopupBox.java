@@ -39,7 +39,7 @@ class DrawOfferPopupBox {
         textLabel.setTextFill(Color.WHITE);
         MainScene.inDrawOffer = true;
 
-        Button acceptDrawButton = new Button("Accept offer");
+        Button acceptDrawButton = new Button("Accept");
         acceptDrawButton.setOnAction(e -> {
             MainScene.inGame = false;
             ChessGame.isDone = true;
@@ -49,7 +49,7 @@ class DrawOfferPopupBox {
             window.close();
 
         });
-        Button declineDrawButton = new Button("Decline offer");
+        Button declineDrawButton = new Button("Decline");
         declineDrawButton.setOnAction(e -> {
             MainScene.inDrawOffer = false;
             int result = Game.getResult(ChessGame.gameID);
@@ -70,7 +70,8 @@ class DrawOfferPopupBox {
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
 
         GridPane bottomLayout = new GridPane();
-        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(230));
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(230));
         bottomLayout.setPadding(new Insets(0,50,15,50));
         bottomLayout.add(acceptDrawButton, 0,0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
@@ -80,7 +81,7 @@ class DrawOfferPopupBox {
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 560, 360);
+        Scene scene = new Scene(windowLayout, 440, 360);
         window.setScene(scene);
         window.showAndWait();
     }
