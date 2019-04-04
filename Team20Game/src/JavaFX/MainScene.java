@@ -12,6 +12,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -22,18 +23,17 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import javax.management.monitor.Monitor;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
-import static JavaFX.Login.*;
-import static JavaFX.MainScene.mainScene;
+import static JavaFX.Login.USERNAME;
+import static JavaFX.Login.runLogin;
 import static JavaFX.Settings.showSettings;
-import static JavaFX.Settings.window;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -42,7 +42,6 @@ public class MainScene {
     static Scene mainScene;
     static Timer timer = new Timer(true);
     static Button newGameButton, findUserButton, userProfileButton, settingsButton, createGameButton, joinGameButton, inviteFriendButton, cancelGameButton, clearBoard, backToMainButton, leaderboardButton, backToMainButtonWithoutSandboxReload;
-    static Label title;
     public static boolean inQueueCreate = false;
     public static boolean inQueueJoin = false;
     public static boolean inQueueFriend = false;
@@ -61,7 +60,15 @@ public class MainScene {
 
     static void showMainScene() {
         User.updateUser();
-        title = new Label("Recess Chess");
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+
+        Label title = new Label("Recess Chess");
+        title.setEffect(dropShadow);
         title.setFont(Font.font("Georgia", 70));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
@@ -113,7 +120,7 @@ public class MainScene {
 
         inviteFriendButton = new Button("Invite Friend");
         inviteFriendButton.setOnAction(e -> {
-            invitedFriend = true;
+            invitedFriend = false;
             InviteFriendPopupBox.Display();
 
             if (invitedFriend) {
@@ -138,7 +145,22 @@ public class MainScene {
         newGameButton.setStyle("-fx-background-color: #29AC29");
         newGameButton.setTextFill(Color.WHITE);
         newGameButton.setOnAction(e -> {
-            newGameButtonPressed();
+            title.setText("New Game");
+            mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButtonWithoutSandboxReload, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            leftGrid.setVgap(40);
+            leftGrid.setPadding(new Insets(150, 100, 100, 170));
+            createGameButton.setPrefSize(150, 80);
+            joinGameButton.setPrefSize(150, 80);
+            inviteFriendButton.setPrefSize(150, 80);
+            cancelGameButton.setPrefSize(150, 80);
+            leftGrid.add(createGameButton, 0, 0);
+            leftGrid.setHalignment(createGameButton, HPos.CENTER);
+            leftGrid.add(joinGameButton, 0, 1);
+            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+            leftGrid.add(inviteFriendButton, 0, 2);
+            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
         });
 
         backToMainButton = new Button("Back");
@@ -206,17 +228,38 @@ public class MainScene {
 
         findUserButton = new Button("Find User");
         findUserButton.setOnAction(e -> {
-            findUserButtonPressed();
+            title.setText("Find User");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            showFindUserScene();
         });
 
         userProfileButton = new Button("User profile");
         userProfileButton.setOnAction(e -> {
-            userProfileButtonPressed();
+            title.setText("User Profile");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            showUserProfileScene();
         });
 
         leaderboardButton = new Button("Leaderboard");
         leaderboardButton.setOnAction(e -> {
-            leaderboardButtonPressed();
+            title.setText("Leaderboard");
+            mainLayout.add(backToMainButton, 0, 0, 2, 1);
+            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+            leftGrid.getChildren().clear();
+            rightGrid.getChildren().clear();
+            mainLayout.setVgap(70);
+            rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
+            rightGrid.setPadding(new Insets(150,50,200,180));
+            BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
+                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            rightGrid.setBackground(new Background(frame));
         });
 
         settingsButton = new Button("Settings");
@@ -248,6 +291,7 @@ public class MainScene {
             inQueueCreate = false;
             invitedFriend = false;
             Game.removeActiveFromGame();
+
             title.setText("New Game");
             leftGrid.getChildren().clear();
             leftGrid.setVgap(40);
@@ -274,7 +318,6 @@ public class MainScene {
         sandboxLabel.setTextFill(Color.WHITE);
         clearBoard = new Button("Clear Board");
         clearBoard.setOnAction(e -> {
-            MainScene.rightGrid.getChildren().clear();
             reloadSandbox();
         });
         rightGrid.add(clearBoard, 0, 1);
@@ -316,64 +359,6 @@ public class MainScene {
         Main.window.setResizable(true);
         refresh();
         searchFriend = true;
-
-        mainScene.setOnKeyPressed(e -> {
-            if(e.getCode().equals(KeyCode.ENTER)){
-                newGameButtonPressed();
-            }
-        });
-    }
-
-    static void newGameButtonPressed(){
-        title.setText("New Game");
-        mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
-        mainLayout.setHalignment(backToMainButtonWithoutSandboxReload, HPos.LEFT);
-        leftGrid.getChildren().clear();
-        leftGrid.setVgap(40);
-        leftGrid.setPadding(new Insets(150, 100, 100, 170));
-        createGameButton.setPrefSize(150, 80);
-        joinGameButton.setPrefSize(150, 80);
-        inviteFriendButton.setPrefSize(150, 80);
-        cancelGameButton.setPrefSize(150, 80);
-        leftGrid.add(createGameButton, 0, 0);
-        leftGrid.setHalignment(createGameButton, HPos.CENTER);
-        leftGrid.add(joinGameButton, 0, 1);
-        leftGrid.setHalignment(joinGameButton, HPos.CENTER);
-        leftGrid.add(inviteFriendButton, 0, 2);
-        leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
-    }
-
-    static void findUserButtonPressed(){
-        title.setText("Find User");
-        mainLayout.add(backToMainButton, 0, 0, 2, 1);
-        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-        leftGrid.getChildren().clear();
-        rightGrid.getChildren().clear();
-        showFindUserScene();
-    }
-
-    static void userProfileButtonPressed(){
-        title.setText("User Profile");
-        mainLayout.add(backToMainButton, 0, 0, 2, 1);
-        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-        leftGrid.getChildren().clear();
-        rightGrid.getChildren().clear();
-        showUserProfileScene();
-    }
-
-    static void leaderboardButtonPressed(){
-        title.setText("Leaderboard");
-        mainLayout.add(backToMainButton, 0, 0, 2, 1);
-        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-        leftGrid.getChildren().clear();
-        rightGrid.getChildren().clear();
-        mainLayout.setVgap(70);
-        rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
-        rightGrid.setPadding(new Insets(150,50,200,180));
-        BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        rightGrid.setBackground(new Background(frame));
     }
 
     static void reloadSandbox(){
@@ -382,10 +367,26 @@ public class MainScene {
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
+        clearBoard = new Button("Clear Board");
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
     }
+
+    /*static void removeActiveFromGame(){
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                DBOps temp = new DBOps();
+                int game_id = ChessGame.gameID;
+                temp.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + game_id + ";");
+            }
+        });
+        t.start();
+    }*/
+
+    /*static void gameSetup() {
+        ChessGame.gameID = newGameID();
+    }*/
 
     static int newGameID() {
         DBOps connection = new DBOps();
@@ -594,9 +595,10 @@ class InviteFriendPopupBox{
         searchField.setPrefSize(200, 30);
         searchComment = new Label("");
         searchComment.setTextFill(Color.RED);
-        searchField.requestFocus();
+
+
         //Create Game Button
-        Button createGameButton = new Button("Send Invite");
+        Button createGameButton = new Button("Create Game");
         createGameButton.setOnAction(e -> {
             MainScene.invitedFriend = true;
             tryInviteCreate();
@@ -1157,6 +1159,8 @@ class JoinGamePopupBox{
 class GameOverPopupBox{
 
     public static void Display(){
+        yourTimer.cancel();
+        opponentTimer.cancel();
         int oldElo = ChessGame.color?ChessGame.whiteELO:ChessGame.blackELO;
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -1220,15 +1224,6 @@ class GameOverPopupBox{
         windowLayout.setStyle("-fx-background-color: #404144;");
 
         Scene scene = new Scene(windowLayout, 350, 310);
-        scene.setOnKeyPressed(e -> {
-            if(e.getCode().equals(KeyCode.ENTER)){
-                MainScene.showMainScene();
-                MainScene.inGame = false;
-                MainScene.searchFriend = true;
-                window.close();
-            }
-        });
-
         window.setScene(scene);
         window.showAndWait();
         User.updateUser();
@@ -1291,7 +1286,7 @@ class FriendInviteBox {
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 530, 360);
+        Scene scene = new Scene(windowLayout, 550, 360);
         window.setScene(scene);
         window.showAndWait();
     }

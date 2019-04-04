@@ -3,17 +3,18 @@ import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
 import java.util.ArrayList;
 
 import static JavaFX.MainScene.mainScene;
-import static JavaFX.MainScene.showMainScene;
 
 @SuppressWarnings("Duplicates")
 class FindUser{

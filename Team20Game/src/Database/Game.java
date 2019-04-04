@@ -31,11 +31,13 @@ public class Game {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps db = new DBOps();
+                GameScene.yourTime += GameScene.increment;
                 if (ChessGame.color) {
                     if(ChessGame.firstMove){
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime +");");
                         ChessGame.firstMove = false;
                         GameScene.refresh();
+                        System.out.println("started timer in Game class");
                     }
 
                     else if (Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 0) {
