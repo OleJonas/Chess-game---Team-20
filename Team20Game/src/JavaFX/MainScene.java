@@ -57,7 +57,7 @@ public class MainScene {
     //public static String sql;
     private static String user_id;
     static Parent chessGame;
-    static Label sandboxLabel;
+    static Label sandboxLabel, title;
     static GridPane rightGrid, leftGrid, mainLayout;
     static Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
@@ -70,7 +70,7 @@ public class MainScene {
         dropShadow.setOffsetY(3.0);
         dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
 
-        Label title = new Label("Recess Chess");
+        title = new Label("Recess Chess");
         title.setEffect(dropShadow);
         title.setFont(Font.font("Georgia", 70));
         title.setStyle("-fx-font-weight: bold");
@@ -148,22 +148,7 @@ public class MainScene {
         newGameButton.setStyle("-fx-background-color: #29AC29");
         newGameButton.setTextFill(Color.WHITE);
         newGameButton.setOnAction(e -> {
-            title.setText("New Game");
-            mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
-            mainLayout.setHalignment(backToMainButtonWithoutSandboxReload, HPos.LEFT);
-            leftGrid.getChildren().clear();
-            leftGrid.setVgap(40);
-            leftGrid.setPadding(new Insets(150, 100, 100, 170));
-            createGameButton.setPrefSize(150, 80);
-            joinGameButton.setPrefSize(150, 80);
-            inviteFriendButton.setPrefSize(150, 80);
-            cancelGameButton.setPrefSize(150, 80);
-            leftGrid.add(createGameButton, 0, 0);
-            leftGrid.setHalignment(createGameButton, HPos.CENTER);
-            leftGrid.add(joinGameButton, 0, 1);
-            leftGrid.setHalignment(joinGameButton, HPos.CENTER);
-            leftGrid.add(inviteFriendButton, 0, 2);
-            leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
+            newGameButtonPressed();
         });
 
         backToMainButton = new Button("Back");
@@ -231,38 +216,17 @@ public class MainScene {
 
         findUserButton = new Button("Find User");
         findUserButton.setOnAction(e -> {
-            title.setText("Find User");
-            mainLayout.add(backToMainButton, 0, 0, 2, 1);
-            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-            leftGrid.getChildren().clear();
-            rightGrid.getChildren().clear();
-            showFindUserScene();
+            findUserButtonPressed();
         });
 
         userProfileButton = new Button("User profile");
         userProfileButton.setOnAction(e -> {
-            title.setText("User Profile");
-            mainLayout.add(backToMainButton, 0, 0, 2, 1);
-            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-            leftGrid.getChildren().clear();
-            rightGrid.getChildren().clear();
-            showUserProfileScene();
+            userProfileButtonPressed();
         });
 
         leaderboardButton = new Button("Leaderboard");
         leaderboardButton.setOnAction(e -> {
-            title.setText("Leaderboard");
-            mainLayout.add(backToMainButton, 0, 0, 2, 1);
-            mainLayout.setHalignment(backToMainButton, HPos.LEFT);
-            leftGrid.getChildren().clear();
-            rightGrid.getChildren().clear();
-            mainLayout.setVgap(70);
-            rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
-            rightGrid.setPadding(new Insets(150,50,200,180));
-            BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
-                    BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT);
-            rightGrid.setBackground(new Background(frame));
+            leaderboardButtonPressed();
         });
 
         settingsButton = new Button("Settings");
@@ -357,7 +321,7 @@ public class MainScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar()); //WindowMenuBar has to be fixed if were going to use it
         layout.setCenter(mainLayout);
 
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
@@ -378,6 +342,58 @@ public class MainScene {
 
         refresh();
         searchFriend = true;
+    }
+
+    static void newGameButtonPressed(){
+        title.setText("New Game");
+        mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
+        mainLayout.setHalignment(backToMainButtonWithoutSandboxReload, HPos.LEFT);
+        leftGrid.getChildren().clear();
+        leftGrid.setVgap(40);
+        leftGrid.setPadding(new Insets(150, 100, 100, 170));
+        createGameButton.setPrefSize(150, 80);
+        joinGameButton.setPrefSize(150, 80);
+        inviteFriendButton.setPrefSize(150, 80);
+        cancelGameButton.setPrefSize(150, 80);
+        leftGrid.add(createGameButton, 0, 0);
+        leftGrid.setHalignment(createGameButton, HPos.CENTER);
+        leftGrid.add(joinGameButton, 0, 1);
+        leftGrid.setHalignment(joinGameButton, HPos.CENTER);
+        leftGrid.add(inviteFriendButton, 0, 2);
+        leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
+    }
+
+    static void findUserButtonPressed(){
+        title.setText("Find User");
+        mainLayout.add(backToMainButton, 0, 0, 2, 1);
+        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+        leftGrid.getChildren().clear();
+        rightGrid.getChildren().clear();
+        showFindUserScene();
+    }
+
+    static void userProfileButtonPressed(){
+        title.setText("User Profile");
+        mainLayout.add(backToMainButton, 0, 0, 2, 1);
+        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+        leftGrid.getChildren().clear();
+        rightGrid.getChildren().clear();
+        showUserProfileScene();
+    }
+
+    static void leaderboardButtonPressed(){
+        title.setText("Leaderboard");
+        mainLayout.add(backToMainButton, 0, 0, 2, 1);
+        mainLayout.setHalignment(backToMainButton, HPos.LEFT);
+        leftGrid.getChildren().clear();
+        rightGrid.getChildren().clear();
+        mainLayout.setVgap(70);
+        rightGrid.add(LeaderboardFX.setupLeaderboard(), 0,0);
+        rightGrid.setPadding(new Insets(150,50,200,180));
+        BackgroundImage frame = new BackgroundImage(new Image("Images/frame.png", 700, 600, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        rightGrid.setBackground(new Background(frame));
     }
 
     static void reloadSandbox(){
@@ -1345,5 +1361,75 @@ class FriendInviteBox {
         Scene scene = new Scene(windowLayout, 560, 360);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+
+}
+class DrawOfferPopupBox {
+    static Stage window = new Stage();
+    public static void Display() {
+        window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Draw Offer");
+        //Labels
+        Label titleLabel = new Label("Draw Offer");
+        titleLabel.setFont(Font.font("Copperplate", 26));
+        titleLabel.setStyle("-fx-font-weight: bold");
+        titleLabel.setTextFill(Color.WHITE);
+
+        Label textLabel = new Label("Your opponent has offered a draw!");
+        textLabel.setFont(Font.font("Copperplate", 22));
+        textLabel.setStyle("-fx-font-weight: bold");
+        textLabel.setTextFill(Color.WHITE);
+        MainScene.inDrawOffer = true;
+
+        Button acceptDrawButton = new Button("Accept");
+        acceptDrawButton.setOnAction(e -> {
+            MainScene.inGame = false;
+            ChessGame.isDone = true;
+            Game.setResult(ChessGame.gameID, 0);
+            User.updateEloByGame(ChessGame.gameID);
+            GameOverPopupBox.Display();
+            window.close();
+
+        });
+        Button declineDrawButton = new Button("Decline");
+        declineDrawButton.setOnAction(e -> {
+            MainScene.inDrawOffer = false;
+            int result = Game.getResult(ChessGame.gameID);
+            if (result == 2 || result == 1)
+                Game.setResult(ChessGame.gameID, -1);
+            window.close();
+        });
+
+
+        BorderPane windowLayout = new BorderPane();
+        GridPane mainLayout = new GridPane();
+        mainLayout.setHgap(35);
+        mainLayout.setVgap(20);
+        mainLayout.setPadding(new Insets(30, 40, 30, 40));
+        mainLayout.add(titleLabel, 0, 0, 2, 1);
+        mainLayout.add(textLabel, 0, 1, 2, 1);
+        mainLayout.setHalignment(textLabel, HPos.CENTER);
+        mainLayout.setHalignment(titleLabel, HPos.CENTER);
+
+        GridPane bottomLayout = new GridPane();
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(230));
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(230));
+        bottomLayout.setPadding(new Insets(0,50,15,50));
+        bottomLayout.add(acceptDrawButton, 0,0);
+        bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
+        bottomLayout.add(declineDrawButton, 1, 0);
+        //bottomLayout.setHalignment(declineDrawButton, HPos.LEFT);
+        windowLayout.setCenter(mainLayout);
+        windowLayout.setBottom(bottomLayout);
+        windowLayout.setStyle("-fx-background-color: #404144;");
+
+        Scene scene = new Scene(windowLayout, 440, 360);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+    public static void close(){
+        window.close();
     }
 }

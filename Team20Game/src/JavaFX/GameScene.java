@@ -21,7 +21,6 @@ import java.util.concurrent.CountDownLatch;
 
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
-import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
 
@@ -264,7 +263,7 @@ public class GameScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar()); //Have to fix windowMenuBar if were going to use it
         layout.setCenter(mainLayout);
 
         gameScene = new Scene(layout, 1450, 950);
@@ -341,11 +340,18 @@ public class GameScene {
                             public void run() {
                                 try {
                                     if (ChessGame.myTurn) {
-
+                                        yourClock.setOpacity(1);
+                                        yourClock.setTextFill(Color.web("#4fbf18",1.0));
                                         yourClock.setText(secToMinSec(setInterval()));
+                                        opponentClock.setOpacity(0.4);
+                                        opponentClock.setTextFill(Color.WHITE);
                                         opponentClock.setText(secToMinSec(opponentTime));
                                     } else {
+                                        opponentClock.setOpacity(1);
+                                        opponentClock.setTextFill(Color.web("#4fbf18",1.0));
                                         opponentClock.setText(secToMinSec(setInterval()));
+                                        yourClock.setOpacity(0.4);
+                                        yourClock.setTextFill(Color.WHITE);
                                         yourClock.setText(secToMinSec(yourTime));
                                     }
 
