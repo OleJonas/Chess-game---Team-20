@@ -21,7 +21,6 @@ import java.util.concurrent.CountDownLatch;
 
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
-import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
 
@@ -264,7 +263,7 @@ public class GameScene {
 
 
         BorderPane layout = new BorderPane();
-        layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        //layout.setTop(new WindowMenuBar().getWindowMenuBar()); //Have to fix windowMenuBar if were going to use it
         layout.setCenter(mainLayout);
 
         gameScene = new Scene(layout, 1450, 950);

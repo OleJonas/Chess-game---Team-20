@@ -1,6 +1,9 @@
 package JavaFX;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 import static JavaFX.Login.runLogin;
 
@@ -17,7 +20,7 @@ public class Main extends Application {
         runLogin();
         primaryStage.centerOnScreen();
         window.setTitle("Recess Chess");
+        window.getIcons().add(new Image("/Images/icon.png"));
         window.show();
-
     }
 }

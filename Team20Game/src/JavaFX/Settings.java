@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -23,8 +24,7 @@ import static JavaFX.MainScene.showMainScene;
 class Settings{
     static Scene settingsScene;
     static Stage window;
-
-    //Settingvariables
+    static ChoiceBox<String> boardColorChoiceBox, skinNameChoiceBox;
 
     //Color
     static String darkTileColor = "#8B4513";
@@ -55,21 +55,6 @@ class Settings{
             window.close();
         });
 
-
-/*
-        //Right GridPane
-        GridPane rightGrid = new GridPane();
-        rightGrid.setVgap(10);
-        rightGrid.setHgap(10);
-        rightGrid.setPadding(new Insets(20, 20, 20, 20));
-
-        //Left GridPane
-        GridPane leftGrid = new GridPane();
-        leftGrid.setVgap(10);
-        leftGrid.setHgap(10);
-        leftGrid.setPadding(new Insets(20, 20, 20, 20));
-*/
-
         //mainLayout
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
@@ -89,7 +74,7 @@ class Settings{
         boardColorLabel.setTextFill(Color.WHITE);
         mainLayout.add(boardColorLabel, 0, 2);
 
-        ChoiceBox<String> boardColorChoiceBox = new ChoiceBox<>();
+        boardColorChoiceBox = new ChoiceBox<>();
         boardColorChoiceBox.getItems().add("Brown");
         boardColorChoiceBox.getItems().add("Black");
         boardColorChoiceBox.getItems().add("Blue");
@@ -126,7 +111,7 @@ class Settings{
         skinNameLabel.setTextFill(Color.WHITE);
         mainLayout.add(skinNameLabel, 0, 3);
 
-        ChoiceBox<String> skinNameChoiceBox = new ChoiceBox<>();
+        skinNameChoiceBox = new ChoiceBox<>();
         skinNameChoiceBox.getItems().add("Standard");
         skinNameChoiceBox.getItems().add("Chrome");
         skinNameChoiceBox.getItems().add("Pink");
@@ -145,8 +130,6 @@ class Settings{
 
         mainLayout.add(skinNameChoiceBox, 1,3);
 
-
-
         //Bottomlayout
         GridPane bottomLayout = new GridPane();
         Button resetChangesButton = new Button("Reset");
@@ -162,48 +145,7 @@ class Settings{
         });
         Button applyChangesButton = new Button("Apply");
         applyChangesButton.setOnAction(e -> {
-
-            //Apply colorchanges
-            String colorchoice = boardColorChoiceBox.getValue();
-            if(colorchoice.equals("Brown")){
-                darkTileColor = "#8B4513";
-                lightTileColor = "#FFEBCD";
-            } else if(colorchoice.equals("Black")){
-                darkTileColor = "#000000";
-                lightTileColor = "#FFFFFF";
-            } else if(colorchoice.equals("Blue")){
-                darkTileColor = "#010b7a";
-                lightTileColor = "eeedd5";
-            } else if(colorchoice.equals("Red")){
-                darkTileColor = "#680101";
-                lightTileColor = "eeedd5";
-            } else if(colorchoice.equals("Orange")){
-                darkTileColor = "#ef9921";
-                lightTileColor = "eeedd5";
-            } else if(colorchoice.equals("Yellow")){
-                darkTileColor = "#f2f20c";
-                lightTileColor = "eeedd5";
-            } else if(colorchoice.equals("Green")){
-                darkTileColor = "#7d945d";
-                lightTileColor = "#eeedd5";
-            } else if(colorchoice.equals("Pink")){
-                darkTileColor = "#ff00b2";
-                lightTileColor = "#faff00";
-            }
-
-            //Apply skinName
-            String skinNameChoice = skinNameChoiceBox.getValue();
-            if(skinNameChoice.equals("Standard")){
-                ChessGame.skin = "Standard";
-            } else if(skinNameChoice.equals("Chrome")){
-                ChessGame.skin = "Chrome";
-            } else if(skinNameChoice.equals("Pink")){
-                ChessGame.skin = "Pink";
-            } else if(skinNameChoice.equals("Wood")){
-                ChessGame.skin = "Wood";
-            }
-            storeSettings();
-            MainScene.reloadSandbox();
+            applyButtonPressed();
         });
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(270));
         bottomLayout.setPadding(new Insets(0, 25, 25, 0));
@@ -218,7 +160,59 @@ class Settings{
         layout.setCenter(mainLayout);
         layout.setBottom(bottomLayout);
         settingsScene = new Scene(layout, 455, 500);
+        settingsScene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                applyButtonPressed();
+            }
+        });
         window.setScene(settingsScene);
         window.showAndWait();
     }
+
+    static void applyButtonPressed(){
+        //Apply colorchanges
+        String colorchoice = boardColorChoiceBox.getValue();
+        if(colorchoice.equals("Brown")){
+            darkTileColor = "#8B4513";
+            lightTileColor = "#FFEBCD";
+        } else if(colorchoice.equals("Black")){
+            darkTileColor = "#000000";
+            lightTileColor = "#FFFFFF";
+        } else if(colorchoice.equals("Blue")){
+            darkTileColor = "#010b7a";
+            lightTileColor = "eeedd5";
+        } else if(colorchoice.equals("Red")){
+            darkTileColor = "#680101";
+            lightTileColor = "eeedd5";
+        } else if(colorchoice.equals("Orange")){
+            darkTileColor = "#ef9921";
+            lightTileColor = "eeedd5";
+        } else if(colorchoice.equals("Yellow")){
+            darkTileColor = "#f2f20c";
+            lightTileColor = "eeedd5";
+        } else if(colorchoice.equals("Green")){
+            darkTileColor = "#7d945d";
+            lightTileColor = "#eeedd5";
+        } else if(colorchoice.equals("Pink")){
+            darkTileColor = "#ff00b2";
+            lightTileColor = "#faff00";
+        }
+
+        //Apply skinName
+        String skinNameChoice = skinNameChoiceBox.getValue();
+        if(skinNameChoice.equals("Standard")){
+            ChessGame.skin = "Standard";
+        } else if(skinNameChoice.equals("Chrome")){
+            ChessGame.skin = "Chrome";
+        } else if(skinNameChoice.equals("Pink")){
+            ChessGame.skin = "Pink";
+        } else if(skinNameChoice.equals("Wood")){
+            ChessGame.skin = "Wood";
+        }
+        storeSettings();
+        MainScene.reloadSandbox();
+    }
+
+
+
 }
