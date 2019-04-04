@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -70,16 +71,16 @@ class DrawOfferPopupBox {
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0, 25, 15, 0));
-        bottomLayout.add(acceptDrawButton, 0, 0);
+        bottomLayout.setPadding(new Insets(0,50,15,50));
+        bottomLayout.add(acceptDrawButton, 0,0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
         bottomLayout.add(declineDrawButton, 1, 0);
-        bottomLayout.setHalignment(acceptDrawButton, HPos.RIGHT);
+        //bottomLayout.setHalignment(declineDrawButton, HPos.LEFT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 450, 300);
+        Scene scene = new Scene(windowLayout, 560, 360);
         window.setScene(scene);
         window.showAndWait();
     }
