@@ -71,16 +71,16 @@ class DrawOfferPopupBox {
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0, 50, 15, 50));
-        bottomLayout.add(acceptDrawButton, 0, 0);
+        bottomLayout.setPadding(new Insets(0,50,15,50));
+        bottomLayout.add(acceptDrawButton, 0,0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
-        bottomLayout.add(declineDrawButton, 2, 0);
-        //bottomLayout.setHalignment(acceptDrawButton, HPos.RIGHT);
+        bottomLayout.add(declineDrawButton, 1, 0);
+        //bottomLayout.setHalignment(declineDrawButton, HPos.LEFT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 450, 300);
+        Scene scene = new Scene(windowLayout, 560, 360);
         window.setScene(scene);
         window.showAndWait();
     }
