@@ -3,6 +3,7 @@ import Database.ChatDB;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,10 +11,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,18 +30,19 @@ public class ChatFX{
     static Scene scene;
     static TextField inText;
     static Button sendButton, closeButton;
-    static ScrollPane container = new ScrollPane();
     private static ArrayList<Label> messages = new ArrayList<Label>();
     static VBox chatLayout;
-
+    //static FlowPane chatLayout;
+    static ScrollPane container = new ScrollPane();
+    //static JScrollPane container = new JScrollPane();
     static ChatDB chat = new ChatDB();
 
     public static GridPane createChat(){
-        //window = new Stage();
         sendButton = new Button("Send");
-        closeButton = new Button("Exit");
+        sendButton.setPrefWidth(60);
 
         inText = new TextField();
+        inText.setPrefWidth(156);
 
         sendButton.setOnAction(e -> {
             if(!inText.getText().trim().equals("")){
@@ -45,24 +51,24 @@ public class ChatFX{
             }
         });
 
-        /*closeButton.setOnAction(e -> {
-            chat.chatClose();
-            window.close();
-        });*/
-
-        chatLayout = new VBox(5);
-        chatLayout.setPadding(new Insets(20,20,20,20));
-        chatLayout.getChildren().add(new Label(" "));
+        //chatLayout = new VBox(5);
+        chatLayout = new VBox();
+        chatLayout.setPadding(new Insets(8,8,8,8));
+        chatLayout.getChildren().add(new Label(""));
 
         container.setPrefSize(216, 400);
+        //container.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        //container.setHmax(216);
         container.setStyle("-fx-background: #3e1c03;");
         container.setContent(chatLayout);
 
 
         GridPane gridPane = new GridPane();
-        gridPane.add(container, 0,0);
+        gridPane.getColumnConstraints().add(new ColumnConstraints(156));
+        gridPane.getColumnConstraints().add(new ColumnConstraints(60));
+        gridPane.add(container, 0,0, 2, 1);
         gridPane.add(inText,0,1);
-        gridPane.add(sendButton, 0,2);
+        gridPane.add(sendButton, 1,1);
         gridPane.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER){
                 if(!inText.getText().trim().equals("")){
@@ -117,8 +123,10 @@ public class ChatFX{
     public static void refreshChat(){
         ArrayList<String> fetch = chat.fetchChat();
         for(String s : fetch){
-            chatLayout.getChildren().add(new Label(s));
-            messages.add(new Label(s));
+            Label text = new Label(s);
+            text.setFont(Font.font("Calibri", 14));
+            chatLayout.getChildren().add(text);
+            messages.add(text);
         }
     }
 }
