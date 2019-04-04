@@ -34,10 +34,9 @@ public class ChatFX{
     public static GridPane createChat(){
         //window = new Stage();
         sendButton = new Button("Send");
-        sendButton.setPrefWidth(60);
+        closeButton = new Button("Exit");
 
         inText = new TextField();
-        inText.setPrefWidth(180);
 
         sendButton.setOnAction(e -> {
             if(!inText.getText().trim().equals("")){
@@ -46,18 +45,24 @@ public class ChatFX{
             }
         });
 
+        /*closeButton.setOnAction(e -> {
+            chat.chatClose();
+            window.close();
+        });*/
+
         chatLayout = new VBox(5);
-        chatLayout.setPadding(new Insets(0,15,10,15));
+        chatLayout.setPadding(new Insets(20,20,20,20));
         chatLayout.getChildren().add(new Label(" "));
 
-        container.setPrefSize(240, 440);
+        container.setPrefSize(216, 400);
+        container.setStyle("-fx-background: #3e1c03;");
         container.setContent(chatLayout);
 
+
         GridPane gridPane = new GridPane();
-        gridPane.add(container, 0,0,2,1);
+        gridPane.add(container, 0,0);
         gridPane.add(inText,0,1);
-        gridPane.add(sendButton, 1,1);
-        gridPane.setHalignment(sendButton, HPos.RIGHT);
+        gridPane.add(sendButton, 0,2);
         gridPane.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER){
                 if(!inText.getText().trim().equals("")){
@@ -77,7 +82,7 @@ public class ChatFX{
             public void run() {
                 service();
             }
-        }, 1, 1);
+        }, 1000, 1000);
     }
 
     static void service() {

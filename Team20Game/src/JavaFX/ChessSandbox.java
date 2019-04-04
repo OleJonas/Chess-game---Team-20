@@ -51,7 +51,7 @@ public class ChessSandbox {
 
     public static boolean lastMove = true;
 
-    private GameEngine ge = new GameEngine(0,0);
+    private GameEngine ge = new GameEngine(0);
 
 
     private final int HEIGHT = ge.getBoard().getBoardState().length;

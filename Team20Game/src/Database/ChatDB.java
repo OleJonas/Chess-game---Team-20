@@ -36,12 +36,12 @@ public class ChatDB{
     private void writeChat(String input){
         // Checks if there already are messages corresponding to current game.
         // If not, sends first message of the game, and resumes normal execution;
+        String msg = Login.USERNAME + ": " + input;
         if(db.exQuery("SELECT * FROM Chat WHERE game_id = " + gameid,1).size() == 0){
-            db.exUpdate("INSERT INTO Chat(game_id, msg_id, user_id, msg) VALUES (" + gameid + ", 1, " + user_id + ", '" + Login.USERNAME + ": " + input + "')");
+            db.writeFirst(gameid, Login.userID, msg);
             return;
         }
-        String writeToDB = "INSERT INTO Chat VALUES (" + gameid + ", " + (lastChat + 1) + ", " + user_id + ", '" + Login.USERNAME + ": " + input + "')";
-        db.exUpdate(writeToDB);
+        db.writeChat(gameid, lastChat+1, Login.userID, msg);
     }
 
     public void writeThreadChat(String input) {

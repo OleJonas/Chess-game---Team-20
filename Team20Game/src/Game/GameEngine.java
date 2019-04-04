@@ -1,30 +1,18 @@
 package Game;
-
-//import JavaFX.GameChatNTimer;
-
 import Pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+//this class is used as an interface for the GameLogic class
 
 public class GameEngine {
    private Board board;
-   private int increment;
-   private boolean color;
    private int moveCounter = 0;
    private HashMap<String, Integer> rep;
-   //private GameChatNTimer gameChatNTimer;
 
-   public GameEngine(int gameTime, int increment, int mode) {
+   public GameEngine(int mode) {
       board = new Board(mode);
       rep = new HashMap<String, Integer>();
-      //this.gameChatNTimer = new GameChatNTimer(gameTime, increment);
-   }
-
-   public GameEngine(int time, int mode) {
-      board = new Board(mode);
-      rep = new HashMap<String, Integer>();
-      //this.gameChatNTimer = new GameChatNTimer(time);
    }
 
    public Board getBoard(){ return board; }

@@ -8,9 +8,9 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,8 +19,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import sun.rmi.runtime.Log;
 //import sun.security.pkcs11.Secmod;
 
 
@@ -29,14 +30,20 @@ public class GameScene {
     static Scene gameScene;
     static Timer yourTimer;
     static Timer opponentTimer;
-    public static int yourTime = Game.getTime(ChessGame.gameID) * 60;
-    static int opponentTime = Game.getTime(ChessGame.gameID)*60;
+    public static int yourTime;
+    static int opponentTime;
     static Label yourClock;
     static Label opponentClock;
-    static boolean yourIncrement = true;
-    static boolean opponentIncrement = true;
+    static int userid1;
+    static int userid2;
 
-    public static int increment = Game.getIncrement(ChessGame.gameID);
+    static ScrollPane container;
+    static GridPane viewMoves;
+    static int myColumn;
+
+    static String spacing = "     ";
+
+    public static int increment;
     public static ArrayList<String> allMoves = new ArrayList<>();
     public static ArrayList<String> whiteMoves = new ArrayList<>();
     public static ArrayList<String> blackMoves = new ArrayList<>();
@@ -66,31 +73,32 @@ public class GameScene {
     }
 
     static void showGameScene() {
+        increment = Game.getIncrement(ChessGame.gameID);
+
+        yourTime =  Game.getTime(ChessGame.gameID) * 60;
+        opponentTime =  Game.getTime(ChessGame.gameID) * 60;
+
         yourTimer = new Timer();
         opponentTimer = new Timer();
+
         yourClock = new Label(secToMinSec(yourTime));
         opponentClock = new Label(secToMinSec(opponentTime));
 
-
-        yourClock.setFont(Font.font("Ubuntu", 30));
+        yourClock.setFont(Font.font("Georgia", 30));
         yourClock.setStyle("-fx-font-weight: bold");
         yourClock.setTextFill(Color.WHITE);
 
-        opponentClock.setFont(Font.font("Ubuntu", 30));
+        opponentClock.setFont(Font.font("Georgia", 30));
         opponentClock.setStyle("-fx-font-weight: bold");
         opponentClock.setTextFill(Color.WHITE);
-
-
 
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Georgia", 60));
         title.setStyle("-fx-font-weight: bold");
         title.setTextFill(Color.WHITE);
 
-
-
-        int userid1 = Game.getUser_id1(ChessGame.gameID);
-        int userid2 = Game.getUser_id2(ChessGame.gameID);
+        userid1 = Game.getUser_id1(ChessGame.gameID);
+        userid2 = Game.getUser_id2(ChessGame.gameID);
 
         player1 = User.getUsername(userid1) + " (" + User.getElo(userid1) + ")";
         player2 = User.getUsername(userid2) + " (" + User.getElo(userid2) + ")";
@@ -102,15 +110,32 @@ public class GameScene {
         GridPane leftGrid = new GridPane();
         leftGrid.setPadding(new Insets(110, 0, 0, 0));
         Label chatLabel = new Label("Chat");
-        chatLabel.setTextFill(Color.WHITE);
         chatLabel.setFont(Font.font("Georgia", 30));
-        leftGrid.add(chatLabel, 0, 0);
-        leftGrid.add(ChatFX.createChat(), 0, 1);
+        chatLabel.setTextFill(Color.WHITE);
+        leftGrid.add(chatLabel,0,3);
+        leftGrid.add(ChatFX.createChat(), 0, 4);
 
         GridPane centerGrid = new GridPane();
         centerGrid.setPadding(new Insets(70, 100, 100, 0));
         Parent chessGame = new ChessGame().setupBoard();
-        centerGrid.add(chessGame, 0, 0);
+        if(ChessGame.color) {
+            Image ah = new Image("Images/RowsAndColumns/aToH.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView ahView = new ImageView(ah);
+            Image oneeight = new Image("Images/RowsAndColumns/1to8.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView oneeightView = new ImageView(oneeight);
+            centerGrid.add(ahView, 1, 1);
+            centerGrid.add(oneeightView, 0, 0);
+        }else {
+            Image ah = new Image("Images/RowsAndColumns/HtoA.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView ahView = new ImageView(ah);
+            Image oneeight = new Image("Images/RowsAndColumns/8to1.PNG", ChessGame.TILE_SIZE * 8, ChessGame.TILE_SIZE * 8, true, true);
+            ImageView oneeightView = new ImageView(oneeight);
+            centerGrid.add(ahView, 1, 1);
+            centerGrid.add(oneeightView, 0, 0);
+        }
+
+
+        centerGrid.add(chessGame, 1, 0);
 
         //Right GridPane
         GridPane rightGrid = new GridPane();
@@ -133,20 +158,20 @@ public class GameScene {
         //playersLabel.setStyle("-fx-font-weight: bold");
         //playersLabel.setTextFill(Color.LIGHTSKYBLUE);
         //rightGrid.add(playersLabel, 0, 1);
-        playerOne.setFont(Font.font("Copperplate", 25));
+        playerOne.setFont(Font.font("Georgia", 25));
         playerOne.setStyle("-fx-font-weight: bold");
         playerOne.setTextFill(Color.LIGHTSKYBLUE);
-        playerTwo.setFont(Font.font("Copperplate", 25));
+        playerTwo.setFont(Font.font("Georgia", 25));
         playerTwo.setStyle("-fx-font-weight: bold");
         playerTwo.setTextFill(Color.LIGHTSKYBLUE);
 
         if (Login.userID == userid1) {
             rightGrid.add(playerTwo, 0, 0);
-            rightGrid.add(playerOne, 0, 4);
+            rightGrid.add(playerOne, 0, 5);
 
         } else {
             rightGrid.add(playerOne, 0, 0);
-            rightGrid.add(playerTwo, 0, 4);
+            rightGrid.add(playerTwo, 0, 5);
         }
 
 
@@ -156,14 +181,6 @@ public class GameScene {
         Label time2label = new Label(player2);
         time2label.setFont(Font.font("Copperplate", 40));
         time2label.setStyle("-fx-font-weight: bold");
-        /*GameTimerFX player1Time = new GameTimerFX();
-        GameTimerFX player2Time = new GameTimerFX();
-        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 3);
-        rightGrid.add(player1Time.startTime(Game.getTime(ChessGame.gameID), Game.getIncrement(ChessGame.gameID)), 0, 4);
-        rightGrid.add(time1label, 1, 3);
-        rightGrid.add(time2label, 1, 4);
-        */
-
 
         //forfeitButton
         Button resignButton = new Button("Resign");
@@ -178,7 +195,7 @@ public class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 1, 2);
+        rightGrid.add(resignButton, 1, 3);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -190,14 +207,35 @@ public class GameScene {
                 offerDrawButton.setOpacity(0.5);
             }
         });
-        rightGrid.add(offerDrawButton, 0, 2);
+        rightGrid.add(offerDrawButton, 0, 3);
 
-        if (yourTime != 0) {
-            rightGrid.add(yourClock, 0, 3);
-            rightGrid.add(opponentClock, 0, 1);
+        rightGrid.add(yourClock, 0, 4);
+        rightGrid.add(opponentClock, 0, 1);
+        //tiss
+
+
+        // View moves
+        container = new ScrollPane();
+        container.setVvalue(1.0);
+        viewMoves = new GridPane();
+        viewMoves.setPadding(new Insets(0,0,0,10));
+
+
+        container.setPrefSize(216, 400);;
+        container.setStyle("-fx-background: #3e1c03;");
+        container.setContent(viewMoves);
+        rightGrid.add(container, 0, 2);
+
+        //rightGrid.add(yourClock, 0, 4);
+        //rightGrid.add(opponentClock, 0, 1);
+
+        if (yourTime == 0) {
+            yourClock.setText("No timer");
+            opponentClock.setText("No timer");
+
+            yourClock.setFont(Font.font("Arial", 25));
+            opponentClock.setFont(Font.font("Arial", 25));
         }
-
-
 
         //mainLayout
         GridPane mainLayout = new GridPane();
@@ -206,7 +244,7 @@ public class GameScene {
         mainLayout.setVgap(12);
         mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(300));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(400));
         mainLayout.add(title, 0, 0, 3, 1);
         mainLayout.setHalignment(title, HPos.CENTER);
         mainLayout.add(leftGrid, 0, 1);
@@ -226,7 +264,7 @@ public class GameScene {
 
 
         BorderPane layout = new BorderPane();
-        //layout.setTop(new WindowMenuBar().getWindowMenuBar());
+        layout.setTop(new WindowMenuBar().getWindowMenuBar());
         layout.setCenter(mainLayout);
 
         gameScene = new Scene(layout, 1450, 950);
@@ -235,9 +273,6 @@ public class GameScene {
     }
 
     public static String secToMinSec(int time) {
-        if (time < 60) {
-            return "00:"+time;
-        }
         int min = (time % 3600) / 60;
         int sec = ((time % 3600) % 60);
         if (Math.floor(Math.log10((double)min)+1) < 2 && sec == 0) {
@@ -259,11 +294,22 @@ public class GameScene {
     }
 
     private static final int setInterval() {
-        if (yourTime == 1)
-            yourTimer.cancel();
-        if (opponentTime == 1 ) {
-            opponentTimer.cancel();
+        if (yourTime == -1) {
+            int id = userid1;
+            if (Login.userID == userid1) {
+                id = userid2;
+            }
+            Game.setResult(ChessGame.gameID, id);
+            User.updateEloByGame(ChessGame.gameID);
+            MainScene.inGame = false;
+            ChessGame.isDone = true;
+            GameOverPopupBox.Display();
         }
+
+        if (opponentTime <= 0) {
+            return 0;
+        }
+
         if (ChessGame.myTurn) {
             return yourTime--;
         } else {
@@ -295,11 +341,18 @@ public class GameScene {
                             public void run() {
                                 try {
                                     if (ChessGame.myTurn) {
-
+                                        yourClock.setOpacity(1);
+                                        yourClock.setTextFill(Color.web("#4fbf18",1.0));
                                         yourClock.setText(secToMinSec(setInterval()));
+                                        opponentClock.setOpacity(0.4);
+                                        opponentClock.setTextFill(Color.WHITE);
                                         opponentClock.setText(secToMinSec(opponentTime));
                                     } else {
+                                        opponentClock.setOpacity(1);
+                                        opponentClock.setTextFill(Color.web("#4fbf18",1.0));
                                         opponentClock.setText(secToMinSec(setInterval()));
+                                        yourClock.setOpacity(0.4);
+                                        yourClock.setTextFill(Color.WHITE);
                                         yourClock.setText(secToMinSec(yourTime));
                                     }
 

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -21,8 +22,9 @@ import java.util.ArrayList;
 import static JavaFX.GameScene.showGameScene;
 
 class DrawOfferPopupBox {
-    public static void Display(){
-        Stage window = new Stage();
+    static Stage window = new Stage();
+    public static void Display() {
+        window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Draw Offer");
         //Labels
@@ -35,9 +37,9 @@ class DrawOfferPopupBox {
         textLabel.setFont(Font.font("Copperplate", 22));
         textLabel.setStyle("-fx-font-weight: bold");
         textLabel.setTextFill(Color.WHITE);
-        MainScene.inGame = false;
+        MainScene.inDrawOffer = true;
 
-        Button acceptDrawButton = new Button("Accept offer");
+        Button acceptDrawButton = new Button("Accept");
         acceptDrawButton.setOnAction(e -> {
             MainScene.inGame = false;
             ChessGame.isDone = true;
@@ -47,10 +49,12 @@ class DrawOfferPopupBox {
             window.close();
 
         });
-        Button declineDrawButton = new Button("Decline offer");
+        Button declineDrawButton = new Button("Decline");
         declineDrawButton.setOnAction(e -> {
-            MainScene.inGame = true;
-            Game.setResult(ChessGame.gameID, -1);
+            MainScene.inDrawOffer = false;
+            int result = Game.getResult(ChessGame.gameID);
+            if (result == 2 || result == 1)
+                Game.setResult(ChessGame.gameID, -1);
             window.close();
         });
 
@@ -66,18 +70,22 @@ class DrawOfferPopupBox {
         mainLayout.setHalignment(titleLabel, HPos.CENTER);
 
         GridPane bottomLayout = new GridPane();
-        bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(230));
+        bottomLayout.getColumnConstraints().add(new ColumnConstraints(230));
+        bottomLayout.setPadding(new Insets(0,50,15,50));
         bottomLayout.add(acceptDrawButton, 0,0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
         bottomLayout.add(declineDrawButton, 1, 0);
-        bottomLayout.setHalignment(acceptDrawButton, HPos.RIGHT);
+        //bottomLayout.setHalignment(declineDrawButton, HPos.LEFT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 450, 300);
+        Scene scene = new Scene(windowLayout, 440, 360);
         window.setScene(scene);
         window.showAndWait();
+    }
+    public static void close(){
+        window.close();
     }
 }

@@ -1,9 +1,6 @@
 package Database;
 
-import JavaFX.ChessGame;
-import JavaFX.GameScene;
-import JavaFX.Login;
-import JavaFX.MainScene;
+import JavaFX.*;
 
 import java.util.ArrayList;
 
@@ -14,7 +11,6 @@ public class Game {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps connection = new DBOps();
-
                 if (color) {
                     ChessGame.color = true;
                     connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + Login.userID + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", null, 1, "+mode+");");
@@ -31,24 +27,27 @@ public class Game {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 DBOps db = new DBOps();
-                GameScene.yourTime += GameScene.increment;
+                GameScene.yourTime += (GameScene.yourTime == 0 ? 0 : GameScene.increment);
                 if (ChessGame.color) {
                     if(ChessGame.firstMove){
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime +");");
                         ChessGame.firstMove = false;
-                        GameScene.refresh();
+                        if (GameScene.yourTime != 0) {
+                            GameScene.refresh();
+                        }
                         System.out.println("started timer in Game class");
+
                     }
 
                     else if (Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 0) {
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime + ");");
-                        System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                        //System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
                     }
                 }
                 else {
                     if ((Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 1)) {
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime +");");
-                        System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
+                        //System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
                     }
                 }
             }
@@ -61,12 +60,7 @@ public class Game {
             public void run() {
                 DBOps connection = new DBOps();
                 int userid = Login.getUserID();
-
-                if (color) {
-                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT," + userid + ", null, DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-                } else {
-                    connection.exUpdate("INSERT INTO Game VALUES(DEFAULT, null, " + userid + ", DEFAULT, " + time + ", " + increment + ", " + rated + ", " + friendid + ", 1, "+mode+");");
-                }
+                connection.createGame(userid, mode, time, increment, color, rated, friendid);
             }
         });
         t.start();
@@ -130,7 +124,7 @@ public class Game {
         }else if(mode >1000){
             everyThingAboutGame += "Fischer Random";
         }
-        everyThingAboutGame += "\nYour chess color: " + (arrayString.get(4) == null?"White": "Black");
+        everyThingAboutGame += "\nYour color: " + (arrayString.get(4) == null?"White": "Black");
         int time = Integer.parseInt(arrayString.get(1));
         everyThingAboutGame += "\nTime: " + (time == 0?"No time":time);
         int increment = Integer.parseInt(arrayString.get(2));
@@ -288,6 +282,7 @@ public class Game {
             System.out.println("Success!");
             System.out.println("Started game with gameID: " + ChessGame.gameID);
             MainScene.inQueueFriend = false;
+            MainScene.inGame = true;
             return true;
         }
         return false;

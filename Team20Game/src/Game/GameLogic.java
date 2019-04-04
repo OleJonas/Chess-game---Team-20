@@ -1,6 +1,4 @@
 package Game;
-
-//import JavaFX.Tile;
 import Pieces.*;
 
 import java.util.ArrayList;
@@ -9,24 +7,104 @@ import java.util.HashMap;
 
 public class GameLogic{
     private static HashMap<String, Integer> rep;
+
+    //main method for returning valid moves for a selected piece
+    //receives the coordinates of the selected piece and a copy of the board and returns all the valid moves
+    public static ArrayList<Integer> validMoves(int x, int y, Board board) {
+        ArrayList<Integer> validMoves = null;
+        Piece[][] boardState = board.getBoardState();
+        boolean color = boardState[x][y].getColor();
+        //finding possible moves depending on which type of piece it is
+        if (boardState[x][y] != null){
+            validMoves = new ArrayList<>();
+            //calling different methods for finding valid moves depending on piece
+            if (boardState[x][y] instanceof Pawn) {
+                validMoves = validMovesPawn(x, y, boardState);
+            } else if (boardState[x][y] instanceof Rook) {
+                validMoves = validMovesRook(x, y, boardState);
+            } else if (boardState[x][y] instanceof Knight) {
+                validMoves = validMovesKnight(x, y, boardState);
+            } else if (boardState[x][y] instanceof King) {
+                validMoves = validMovesKing(x, y, boardState);
+            } else if (boardState[x][y] instanceof Bishop) {
+                validMoves = validMovesBishop(x, y, boardState);
+            } else if (boardState[x][y] instanceof Queen) {
+                validMoves = validMovesRook(x, y, boardState);
+                validMoves.addAll(validMovesBishop(x, y, boardState));
+            }
+        }
+
+        //creating a simulated board for each move and checks if the move puts your king in check
+        //removing the moves which puts your own king in check
+        for (int k = 0; k < validMoves.size(); k += 2) {
+            Piece[][] tmp = createBoardCopy(boardState);
+            if (tmp[x][y] instanceof Pawn) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Pawn(color, k, k+1);
+            } else if (tmp[x][y] instanceof King) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new King(color, k, k+1);
+            } else if (tmp[x][y] instanceof Rook) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Rook(color, k, k+1);
+            } else if (tmp[x][y] instanceof Bishop) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Bishop(color, k, k+1);
+            } else if (tmp[x][y] instanceof Knight) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Knight(color, k, k+1);
+            } else if (tmp[x][y] instanceof Queen) {
+                tmp[x][y] = null;
+                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Queen(color, k, k+1);
+            }
+            if (inCheck(tmp, color)) {
+                validMoves.remove(k);
+                validMoves.remove(k);
+                k -= 2;
+            }
+
+            //removing the ability to take the opposition king
+            boolean kingTaken = true;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (tmp[i][j] instanceof King) {
+                        if (tmp[i][j].getColor() != color) {
+                            kingTaken = false;
+                            i = 7;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (kingTaken) {
+                validMoves.remove(k);
+                validMoves.remove(k);
+                k -= 2;
+            }
+        }
+        //returning the final list of moves having removed the invalid moves
+        return validMoves;
+    }
+
+    //checking if a boardstate is checkmate
     public static boolean inCheck(Piece[][] state, boolean color){
         Piece[][] board = state;
         int x = 0, y = 2;
-        outerloop:
-        //find position of king
+        //finding position of king
         for (int i = 0; i < board.length; i++){
             for (int j = 0; j < board[0].length; j++){
                 if (board[i][j] instanceof King){
                     if (board[i][j].getColor() == color){
                         x = i;
                         y = j;
-                        break outerloop;
+                        i = 10;
+                        break;
                     }
                 }
             }
         }
 
-        // check king threats from all 8 main directions
+        //checking king threats from all 8 main directions
         int[][] move =  {{1, 0, 0, 1, -1, 0, 0, -1}, {1, 1, -1, 1, -1, -1, 1, -1}};
         boolean[][] dir = {{true, true, true, true}, {true, true, true, true}};
         for (int r = 0; r < 2; r++){
@@ -50,68 +128,56 @@ public class GameLogic{
                 }
             }
         }
+
+        //checking king threats from knights
         int[] k = {2, 1, 2, -1, -2, 1, -2, -1, 1, 2, -1, 2, 1, -2, -1, -2};
         for (int i = 0; i < k.length; i += 2) {
             if (x + k[i] < 8 && x + k[i] >= 0 && y + k[i + 1] >= 0 && y + k[i + 1] < 8) {
                 if (board[x+k[i]][y+k[i+1]] != null){
                     if (board[x+k[i]][y+k[i+1]].getColor() != color && board[x+k[i]][y+k[i+1]] instanceof Knight){
-                        //System.out.println("Hest trussel:" + (x+k[i]) + " " + (y+k[i+1]));
                         return true;
                     }
                 }
             }
         }
+
+        //checking threats from opposition king
         int[] king = { 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1};
         for (int i = 0; i < king.length; i += 2){
             if (x + king[i] < 8 && x + king[i] >= 0 && y + king[i + 1] >= 0 && y + king[i + 1] < 8){
                 if (board[x+king[i]][y+king[i+1]] != null){
                     if (board[x+king[i]][y+king[i+1]] instanceof King){
-                        //System.out.println("Konge trussel:" + (x+king[i]) + " " + (y+king[i+1]));
                         return true;
                     }
                 }
             }
         }
+
         int[] p =  new int[4];
         p[0] = -1;
         p[1] = board[x][y].getColor() ? 1 : -1;
         p[2] = 1;
         p[3] = board[x][y].getColor() ? 1 : -1;
 
+        //checking threats from pawns
         for (int i = 0; i < p.length; i += 2) {
             if (x + p[i] < 8 && x + p[i] >= 0 && y + p[i + 1] >= 0 && y + p[i + 1] < 8) {
                 if (board[x+p[i]][y+p[i+1]] != null){
                     if (board[x+p[i]][y+p[i+1]].getColor() != color && board[x+p[i]][y+p[i+1]] instanceof Pawn){
-                        //System.out.println("Bonde trussel:" + (x+p[i]) + " " + (y+p[i+1]));
                         return true;
                     }
                 }
             }
         }
+        //returns false if no threats to the king are found
         return false;
     }
 
-    /*private static boolean willBeCheck(int fromx, int fromy, int tox, int toy, Piece[][] boardState){
-        return false;
-    }*/
-
-    public static boolean isDone(Board board){
-        return false;
-    }
-
-    // Suggestion for a game over method checking if time's up. Could add a boolean like checkmate later on.
-    // Would also suggest moving this method to GameEngine instead
-    /*public static boolean isDone(Board board, GameTimer timer){
-        while(timer.getTime() > 0){
-            return false;
-        }
-        return true;
-    }*/
-
-    static private ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState) {
-        // Maybe implement an int that is either 1 or -1 depending on getColor(). This int is then used to multiply with each move.
-        // This way we can avoid having basically the same code twice right after eachother.
+    //returns all valid moves for a pawn
+    private static ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState) {
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
+
+        //finding valid moves depending on if the piece is black or white
         if (boardState[x][y].getColor()) {
             if (y + 1 < 8) {
                 if (boardState[x][y + 1] == null) {
@@ -138,6 +204,8 @@ public class GameLogic{
 
                 }
             }
+
+            //checking for the special case en passant
             if (x + 1 < 8) {
                 if (boardState[x + 1][y] instanceof Pawn) {
                     if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
@@ -189,6 +257,7 @@ public class GameLogic{
                     validMoves.add(y - 1);
                 }
             }
+            //checking for the special case en passant
             if (x + 1 < 8) {
                 if (boardState[x + 1][y] instanceof Pawn) {
                     if (boardState[x + 1][y].getColor() != boardState[x][y].getColor()) {
@@ -219,17 +288,18 @@ public class GameLogic{
         return validMoves;
     }
 
+    //returning all the valid moves for the king
     private static ArrayList<Integer> validMovesKing(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         int[] move = { 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1};
         for (int i = 0; i < move.length; i += 2){
             if (x + move[i] < 8 && x + move[i] >= 0 && y + move[i + 1] >= 0 && y + move[i + 1] < 8){
-                //if (!willBeCheck(x, y, x+move[i], y+move[i+1], boardState)) {
                 validMovesKingKnight(x, y, boardState, validMoves, move, i);
-                //}
             }
         }
+
         King king = (King) boardState[x][y];
+        //checking the special case for if the king can make a castling move to either side
         if (king.getCanCastle()) {
             if (boardState[x][y].getColor()) {
                 boolean[] castle = castle(boardState[x][y].getColor(), boardState);
@@ -277,6 +347,7 @@ public class GameLogic{
         }
     }
 
+    //returning all the valid moves for knights
     private static ArrayList<Integer> validMovesKnight(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         int[] move = {2, 1, -2, 1, 2, -1, -2, -1, 1, 2, -1, 2, 1, -2, -1, -2};
@@ -288,14 +359,17 @@ public class GameLogic{
         return validMoves;
     }
 
+    //returning all the valid moves for rooks using a general method
     private static ArrayList<Integer> validMovesRook(int x, int y, Piece[][] boardState){
         return validMovesGeneral(x, y, boardState, new int[] {1, 0, 0, 1, -1, 0, 0, -1});
     }
 
+    //returning all the valid moves for bishops using a general method
     private static ArrayList<Integer> validMovesBishop(int x, int y, Piece[][] boardState){
         return validMovesGeneral(x, y, boardState, new int[] {1, 1, -1, 1, -1, -1, 1, -1});
     }
 
+    //general method for finding valid moves for rooks and bishops
     private static ArrayList<Integer> validMovesGeneral(int x, int y, Piece[][] boardState, int[] m){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         boolean[] dir = {true, true, true, true};
@@ -316,60 +390,7 @@ public class GameLogic{
         return validMoves;
     }
 
-    public static ArrayList<Integer> validMoves(int x, int y, Board board) {
-        ArrayList<Integer> validMoves = null;
-        Piece[][] boardState = board.getBoardState();
-        boolean color = boardState[x][y].getColor();
-        //Finding all possible moves
-        if (boardState[x][y] != null){
-            validMoves = new ArrayList<>();
-            if (boardState[x][y] instanceof Pawn) {
-                validMoves = validMovesPawn(x, y, boardState);
-            } else if (boardState[x][y] instanceof Rook) {
-                validMoves = validMovesRook(x, y, boardState);
-            } else if (boardState[x][y] instanceof Knight) {
-                validMoves = validMovesKnight(x, y, boardState);
-            } else if (boardState[x][y] instanceof King) {
-                validMoves = validMovesKing(x, y, boardState);
-            } else if (boardState[x][y] instanceof Bishop) {
-                validMoves = validMovesBishop(x, y, boardState);
-            } else if (boardState[x][y] instanceof Queen) {
-                validMoves = validMovesRook(x, y, boardState);
-                validMoves.addAll(validMovesBishop(x, y, boardState));
-            }
-            inCheck(boardState, boardState[x][y].getColor());
-        }
-        //We remove the moves which would put the King in check
-        for (int k = 0; k < validMoves.size(); k += 2) {
-            Piece[][] tmp = createBoardCopy(boardState);
-            if (tmp[x][y] instanceof Pawn) {
-                tmp[x][y] = null;
-                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Pawn(color, k, k+1);
-            } else if (tmp[x][y] instanceof King) {
-                tmp[x][y] = null;
-                tmp[validMoves.get(k)][validMoves.get(k+1)] = new King(color, k, k+1);
-            } else if (tmp[x][y] instanceof Rook) {
-                tmp[x][y] = null;
-                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Rook(color, k, k+1);
-            } else if (tmp[x][y] instanceof Bishop) {
-                tmp[x][y] = null;
-                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Bishop(color, k, k+1);
-            } else if (tmp[x][y] instanceof Knight) {
-                tmp[x][y] = null;
-                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Knight(color, k, k+1);
-            } else if (tmp[x][y] instanceof Queen) {
-                tmp[x][y] = null;
-                tmp[validMoves.get(k)][validMoves.get(k+1)] = new Queen(color, k, k+1);
-            }
-            if (inCheck(tmp, color)) {
-                validMoves.remove(k);
-                validMoves.remove(k);
-                k -= 2;
-            }
-        }
-        return validMoves;
-    }
-
+    //method for checking if you can castle to each side
     private static boolean[] castle(boolean color, Piece[][] boardState) {
         boolean[] castle = {true, true};
         if (color) {
@@ -381,6 +402,7 @@ public class GameLogic{
 
     }
 
+    //logic for checking if castling is possible
     private static void canCastle(int yValue, boolean[] castle, Piece[][] boardState, boolean color) {
         for (int i = 1; i < 4; i++) {
             if (4 + i < 7) {
@@ -410,7 +432,9 @@ public class GameLogic{
             }
         }
     }
-    //NEW
+
+    //creating a copy of the current board
+    //used for simulating moves
     private static Piece[][] createBoardCopy(Piece[][] boardState) {
         Piece[][] tmp = new Piece[8][8];
         for (int k = 0; k <8; k++) {
@@ -420,7 +444,9 @@ public class GameLogic{
         }
         return tmp;
     }
-    //NEW
+
+    //checking if there are no valid moves and the king is not in check
+    //in that case it is a stalemate
     public static boolean isStalemate(Board board, boolean color) {
         Piece[][] state = board.getBoardState();
         for (int i = 0; i < 8; i++) {
@@ -436,14 +462,17 @@ public class GameLogic{
         }
         return true;
     }
-    //NEW
+
+    //checking if there are no valid moves and the king is also in check
+    //in that case it is a checkmate
     public static boolean isCheckmate(Board board, boolean color) {
         if (inCheck(board.getBoardState(), color)) {
             return isStalemate(board, color);
         }
         return false;
     }
-    //NEW
+
+    //returns a list of the numbers of pieces left on the board
     public static int[] myPieces(Board board, boolean myColor) {
         Piece[][] boardState = board.getBoardState();
         int[] counter = new int[7];
@@ -479,7 +508,9 @@ public class GameLogic{
         }
         return counter;
     }
-    //NEW
+
+    //checking if there are enough pieces left on the board to make checkmating possible
+    //this will result in a draw
     public static boolean notEnoughPieces(Board board) {
         if (myPieces(board, true)[6] == 1 && myPieces(board, false)[6] == 1) {
             return true;
@@ -506,7 +537,8 @@ public class GameLogic{
         }
         return false;
     }
-    //NEW
+
+    //calculating new elo for players based on the result of the game
     public static int[] getElo(int whiteElo, int blackElo, int score) {
         int[] result = new int[2];
         double a = 1.0 / (1.0+ Math.pow(10.0, ((double)(blackElo-whiteElo))/400.0));
@@ -517,14 +549,8 @@ public class GameLogic{
         return result;
     }
 
-    public static void main(String[] args) {
-        int[] elo = getElo(1153, 1047, 0);
-        int[] elo2 = getElo(1032, 1168, 0);
-
-
-        System.out.println(elo2[0] + " " + elo2[1]);
-    }
-
+    //checking if a move is repeated
+    //three repetitions can result in a draw
     public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
         if (rep.containsKey(board.toString())){
             int oldBoardState = rep.get(board.toString());
@@ -536,22 +562,10 @@ public class GameLogic{
         return rep.get(board.toString()).compareTo(2) == 1;
     }
 
+    //finding the difference in number of pieces between the players
+    //can be used to display taken pieces on the gamescreen
     public static int[] getDisplayPieces(Board board) {
         ArrayList<Piece> takenPieces = board.getTakenPieces();
-        /*
-        ArrayList<Piece> whitePieces = new ArrayList<>();
-        ArrayList<Piece> blackPieces = new ArrayList<>();
-        for (int i = 0; i < takenPieces.size(); i++) {
-            if (takenPieces.get(i).getColor()) {
-                whitePieces.add(takenPieces.get(i));
-            } else {
-                blackPieces.add(takenPieces.get(i));
-            }
-        }
-
-        for (int i = 0; i < ((whitePieces.size() > blackPieces.size()) ? whitePieces.size() : blackPieces.size()); i++) {
-
-        }*/
         int pawns = 0;
         int knights = 0;
         int bishops = 0;
@@ -592,10 +606,8 @@ public class GameLogic{
                 }
             }
         }
+
         int[] numbers = {pawns, knights, bishops, rooks, queens};
-        for (int i = 0; i < numbers.length; i++) {
-            System.out.println(numbers[i]);
-        }
         return numbers;
     }
 }

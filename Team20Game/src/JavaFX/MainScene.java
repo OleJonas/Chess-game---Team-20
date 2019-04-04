@@ -6,6 +6,7 @@ import Game.GameEngine;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
@@ -22,18 +23,19 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.management.monitor.Monitor;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static JavaFX.FindUser.showFindUserScene;
 import static JavaFX.GameScene.*;
-import static JavaFX.Login.USERNAME;
-import static JavaFX.Login.runLogin;
+import static JavaFX.Login.*;
 import static JavaFX.Settings.showSettings;
+import static JavaFX.Settings.window;
 import static JavaFX.UserProfile.showUserProfileScene;
 //import JavaFX.ChessSandbox;
 
@@ -46,6 +48,7 @@ public class MainScene {
     public static boolean inQueueJoin = false;
     public static boolean inQueueFriend = false;
     public static boolean searchFriend = false;
+    public static boolean inDrawOffer = false;
     static boolean created = false;
     static boolean joined = false;
     static boolean invitedFriend = false;
@@ -289,6 +292,7 @@ public class MainScene {
             title.setText("Recess Chess");
             inQueueJoin = false;
             inQueueCreate = false;
+            inQueueFriend = false;
             invitedFriend = false;
             Game.removeActiveFromGame();
 
@@ -320,6 +324,10 @@ public class MainScene {
         clearBoard.setOnAction(e -> {
             reloadSandbox();
         });
+
+        //scrollPane.setStyle("-fx-background: rgb(174,96,0);");
+        //scrollPane.setStyle("-fx-opacity: 0.3;");
+
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
@@ -357,6 +365,17 @@ public class MainScene {
         Main.window.setX((primaryScreenBounds.getWidth()-Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
         Main.window.setResizable(true);
+        Main.window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+               if(inGame){
+                   Game.setResult(ChessGame.gameID,
+                           ChessGame.color?Game.getUser_id2(ChessGame.gameID):
+                                   Game.getUser_id1(ChessGame.gameID));
+                   User.updateEloByGame(ChessGame.gameID);
+               }
+            }
+        });
+
         refresh();
         searchFriend = true;
     }
@@ -367,7 +386,6 @@ public class MainScene {
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
-        clearBoard = new Button("Clear Board");
         rightGrid.add(clearBoard, 0, 1);
         rightGrid.setHalignment(clearBoard, HPos.RIGHT);
         rightGrid.add(sandboxLabel, 0, 1);
@@ -419,7 +437,6 @@ public class MainScene {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                DBOps connection = new DBOps();
                                 try {
                                     if(inQueueCreate){
                                         if(Game.startGame()){
@@ -432,6 +449,9 @@ public class MainScene {
                                     }else if (inQueueFriend) {
                                         if(Game.joinFriend()){
                                             showGameScene();
+                                        }else if (!Game.getActive(ChessGame.gameID)){
+                                            inQueueFriend =false;
+                                            showMainScene();
                                         }
                                     } else if(searchFriend) {
                                         int game_id = Game.searchFriend();
@@ -439,13 +459,16 @@ public class MainScene {
                                             FriendInviteBox.Display(game_id);
                                         }
                                     }
+
                                     if (inGame) {
                                         int result = Game.getResult(ChessGame.gameID);
                                         System.out.println("result: "+ result);
                                         if (result != -1) {
                                             int a = ChessGame.color?2:1;
                                             if(result == a){
-                                                DrawOfferPopupBox.Display();
+                                                if(!inDrawOffer) {
+                                                    DrawOfferPopupBox.Display();
+                                                }
                                             }else if(result == 0){
                                                 User.updateEloByGame(ChessGame.gameID);
                                                 ChessGame.isDone = true;
@@ -534,13 +557,18 @@ class InviteFriendPopupBox{
 
         //Choiceboxes
         timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("1 min");
+        timeChoiceBox.getItems().add("3 min");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
         timeChoiceBox.getItems().add("15 min");
         timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("45 min");
         timeChoiceBox.setValue("No timer");
 
         incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("1 sec");
+        incrementChoiceBox.getItems().add("2 sec");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
         incrementChoiceBox.getItems().add("15 sec");
@@ -670,7 +698,7 @@ class InviteFriendPopupBox{
 
         int time = 0;
         if (!timeChoice.equals("No timer")) {
-            if (timeChoice.startsWith("5")) {
+            if (timeChoice.length() == 5) {
                 time = Integer.parseInt(timeChoice.substring(0, 1));
             } else {
                 time = Integer.parseInt(timeChoice.substring(0, 2));
@@ -679,10 +707,10 @@ class InviteFriendPopupBox{
 
         int increment = 0;
         if (!incrementChoice.equals("No increment")) {
-            if (incrementChoice.startsWith("1")) {
-                increment = Integer.parseInt(incrementChoice.substring(0, 2));
-            } else {
+            if (incrementChoice.length() == 5) {
                 increment = Integer.parseInt(incrementChoice.substring(0, 1));
+            } else {
+                increment = Integer.parseInt(incrementChoice.substring(0, 2));
             }
         }
         boolean color = true;
@@ -779,13 +807,18 @@ class CreateGamePopupBox{
         modeChoiceBox.setValue("Standard");
 
         timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("1 min");
+        timeChoiceBox.getItems().add("3 min");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
         timeChoiceBox.getItems().add("15 min");
         timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("45 min");
         timeChoiceBox.setValue("No timer");
 
         incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("1 sec");
+        incrementChoiceBox.getItems().add("2 sec");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
         incrementChoiceBox.getItems().add("15 sec");
@@ -903,7 +936,7 @@ class CreateGamePopupBox{
 
         int time = 0;
         if (!timeChoice.equals("No timer")) {
-            if (timeChoice.startsWith("5")) {
+            if (timeChoice.length() == 5) {
                 time = Integer.parseInt(timeChoice.substring(0, 1));
             } else {
                 time = Integer.parseInt(timeChoice.substring(0, 2));
@@ -912,10 +945,10 @@ class CreateGamePopupBox{
 
         int increment = 0;
         if (!incrementChoice.equals("No increment")) {
-            if (incrementChoice.startsWith("1")) {
-                increment = Integer.parseInt(incrementChoice.substring(0, 2));
-            } else {
+            if (incrementChoice.length() == 5) {
                 increment = Integer.parseInt(incrementChoice.substring(0, 1));
+            } else {
+                increment = Integer.parseInt(incrementChoice.substring(0, 2));
             }
         }
         boolean color = true;
@@ -993,15 +1026,20 @@ class JoinGamePopupBox{
 
         timeChoiceBox = new ChoiceBox<>();
         timeChoiceBox.getItems().add("No timer");
+        timeChoiceBox.getItems().add("1 min");
+        timeChoiceBox.getItems().add("3 min");
         timeChoiceBox.getItems().add("5 min");
         timeChoiceBox.getItems().add("10 min");
         timeChoiceBox.getItems().add("15 min");
         timeChoiceBox.getItems().add("30 min");
+        timeChoiceBox.getItems().add("45 min");
         timeChoiceBox.getItems().add("Any");
         timeChoiceBox.setValue("Any");
 
         incrementChoiceBox = new ChoiceBox<>();
         incrementChoiceBox.getItems().add("No increment");
+        incrementChoiceBox.getItems().add("1 sec");
+        incrementChoiceBox.getItems().add("2 sec");
         incrementChoiceBox.getItems().add("5 sec");
         incrementChoiceBox.getItems().add("10 sec");
         incrementChoiceBox.getItems().add("15 sec");
@@ -1119,7 +1157,7 @@ class JoinGamePopupBox{
         if (!timeChoice.equals("Any")) {
             if (timeChoice.equals("No timer")) {
                 time = 0;
-            } else if (timeChoice.startsWith("5")) {
+            } else if (timeChoice.length() == 5) {
                 time = Integer.parseInt(timeChoice.substring(0, 1));
             } else {
                 time = Integer.parseInt(timeChoice.substring(0, 2));
@@ -1129,10 +1167,10 @@ class JoinGamePopupBox{
         if (!incrementChoice.equals("Any")) {
             if (incrementChoice.equals("No increment")) {
                 time = 0;
-            } else if (incrementChoice.startsWith("1")) {
-                increment = Integer.parseInt(incrementChoice.substring(0, 2));
-            } else {
+            } else if (incrementChoice.length() == 5) {
                 increment = Integer.parseInt(incrementChoice.substring(0, 1));
+            } else {
+                increment = Integer.parseInt(incrementChoice.substring(0, 2));
             }
         }
         boolean[] color = {false, false};
@@ -1156,8 +1194,7 @@ class JoinGamePopupBox{
     }
 }
 
-class GameOverPopupBox{
-
+class GameOverPopupBox {
     public static void Display(){
         yourTimer.cancel();
         opponentTimer.cancel();
@@ -1166,10 +1203,14 @@ class GameOverPopupBox{
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
 
-
         //Labels
         int result = Game.getResult(ChessGame.gameID);
-        String text = ChessGame.gameWon?"VICTORY":"DEFEAT";
+        String text = "";
+        if (userID == result) {
+            text = "VICTORY";
+        } else {
+            text = "DEFEAT";
+        }
 
         if(result == 0){
             result = 2;
@@ -1185,8 +1226,16 @@ class GameOverPopupBox{
         titleLabel.setTextFill(Color.WHITE);
 
         int[] elo = GameEngine.getElo(ChessGame.whiteELO, ChessGame.blackELO, result);
-        int myNewElo = ChessGame.color?elo[0]:elo[1];
-        int enemyElo = ChessGame.color?elo[1]:elo[0];
+
+        int myNewElo = 0;
+        int enemyElo = 0;
+        if (Game.getRated(ChessGame.gameID) == 0) {
+            myNewElo = oldElo;
+        } else {
+            myNewElo = ChessGame.color?elo[0]:elo[1];
+        }
+
+        //enemyElo = ChessGame.color?elo[1]:elo[0];
         System.out.println("old ELO: " + oldElo + " your new ELO: "+ myNewElo + " \nEnemy's new ELO: " + enemyElo);
         String newElo = Login.USERNAME + "'s new ELO rating: \n" + myNewElo + " (" +((myNewElo-oldElo)>0?"+":"") +(myNewElo-oldElo) + ")";
         Label eloLabel = new Label(newElo);
@@ -1201,6 +1250,9 @@ class GameOverPopupBox{
             MainScene.showMainScene();
             MainScene.inGame = false;
             MainScene.searchFriend = true;
+            if(MainScene.inDrawOffer){
+                DrawOfferPopupBox.close();
+            }
             window.close();
         });
 
@@ -1250,6 +1302,7 @@ class FriendInviteBox {
         Button acceptInvite = new Button("Accept");
         acceptInvite.setOnAction(e -> {
             if(Game.tryAcceptInvite(game_id)){
+                MainScene.inGame = true;
                 window.close();
                 showGameScene();
             } else {
@@ -1277,16 +1330,19 @@ class FriendInviteBox {
 
         GridPane bottomLayout = new GridPane();
         bottomLayout.getColumnConstraints().add(new ColumnConstraints(370));
-        bottomLayout.setPadding(new Insets(0,25,15,0));
+        bottomLayout.setPadding(new Insets(0,50,15,50));
         bottomLayout.add(acceptInvite, 0,0);
         bottomLayout.setHalignment(acceptInvite, HPos.LEFT);
-        bottomLayout.add(declineInvite, 1, 0);
-        bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
+        Pane spacing = new Pane();
+        //spacing.setPadding(new Insets(0, 25, 15, 50));
+        //bottomLayout.add(spacing, 1, 0);
+        bottomLayout.add(declineInvite, 2, 0);
+        //bottomLayout.setHalignment(acceptInvite, HPos.RIGHT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
 
-        Scene scene = new Scene(windowLayout, 550, 360);
+        Scene scene = new Scene(windowLayout, 560, 360);
         window.setScene(scene);
         window.showAndWait();
     }
