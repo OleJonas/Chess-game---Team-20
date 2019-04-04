@@ -194,7 +194,8 @@ public class GameScene {
             GameOverPopupBox.Display();
         });
 
-        rightGrid.add(resignButton, 1, 3);
+        rightGrid.add(resignButton, 0, 3);
+        rightGrid.setHalignment(resignButton, HPos.RIGHT);
 
         offerDrawButton = new Button("Offer draw");
         offerDrawButton.setOnAction(e->{
@@ -207,6 +208,7 @@ public class GameScene {
             }
         });
         rightGrid.add(offerDrawButton, 0, 3);
+        rightGrid.setHalignment(offerDrawButton, HPos.LEFT);
 
         rightGrid.add(yourClock, 0, 4);
         rightGrid.add(opponentClock, 0, 1);
