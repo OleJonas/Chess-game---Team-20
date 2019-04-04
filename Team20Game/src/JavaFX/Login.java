@@ -81,7 +81,7 @@ public class Login{
 
         GridPane passwordPane = new GridPane();
         passwordPane.setHgap(15);
-        Label passwordLabel = new Label("Password:");
+        Label passwordLabel = new Label("Password: ");
         passwordLabel.setFont(Font.font("Georgia", 18));
         passwordLabel.setTextFill(Color.WHITE);
         passwordPane.add(passwordLabel, 0, 0);

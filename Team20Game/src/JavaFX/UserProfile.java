@@ -30,7 +30,6 @@ class UserProfile{
     static void showUserProfileScene(){
         User.updateUser();
         updateStats();
-
         avatar = new Image("Images/Avatars/" + AVATAR);
 
         //Title
