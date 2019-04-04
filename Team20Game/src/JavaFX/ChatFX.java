@@ -20,22 +20,19 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class ChatFX{
-    static Timer timer = new Timer(true);
-    static Stage window;
     static Scene scene;
     static TextField inText;
     static Button sendButton, closeButton;
-    static ScrollPane container = new ScrollPane();
-    private static ArrayList<Label> messages = new ArrayList<Label>();
     static VBox chatLayout;
 
+    static Timer timer = new Timer(true);
+    private static ArrayList<Label> messages = new ArrayList<Label>();
+    static ScrollPane container = new ScrollPane();
     static ChatDB chat = new ChatDB();
 
     public static GridPane createChat(){
-        //window = new Stage();
         sendButton = new Button("Send");
         closeButton = new Button("Exit");
-
         inText = new TextField();
 
         sendButton.setOnAction(e -> {
@@ -45,11 +42,6 @@ public class ChatFX{
             }
         });
 
-        /*closeButton.setOnAction(e -> {
-            chat.chatClose();
-            window.close();
-        });*/
-
         chatLayout = new VBox(5);
         chatLayout.setPadding(new Insets(20,20,20,20));
         chatLayout.getChildren().add(new Label(" "));
@@ -57,7 +49,6 @@ public class ChatFX{
         container.setPrefSize(216, 400);
         container.setStyle("-fx-background: #3e1c03;");
         container.setContent(chatLayout);
-
 
         GridPane gridPane = new GridPane();
         gridPane.add(container, 0,0);
@@ -71,8 +62,6 @@ public class ChatFX{
                 }
             }
         });
-        //gridPane.add(closeButton,1,2);
-
         return gridPane;
     }
 
