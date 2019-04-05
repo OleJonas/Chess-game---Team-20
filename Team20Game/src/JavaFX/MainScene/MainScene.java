@@ -3,6 +3,7 @@ package JavaFX.MainScene;
 import Database.DBOps;
 import Database.Game;
 import Database.User;
+import JavaFX.*;
 import JavaFX.GameScene.ChessGame;
 import JavaFX.GameScene.DrawOfferPopupBox;
 import JavaFX.GameScene.GameOverPopupBox;
@@ -153,6 +154,7 @@ public class MainScene {
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
+            storeSettings();
             mainLayout.getChildren().remove(backToMainButton);
             title.setText("Recess Chess");
             mainLayout.setVgap(12);
