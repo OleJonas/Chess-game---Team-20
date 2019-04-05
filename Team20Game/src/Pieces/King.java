@@ -15,11 +15,17 @@ public class King extends Piece {
     private ImageView imageView;
     private boolean canCastle;
 
+    /**
+     * @see Pieces.Piece#Piece(boolean, int, int)
+     */
     public King(boolean color, int x, int y) {
         super(color, x, y);
         this.canCastle = true;
     }
 
+    /**
+     * @see Piece#getImageView()
+     */
     public ImageView getImageView(){
         try {
             Image image = super.getColor()? new Image("Images/chessPieces/"+ ChessGame.skin +"/w_king_1x_ns.png",
@@ -38,6 +44,10 @@ public class King extends Piece {
         return 'K';
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString() {
         return super.toString();
     }
