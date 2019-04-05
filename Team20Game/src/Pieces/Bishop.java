@@ -1,3 +1,10 @@
+/**
+ * <h1>Bishop</h1>
+ * The purpose of this method is to create the four bishops on the chessboard.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
 package Pieces;
 
 import JavaFX.GameScene.ChessGame;
@@ -6,14 +13,29 @@ import javafx.scene.image.ImageView;
 
 public class Bishop extends Piece {
     private ImageView imageView;
+
+    /**
+     * Constructor for the Bishop class
+     * @param color which player the piece belongs to, white = true, black = false
+     * @param x the x-value of the piece on the board
+     * @param y the y-value of the piece on the board
+     */
     public Bishop(boolean color, int x, int y) {
         super(color, x, y);
     }
 
+    /**
+     * Returns notation for the bishop class
+     * @return
+     */
     public char getNotation() {
         return 'B';
     }
 
+    /**
+     * This method returns the photo of the bishop
+     * @return
+     */
     public ImageView getImageView(){
         try {
             Image image = super.getColor()? new Image(
@@ -27,6 +49,10 @@ public class Bishop extends Piece {
         return null;
     }
 
+    /**
+     * This method inherits the toString()-method from the superclass.
+     * @return
+     */
     public String toString() {
         return super.toString();
     }

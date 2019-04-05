@@ -1,3 +1,11 @@
+/**
+ * <h1>Knight/h1>
+ * The purpose of this method is to create the four knights on the chessboard.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
+
 package Pieces;
 
 import JavaFX.GameScene.ChessGame;

@@ -1,3 +1,10 @@
+/**
+ * <h1>Pawn</h1>
+ * The purpose of this method is to create the 16 pawns on the chessboard.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
 package Pieces;
 
 import JavaFX.GameScene.ChessGame;
@@ -10,7 +17,17 @@ public class Pawn extends Piece {
     public Pawn(boolean color, int x, int y) {
         super(color, x, y);
     }
+
+    /**
+     * Returns a boolean which gives a pawn permission to do an en-passant move.
+     * @return
+     */
     public boolean getEnPassant() { return enPassant; }
+
+    /**
+     * Changes the enPassant boolean.
+     * @param newValue
+     */
     public void setEnPassant(boolean newValue) { enPassant = newValue; }
 
     public char getNotation() {

@@ -120,7 +120,7 @@ public class ChatFX{
         ArrayList<String> fetch = chat.fetchChat();
         for(String s : fetch){
             Label text = new Label(s);
-            text.setFont(Font.font("Calibri", 13));
+            text.setFont(Font.font("Calibri", 16));
             chatLayout.getChildren().add(text);
             messages.add(text);
         }

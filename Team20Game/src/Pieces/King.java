@@ -1,3 +1,11 @@
+/**
+ * <h1>King</h1>
+ * The purpose of this method is to create the two kings on the chessboard.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
+
 package Pieces;
 import JavaFX.GameScene.ChessGame;
 import javafx.scene.image.Image;
@@ -6,6 +14,7 @@ import javafx.scene.image.ImageView;
 public class King extends Piece {
     private ImageView imageView;
     private boolean canCastle;
+
     public King(boolean color, int x, int y) {
         super(color, x, y);
         this.canCastle = true;
@@ -32,7 +41,17 @@ public class King extends Piece {
     public String toString() {
         return super.toString();
     }
+
+    /**
+     * This method returns a boolean which tells you if the king can castle or not.
+     * @return
+     */
     public boolean getCanCastle() { return canCastle; }
+
+    /**
+     * Method for changing the canCastle-boolean.
+     * @param newVal
+     */
     public void setCanCastle(boolean newVal) {
         this.canCastle = newVal;
     }

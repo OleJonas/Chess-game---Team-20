@@ -1,3 +1,10 @@
+/**
+ * <h1>Rook</h1>
+ * The purpose of this method is to create the two rooks on the chessboard.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
 package Pieces;
 
 import JavaFX.GameScene.ChessGame;
@@ -31,7 +38,13 @@ public class Rook extends Piece {
     public String toString() {
         return super.toString();
     }
+
+    /**
+     * This method returns a boolean which tells if a rook can be used for castling or not.
+     * @return
+     */
     public boolean getCanCastle() { return canCastle; }
+
     public void setCanCastle(boolean newVal) {
         this.canCastle = newVal;
     }
