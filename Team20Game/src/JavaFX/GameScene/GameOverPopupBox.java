@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -23,11 +24,13 @@ import static JavaFX.GameScene.GameScene.yourTimer;
 import static JavaFX.LoginScreen.Login.userID;
 
 public class GameOverPopupBox {
+    static Stage window;
+
     public static void Display(){
         yourTimer.cancel();
         opponentTimer.cancel();
         int oldElo = ChessGame.color?ChessGame.whiteELO:ChessGame.blackELO;
-        Stage window = new Stage();
+        window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over");
 
@@ -75,13 +78,7 @@ public class GameOverPopupBox {
         //Create Game Button
         Button leaveGameButton = new Button("Leave Game");
         leaveGameButton.setOnAction(e -> {
-            MainScene.showMainScene();
-            MainScene.inGame = false;
-            MainScene.searchFriend = true;
-            if(MainScene.inDrawOffer){
-                DrawOfferPopupBox.close();
-            }
-            window.close();
+            leaveGameButtonPressed();
         });
 
         BorderPane windowLayout = new BorderPane();
@@ -104,8 +101,23 @@ public class GameOverPopupBox {
         windowLayout.setStyle("-fx-background-color: #404144;");
 
         Scene scene = new Scene(windowLayout, 350, 310);
+        scene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                leaveGameButtonPressed();
+            }
+        });
         window.setScene(scene);
         window.showAndWait();
         User.updateUser();
+    }
+
+    static void leaveGameButtonPressed(){
+        MainScene.showMainScene();
+        MainScene.inGame = false;
+        MainScene.searchFriend = true;
+        if(MainScene.inDrawOffer){
+            DrawOfferPopupBox.close();
+        }
+        window.close();
     }
 }
