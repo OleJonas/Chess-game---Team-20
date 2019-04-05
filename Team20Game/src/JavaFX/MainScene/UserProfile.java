@@ -127,13 +127,17 @@ class UserProfile{
             AVATAR = "avatar8.png";
         }else if(AVATAR.equals("avatar8.png")) {
             AVATAR = "avatar9.png";
-        }else if(AVATAR.equals("avatar9.png") || AVATAR.equals("avatar10.png")) {
+        }else if(AVATAR.equals("avatar9.png")) {
             AVATAR = "avatar10.png";
+        } else if(AVATAR.equals("avatar10.png")){
+            AVATAR = "avatar1.jpg";
         }
     }
 
     static void decreaseAvatar(){
-        if(AVATAR.equals("avatar1.jpg") || AVATAR.equals("avatar2.png")) {
+        if(AVATAR.equals("avatar1.jpg")){
+            AVATAR = "avatar10.png";
+        }else if(AVATAR.equals("avatar2.png")) {
             AVATAR = "avatar1.jpg";
         }else if(AVATAR.equals("avatar3.png")) {
             AVATAR = "avatar2.png";
