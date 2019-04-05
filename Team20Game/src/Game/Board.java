@@ -10,7 +10,10 @@ public class Board {
     private ArrayList<Piece> takenPieces = new ArrayList<>();
     private boolean castleKing = true;
 
-    //constructor for creating a new board
+    /**
+     * constructor for creating a new board.
+     * @param mode determines what setup of pieces to use. Different games such as Fischer Random have their own number.
+     */
     public Board(int mode) {
         boolean pawns = true;
         if (mode == 0) {
@@ -147,6 +150,10 @@ public class Board {
         }
     }
 
+    /**
+     * Get method for the state of the board.
+     * @return a two-dimensional array of all the pieces, this is in practice the entire board layout.
+     */
     public Piece[][] getBoardState(){
         Piece[][] out = new Piece[position.length][];
         for(int i = 0; i < position.length; i++){
@@ -158,6 +165,17 @@ public class Board {
         return out;
     }
 
+    /**
+     * Method for moving a piece.
+     * @param fromX is the original x-position of the piece that is moved.
+     * @param fromY is the original y-position of the piece that is moved.
+     * @param toX is the final x-position of the piece that is moved.
+     * @param toY is the final y-position of the piece that is moved.
+     * @param lastMove is a helping variable for en-passant for the sandbox chessgame on the mainscreen. In the sandbox
+     *                 game you may move the same piece multiple times in a row, this variable prevents en-passant in
+     *                 this edgecase where it should not be allowed.
+     * @return true if the piece is moved from the old position to the new one.
+     */
     public boolean move(int fromX, int fromY, int toX, int toY, boolean lastMove){
         checkCastleEnPassant(fromX, fromY, lastMove);
         if(position[fromX][fromY]==null){
@@ -171,6 +189,13 @@ public class Board {
         return true;
     }
 
+    /**
+     * chechCastleEnPassant is used to to special moves like castling and en-passant that require the movement of two
+     * pieces.
+     * @param fromX the original x-position of the moved piece.
+     * @param fromY the original y-position of the moved piece.
+     * @param lastMove helping variable for the sandbox version of the game that does not require alternate moving players.
+     */
     private void checkCastleEnPassant(int fromX, int fromY, boolean lastMove) {
         if (position[fromX][fromY] instanceof Rook) {
             Rook rook = (Rook) position[fromX][fromY];
@@ -209,23 +234,47 @@ public class Board {
         }
     }
 
+    /**
+     * Removes a piece from the board, used when promoting pawn and during en passant.
+     * @param x this x-position will be set to null.
+     * @param y this y-position will be set to null.
+     */
     public void removePiece(int x, int y){
         position[x][y] = null;
     }
 
+    /**
+     * add piece of given type to the list of taken pieces.
+     * @param piece
+     */
     public void addTakenPiece(Piece piece) {
         takenPieces.add(piece);
         System.out.println(piece.toString());
     }
 
+
+    /**
+     * fetch the list of taken pieces.
+     * @return the list of taken pieces
+     */
     public ArrayList<Piece> getTakenPieces() {
         return takenPieces;
     }
 
+    /**
+     * place a piece on a position on the board given coordinates.
+     * @param piece the piece type
+     * @param x the x-position to place the piece on.
+     * @param y the y-position to place the piece on.
+     */
     public void setPiece(Piece piece, int x, int y){
         position[x][y] = piece;
     }
 
+    /**
+     * standard toString method
+     * @return toString
+     */
     public String toString(){
         String a = "";
         for(int i = 7; i >= 0; i--) {
