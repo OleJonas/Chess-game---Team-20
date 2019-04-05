@@ -124,7 +124,6 @@ public class HighlightBox extends Pane{
             Game.uploadMove(fromX, fromY, toX, toY, ChessGame.movenr);
             ChessGame.movenr+=2;
 
-
             if (gameEngine.isCheckmate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
                 if (gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor()) {
                     System.out.println("Checkmate for White");
@@ -152,25 +151,36 @@ public class HighlightBox extends Pane{
                 }
             }
             else if (gameEngine.isStalemate(gameEngine.getBoard(), !gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor())) {
-                System.out.println("Stalemate");
-                int[] elo = gameEngine.getElo(1000, 1000, 2);
-                System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                Game.setResult(ChessGame.gameID, 0);
+                ChessGame.timer.cancel();
+                MainScene.inGame =false;
+                ChessGame.isDone = true;
+                GameOverPopupBox.Display();
             }
             if (gameEngine.isMoveRepetition()) {
-                System.out.println("Repetisjon");
+                Game.setResult(ChessGame.gameID, 0);
+                ChessGame.timer.cancel();
+                MainScene.inGame =false;
+                ChessGame.isDone = true;
+                GameOverPopupBox.Display();
             }
 
             if(gameEngine.notEnoughPieces(gameEngine.getBoard())) {
-                System.out.println("Remis");
-                int[] elo = gameEngine.getElo(1200, 1000, 2);
-                System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                Game.setResult(ChessGame.gameID, 0);
+                ChessGame.timer.cancel();
+                MainScene.inGame =false;
+                ChessGame.isDone = true;
+                GameOverPopupBox.Display();
             }
+
             if (!(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof Pawn) && ((totWhites+totBlacks) == (updatedWhites+updatedBlacks))) {
                 gameEngine.setMoveCounter(false);
                 if (gameEngine.getMoveCounter() == 100) {
-                    System.out.println("Remis");
-                    int[] elo = gameEngine.getElo(1000, 1000, 2);
-                    System.out.println("New White elo: " +elo[0]+ "\nNew Black elo: " +elo[1]);
+                    Game.setResult(ChessGame.gameID, 0);
+                    ChessGame.timer.cancel();
+                    MainScene.inGame =false;
+                    ChessGame.isDone = true;
+                    GameOverPopupBox.Display();
                 }
             } else {
                 gameEngine.setMoveCounter(true);

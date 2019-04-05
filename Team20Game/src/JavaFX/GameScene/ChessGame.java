@@ -31,7 +31,7 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 public class ChessGame{
-    private Timer timer;
+    public static Timer timer;
     public static int TILE_SIZE = 80;
     public static final double imageSize = 0.8;
     public static boolean color = true;
@@ -306,10 +306,9 @@ public class ChessGame{
                             isDone = true;
                             GameOverPopupBox.Display();
                         }
-
-                        //fill in what happens when game ends here
                     }
                 }
+
                 Rectangle squareTo = new Rectangle(TILE_SIZE, TILE_SIZE);
                 squareTo.setFill(Color.valueOf("#582"));
                 squareTo.setOpacity(0.9);
@@ -469,4 +468,5 @@ public class ChessGame{
             hboxGroup.getChildren().add(box);
         });
     }
+
 }
