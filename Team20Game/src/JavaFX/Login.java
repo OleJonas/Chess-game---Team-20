@@ -49,8 +49,8 @@ public class Login{
         loginPasswordField = new PasswordField();
 
         // Allows user to bypass login screen for testing purposes. Remove before final product is released.
-        loginUsernameField.setText("dillyboi");
-        loginPasswordField.setText("1234");
+        //loginUsernameField.setText("dillyboi");
+        //loginPasswordField.setText("1234");
 
         //Label
         Label loginLabel = new Label("Login");

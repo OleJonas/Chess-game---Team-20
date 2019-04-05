@@ -20,7 +20,7 @@ public class Main extends Application {
         runLogin();
         primaryStage.centerOnScreen();
         window.setTitle("Recess Chess");
-        //window.getIcons().add(new Image("/Images/icon.png"));
+        window.getIcons().add(new Image("/Images/icon.png"));
         window.show();
     }
 }
