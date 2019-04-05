@@ -290,7 +290,7 @@ public class Game {
     public static int searchFriend() {
         DBOps connection = new DBOps();
         sql = createSearchFriend(Login.getUserID());
-        System.out.println(sql);
+
         int game_id = pollQueue(Game.sql, connection);
         if (game_id != -1) {
             MainScene.searchFriend = false;

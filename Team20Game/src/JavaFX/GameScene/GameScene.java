@@ -2,7 +2,7 @@ package JavaFX.GameScene;
 import Database.Game;
 import Database.User;
 import JavaFX.LoginScreen.Login;
-import JavaFX.MainScene.Main;
+import JavaFX.Main;
 import JavaFX.MainScene.MainScene;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
