@@ -1,5 +1,5 @@
 package JavaFX.LoginScreen;
-import JavaFX.MainScene.Main;
+import JavaFX.Main;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

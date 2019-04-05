@@ -306,15 +306,19 @@ public class GameLogic{
                 if (boardState[7][0] instanceof Rook) {
                     Rook rook = (Rook) boardState[7][0];
                     if (castle[0] && rook.getCanCastle()) {
-                        validMoves.add(6);
-                        validMoves.add(0);
+                        if (!inCheck(boardState, boardState[x][y].getColor())) {
+                            validMoves.add(6);
+                            validMoves.add(0);
+                        }
                     }
                 }
                 if (boardState[0][0] instanceof Rook) {
                     Rook rook = (Rook) boardState[0][0];
                     if (castle[1] && rook.getCanCastle()) {
-                        validMoves.add(2);
-                        validMoves.add(0);
+                        if (!inCheck(boardState, boardState[x][y].getColor())) {
+                            validMoves.add(2);
+                            validMoves.add(0);
+                        }
                     }
                 }
             } else {
@@ -322,15 +326,19 @@ public class GameLogic{
                 if (boardState[0][7] instanceof Rook) {
                     Rook rook = (Rook) boardState[0][7];
                     if (castle[1] && rook.getCanCastle()) {
-                        validMoves.add(2);
-                        validMoves.add(7);
+                        if (!inCheck(boardState, boardState[x][y].getColor())) {
+                            validMoves.add(2);
+                            validMoves.add(7);
+                        }
                     }
                 }
                 if (boardState[7][7] instanceof Rook) {
                     Rook rook = (Rook) boardState[7][7];
                     if (castle[0] && rook.getCanCastle()) {
-                        validMoves.add(6);
-                        validMoves.add(7);
+                        if (!inCheck(boardState, boardState[x][y].getColor())) {
+                            validMoves.add(6);
+                            validMoves.add(7);
+                        }
                     }
                 }
             }

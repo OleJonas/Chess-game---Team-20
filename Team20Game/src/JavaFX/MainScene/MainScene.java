@@ -7,6 +7,7 @@ import JavaFX.GameScene.ChessGame;
 import JavaFX.GameScene.DrawOfferPopupBox;
 import JavaFX.GameScene.GameOverPopupBox;
 import JavaFX.LoginScreen.Login;
+import JavaFX.Main;
 import JavaFX.MainScene.GameCreation.CreateGamePopupBox;
 import JavaFX.MainScene.GameCreation.FriendInviteBox;
 import JavaFX.MainScene.GameCreation.InviteFriendPopupBox;

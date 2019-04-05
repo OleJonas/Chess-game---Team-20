@@ -157,6 +157,7 @@ public class HighlightBox extends Pane{
                 ChessGame.isDone = true;
                 GameOverPopupBox.Display();
             }
+
             if (gameEngine.isMoveRepetition()) {
                 Game.setResult(ChessGame.gameID, 0);
                 ChessGame.timer.cancel();
