@@ -1,7 +1,11 @@
 
-package JavaFX;
+package JavaFX.LoginScreen;
 
 import Database.DBOps;
+import JavaFX.GameScene.ChessGame;
+import JavaFX.MainScene.Main;
+import JavaFX.MainScene.MainScene;
+import JavaFX.MainScene.Settings;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -17,24 +21,23 @@ import javafx.scene.paint.Color;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.*;
 import java.util.ArrayList;
 
-import static JavaFX.ChessSandbox.setUpSkin;
-import static JavaFX.Register.runRegistration;
+import static JavaFX.LoginScreen.Register.runRegistration;
+import static JavaFX.MainScene.Sandbox.ChessSandbox.setUpSkin;
 import static javafx.geometry.Pos.CENTER;
 
 
 @SuppressWarnings("Duplicates")
 public class Login{
     public static String USERNAME;
-    static String AVATAR;
-    static int gamesPlayed;
-    static int gamesWon;
-    static int gamesLost;
-    static int gamesRemis;
-    static int ELOrating;
-    static ArrayList<Integer> ELOhistory = new ArrayList<Integer>();
+    public static String AVATAR;
+    public static int gamesPlayed;
+    public static int gamesWon;
+    public static int gamesLost;
+    public static int gamesRemis;
+    public static int ELOrating;
+    public static ArrayList<Integer> ELOhistory = new ArrayList<Integer>();
 
     static Scene startScene;
     static Button loginButton, signUpButton;
@@ -271,7 +274,7 @@ public class Login{
         }
     }
 
-    static boolean storeSettings(){
+    public static boolean storeSettings(){
         DBOps connection = new DBOps();
         int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + ChessGame.skin + "' WHERE username = '" + USERNAME + "';");
         if(rowsAffected==1) return true;

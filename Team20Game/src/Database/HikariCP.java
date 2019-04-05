@@ -1,6 +1,5 @@
 package Database;
 
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -13,10 +12,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-
-//Jonas database         jdbc:mysql://mysql.stud.idi.ntnu.no:3306/olejlia?user=olejlia&password=YvJwUsj8
-//Håvard database:       jdbc:mysql://mysql.stud.idi.ntnu.no:3306/haavasma?user=haavasma&password=eSVol6ey
-//Martin database:       jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?user=martijni&password=wrq71s2w
 
 public class HikariCP {
 

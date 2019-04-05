@@ -4,14 +4,14 @@
 * gridPanes in mainScene, instead of switching scenes, as this takes longer time to perform. 
  */
 
-package JavaFX;
+package JavaFX.MainScene;
 import Database.Game;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import static JavaFX.Login.*;
-import static JavaFX.MainScene.*;
-import static JavaFX.Settings.showSettings;
+import static JavaFX.LoginScreen.Login.*;
+import static JavaFX.MainScene.MainScene.*;
+import static JavaFX.MainScene.Settings.showSettings;
 
 
 

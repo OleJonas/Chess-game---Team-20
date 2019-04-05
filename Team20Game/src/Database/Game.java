@@ -1,6 +1,9 @@
 package Database;
 
-import JavaFX.*;
+import JavaFX.GameScene.ChessGame;
+import JavaFX.GameScene.GameScene;
+import JavaFX.LoginScreen.Login;
+import JavaFX.MainScene.MainScene;
 
 import java.util.ArrayList;
 
@@ -41,13 +44,11 @@ public class Game {
 
                     else if (Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 0) {
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime + ");");
-                        //System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
                     }
                 }
                 else {
                     if ((Integer.parseInt(db.exQuery("SELECT MAX(movenr) FROM Move WHERE game_id = " +ChessGame.gameID+";", 1).get(0)) % 2 == 1)) {
                         db.exUpdate("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+", "  + GameScene.yourTime +");");
-                        //System.out.println("INSERT INTO Move VALUES (" + ChessGame.gameID + ", " + (movenr +1) +", "+ fromX +", "+fromY+", "+toX+", "+toY+");");
                     }
                 }
             }
@@ -244,8 +245,6 @@ public class Game {
         System.out.println("waiting for opponent");
         if(!playersReady(connection)) {
             connection.exUpdate("UPDATE Game SET active = 0 WHERE game_id = " + ChessGame.gameID);
-            //System.out.println("Success!");
-            //System.out.println("Started game with gameID: " + ChessGame.gameID);
             MainScene.inQueueCreate = false;
             MainScene.inGame = true;
             return true;
@@ -329,11 +328,21 @@ public class Game {
         return out + 1;
     }
 
-    public static String createSearchFriend(int friendid) {
-        String sql = "SELECT game_id FROM Game WHERE opponent = " +friendid + " AND active = 1;";
-        return sql;
-    }
-
+    /**
+     * Method used to create an SQL-statement for use in matchmaking.
+     * Goes through the passed parameters and outputs a String which depends on aforementioned parameters.
+     *
+     * @param mode Option selected by user by clicking on an option in the mode-list. Passed by CreateGamePopupBox.tryCreateGame(). Decides game-mode.
+     * @param time ... Decides time given to each player, if any. Can be 0. If time = 0, increment can be != 0. This way each player starts with the given increment.
+     * @param increment ... Decides increment given to each player. Can be 0. This prevents the players from gaining time by making moves.
+     *                  If both time and increment is equal to 0, the game is a "correspondence" game. This mode lasts until a player loses or they agree on a draw.
+     * @param color ... The user can choose "any" from the color options. This makes the assignment of this booleans value random.
+     *              If color is true, the player is playing white. Color = false makes the player play black.
+     *              This parameter also decides if the user starts the game with ChessGame.myTurn = true or false. White makes it true, black makes it false.
+     * @param rated ... This parameter decides if the game is rated or not. If false; neither user gains or loses ELO-rating at the end of the game.
+     *              If true; the winning player gains ELO and the losing player loses ELO depending on their difference in ELO-rating.
+     * @return
+     */
     public static String createSearch(int mode, int time, int increment, boolean[] color, int rated) {
         String sql = "SELECT game_id FROM Game";
         boolean firstCheck = true;
@@ -403,6 +412,19 @@ public class Game {
         }
         sql += " AND active = 1;";
         System.out.println(sql);
+        return sql;
+    }
+
+    /**
+     * This method is used to find a game created by a friend.
+     * The user cannot explicitly invoke this method themselves, it is automatically used in the lobby to constantly poll the database for invites from other players.
+     * The returned String is used in the method searchFriend();
+     * @param userid Parameter containing the users own id. This parameter is used to search for games created with the users own id.
+     *               If an active game in the database-table "Game" has a user-id corresponding to this parameter, the user will get a popup via the class {@link FriendInviteBox "FriendInviteBox.class"}
+     * @return
+     */
+    public static String createSearchFriend(int userid) {
+        String sql = "SELECT game_id FROM Game WHERE opponent = " + userid + " AND active = 1;";
         return sql;
     }
 

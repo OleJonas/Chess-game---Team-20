@@ -1,6 +1,6 @@
 package Pieces;
-import JavaFX.ChessDemo;
-import JavaFX.ChessGame;
+
+import JavaFX.GameScene.ChessGame;
 import javafx.scene.image.*;
 
 public class Rook extends Piece {
@@ -15,9 +15,9 @@ public class Rook extends Piece {
         try {
             Image image = super.getColor()?
                     new Image("Images/chessPieces/"+ ChessGame.skin+"/w_rook_1x_ns.png",
-                            ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE *ChessDemo.imageSize, true, true):
+                            ChessGame.TILE_SIZE*ChessGame.imageSize, ChessGame.TILE_SIZE *ChessGame.imageSize, true, true):
                     new Image("Images/chessPieces/"+ChessGame.skin+"/b_rook_1x_ns.png",
-                            ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, true, true);
+                            ChessGame.TILE_SIZE*ChessGame.imageSize, ChessGame.TILE_SIZE*ChessGame.imageSize, true, true);
             return imageView = new ImageView(image);
         }catch(Exception e){
             imageView = null;

@@ -1,7 +1,6 @@
 package Pieces;
 
-import JavaFX.ChessDemo;
-import JavaFX.ChessGame;
+import JavaFX.GameScene.ChessGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -18,8 +17,8 @@ public class Bishop extends Piece {
     public ImageView getImageView(){
         try {
             Image image = super.getColor()? new Image(
-                    "Images/chessPieces/"+ ChessGame.skin+"/w_bishop_1x_ns.png", ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize,true, true):
-                    new Image("Images/chessPieces/"+ChessGame.skin+"/b_bishop_1x_ns.png", ChessDemo.TILE_SIZE*ChessDemo.imageSize, ChessDemo.TILE_SIZE*ChessDemo.imageSize, true, true);
+                    "Images/chessPieces/"+ ChessGame.skin+"/w_bishop_1x_ns.png", ChessGame.TILE_SIZE*ChessGame.imageSize, ChessGame.TILE_SIZE*ChessGame.imageSize,true, true):
+                    new Image("Images/chessPieces/"+ChessGame.skin+"/b_bishop_1x_ns.png", ChessGame.TILE_SIZE*ChessGame.imageSize, ChessGame.TILE_SIZE*ChessGame.imageSize, true, true);
             return imageView = new ImageView(image);
 
         }catch(Exception e){

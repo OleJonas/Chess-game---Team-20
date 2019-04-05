@@ -1,4 +1,4 @@
-package JavaFX;
+package JavaFX.MainScene;
 import Database.DBOps;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-import static JavaFX.MainScene.mainScene;
+import static JavaFX.MainScene.MainScene.mainScene;
 
 @SuppressWarnings("Duplicates")
 class FindUser{

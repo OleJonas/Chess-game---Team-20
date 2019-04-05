@@ -1,4 +1,4 @@
-package JavaFX;
+package JavaFX.GameScene;
 import Database.ChatDB;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
