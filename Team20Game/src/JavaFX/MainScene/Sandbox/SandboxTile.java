@@ -76,13 +76,10 @@ class SandboxTile extends StackPane {
         if(img == null){
             return false;
         }
-        if(!ChessGame.color){
-            img.setTranslateX(-offsetX);
-            img.setTranslateY(-offsetY);
-        }else{
-            img.setTranslateX(offsetX);
-            img.setTranslateY(offsetY);
-        }
+
+        img.setTranslateX(offsetX);
+        img.setTranslateY(offsetY);
+
         getChildren().set(0,img);
         return true;
     }
