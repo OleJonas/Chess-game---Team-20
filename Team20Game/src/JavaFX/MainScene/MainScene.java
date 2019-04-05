@@ -27,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -321,6 +322,11 @@ public class MainScene {
         layout.setCenter(mainLayout);
 
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
+        mainScene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                newGameButtonPressed();
+            }
+        });
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()- Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()- Main.window.getHeight())/4 + Main.window.getHeight()*0.01);
