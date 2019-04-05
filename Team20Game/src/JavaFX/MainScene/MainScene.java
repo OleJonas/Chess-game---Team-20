@@ -35,6 +35,7 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import static JavaFX.GameScene.GameScene.*;
 import static JavaFX.LoginScreen.Login.*;
+import static JavaFX.MainScene.UserProfile.setAvatar;
 import static JavaFX.MainScene.UserProfile.showUserProfileScene;
 
 @SuppressWarnings("Duplicates")
@@ -154,7 +155,7 @@ public class MainScene {
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
-            storeSettings();
+            setAvatar(AVATAR);
             mainLayout.getChildren().remove(backToMainButton);
             title.setText("Recess Chess");
             mainLayout.setVgap(12);
