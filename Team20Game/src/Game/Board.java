@@ -5,6 +5,14 @@ import Pieces.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * <h1>Board</h1>
+ * The board class is made to keep track of and analyze the state of the board. Its main component is a two-dimensional
+ * array containing piece objects and null pointes that represent the placement of all the pieces on the board.
+ * @author Team20
+ * @since 05.04.2019
+ */
+
 public class Board {
     private Piece[][] position = new Piece[8][8];
     private ArrayList<Piece> takenPieces = new ArrayList<>();

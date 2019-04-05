@@ -3,6 +3,7 @@ package JavaFX.MainScene;
 import Database.DBOps;
 import Database.Game;
 import Database.User;
+import JavaFX.*;
 import JavaFX.GameScene.ChessGame;
 import JavaFX.GameScene.DrawOfferPopupBox;
 import JavaFX.GameScene.GameOverPopupBox;
@@ -35,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import static JavaFX.GameScene.GameScene.*;
 import static JavaFX.LoginScreen.Login.*;
+import static JavaFX.MainScene.UserProfile.setAvatar;
 import static JavaFX.MainScene.UserProfile.showUserProfileScene;
 
 @SuppressWarnings("Duplicates")
@@ -154,6 +156,7 @@ public class MainScene {
         imageViewBackToMain.setFitHeight(20);
         backToMainButton.setGraphic(imageViewBackToMain);
         backToMainButton.setOnAction(e -> {
+            setAvatar(AVATAR);
             mainLayout.getChildren().remove(backToMainButton);
             title.setText("Recess Chess");
             mainLayout.setVgap(12);

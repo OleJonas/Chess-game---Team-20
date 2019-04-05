@@ -5,11 +5,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * <h1>GameLogic</h1>
+ * This class is used to analyze and calculate all the logic within the chess game.
+ * @author Team20
+ * @since 05.04.2019
+ */
+
 public class GameLogic{
     private static HashMap<String, Integer> rep;
 
-    //main method for returning valid moves for a selected piece
-    //receives the coordinates of the selected piece and a copy of the board and returns all the valid moves
+    /**
+     * @see Game.GameEngine#validMoves(int x, int y)
+     */
     public static ArrayList<Integer> validMoves(int x, int y, Board board) {
         ArrayList<Integer> validMoves = null;
         Piece[][] boardState = board.getBoardState();
@@ -87,6 +95,9 @@ public class GameLogic{
     }
 
     //checking if a boardstate is checkmate
+    /**
+     * @see Game.GameEngine#isCheckmate(Board board, boolean color)
+     */
     public static boolean inCheck(Piece[][] state, boolean color){
         Piece[][] board = state;
         int x = 0, y = 2;
@@ -173,7 +184,13 @@ public class GameLogic{
         return false;
     }
 
-    //returns all valid moves for a pawn
+    /**
+     * Returns the valid moves of a pawn.
+     * @param x The x-value of the pawn.
+     * @param y The y.value of the pawn.
+     * @param boardState The state of the board.
+     * @return A list of possible moves the pawn can make (every other element in the list is x and y coordinate).
+     */
     private static ArrayList<Integer> validMovesPawn(int x, int y, Piece[][] boardState) {
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
 
@@ -288,7 +305,13 @@ public class GameLogic{
         return validMoves;
     }
 
-    //returning all the valid moves for the king
+    /**
+     * Returns the valid moves of a king.
+     * @param x The x-value of the king.
+     * @param y The y.value of the king.
+     * @param boardState The state of the board.
+     * @return A list of possible moves the king can make (every other element in the list is x and y coordinate).
+     */
     private static ArrayList<Integer> validMovesKing(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         int[] move = { 1, 0, 1, 1, 0, 1, -1, 1, -1, 0, -1, -1, 0, -1, 1, -1};
@@ -346,6 +369,12 @@ public class GameLogic{
         return validMoves;
     }
 
+    /**
+     * Helping method for valid moves.
+     * @param x The x-value.
+     * @param y The y.value.
+     * @param boardState The state of the board.
+     */
     private static void validMovesKingKnight(int x, int y, Piece[][] boardState, ArrayList<Integer> validMoves, int[] move, int i) {
         if (boardState[x + move[i]][y + move[i + 1]] == null) {
             Collections.addAll(validMoves,x + move[i], y + move[i + 1]);
@@ -355,7 +384,13 @@ public class GameLogic{
         }
     }
 
-    //returning all the valid moves for knights
+    /**
+     * Returns the valid moves of a knight.
+     * @param x The x-value of the knight.
+     * @param y The y.value of the knight.
+     * @param boardState The state of the board.
+     * @return A list of possible moves the knight can make (every other element in the list is x and y coordinate).
+     */
     private static ArrayList<Integer> validMovesKnight(int x, int y, Piece[][] boardState){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         int[] move = {2, 1, -2, 1, 2, -1, -2, -1, 1, 2, -1, 2, 1, -2, -1, -2};
@@ -367,17 +402,36 @@ public class GameLogic{
         return validMoves;
     }
 
-    //returning all the valid moves for rooks using a general method
+    /**
+     * Method for finding the valid moves of a rook, it sends an array describing its movement to a move general method.
+     * @param x Its x value.
+     * @param y Its y value.
+     * @param boardState The board State.
+     * @return A list of possible moves the rook can make (every other element in the list is x and y coordinate).
+     */
     private static ArrayList<Integer> validMovesRook(int x, int y, Piece[][] boardState){
         return validMovesGeneral(x, y, boardState, new int[] {1, 0, 0, 1, -1, 0, 0, -1});
     }
 
-    //returning all the valid moves for bishops using a general method
+    /**
+     * Method for finding the valid moves of a bishop, it sends an array describing its movement to a move general method.
+     * @param x Its x value.
+     * @param y Its y value.
+     * @param boardState The board State.
+     * @return A list of possible moves the bishop can make (every other element in the list is x and y coordinate).
+     */
     private static ArrayList<Integer> validMovesBishop(int x, int y, Piece[][] boardState){
         return validMovesGeneral(x, y, boardState, new int[] {1, 1, -1, 1, -1, -1, 1, -1});
     }
 
-    //general method for finding valid moves for rooks and bishops
+    /**
+     * Fetch all valid moves given a selected piece.
+     * @param x Its x value.
+     * @param y Its y value.
+     * @param boardState The board state.
+     * @param m An array of integers describing its movement.
+     * @return A list of possible moves the piece can make (every other element in the list is x and y coordinate).
+     */
     private static ArrayList<Integer> validMovesGeneral(int x, int y, Piece[][] boardState, int[] m){
         ArrayList<Integer> validMoves = new ArrayList<Integer>();
         boolean[] dir = {true, true, true, true};
@@ -398,7 +452,12 @@ public class GameLogic{
         return validMoves;
     }
 
-    //method for checking if you can castle to each side
+    /**
+     * Method for checking if a player can castle to both sides.
+     * @param color The color of the player to be analyzed.
+     * @param boardState The board state.
+     * @return A boolean describing whether a player can castle.
+     */
     private static boolean[] castle(boolean color, Piece[][] boardState) {
         boolean[] castle = {true, true};
         if (color) {
@@ -410,7 +469,13 @@ public class GameLogic{
 
     }
 
-    //logic for checking if castling is possible
+    /**
+     * This methods analyzes if a player can castle in a specific direction.
+     * @param yValue The starting rank of the player.
+     * @param castle The direction of the castle, true = right, false = left.
+     * @param boardState The state of the board.
+     * @param color The color of the player.
+     */
     private static void canCastle(int yValue, boolean[] castle, Piece[][] boardState, boolean color) {
         for (int i = 1; i < 4; i++) {
             if (4 + i < 7) {
@@ -441,8 +506,11 @@ public class GameLogic{
         }
     }
 
-    //creating a copy of the current board
-    //used for simulating moves
+    /**
+     * Creates a copy of a board. Used to simulate if a move is legal.
+     * @param boardState The state of the board.
+     * @return A deep copy of the board state.
+     */
     private static Piece[][] createBoardCopy(Piece[][] boardState) {
         Piece[][] tmp = new Piece[8][8];
         for (int k = 0; k <8; k++) {
@@ -453,8 +521,9 @@ public class GameLogic{
         return tmp;
     }
 
-    //checking if there are no valid moves and the king is not in check
-    //in that case it is a stalemate
+    /**
+     * @see Game.GameEngine#isStalemate(Board, boolean)
+     */
     public static boolean isStalemate(Board board, boolean color) {
         Piece[][] state = board.getBoardState();
         for (int i = 0; i < 8; i++) {
@@ -471,8 +540,9 @@ public class GameLogic{
         return true;
     }
 
-    //checking if there are no valid moves and the king is also in check
-    //in that case it is a checkmate
+    /**
+     * @see Game.GameEngine#isCheckmate(Board, boolean)
+     */
     public static boolean isCheckmate(Board board, boolean color) {
         if (inCheck(board.getBoardState(), color)) {
             return isStalemate(board, color);
@@ -480,7 +550,9 @@ public class GameLogic{
         return false;
     }
 
-    //returns a list of the numbers of pieces left on the board
+    /**
+     * @see Game.GameEngine#myPieces(Board, boolean)
+     */
     public static int[] myPieces(Board board, boolean myColor) {
         Piece[][] boardState = board.getBoardState();
         int[] counter = new int[7];
@@ -517,8 +589,9 @@ public class GameLogic{
         return counter;
     }
 
-    //checking if there are enough pieces left on the board to make checkmating possible
-    //this will result in a draw
+    /**
+     * @see Game.GameEngine#notEnoughPieces(Board)
+     */
     public static boolean notEnoughPieces(Board board) {
         if (myPieces(board, true)[6] == 1 && myPieces(board, false)[6] == 1) {
             return true;
@@ -546,7 +619,9 @@ public class GameLogic{
         return false;
     }
 
-    //calculating new elo for players based on the result of the game
+    /**
+     * @see Game.GameEngine#getElo(int, int, int)
+     */
     public static int[] getElo(int whiteElo, int blackElo, int score) {
         int[] result = new int[2];
         double a = 1.0 / (1.0+ Math.pow(10.0, ((double)(blackElo-whiteElo))/400.0));
@@ -557,8 +632,9 @@ public class GameLogic{
         return result;
     }
 
-    //checking if a move is repeated
-    //three repetitions can result in a draw
+    /**
+     * @see GameEngine#isMoveRepetition()
+     */
     public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
         if (rep.containsKey(board.toString())){
             int oldBoardState = rep.get(board.toString());
@@ -570,8 +646,11 @@ public class GameLogic{
         return rep.get(board.toString()).compareTo(2) == 1;
     }
 
-    //finding the difference in number of pieces between the players
-    //can be used to display taken pieces on the gamescreen
+    /**
+     * @deprecated Intended to be used to find the taken pieces of the players to display them in-game
+     * @param board The state of the board.
+     * @return The amound of the different pieces that have been taken.
+     */
     public static int[] getDisplayPieces(Board board) {
         ArrayList<Piece> takenPieces = board.getTakenPieces();
         int pawns = 0;
