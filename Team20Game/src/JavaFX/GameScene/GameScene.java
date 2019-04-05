@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -72,6 +73,12 @@ public class GameScene {
     }
 
     public static void showGameScene() {
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+
         increment = Game.getIncrement(ChessGame.gameID);
 
         yourTime =  Game.getTime(ChessGame.gameID) * 60;
@@ -94,6 +101,7 @@ public class GameScene {
         Label title = new Label("Recess Chess");
         title.setFont(Font.font("Georgia", 60));
         title.setStyle("-fx-font-weight: bold");
+        title.setEffect(dropShadow);
         title.setTextFill(Color.WHITE);
 
         userid1 = Game.getUser_id1(ChessGame.gameID);
