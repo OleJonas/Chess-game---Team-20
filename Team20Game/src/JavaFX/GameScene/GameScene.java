@@ -243,7 +243,7 @@ public class GameScene {
         mainLayout.setPadding(new Insets(20, 50, 20, 50));
         mainLayout.setHgap(20);
         mainLayout.setVgap(12);
-        mainLayout.getColumnConstraints().add(new ColumnConstraints(250));
+        mainLayout.getColumnConstraints().add(new ColumnConstraints(330));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(675));
         mainLayout.getColumnConstraints().add(new ColumnConstraints(400));
         mainLayout.add(title, 0, 0, 3, 1);

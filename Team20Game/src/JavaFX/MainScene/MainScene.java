@@ -276,7 +276,7 @@ public class MainScene {
         rightGrid.setVgap(20);
         chessGame = new ChessSandbox().createContent();
         rightGrid.add(chessGame, 0, 0);
-        sandboxLabel = new Label("This is a sandbox chess game, play as you want!");
+        sandboxLabel = new Label("This is a sandbox chess game!");
         sandboxLabel.setFont(Font.font("Calibri", 20));
         sandboxLabel.setTextFill(Color.WHITE);
         clearBoard = new Button("Clear Board");
