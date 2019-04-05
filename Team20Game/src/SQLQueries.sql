@@ -81,6 +81,15 @@ Create table UserSettings (
                   FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
+-- For creating the userElo table NOT TESTED
+Create table userElo (
+        userID int NOT NULL,
+        game int NOT NULL AUTO_INCREMENT,
+        elo int,
+        CONSTRAINT pk PRIMARY KEY (game, userID),
+        FOREIGN KEY (userID) REFERENCES User(user_id)
+);
+
 ALTER TABLE Game
 ADD mode INTEGER NOT NULL;
 
