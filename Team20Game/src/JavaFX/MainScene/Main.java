@@ -1,7 +1,11 @@
 package JavaFX.MainScene;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.awt.*;
+
 import static JavaFX.LoginScreen.Login.runLogin;
 
 public class Main extends Application {
