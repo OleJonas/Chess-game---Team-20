@@ -1,3 +1,10 @@
+/**
+ * <h1>Piece</h1>
+ * The purpoce of this class is to create the different pieces on the chessboard.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
 package Pieces;
 
 import javafx.scene.image.Image;
