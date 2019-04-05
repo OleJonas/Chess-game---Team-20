@@ -124,5 +124,5 @@ SELECT * FROM userElo WHERE game > 500;
 
 SELECT * FROM User;
 
-
+UPDATE User SET ELOrating = 2000 WHERE username = "dillyboi";
 

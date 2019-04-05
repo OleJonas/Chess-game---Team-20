@@ -3,7 +3,7 @@ package JavaFX.LoginScreen;
 
 import Database.DBOps;
 import JavaFX.GameScene.ChessGame;
-import JavaFX.MainScene.Main;
+import JavaFX.Main;
 import JavaFX.MainScene.MainScene;
 import JavaFX.MainScene.Settings;
 import javafx.scene.Scene;
