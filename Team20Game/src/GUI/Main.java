@@ -21,8 +21,10 @@ public class Main extends Application {
     }
 
     @Override
+    /**
+     * Method that launches the login screen.
+     */
     public void start(Stage primaryStage){
-
         window = primaryStage;
         runLogin();
         primaryStage.centerOnScreen();
