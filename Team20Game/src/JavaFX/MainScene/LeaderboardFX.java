@@ -38,7 +38,7 @@ public class LeaderboardFX {
         for(int i = 0; i < leadersELO.length; i++){
             Color color;
             if (i == 0){
-                color = Color.YELLOW;
+                color = Color.web("#c1c109",1.0) ;
             } else if (i == 1){
                 color = Color.web("#6b6b6b",1.0) ;
             } else if (i == 2){

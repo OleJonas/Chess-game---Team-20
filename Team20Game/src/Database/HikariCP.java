@@ -18,7 +18,6 @@ public class HikariCP {
     private static HikariDataSource ds;
 
     static{
-
         HikariConfig config1 = new HikariConfig();
         config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?serverTimezone=GMT");
         config1.setUsername("martijni");

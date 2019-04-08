@@ -27,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -58,9 +59,11 @@ public class MainScene {
     static Label sandboxLabel, title;
     static GridPane rightGrid, leftGrid, mainLayout;
     public static Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+    private static boolean onMain;
 
     public static void showMainScene() {
         User.updateUser();
+        onMain = true;
 
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(5.0);
@@ -321,6 +324,7 @@ public class MainScene {
         layout.setCenter(mainLayout);
 
         mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
+
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()- Main.window.getWidth())/2);
         Main.window.setY((primaryScreenBounds.getHeight()- Main.window.getHeight())/4 + Main.window.getHeight()*0.01);

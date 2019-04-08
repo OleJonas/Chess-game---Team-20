@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 import static JavaFX.GameScene.GameScene.showGameScene;
 
 public class FriendInviteBox {
+    static Stage window;
+
     public static void Display(int game_id){
-        Stage window = new Stage();
+        window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invite");
         ArrayList<String> text = Game.friendInviteInfo(game_id);
@@ -82,6 +85,18 @@ public class FriendInviteBox {
         windowLayout.setStyle("-fx-background-color: #404144;");
 
         Scene scene = new Scene(windowLayout, 560, 360);
+        scene.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER)){
+                if(Game.tryAcceptInvite(game_id)){
+                    MainScene.inGame = true;
+                    window.close();
+                    showGameScene();
+                } else {
+                    window.close();
+                    System.out.println("Not active");
+                }
+            }
+        });
         window.setScene(scene);
         window.showAndWait();
     }
