@@ -9,7 +9,6 @@
 package Database;
 
 import java.util.ArrayList;
-
 import GUI.GameScene.ChatFX;
 import GUI.GameScene.ChessGame;
 import GUI.LoginScreen.Login;
