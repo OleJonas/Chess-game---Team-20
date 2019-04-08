@@ -1,6 +1,8 @@
 /**
  * <h1>HighlightBox</h1>
  * The purpose of this class is to have the logic for what happens on the chessboard for every move that is made through the game.
+ * @since 08.04.2019
+ * @author Team 20
  */
 
 package GUI.GameScene;
