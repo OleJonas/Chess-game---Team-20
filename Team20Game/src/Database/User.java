@@ -3,17 +3,32 @@ package Database;
 import JavaFX.LoginScreen.Login;
 import Game.GameEngine;
 
+import java.util.ArrayList;
+
 public class User {
-    public static int getGameID(String username){
+
+    /**
+     * Method that finds the username related to a user_id in the database
+     * @param username Parameter with the username you want to find the user_id for.
+     * @return the user_id related to the username parameter, returns -1 if it does not exist
+     */
+    public static int getUser_idByUsername(String username){
         DBOps db = new DBOps();
         int id = -1;
-        if (db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).size() > 0) {
-            if (db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0) != null) {
-                id = Integer.parseInt(db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1).get(0));
+        ArrayList<String> user_id = db.exQuery("SELECT user_id FROM User WHERE username = '" + username+ "';", 1);
+        if (user_id.size() > 0) {
+            if (user_id.get(0) != null) {
+                id = Integer.parseInt(user_id.get(0));
             }
         }
         return id;
     }
+
+    /**
+     *Method for
+     * @param user_id
+     * @return
+     */
 
     public static String getUsername(int user_id){
         DBOps db = new DBOps();

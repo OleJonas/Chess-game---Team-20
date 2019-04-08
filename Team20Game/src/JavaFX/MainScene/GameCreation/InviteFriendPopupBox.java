@@ -253,12 +253,12 @@ public class InviteFriendPopupBox{
 
         int opponent = 0;
         if (searchField.getText() != null) {
-            if (User.getGameID(searchField.getText()) != -1) {
+            if (User.getUser_idByUsername(searchField.getText()) != -1) {
                 if (USERNAME.equals(searchField.getText())) {
                     searchComment.setText("You can't invite yourself!");
                     return;
                 } else {
-                    opponent = User.getGameID(searchField.getText());
+                    opponent = User.getUser_idByUsername(searchField.getText());
                 }
             } else {
                 MainScene.invitedFriend = false;
