@@ -19,9 +19,21 @@ import java.util.ArrayList;
 
 import static GUI.GameScene.GameScene.showGameScene;
 
+/**
+ * <h1>FriendInviteBox</h1>
+ * This class describes the window that shows up for players that are invited to a specific match.
+ * @author Team20
+ * @since 08.04.2019
+ */
 public class FriendInviteBox {
     static Stage window;
 
+    /**
+     * This method containts the JavaFX to design, show and interact with the invitation box.
+     * In order to be able to join both players must update the database with the id of the match they are in,
+     * therefore the match id is an argument in this method.
+     * @param game_id The id of the match that you are invited to.
+     */
     public static void Display(int game_id){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
