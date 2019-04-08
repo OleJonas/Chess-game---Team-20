@@ -308,7 +308,7 @@ public class GameLogic{
     }
 
     /**
-     * Returns the valid moves of a king.
+     * Returns the valid moves of a king if it is selected.
      * @param x The x-value of the king.
      * @param y The y.value of the king.
      * @param boardState The state of the board.

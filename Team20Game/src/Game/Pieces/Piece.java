@@ -8,6 +8,15 @@ package Game.Pieces;
 
 import javafx.scene.image.ImageView;
 
+/**
+ * <h1>Piece</h1>
+ * This abstract class contains a general description of the pieces. Some fundamental features of a piece are made here,
+ * such as position values (x and y), and get/set methods for these values. Some additional features should exist for
+ * all types of pieces, such as its letter using algebraic chess notation, that value is an abstract method here,
+ * as it must be specified for all pieces.
+ * @author Team20
+ * @since 08.04.2019
+ */
 public abstract class Piece{
     private boolean color;
     private int x;
