@@ -4,6 +4,13 @@ import GUI.LoginScreen.Login;
 import Game.GameEngine;
 
 import java.util.ArrayList;
+
+/**
+ * <h1> User </h1>
+ * This classed is used for receiving or manipulating data related to the "User" table from the database
+ * @author Team20
+ * @since 08.04.2019
+ */
 public class User {
 
     /**
