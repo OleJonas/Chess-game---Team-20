@@ -134,7 +134,7 @@ public class Board {
             }
 
         } else if (mode == 4) {
-            //peaseants revolt, a variant where white has 4 knights and pawn, while black has only pawns
+            //peasants revolt, a variant where white has 4 knights and pawn, while black has only pawns
             position[4][0] = new King(true, 4, 0);
             position[4][7] = new King(false, 4, 7);
 
