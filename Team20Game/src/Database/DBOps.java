@@ -3,17 +3,31 @@ package Database;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * <h1>DBOps</h1>
+ * This class is used to make queries and updates to the database.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 public class DBOps{
     private Connection con;
     private PreparedStatement stmt;
     private ResultSet res;
 
+    /**
+     * Constructor that initiates Connection, PreparedStatement and ResultSet.
+     */
     public DBOps() {
         this.con = null;
         this.stmt = null;
         this.res = null;
     }
 
+    /**
+     * Method that finds the largest user id (most recently added).
+     * @return Returns the largest user id.
+     */
     private int getMaxUserID(){
         int max = 0;
         try{
@@ -30,7 +44,14 @@ public class DBOps{
         return max;
     }
 
-    public boolean register(String username, String saltHash, String salt){
+    /**
+     * Method that registers a new user.
+     * @param username The username of the new account.
+     * @param passwordHash The hashed version of the password with the salt.
+     * @param salt The unhashed salt.
+     * @return Returns true if register is successful.
+     */
+    public boolean register(String username, String passwordHash, String salt){
         boolean regOK = true;
         int maxID = getMaxUserID();
         try{
@@ -39,7 +60,7 @@ public class DBOps{
             stmt = con.prepareStatement("INSERT INTO User(username, password, SALT, avatar, gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating) values(?, ?, ?, 'avatar1.jpg', 0, 0, 0, 0, 1000);");
 
             stmt.setString(1, username);
-            stmt.setString(2, saltHash);
+            stmt.setString(2, passwordHash);
             stmt.setString(3, salt);
             int reg = stmt.executeUpdate();
 
@@ -79,7 +100,12 @@ public class DBOps{
         return regOK;
     }
 
-    public ArrayList<String> checkPW(String pw, String username){
+    /**
+     * Method that checks if password is correct.
+     * @param username Name of user.
+     * @return Returns password and salt.
+     */
+    public ArrayList<String> checkPW(String username){
         ArrayList<String> out = new ArrayList<>();
         try{
             con = HikariCP.getCon();
@@ -99,6 +125,11 @@ public class DBOps{
         return out;
     }
 
+    /**
+     * Checks if username exists.
+     * @param username Username that is to be checked.
+     * @return Returns username.
+     */
     public String checkUsername(String username){
         String out = "";
         try{
@@ -117,6 +148,12 @@ public class DBOps{
         return out;
     }
 
+    /**
+     * Method for making a query to the database.
+     * @param sqlString The SQL query.
+     * @param amountOfColumns The amount of columns that are returned.
+     * @return Returns an arraylist of all the findings.
+     */
     public ArrayList<String> exQuery(String sqlString, int amountOfColumns){
         ArrayList<String> out = new ArrayList<>();
         try{
@@ -137,6 +174,11 @@ public class DBOps{
         return out;
     }
 
+    /**
+     * Makes an update to the database.
+     * @param sqlString The update that is to be made.
+     * @return Returns the amount of affected rows.
+     */
     public int exUpdate(String sqlString) {
         int affectedRows = 0;
         try {
@@ -151,6 +193,12 @@ public class DBOps{
         return affectedRows;
     }
 
+    /**
+     * Returns info about user.
+     * @param username Username of user.
+     * @param columns Amount of columns that is to be returned.
+     * @return Returns info.
+     */
     public ArrayList<String> findUser(String username, int columns){
         ArrayList<String> out = new ArrayList<>();
         try{
@@ -171,6 +219,17 @@ public class DBOps{
         }
         return out;
     }
+
+    /**
+     * Method for creating a game.
+     * @param userid User id of person creating the game.
+     * @param mode The mode of the chess game.
+     * @param time The time for the game.
+     * @param increment The increment for the game.
+     * @param color The color you will play.
+     * @param rated If the game is rated or not.
+     * @param friendid Id of friend you want to invite.
+     */
 
     public void createGame(int userid, int mode, int time, int increment, boolean color, int rated, int friendid){
         try{
@@ -197,7 +256,10 @@ public class DBOps{
         }
     }
 
-
+    /**
+     * Method that returns the database-connection to the HikariCP connection-pool.
+     * The connection-pool then takes care of further closing and administration (eg. closing the connection entirely or do some cleanup).
+     */
     public void close(){
         try {
             if(con != null){
@@ -214,6 +276,12 @@ public class DBOps{
         }
     }
 
+    /**
+     * Method for the first message you write to chat.
+     * @param gameid Id of the game you are writing in.
+     * @param userid Your user id.
+     * @param msg The message you want to send.
+     */
     public void writeFirst(int gameid, int userid, String msg){
         try{
             con = HikariCP.getCon();
@@ -229,6 +297,13 @@ public class DBOps{
         }
     }
 
+    /**
+     * Method for writing to chat.
+     * @param gameid Id of the game you are writing in.
+     * @param lastChat Variable for just getting the last message.
+     * @param userid Your user id.
+     * @param msg The message you want to send.
+     */
     public void writeChat(int gameid, int lastChat, int userid, String msg){
         try{
             con = HikariCP.getCon();

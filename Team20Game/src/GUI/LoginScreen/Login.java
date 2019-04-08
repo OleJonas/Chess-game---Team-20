@@ -178,7 +178,7 @@ public class Login{
         DBOps connection = new DBOps();
         String matchingPassword = "";
         byte[] saltByte = new byte[20];
-            ArrayList<String> result = connection.checkPW(password, username);
+            ArrayList<String> result = connection.checkPW(username);
             if(result.size() > 0){
                 matchingPassword = result.get(0);
                 String saltString = result.get(1);

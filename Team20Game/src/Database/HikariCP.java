@@ -9,9 +9,12 @@ public class HikariCP {
 
     private static HikariDataSource ds;
 
+    /**
+     * Setting up the HikariCP data source. Setting limits for prepared statement size and timeouts.
+     */
     static{
         HikariConfig config1 = new HikariConfig();
-        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni?serverTimezone=GMT");
+        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni");
         config1.setUsername("martijni");
         config1.setPassword("wrq71s2w");
         config1.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -24,6 +27,11 @@ public class HikariCP {
         ds = new HikariDataSource(config1);
     }
 
+    /**
+     * Method that returns a HikariDataSource object.
+     * @return returns the HikariDataSource object after calling getConnection() using the parameters set in the above code-block.
+     * @throws SQLException
+     */
     public static Connection getCon() throws SQLException {
         return ds.getConnection();
     }
