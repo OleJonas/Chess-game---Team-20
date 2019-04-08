@@ -1,9 +1,9 @@
 package Database;
 
-import JavaFX.GameScene.ChessGame;
-import JavaFX.GameScene.GameScene;
-import JavaFX.LoginScreen.Login;
-import JavaFX.MainScene.MainScene;
+import GUI.GameScene.ChessGame;
+import GUI.GameScene.GameScene;
+import GUI.LoginScreen.Login;
+import GUI.MainScene.MainScene;
 
 import java.util.ArrayList;
 /**
