@@ -25,20 +25,31 @@ public class User {
     }
 
     /**
-     *Method for
-     * @param user_id
-     * @return
+     *Method for getting the "Username" column from the table "User" with the corresponding user_id in the database.
+     * @param user_id Parameter for the user_id you want to find the username for.
+     * @return a username the user_id is linked to in the database.
      */
 
     public static String getUsername(int user_id){
         DBOps db = new DBOps();
         return db.exQuery("SELECT username FROM User WHERE user_id = " + user_id+ "; ", 1).get(0);
     }
+
+    /**
+     *Method to get the value in the "ELOrating" column from the corresponding user_id in the database.
+     * @param user_id Parameter for the user_id you want to find the related ELOrating for.
+     * @return the value for the ELOrating corresponding with the user_id in the database.
+     */
     public static int getElo(int user_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT ELOrating FROM User WHERE user_id = " + user_id+ "; ", 1).get(0));
     }
 
+    /**
+     *Method for getting the value from a row in the "gamesPlayed" column from the table "User" in the database.
+     * @param user_id Parameter for what user_id to find the information on.
+     * @return
+     */
     public static int getGamesPlayed(int user_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT gamesPlayed FROM User WHERE user_id = " + user_id, 1).get(0));
