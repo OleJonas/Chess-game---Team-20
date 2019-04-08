@@ -257,7 +257,8 @@ public class DBOps{
     }
 
     /**
-     * Method for closing the database streams.
+     * Method that returns the database-connection to the HikariCP connection-pool.
+     * The connection-pool then takes care of further closing and administration (eg. closing the connection entirely or do some cleanup).
      */
     public void close(){
         try {
