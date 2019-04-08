@@ -1,6 +1,6 @@
 /**
  * <h1>Pawn</h1>
- * The purpose of this method is to create the 16 pawns on the chessboard.
+ * The purpose of this class is to create the 16 pawns on the chessboard.
  * @since 05.04.2019
  * @author Team 20
  */
