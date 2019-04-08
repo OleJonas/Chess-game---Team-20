@@ -19,6 +19,10 @@ import javafx.stage.Stage;
 
 import java.util.Random;
 
+/**
+ * <h1>CreateGamePopupBox</h1>
+ * This class describes the popup window that specifies the qualities of a game that is to be created.
+ */
 @SuppressWarnings("Duplicates")
 public class CreateGamePopupBox{
 
@@ -30,6 +34,9 @@ public class CreateGamePopupBox{
     static Stage window;
 
 
+    /**
+     * This is the JavaFX method that designs and shows the popup window itself
+     */
     public static void Display(){
         modeChoiceBox.getItems().clear();
         timeChoiceBox.getItems().clear();
@@ -174,6 +181,10 @@ public class CreateGamePopupBox{
         window.showAndWait();
     }
 
+    /**
+     * When the user has defined game mode and settings this method is run to create the game.
+     * After this the Game is in the queue that other players can join.
+     */
     static void tryCreateGame(){
 
         String modeChoice = modeChoiceBox.getValue();
