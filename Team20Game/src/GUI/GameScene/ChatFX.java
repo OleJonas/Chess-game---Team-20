@@ -32,7 +32,7 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * The ChatFX class. Declares JavaFX components to be used in the methods below.
+ * The ChatFX . Declares JavaFX components to be used in the methods below.
  */
 public class ChatFX{
     static Scene scene;

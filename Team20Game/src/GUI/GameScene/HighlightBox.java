@@ -1,3 +1,8 @@
+/**
+ * <h1>HighlightBox</h1>
+ * The purpose of this class is to have the logic for what happens on the chessboard for every move that is made through the game.
+ */
+
 package GUI.GameScene;
 
 import Database.Game;
@@ -24,7 +29,19 @@ public class HighlightBox extends Pane{
     boolean mode = true;
     String shapeOfBox = "circle";
 
-
+    /**
+     * The constructor for the HighlightBox class
+     * @param x = x-coordinate of tile
+     * @param y = y-coordinate of tile
+     * @param height = the height of the chess-board
+     * @param tile = the tile chosen by the player
+     * @param hboxGroup = the circles indicating valid moves
+     * @param tileGroup = the pieces on the board
+     * @param selectedGroup = the tiles are marked when choosing a piece
+     * @param lastMoveGroup = the tiles who are marked after doing a move
+     * @param gameEngine = the game engine which contains the method for the game logic.
+     * @param board = the chess board
+     */
     public HighlightBox(int x, int y, int height, Tile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, GameEngine gameEngine, Tile[][] board){
         this.x = x;
         this.y = y;
@@ -226,6 +243,9 @@ public class HighlightBox extends Pane{
         });
     }
 
+    /**
+     * This constructor is used when you click on a tile which is not marked, such that the circles on the other tiles are removed.
+     */
     public HighlightBox() {
         if(shapeOfBox.equalsIgnoreCase("rectangle")) {
             Rectangle square = new Rectangle(0, 0);
@@ -236,6 +256,15 @@ public class HighlightBox extends Pane{
         }
     }
 
+    /**
+     * This method is used for special moves, such as en passant and castling.
+     * @param x = x-coordinate of tile
+     * @param y = y-coordinate of tile
+     * @param tile = the tile which is chosen.
+     * @param tileGroup = the pieces on the highlight board
+     * @param gameEngine = the game engine with the logic methods
+     * @param board = the chess board.
+     */
     private void specialMoves(int x, int y, Tile tile, Group tileGroup, GameEngine gameEngine, Tile[][] board) {
         if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
             if(x-tile.getX()>0) {
@@ -307,12 +336,27 @@ public class HighlightBox extends Pane{
         }
     }
 
+    /**
+     * Set x-position of a piece.
+     * @param x = x-coordinate
+     */
     public void setX(int x){this.x = x;}
+
+    /**
+     * Set y-position of a piece
+     * @param y = y-coordinate
+     */
     public void setY(int y){this.y = y;}
+
+
     public int getX(){
         return x;
     }
 
+    /**
+     * Get y-position of a piece
+     * @return y-position of a piece
+     */
     public int getY(){
         return y;
     }
