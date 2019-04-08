@@ -18,6 +18,8 @@ import static javafx.geometry.Pos.CENTER;
 /**
  * <h1>Register</h1>
  * This class describes the registration window for new users.
+ * @author Team20
+ * @since 08.04.2019
  */
 class Register {
     static Scene signUpScene;
