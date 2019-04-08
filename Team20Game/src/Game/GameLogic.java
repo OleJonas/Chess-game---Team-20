@@ -16,6 +16,7 @@ public class GameLogic{
     private static HashMap<String, Integer> rep;
 
     /**
+     * Same description as GameEngine.validMoves(), check out "see also"
      * @see Game.GameEngine#validMoves(int x, int y)
      */
     public static ArrayList<Integer> validMoves(int x, int y, Board board) {
@@ -96,6 +97,7 @@ public class GameLogic{
 
     //checking if a boardstate is checkmate
     /**
+     * Same description as GameEngine.isCheckmate(), check out "see also"
      * @see Game.GameEngine#isCheckmate(Board board, boolean color)
      */
     public static boolean inCheck(Piece[][] state, boolean color){
@@ -522,6 +524,7 @@ public class GameLogic{
     }
 
     /**
+     * Same description as GameEngine.isStalemate(), check out "see also"
      * @see Game.GameEngine#isStalemate(Board, boolean)
      */
     public static boolean isStalemate(Board board, boolean color) {
@@ -541,6 +544,7 @@ public class GameLogic{
     }
 
     /**
+     * Same description as GameEngine.isCheckmate(), check out "see also"
      * @see Game.GameEngine#isCheckmate(Board, boolean)
      */
     public static boolean isCheckmate(Board board, boolean color) {
@@ -551,6 +555,7 @@ public class GameLogic{
     }
 
     /**
+     * Same description as GameEngine.myPieces), check out "see also"
      * @see Game.GameEngine#myPieces(Board, boolean)
      */
     public static int[] myPieces(Board board, boolean myColor) {
@@ -590,6 +595,7 @@ public class GameLogic{
     }
 
     /**
+     * Same description as GameEngine.notEnoughPieces(), check out "see also"
      * @see Game.GameEngine#notEnoughPieces(Board)
      */
     public static boolean notEnoughPieces(Board board) {
@@ -620,6 +626,7 @@ public class GameLogic{
     }
 
     /**
+     * Same description as GameEngine.getElo(), check out "see also"
      * @see Game.GameEngine#getElo(int, int, int)
      */
     public static int[] getElo(int whiteElo, int blackElo, int score) {
@@ -633,6 +640,7 @@ public class GameLogic{
     }
 
     /**
+     * Same description as GameEngine.isMoveRepetition(), check out "see also"
      * @see GameEngine#isMoveRepetition()
      */
     public static boolean isMoveRepetition(HashMap<String, Integer> rep, Board board){
