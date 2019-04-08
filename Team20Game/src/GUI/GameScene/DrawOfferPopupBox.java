@@ -5,11 +5,11 @@
  * @author Team 20
  */
 
-package JavaFX.GameScene;
+package GUI.GameScene;
 
 import Database.Game;
 import Database.User;
-import JavaFX.MainScene.MainScene;
+import GUI.MainScene.MainScene;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

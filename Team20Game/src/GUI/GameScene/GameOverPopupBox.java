@@ -5,13 +5,13 @@
  * @author Team 20
  */
 
-package JavaFX.GameScene;
+package GUI.GameScene;
 
 import Database.Game;
 import Database.User;
 import Game.GameEngine;
-import JavaFX.LoginScreen.Login;
-import JavaFX.MainScene.MainScene;
+import GUI.LoginScreen.Login;
+import GUI.MainScene.MainScene;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -26,9 +26,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import static JavaFX.GameScene.GameScene.opponentTimer;
-import static JavaFX.GameScene.GameScene.yourTimer;
-import static JavaFX.LoginScreen.Login.userID;
+import static GUI.GameScene.GameScene.opponentTimer;
+import static GUI.GameScene.GameScene.yourTimer;
+import static GUI.GameScene.GameScene.opponentTimer;
+import static GUI.GameScene.GameScene.yourTimer;
+import static GUI.LoginScreen.Login.userID;
 
 /**
  * The constructor for the GameOverPopupBox which initializes the game over window.

@@ -5,12 +5,12 @@
  * @author Team 20
  */
 
-package JavaFX.GameScene;
+package GUI.GameScene;
 import Database.Game;
 import Database.User;
-import JavaFX.LoginScreen.Login;
-import JavaFX.Main;
-import JavaFX.MainScene.MainScene;
+import GUI.LoginScreen.Login;
+import GUI.Main;
+import GUI.MainScene.MainScene;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -335,7 +335,7 @@ public class GameScene {
             User.updateEloByGame(ChessGame.gameID);
             MainScene.inGame = false;
             ChessGame.isDone = true;
-            GameOverPopupBox.Display();
+            GUI.GameScene.GameOverPopupBox.Display();
         }
 
         if (opponentTime <= 0) {

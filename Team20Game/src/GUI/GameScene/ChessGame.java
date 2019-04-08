@@ -7,6 +7,7 @@
 
 
 package GUI.GameScene;
+
 import Database.DBOps;
 import Database.Game;
 import Game.GameEngine;
@@ -314,7 +315,7 @@ public class ChessGame{
                             timer.cancel();
                             MainScene.inGame =false;
                             isDone = true;
-                            GameOverPopupBox.Display();
+                            GUI.GameScene.GameOverPopupBox.Display();
                         }
 
                         //fill in what happens when game ends here
@@ -325,7 +326,7 @@ public class ChessGame{
                             timer.cancel();
                             MainScene.inGame =false;
                             isDone = true;
-                            GameOverPopupBox.Display();
+                            GUI.GameScene.GameOverPopupBox.Display();
                         }
                     }
                 }
