@@ -11,13 +11,33 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * <h1> SandboxHighlightBox </h1>
+ * This class is a simpler version of highlightbox, that is used in ChessSandbox in the main scene.
+ * tailored for a sandbox where the user can move any piece at any time.
+ * @author Team20
+ * @since 08.04.2019
+ */
 class SandboxHighlightBox extends Pane {
     int x;
     int y;
     int height;
     double hboxOpacity = 0.7;
     String shapeOfBox = "circle";
+
+    /**
+     * The constructor for the HighlightBox class.
+     * @param x = x-coordinate of tile.
+     * @param y = y-coordinate of tile.
+     * @param height = the height of the chess-board.
+     * @param tile = the tile containing a piece chosen by the player.
+     * @param hboxGroup = the circles indicating valid moves.
+     * @param tileGroup = the pieces on the board.
+     * @param selectedGroup = the group containing the tiles that are marked when choosing a piece.
+     * @param lastMoveGroup = the group containing the tiles that are marked after doing a move.
+     * @param gameEngine = the game engine which contains the method for the game logic.
+     * @param board = a two dimensional array containing the chess pieces on the coordinates visually on the chess board.
+     */
 
     public SandboxHighlightBox(int x, int y, int height, SandboxTile tile, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, GameEngine gameEngine, SandboxTile[][] board){
         this.x = x;
@@ -123,6 +143,15 @@ class SandboxHighlightBox extends Pane {
         });
     }
 
+    /**
+     * Method that checks for some "special" moves that can happen in chess, and handles these cases.
+     * @param x x-coordinate for where the piece is to be moved.
+     * @param y y- coordinate for where the piece is to be moved.
+     * @param tile the piece that is to be moved.
+     * @param tileGroup the group containing all the pieces.
+     * @param gameEngine the gameenginge object the current instance of chessgame is operating on.
+     * @param board array with pieces placed in the coordinates they are visually presented on the screen.
+     */
     private void specialMoves(int x, int y, SandboxTile tile, Group tileGroup, GameEngine gameEngine, SandboxTile[][] board) {
         if ((Math.abs(x-tile.getX()) == 2 ) && gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()] instanceof King){
             if(x-tile.getX()>0) {
@@ -187,14 +216,30 @@ class SandboxHighlightBox extends Pane {
             }
         }
     }
+
+    /**
+     * Method for getting the x-coordinate of the highlighbox.
+     * @return x-coordinate for the highlightbox.
+     */
     public int getX(){
         return x;
     }
+
+    /**
+     * Method for getting the y-coordinate of the highlighbox.
+     * @return y-coordinate for the highlighbox.
+     */
 
     public int getY(){
         return y;
     }
 
+    /**
+     *Method for setting what to show on the box that pops up in a promotion.
+     * @param color the color of the pieces
+     * @param gameEngine the gameEnging object this instance of a chess game is using.
+     * @param tile the piece that moved for promotion.
+     */
     private void pawnChoiceBox(boolean color, GameEngine gameEngine, SandboxTile tile){
         PawnChangeChoiceBox pawnChange = new PawnChangeChoiceBox();
         pawnChange.Display(gameEngine.getBoard().getBoardState()[tile.getX()][tile.getY()].getColor());
