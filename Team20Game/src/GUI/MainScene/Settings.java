@@ -1,5 +1,5 @@
-package JavaFX.MainScene;
-import JavaFX.GameScene.ChessGame;
+package GUI.MainScene;
+import GUI.GameScene.ChessGame;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import static JavaFX.LoginScreen.Login.storeSettings;
+import static GUI.LoginScreen.Login.storeSettings;
 //import static JavaFX.MainScene.MainScene.showMainScene;
 
 /**
