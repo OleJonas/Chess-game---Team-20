@@ -10,7 +10,9 @@ public class HikariCP {
     private static HikariDataSource ds;
 
     /**
-     * Setting up the HikariCP data source. Setting limits for prepared statement size and timeouts.
+     * Setting up the HikariCP data source. Setting limits for url, username, password, driver-class, prepared statement cache-size, --
+     * -- max prepared stmt size that will be cached, connection-pool name and finally max lifetime for --
+     * -- each connection before they are returned to the pool by timeout.
      */
     static{
         HikariConfig config1 = new HikariConfig();
@@ -29,7 +31,7 @@ public class HikariCP {
 
     /**
      * Method that returns a HikariDataSource object.
-     * @return returns the HikariDataSource object after calling getConnection() using the parameters set in the above code-block.
+     * @return returns the HikariDataSource object already initiated in the above code-block.
      * @throws SQLException
      */
     public static Connection getCon() throws SQLException {
