@@ -1,11 +1,11 @@
 package Game;
-import Pieces.Piece;
 
+import Game.Pieces.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * <h1> GameEngine</h1>
- * this class is used as an interface for the GameLogic class. When the game is played the JavaFX will interact with
+ * this class is used as an interface for the GameLogic class. When the game is played the GUI will interact with
  * this class that calls for the GameLogic class to actually handle all the calculations
  * @author Team20
  * @since 05.04.2019
@@ -59,7 +59,7 @@ public class GameEngine {
    public void removePiece(int x, int y){ board.removePiece(x, y); }
 
    /**
-    * Method for checking whether a player is in check mate.
+    * Method for checking whether a player is in checkmate.
     * @param board The board that is to be analyzed
     * @param color The color of the player that will be analyzed.
     * @return A boolean describing whether the given player is in mated.
