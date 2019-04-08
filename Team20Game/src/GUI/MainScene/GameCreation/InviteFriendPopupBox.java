@@ -20,7 +20,12 @@ import javafx.stage.Stage;
 import java.util.Random;
 
 import static GUI.LoginScreen.Login.USERNAME;
-
+/**
+ * <h1>InviteFriendPopupBox</h1>
+ * This class describes the popup used to create a game invitation.
+ * @author Team20
+ * @since 08.04.2019
+ */
 @SuppressWarnings("Duplicates")
 public class InviteFriendPopupBox{
     static ChoiceBox<String> modeChoiceBox = new ChoiceBox<>();
@@ -32,6 +37,10 @@ public class InviteFriendPopupBox{
     static Stage window;
     static Label searchComment;
 
+    /**
+     * This method shows all the ways to configure a custom match that you will invite a friend to. This is done
+     * mainly by using choiceBoxes.
+     */
     public static void Display(){
         modeChoiceBox.getItems().clear();
         timeChoiceBox.getItems().clear();
@@ -192,6 +201,11 @@ public class InviteFriendPopupBox{
         window.showAndWait();
     }
 
+    /**
+     * This methods invites other players to a game that you create. It will check who you invite, so it will handle
+     * cases where you try to invite a user that does not exist, or yourself. If no errors occur the game will be
+     * created in the end.
+     */
     static void tryInviteCreate(){
         String modeChoice = modeChoiceBox.getValue();
         String timeChoice = timeChoiceBox.getValue();
