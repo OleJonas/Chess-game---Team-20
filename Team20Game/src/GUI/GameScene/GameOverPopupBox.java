@@ -96,6 +96,10 @@ public class GameOverPopupBox {
             leaveGameButtonPressed();
         });
 
+        window.setOnCloseRequest(e -> {
+            leaveGameButtonPressed();
+        });
+
         BorderPane windowLayout = new BorderPane();
         GridPane mainLayout = new GridPane();
         mainLayout.setHgap(35);

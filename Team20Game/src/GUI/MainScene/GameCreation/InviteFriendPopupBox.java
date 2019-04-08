@@ -267,7 +267,7 @@ public class InviteFriendPopupBox{
         int opponent = 0;
         if (searchField.getText() != null) {
             if (User.getUser_idByUsername(searchField.getText()) != -1) {
-                if (USERNAME.equals(searchField.getText())) {
+                if (USERNAME.equalsIgnoreCase(searchField.getText())) {
                     searchComment.setText("You can't invite yourself!");
                     return;
                 } else {
