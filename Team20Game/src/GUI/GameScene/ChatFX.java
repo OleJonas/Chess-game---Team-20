@@ -1,6 +1,6 @@
 /**
  * <h1>ChatFX</h1>
- * The purpose of this method is to create the JavaFX for chatting with other players.
+ * The purpose of this class is to create the JavaFX for chatting with other players.
  * @since 05.04.2019
  * @author Team 20
  */

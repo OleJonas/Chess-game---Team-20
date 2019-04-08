@@ -1,9 +1,16 @@
-package GUI.GameScene;
+/**
+ * <h1>GameScene</h1>
+ * The purpose of this class is to create the Game Scene with the board, timer, chat, draw and resign-buttons and to display moves
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
+package JavaFX.GameScene;
 import Database.Game;
 import Database.User;
-import GUI.LoginScreen.Login;
-import GUI.Main;
-import GUI.MainScene.MainScene;
+import JavaFX.LoginScreen.Login;
+import JavaFX.Main;
+import JavaFX.MainScene.MainScene;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -24,7 +31,9 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 //import sun.security.pkcs11.Secmod;
 
-
+/**
+ * The constructor for the GameScene class. Initiates the variables for the different components in the game scene.
+ */
 @SuppressWarnings("Duplicates")
 public class GameScene {
     static Scene gameScene;
@@ -57,6 +66,9 @@ public class GameScene {
     public static boolean remiOffered;
     public static Button offerDrawButton;
 
+    /**
+     * This method updates the moves which are displayed on the game scene
+     */
     static void updateMoves(){
         String s = allMoves.get(allMoves.size() - 1);
         String help = "0a";
@@ -72,6 +84,9 @@ public class GameScene {
         }
     }
 
+    /**
+     * This method shows the Game Scene. It sets the timer for both players, sets up the chat, draw and resign-buttons and contains the logic for displaying the moves on the scene.
+     */
     public static void showGameScene() {
         DropShadow dropShadow = new DropShadow();
         dropShadow.setRadius(5.0);
@@ -220,7 +235,6 @@ public class GameScene {
 
         rightGrid.add(yourClock, 0, 4);
         rightGrid.add(opponentClock, 0, 1);
-        //tiss
 
 
         // View moves
@@ -281,6 +295,11 @@ public class GameScene {
         ChatFX.refresh();
     }
 
+    /**
+     * This methods converts time given in seconds to the format mm:ss
+     * @param time = time in seconds
+     * @return time in format mm:ss
+     */
     public static String secToMinSec(int time) {
         int min = (time % 3600) / 60;
         int sec = ((time % 3600) % 60);
@@ -302,6 +321,10 @@ public class GameScene {
         return min + ":" + sec;
     }
 
+    /**
+     * This method sets the interval of the clock, and contains logic for how the timer behaves when running and not running.
+     * @return This methods returns the time you have on your clock.
+     */
     private static final int setInterval() {
         if (yourTime == -1) {
             int id = userid1;
@@ -327,6 +350,9 @@ public class GameScene {
 
     }
 
+    /**
+     * This method refreshes the timer every second.
+     */
     public static void refresh() {
        yourTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -336,6 +362,9 @@ public class GameScene {
         }, 1000, 1000);
     }
 
+    /**
+     * This method is the service which runs the timer in the background.
+     */
     public static void serviceTimer() {
         Service<Void> service = new Service<Void>() {
             @Override

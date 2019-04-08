@@ -16,6 +16,13 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * <h1>JoinGamePOpupBox</h1>
+ * This is the class used for matchmaking. A player will select what king of game they want to play, so that they
+ * will wait in a queue to join a game with the specified rules.
+ * @author Team20
+ * @since 08.04.2019
+ */
 @SuppressWarnings("Duplicates")
 public class JoinGamePopupBox{
 
@@ -26,7 +33,9 @@ public class JoinGamePopupBox{
     private static final ToggleGroup ratedGroup = new ToggleGroup();
     private static final ToggleGroup colorGroup = new ToggleGroup();
 
-
+    /**
+     * This method displays the menu where the player selects what king of the game they want to play.
+     */
     public static void Display(){
 
         window = new Stage();
@@ -171,6 +180,11 @@ public class JoinGamePopupBox{
         window.showAndWait();
     }
 
+    /**
+     * When the user has entered the desired specifics of the game and presses join game, this method will run.
+     * Here the information from the popup box is used to create an SQL sentence that will allow the player to join
+     * games who fulfill the given criteria.
+     */
     static void tryJoinGame(){
         String modeChoice = modeChoiceBox.getValue();
         String timeChoice = timeChoiceBox.getValue();
