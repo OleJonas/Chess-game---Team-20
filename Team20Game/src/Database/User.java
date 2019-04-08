@@ -1,6 +1,6 @@
 package Database;
 
-import JavaFX.LoginScreen.Login;
+import GUI.LoginScreen.Login;
 import Game.GameEngine;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package Game;
-import Pieces.*;
 
+import Game.Pieces.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

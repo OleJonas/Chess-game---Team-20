@@ -1,10 +1,9 @@
-/*package Tests;
+package Tests;
 
 import Game.GameEngine;
-import Pieces.*;
+import GUI.GameScene.ChessGame;
+import Game.Pieces.*;
 import org.junit.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 
@@ -19,7 +18,7 @@ public class JUnitGameEngine {
     private GameEngine ge;
 
     @Before
-    public void beforeTest(){ this.ge = new GameEngine(5, 0);}
+    public void beforeTest(){ this.ge = new GameEngine(1);}
 
     @After
     public void afterTest(){ this.ge = null;}
@@ -30,7 +29,7 @@ public class JUnitGameEngine {
         // Should return false before moving
         assertFalse(pawn.getEnPassant());
         // Should return true after moving 2 tiles
-        ge.move(0,1,0,3);
+        ge.move(0,1,0,3, ChessGame.lastMove);
         pawn = (Pawn)ge.getBoard().getBoardState()[0][3];
         assertTrue(pawn.getEnPassant());
 
@@ -38,14 +37,14 @@ public class JUnitGameEngine {
         Rook rook = (Rook)ge.getBoard().getBoardState()[0][0];
         assertTrue(rook.getCanCastle());
 
-        ge.move(0,0,0,3);
+        ge.move(0,0,0,3, ChessGame.lastMove);
         rook = (Rook)ge.getBoard().getBoardState()[0][3];
         assertFalse(rook.getCanCastle());
 
         King king = (King)ge.getBoard().getBoardState()[4][0];
         assertTrue(king.getCanCastle());
 
-        ge.move(4,0,4,3);
+        ge.move(4,0,4,3, ChessGame.lastMove);
         king = (King)ge.getBoard().getBoardState()[4][3];
         assertFalse(king.getCanCastle());
     }
@@ -94,45 +93,45 @@ public class JUnitGameEngine {
     @Test
     public void testInCheck(){
         // Moving black king out to the middle of the board and checking with bishop
-        ge.move(4,7,3,4);
-        ge.move(2,0,2,3);
+        ge.move(4,7,3,4, ChessGame.lastMove);
+        ge.move(2,0,2,3, ChessGame.lastMove);
         assertTrue(ge.inCheck(ge.getBoard().getBoardState(), false));
 
         // Checking with rook
         ge.removePiece(2,3);
-        ge.move(0,0,0,4);
+        ge.move(0,0,0,4, ChessGame.lastMove);
         assertTrue(ge.inCheck(ge.getBoard().getBoardState(), false));
 
         // Blocking with pawn, should now return false
-        ge.move(0,1,2,4);
+        ge.move(0,1,2,4, ChessGame.lastMove);
         assertFalse(ge.inCheck(ge.getBoard().getBoardState(), false));
 
         // Checking with pawn
         ge.removePiece(0,4);
-        ge.move(2,4,2,3);
+        ge.move(2,4,2,3, ChessGame.lastMove);
         assertTrue(ge.inCheck(ge.getBoard().getBoardState(), false));
 
         // Checking with queen
-        ge.move(3,7,3,1);
+        ge.move(3,7,3,1, ChessGame.lastMove);
         assertTrue(ge.inCheck(ge.getBoard().getBoardState(), true));
 
         // Checking with knight
         ge.removePiece(3,1);
-        ge.move(1,7,2,1);
+        ge.move(1,7,2,1, ChessGame.lastMove);
         assertTrue(ge.inCheck(ge.getBoard().getBoardState(), true));
     }
 
     @Test
     public void testIsCheckmate(){
-        ge.move(3,0,5,6);
-        ge.move(0,0,5,5);
+        ge.move(3,0,5,6, ChessGame.lastMove);
+        ge.move(0,0,5,5, ChessGame.lastMove);
         assertTrue(ge.isCheckmate(ge.getBoard(), false));
 
         // Check for black as well
-        ge.move(5,6,3,0);
-        ge.move(5,5,0,0);
-        ge.move(7,7,5,2);
-        ge.move(3,7,5,1);
+        ge.move(5,6,3,0, ChessGame.lastMove);
+        ge.move(5,5,0,0, ChessGame.lastMove);
+        ge.move(7,7,5,2, ChessGame.lastMove);
+        ge.move(3,7,5,1, ChessGame.lastMove);
         assertTrue(ge.isCheckmate(ge.getBoard(), true));
     }
 
@@ -151,8 +150,8 @@ public class JUnitGameEngine {
         }
 
         // Making stalemate with black to move
-        ge.move(0,1,4,6);
-        ge.move(4,0,4,5);
+        ge.move(0,1,4,6, ChessGame.lastMove);
+        ge.move(4,0,4,5, ChessGame.lastMove);
         System.out.println(ge.getBoard().toString());
         assertTrue(ge.isStalemate(ge.getBoard(), false));
 
@@ -222,14 +221,14 @@ public class JUnitGameEngine {
         assertTrue(validMoves.size() == 0);
 
         // Moving pieces to create more opportunities...
-        ge.move(2,1,2,4);
-        ge.move(3,1,3,2);
-        ge.move(4,1,4,3);
-        ge.move(6,0,5,2);
-        ge.move(7,1,7,3);
+        ge.move(2,1,2,4, ChessGame.lastMove);
+        ge.move(3,1,3,2, ChessGame.lastMove);
+        ge.move(4,1,4,3, ChessGame.lastMove);
+        ge.move(6,0,5,2, ChessGame.lastMove);
+        ge.move(7,1,7,3, ChessGame.lastMove);
         //ge.removePiece(5,2);
-        ge.move(3,7,5,2);
-        ge.move(3,6,3,4);
+        ge.move(3,7,5,2, ChessGame.lastMove);
+        ge.move(3,6,3,4, ChessGame.lastMove);
 
         // Checking if valid moves are correctly set:
         // Pawn with en passant opportunity
@@ -271,7 +270,7 @@ public class JUnitGameEngine {
 
         // Testing discovered check:
         // Moving black rook in behind white pawn at e4 should prevent white pawn from taking black pawn to the left at d5
-        ge.move(0,7,4,4);
+        ge.move(0,7,4,4, ChessGame.lastMove);
         validMoves = ge.validMoves(4,3);
         assertTrue(validMoves.size() == 0);
     }
@@ -300,5 +299,3 @@ public class JUnitGameEngine {
         org.junit.runner.JUnitCore.main(JUnitGameEngine.class.getName());
     }
 }
-
-*/

@@ -1,7 +1,7 @@
 /*package Tests;
 
 import Game.Board;
-import Pieces.*;
+import Game.Pieces.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
