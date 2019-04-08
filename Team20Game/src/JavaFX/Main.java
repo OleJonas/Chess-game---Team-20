@@ -8,9 +8,17 @@ import java.awt.*;
 
 import static JavaFX.LoginScreen.Login.runLogin;
 
+/**
+ * <h1>Main</h1>
+ * This class contains the main method and is used to start the program.
+ */
+
 public class Main extends Application {
     public static Stage window;
 
+    /**
+     * Main method that launches the program.
+     */
     public static void main(String[] args){
         launch(args);
     }

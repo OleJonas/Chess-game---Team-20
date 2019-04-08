@@ -16,6 +16,13 @@ import java.util.ArrayList;
 
 import static JavaFX.MainScene.MainScene.mainScene;
 
+/**
+ * <h1>FindUser</h1>
+ * This class is used for setting the "Find User" scene.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 @SuppressWarnings("Duplicates")
 class FindUser{
     static Scene findProfileScene;
@@ -34,6 +41,9 @@ class FindUser{
     static int findUser_gamesRemis;
     static int findUser_ELOrating;
 
+    /**
+     * Sets the "Find User" scene on main scene.
+     */
     static void showFindUserScene(){
         gamesInfoString = "";
         findAvatarImage = new Image("Images/Avatars/emptyAvatar.png");
@@ -107,6 +117,9 @@ class FindUser{
         searchField.requestFocus();
     }
 
+    /**
+     * Adds info and the avatar of the user.
+     */
     static void setUserPane(){
         gamesInfoString = "User: " + findUser_USERNAME + "\nGames Played: " + findUser_gamesPlayed
                 + "\nGames Won: " + findUser_gamesWon + "\nGames Lost: " + findUser_gamesLost +
@@ -115,6 +128,11 @@ class FindUser{
         findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
     }
 
+    /**
+     * Method for searching for a user.
+     * @param username Username input from the textbox.
+     * @return Returns true if user is found and false if it is not.
+     */
     static boolean searchForUser(String username){
         DBOps connection = new DBOps();
         ArrayList<String> result = connection.findUser(username,6);
@@ -131,6 +149,9 @@ class FindUser{
         return false;
     }
 
+    /**
+     * Method for what happens when you press the search button.
+     */
     static void searchButtonPressed(){
         if(searchForUser(searchField.getText())){
             setUserPane();

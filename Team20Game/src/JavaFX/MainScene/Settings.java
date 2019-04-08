@@ -16,6 +16,13 @@ import javafx.stage.Stage;
 import static JavaFX.LoginScreen.Login.storeSettings;
 //import static JavaFX.MainScene.MainScene.showMainScene;
 
+/**
+ * <h|>Settings</h|>
+ * This class is used for the Settings popup box.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 
 @SuppressWarnings("Duplicates")
 public class Settings{
@@ -27,7 +34,9 @@ public class Settings{
     public static String darkTileColor = "#8B4513";
     public static String lightTileColor = "#FFEBCD";
 
-
+    /**
+     * Method for showing the Settings menu.
+     */
     static void showSettings(){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -166,6 +175,9 @@ public class Settings{
         window.showAndWait();
     }
 
+    /**
+     * Method for what happens when you press the Apply button.
+     */
     static void applyButtonPressed(){
         //Apply colorchanges
         String colorchoice = boardColorChoiceBox.getValue();
@@ -209,7 +221,4 @@ public class Settings{
         storeSettings();
         MainScene.reloadSandbox();
     }
-
-
-
 }

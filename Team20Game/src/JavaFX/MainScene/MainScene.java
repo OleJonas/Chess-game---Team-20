@@ -40,6 +40,13 @@ import static JavaFX.LoginScreen.Login.*;
 import static JavaFX.MainScene.UserProfile.setAvatar;
 import static JavaFX.MainScene.UserProfile.showUserProfileScene;
 
+/**
+ * <h1>MainScene</h1>
+ * This class is used to display the main screen of the program.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 @SuppressWarnings("Duplicates")
 public class MainScene {
     static Scene mainScene;
@@ -61,6 +68,9 @@ public class MainScene {
     public static Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
     private static boolean onMain;
 
+    /**
+     * Displays the main screen of the GUI.
+     */
     public static void showMainScene() {
         User.updateUser();
         onMain = true;
@@ -344,6 +354,9 @@ public class MainScene {
         searchFriend = true;
     }
 
+    /**
+     * Method for changing the scene when the "New Scene" button is pressed.
+     */
     static void newGameButtonPressed(){
         title.setText("New Game");
         mainLayout.add(backToMainButtonWithoutSandboxReload, 0, 0, 2, 1);
@@ -363,6 +376,9 @@ public class MainScene {
         leftGrid.setHalignment(inviteFriendButton, HPos.CENTER);
     }
 
+    /**
+     * Method for changing the scene when the "Find User" button is pressed.
+     */
     static void findUserButtonPressed(){
         title.setText("Find User");
         mainLayout.add(backToMainButton, 0, 0, 2, 1);
@@ -372,6 +388,9 @@ public class MainScene {
         FindUser.showFindUserScene();
     }
 
+    /**
+     * Method for changing the scene when the "User Profile" button is pressed.
+     */
     static void userProfileButtonPressed(){
         title.setText("User Profile");
         mainLayout.add(backToMainButton, 0, 0, 2, 1);
@@ -381,6 +400,9 @@ public class MainScene {
         showUserProfileScene();
     }
 
+    /**
+     * Method for changing the scene when the "Leaderboard" button is pressed.
+     */
     static void leaderboardButtonPressed(){
         title.setText("Leaderboard");
         mainLayout.add(backToMainButton, 0, 0, 2, 1);
@@ -396,6 +418,9 @@ public class MainScene {
         rightGrid.setBackground(new Background(frame));
     }
 
+    /**
+     * Method for resetting the sandbox on the main screen.
+     */
     static void reloadSandbox(){
         rightGrid.getChildren().clear();
         rightGrid.setPadding(new Insets(40, 150, 20, 0));
@@ -407,6 +432,10 @@ public class MainScene {
         rightGrid.add(sandboxLabel, 0, 1);
     }
 
+    /**
+     * Method for creating a new game id when creating a game.
+     * @return Finds the largest game id in the database and returns a id one number larger.
+     */
     public static int newGameID() {
         DBOps connection = new DBOps();
         ArrayList matchingGameIDs = connection.exQuery("SELECT MAX(game_id) FROM Game;", 1); //Change this SQLQuery to match the database
@@ -417,6 +446,9 @@ public class MainScene {
         return out + 1;
     }
 
+    /**
+     * Starting the service with a period of 3 sec.
+     */
     public static void refresh(){
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -426,6 +458,9 @@ public class MainScene {
         }, 0, 3000);
     }
 
+    /**
+     * Service that is used to find opponents while in queue. Also is used when you are in a game to check whether your opponent has resigned or offered a draw.
+     */
     static void service() {
         Service<Void> service = new Service<Void>() {
             @Override
