@@ -155,8 +155,8 @@ public class Login{
     }
 
     /**
-     * Support method to check whether a username is already in use when creating a new user.
-     * @param username The username the user wants
+     * Support method to check whether a username exists
+     * @param username
      * @return A boolean describing whether it already exists.
      */
     static boolean checkUsername(String username){

@@ -15,7 +15,10 @@ import javafx.scene.text.Font;
 
 import static javafx.geometry.Pos.CENTER;
 
-@SuppressWarnings("Duplicates")
+/**
+ * <h1>Register</h1>
+ * This class describes the registration window for new users.
+ */
 class Register {
     static Scene signUpScene;
     static Button signUpalreadyAccountButton, signUpRegisterButton;
@@ -23,6 +26,9 @@ class Register {
     static PasswordField registerPasswordField, registerPasswordAgainField;
     static Label registerComment;
 
+    /**
+     * The run method for the registration window.
+     */
     static void runRegistration(){
         //signUpScene
         //Textfields
@@ -95,6 +101,10 @@ class Register {
         Main.window.setScene(signUpScene);
     }
 
+    /**
+     * This method is run when a user wants to create their new account. It checks if all the necessary fields have
+     * been filled out, and if the username does not conflict with one that already exists.
+     */
     static void tryRegister(){
         String registerUsernameInput = registerUsernameField.getText();
         String registerPasswordInput = registerPasswordField.getText();
