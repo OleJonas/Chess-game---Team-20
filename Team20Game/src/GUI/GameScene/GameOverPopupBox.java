@@ -1,10 +1,17 @@
-package GUI.GameScene;
+/**
+ * <h1>GameOverPopupBox</h1>
+ * The purpose of this class is to create the pop-up box when the game is over, indicating who won and the change in the ELO-rating
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
+package JavaFX.GameScene;
 
 import Database.Game;
 import Database.User;
 import Game.GameEngine;
-import GUI.LoginScreen.Login;
-import GUI.MainScene.MainScene;
+import JavaFX.LoginScreen.Login;
+import JavaFX.MainScene.MainScene;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,13 +26,19 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import static GUI.GameScene.GameScene.opponentTimer;
-import static GUI.GameScene.GameScene.yourTimer;
-import static GUI.LoginScreen.Login.userID;
+import static JavaFX.GameScene.GameScene.opponentTimer;
+import static JavaFX.GameScene.GameScene.yourTimer;
+import static JavaFX.LoginScreen.Login.userID;
 
+/**
+ * The constructor for the GameOverPopupBox which initializes the game over window.
+ */
 public class GameOverPopupBox {
     static Stage window;
 
+    /**
+     * This methods displays the game over window with the information about who won and the change in ELO.
+     */
     public static void Display(){
         yourTimer.cancel();
         opponentTimer.cancel();
@@ -66,6 +79,7 @@ public class GameOverPopupBox {
             myNewElo = ChessGame.color?elo[0]:elo[1];
         }
 
+        //enemyElo = ChessGame.color?elo[1]:elo[0];
         System.out.println("old ELO: " + oldElo + " your new ELO: "+ myNewElo + " \nEnemy's new ELO: " + enemyElo);
         String newElo = Login.USERNAME + "'s new ELO rating: \n" + myNewElo + " (" +((myNewElo-oldElo)>0?"+":"") +(myNewElo-oldElo) + ")";
         Label eloLabel = new Label(newElo);
@@ -110,6 +124,9 @@ public class GameOverPopupBox {
         User.updateUser();
     }
 
+    /**
+     * This method is called when the player clicks on the leave game button, which exits the game.
+     */
     static void leaveGameButtonPressed(){
         MainScene.showMainScene();
         MainScene.inGame = false;
