@@ -1,11 +1,11 @@
 package Game;
-import Pieces.Piece;
 
+import Game.Pieces.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * <h1> GameEngine</h1>
- * this class is used as an interface for the GameLogic class. When the game is played the JavaFX will interact with
+ * this class is used as an interface for the GameLogic class. When the game is played the GUI will interact with
  * this class that calls for the GameLogic class to actually handle all the calculations
  * @author Team20
  * @since 05.04.2019

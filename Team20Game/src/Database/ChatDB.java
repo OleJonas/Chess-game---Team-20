@@ -1,8 +1,8 @@
 package Database;
 
 import java.util.ArrayList;
-import JavaFX.GameScene.ChessGame;
-import JavaFX.LoginScreen.Login;
+import GUI.GameScene.ChessGame;
+import GUI.LoginScreen.Login;
 
 public class ChatDB{
     private DBOps db;
