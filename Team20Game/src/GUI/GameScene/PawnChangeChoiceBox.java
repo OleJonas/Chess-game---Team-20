@@ -1,5 +1,8 @@
 /**
- * <h1></h1>
+ * <h1>PawnChangeChoiceBox</h1>
+ * This class is used when a pawn wants to promote to another piece
+ * @since 08.04.2019
+ * @author Team 20
  */
 
 package GUI.GameScene;
@@ -22,6 +25,10 @@ import javafx.stage.Stage;
 public class PawnChangeChoiceBox{
     public static String choice;
 
+    /**
+     * This methods displays the pop-up window when the player wants to promote a pawn.
+     * @param color = color of your pieces.
+     */
     public static void Display(boolean color){
         Stage window = new Stage();
 

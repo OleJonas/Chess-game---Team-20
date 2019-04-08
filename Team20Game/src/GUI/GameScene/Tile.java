@@ -1,3 +1,11 @@
+/**
+ * <h1>Tile</h1>
+ * The purpose of this method is to store the logic for the tiles on the chessboard.
+ * @since 08.04.2019
+ * @author Team 20
+ *
+ */
+
 package GUI.GameScene;
 
 import Game.GameEngine;
@@ -18,6 +26,19 @@ public class Tile extends StackPane {
     private int currentPositionY;
     private double oldX, oldY;
 
+    /**
+     * This is the constructor for the Tile class.
+     * @param x = x-coordinate of tile
+     * @param y = y-coordinate of tile
+     * @param myColor = color of the player
+     * @param height = the height of the chess board
+     * @param gameEngine = the game engine, which contains the methods for the game logic
+     * @param hboxGroup = the circles indicating valid moves
+     * @param tileGroup = the pieces on the board
+     * @param selectedGroup = the tiles are marked when choosing a piece
+     * @param lastMoveGroup = the tiles who are marked after doing a move
+     * @param board = the chess board
+     */
     public Tile(int x, int y, boolean myColor , int height, GameEngine gameEngine, Group hboxGroup, Group tileGroup, Group selectedGroup, Group lastMoveGroup, Tile[][] board) {
         super.setWidth(ChessGame.TILE_SIZE);
         setHeight(ChessGame.TILE_SIZE);
@@ -63,19 +84,45 @@ public class Tile extends StackPane {
         setOnMouseReleased(e->{
         });
     }
+
+    /**
+     * @return The color of the players pieces
+     */
     public boolean getMyColor() {
         return myColor;
     }
+
+    /**
+     * Sets the position of a piece to the parameters (x, y)
+     * @param x = x-coordinate of the tile the player wants to move a piece to
+     * @param y = y-coordinate of the tile the player wants to move a piece to
+     */
     public void setPos(int x, int y){
         currentPositionX = x;
         currentPositionY = y;
     }
+
+    /**
+     * @return x-coordinate of a piece
+     */
     public int getX(){
         return currentPositionX;
     }
+
+    /**
+     * @return y-coordinate of a piece
+     */
     public int getY(){
         return currentPositionY;
     }
+
+    /**
+     * This methods sets an image of a piece. If the image already exists, the method replaces the image.
+     * @param img = the image itself
+     * @param offsetX = the offset of x-coordinate
+     * @param offsetY = the offset of y-coordinate
+     * @return whether the image was set or not
+     */
     public boolean setImageView(ImageView img, double offsetX, double offsetY){
         if(img == null){
             return false;
@@ -90,6 +137,14 @@ public class Tile extends StackPane {
         getChildren().set(0,img);
         return true;
     }
+
+    /**
+     * This methods is used for moving a piece
+     * @param x = x-coordinate of piece
+     * @param y = y-ccordinate of piece
+     * @param board = the chess board
+     * @param castle = whether the king can castle or not
+     */
     public void move(int x, int y, Tile[][] board, boolean castle) {
         if(!castle) {
             Rectangle squareFrom = new Rectangle(ChessGame.TILE_SIZE, ChessGame.TILE_SIZE);
