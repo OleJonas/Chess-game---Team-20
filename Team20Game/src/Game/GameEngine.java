@@ -59,7 +59,7 @@ public class GameEngine {
    public void removePiece(int x, int y){ board.removePiece(x, y); }
 
    /**
-    * Method for checking whether a player is in check mate.
+    * Method for checking whether a player is in checkmate.
     * @param board The board that is to be analyzed
     * @param color The color of the player that will be analyzed.
     * @return A boolean describing whether the given player is in mated.

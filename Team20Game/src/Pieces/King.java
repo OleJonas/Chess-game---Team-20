@@ -1,6 +1,6 @@
 /**
  * <h1>King</h1>
- * The purpose of this method is to create the two kings on the chessboard.
+ * The purpose of this class is to create the two kings on the chessboard.
  * @since 05.04.2019
  * @author Team 20
  */

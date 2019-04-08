@@ -47,8 +47,7 @@ public class ChatFX{
     static ChatDB chat = new ChatDB();
 
     /**
-     * Method for creating the
-     * @return
+     * Method for creating the scene where the chat is.
      */
 
     public static GridPane createChat(){
@@ -93,6 +92,9 @@ public class ChatFX{
         return gridPane;
     }
 
+    /**
+     * Method to refresh the chat every second
+     */
     public static void refresh(){
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -102,6 +104,9 @@ public class ChatFX{
         }, 1000, 1000);
     }
 
+    /**
+     * Method for background service.
+     */
     static void service() {
         Service<Void> service = new Service<Void>() {
             @Override
@@ -131,6 +136,9 @@ public class ChatFX{
         service.start();
     }
 
+    /**
+     * Method for fetching messages from database, and displaying them in the game scene.
+     */
     public static void refreshChat(){
         ArrayList<String> fetch = chat.fetchChat();
         for(String s : fetch){

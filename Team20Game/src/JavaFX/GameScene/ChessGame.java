@@ -1,6 +1,10 @@
-/*
-** This is the class used for creating the chessboard in GameScene
+/**
+ * <h1>ChessGame</h1>
+ * The purpose of this class is to create the board used in GameScene.
+ * @since 05.04.2019
+ * @author Team 20
  */
+
 
 package JavaFX.GameScene;
 import Database.DBOps;
@@ -62,6 +66,11 @@ public class ChessGame{
     private Group lastMoveGroup = new Group();
     private int toeX;
     private int toeY;
+
+    /**
+     * This methods creates the board in GameScene.
+     * @return root (the board itself)
+     */
 
     public Parent setupBoard() {
         setupGameEngine();
@@ -134,11 +143,24 @@ public class ChessGame{
         return root;
     }
 
+    /**
+     * This method is used for removing a piece from a (x, y) position in the board
+     * @param x = x-coordinate of piece
+     * @param y = y-coordinate of piece
+     */
     public void removePiece(int x, int y) {
         tileGroup.getChildren().remove(board[x][y]);
         ge.removePiece(x, y);
     }
 
+    /**
+     * This method looks at the move of the enemy-player, and moves the chosen piece for the player
+     * @param fromX = starting x-coordinate
+     * @param fromY = starting y-coordinate
+     * @param toX = end x-coordinate
+     * @param toY = end y-coordinate
+     * @return whether the enemy player has mode a move or not
+     */
     public boolean enemyMove(int fromX, int fromY, int toX, int toY) {
         lastMoveGroup.getChildren().clear();
 
@@ -328,6 +350,9 @@ public class ChessGame{
         return false;
     }
 
+    /**
+     * This methods sets up the Game Engine, which contains the logic for the chess game.
+     */
     private void setupGameEngine() {
         ge = new GameEngine(Game.getMode(gameID));
         MainScene.searchFriend = false;
@@ -342,6 +367,10 @@ public class ChessGame{
         GameScene.myColumn = color?1:2;
     }
 
+    /**
+     * This method sets the custom skins which the player choose at the settings.
+     * @return Whether the player was able to set their own skin or not.
+     */
     public boolean setSkins(){
                 DBOps db = new DBOps();
                 int home_id = Integer.parseInt(db.exQuery("SELECT user_id1 FROM Game WHERE game_id = "+ gameID +";", 1).get(0));
@@ -354,6 +383,9 @@ public class ChessGame{
                 return true;
     }
 
+    /**
+     * This method is used as a background timer for the polling from the database every 250 ms.
+     */
     public void clockDBThings(){
         timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -370,6 +402,9 @@ public class ChessGame{
         }, 0, 250);
     }
 
+    /**
+     * Method for background service.
+     */
     public void serviceDBThings() {
         //System.out.println("Started service: service = " + serviceRunning);
             Service<Void> service = new Service<Void>() {
@@ -400,6 +435,10 @@ public class ChessGame{
             };
             service.start();
     }
+
+    /**
+     * This method polls the enemy move from the database when its not the first players turn.
+     */
     public void pollEnemyMove(){
         //Only check when its not your turn
         polling = true;
@@ -459,6 +498,12 @@ public class ChessGame{
         polling = false;
     }
 
+    /**
+     * This method is used when a player clicks on a square on the board, highlighting the square the player has clicked on, and clearing the other.
+     * @param square = The square the player clicks on.
+     * @param hboxGroup = The circles that appear on the squares indicating valid moves
+     * @param selectedPieceGroup = The squares that get marked when clicked on
+     */
     public static void setOnMouseClicked(Rectangle square, Group hboxGroup, Group selectedPieceGroup) {
         square.setOnMouseClicked(r -> {
             hboxGroup.getChildren().clear();
