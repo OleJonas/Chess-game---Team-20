@@ -4,7 +4,6 @@ import GUI.LoginScreen.Login;
 import Game.GameEngine;
 
 import java.util.ArrayList;
-
 public class User {
 
     /**
@@ -48,26 +47,47 @@ public class User {
     /**
      *Method for getting the value from a row in the "gamesPlayed" column from the table "User" in the database.
      * @param user_id Parameter for what user_id to find the information on.
-     * @return
+     * @return the value in the column "gamesPlayed" in the "User" table that corresponds with th user_id.
      */
     public static int getGamesPlayed(int user_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT gamesPlayed FROM User WHERE user_id = " + user_id, 1).get(0));
     }
 
+    /**
+     *Method for getting the value from a row in the "gamesWon" column from the table "User" in the database.
+     * @param user_id Parameter for what user_id to find the information on.
+     * @return the value in the column "gamesWon" in the "User" table that corresponds with th user_id.
+     */
+
     public static int getGamesWon(int user_id){
             DBOps db = new DBOps();
             return Integer.parseInt(db.exQuery("SELECT gamesWon FROM User WHERE user_id = " + user_id, 1).get(0));
     }
+    /**
+     *Method for getting the value from a row in the "gamesLost" column from the table "User" in the database.
+     * @param user_id Parameter for what user_id to find the information on.
+     * @return the value in the column "gamesLost" in the "User" table that corresponds with th user_id.
+     */
     public static int getGamesLost(int user_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT gamesLost FROM User WHERE user_id = " + user_id, 1).get(0));
     }
-
+    /**
+     *Method for getting the value from a row in the "gamesRemis" column from the table "User" in the database.
+     * @param user_id Parameter for what user_id to find the information on.
+     * @return the value in the column "gamesRemis" in the "User" table that corresponds with th user_id.
+     */
     public static int getGamesRemis(int user_id){
         DBOps db = new DBOps();
         return Integer.parseInt(db.exQuery("SELECT gamesRemis FROM User WHERE user_id = " + user_id, 1).get(0));
     }
+
+    /**
+     * Method that calculates games played and updates the column "Gamesplayed" in the database, for the user that is logged in,
+     * using the "Game" table, counting the finished games the logged in player has played and updating the column for "games
+     * played" based on the outcome.
+     */
     public static void updateGamesPlayed(){
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -79,7 +99,10 @@ public class User {
         });
         t.start();
     }
-
+    /**
+     * Method that calculates games won by checking how many games that has the logged in user's user_id
+     * in the "result" column. the method then updates the "User" table with the amount of games won.
+     */
     public static void updateGamesWon(){
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -91,6 +114,12 @@ public class User {
         });
         t.start();
     }
+
+    /**
+     * method that counts all the games the logged in user's user_id is in either column "user_id1" or "user_id2"
+     * and where the "result" column does not contain it's own user_id, -1(inconclusive)And 0(draw).
+     * The method then updates the "gamesLost" column in the "User" table in the database with the result of the query.
+     */
     public static void updateGamesLost(){
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -102,6 +131,12 @@ public class User {
         });
         t.start();
     }
+
+    /**
+     * Method that counts the amount of games drawn by counting all the games the user was involved in, then counting how many
+     * rows have the value "0" in the column "result".
+     * The method then updates the "User" table for the logged in user's user_id with the result of the count.
+     */
 
     public static void updateGamesRemis(){
         Thread t = new Thread(new Runnable() {
@@ -115,6 +150,14 @@ public class User {
         t.start();
     }
 
+    /**
+     * runs all the linked methods to update the userStatistics.
+     * @see User#updateGamesPlayed()
+     * @see User#updateGamesLost()
+     * @see User#updateGamesWon()
+     * @see User#updateGamesRemis()
+     */
+
     public static void updateUser(){
         updateGamesPlayed();
         updateGamesLost();
@@ -122,12 +165,26 @@ public class User {
         updateGamesRemis();
     }
 
+    /**
+     * method that updates the elo of one user in the table "User" with a new value for the ELOrating.
+     * @param user_id the user_id for the user's ELOrating you want to update.
+     * @param elo Parameter for the new value that should be stored in the "ELOrating" column for the user.
+     */
+
     public static void updateElo(int user_id, int elo){
                 DBOps db = new DBOps();
                 db.exUpdate("UPDATE User SET ELOrating = " + elo + " WHERE user_id = " + user_id + ";");
                 db.exUpdate("INSERT INTO userElo VALUES(" + user_id + ", DEFAULT, " +  elo + ");");
                 System.out.println("updated ELO for user " + user_id);
     }
+
+    /**
+     * Method for updating the ELO rating of the two users involved in a finished game.
+     * the method takes the ELO of the two users in the game specified and the result of the game,
+     * uses the getELO() method in GameEngine to calculate two new ELO values. The method then updates both user's ELOrating
+     * in the "User" table with the new ELO values if the "rated" column's value in the game = 1.
+     * @param game_id Parameter for the game you want to update ELO-ratings for.
+     */
     public static void updateEloByGame(int game_id) {
         System.out.println("started updating ELO");
 
