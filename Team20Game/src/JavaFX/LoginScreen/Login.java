@@ -1,6 +1,13 @@
 
 package JavaFX.LoginScreen;
 
+/**
+ * <h1>Login</h1>
+ * The login scene is the first window to face the user.
+ * @author Team20
+ * @since 08.04.2019
+ */
+
 import Database.DBOps;
 import JavaFX.GameScene.ChessGame;
 import JavaFX.Main;
@@ -46,6 +53,9 @@ public class Login{
     static Label loginComment;
     public static int userID;
 
+    /**
+     * Run method for the JavaFX of the login screen.
+     */
     public static void runLogin() {
         //Textfields
         loginUsernameField = new TextField();
@@ -113,6 +123,9 @@ public class Login{
         Main.window.setY((MainScene.primaryScreenBounds.getHeight()-Main.window.getHeight())/4 +Main.window.getHeight()*0.01);
     }
 
+    /**
+     * This method is run the attempt to login when the user has filled in their login information
+     */
     static void tryLogin(){
         String loginUsernameInput = loginUsernameField.getText();
         String loginPasswordInput = loginPasswordField.getText();
@@ -141,6 +154,11 @@ public class Login{
         }
     }
 
+    /**
+     * Support method to check whether a username is already in use when creating a new user.
+     * @param username The username the user wants
+     * @return A boolean describing whether it already exists.
+     */
     static boolean checkUsername(String username){
         DBOps connection = new DBOps();
         String matchingUsername = connection.checkUsername(username);
@@ -150,6 +168,13 @@ public class Login{
         return false;
     }
 
+    /**
+     * Support method to check if the password matches the username.
+     * @param password The password the user has entered.
+     * @param username The username the user has entered.
+     * @return A boolean that is true if the login information is valid.
+     * @throws NoSuchAlgorithmException
+     */
     static boolean checkPassword(String password, String username) throws NoSuchAlgorithmException{
         DBOps connection = new DBOps();
         String matchingPassword = "";
@@ -165,11 +190,17 @@ public class Login{
         if(matchingPassword.equals(generateHash(password, saltByte))){
             return true;
         }
-        System.out.println("Wrong password!");
+        //System.out.println("Wrong password!");
         return false;
     }
 
-    //Denne metoden registrerer en bruker i User-tabellen med brukernavn, passord, SALT, en default avatar og en user_id (AUTO_INCREMENT)
+    /**
+     * This method creates a new user the the User table in the database. It will use the username and password
+     * and then add SALT, default avatar, and a user_id(AUTO_INCREMENT).
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @return A boolean that is true if the user was successfully created.
+     */
     static boolean register(String username, String password){
         DBOps connection = new DBOps();
         if(checkUsername(username)) return false;
@@ -187,7 +218,13 @@ public class Login{
         return true;
     }
 
-    //Arpit Shah on Youtube, SALT Hashing
+    /**
+     * Method for SALT hashing using SHA-256
+     * @param data The password of the user.
+     * @param salt The SALT of that user.
+     * @return The hash of that users password.
+     * @throws NoSuchAlgorithmException
+     */
     static String generateHash(String data, byte[] salt) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         digest.reset();
@@ -198,6 +235,12 @@ public class Login{
 
     final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
+    /**
+     * Help method for generateHash() method, converts an array of byte-values to an array of hex characters.
+     * @see Login#generateHash(String data, byte[] salt)
+     * @param bytes The array of byte values.
+     * @return The string of hex characters.
+     */
     static String bytesToStringHex(byte[] bytes){
         char[] hexChars = new char[bytes.length * 2];
         for(int i = 0; i < bytes.length; i++){
@@ -209,6 +252,12 @@ public class Login{
     }
 
     //From Stackoverflow, Dave L.
+
+    /**
+     * From Stackoverflow, Dave L., for converting a string of hex characters to a byte array.
+     * @param s The string of hex characters.
+     * @return The byte array.
+     */
     static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
@@ -219,6 +268,12 @@ public class Login{
         return data;
     }
 
+    /**
+     * Create a random salt for the password hashing. This method is used in the
+     * register(String username, String password) method.
+     * @return SALT in the for of a byte array.
+     * @see Login#register(String, String)
+     */
     static byte[] createSalt() {
         byte[] bytes = new byte[20];
         SecureRandom random = new SecureRandom();
@@ -226,6 +281,11 @@ public class Login{
         return bytes;
     }
 
+    /**
+     * fetch the avatar of the user, if no avatar is found, return the default one.
+     * @param username The user wanting to fetch their avatar.
+     * @return The file of their avatar.
+     */
     static String getAvatar(String username) {
         DBOps connection = new DBOps();
         String avatar;
@@ -239,15 +299,21 @@ public class Login{
         return avatar;
     }
 
+    /**
+     * Fetch the id (used in the database) of the user, given its username
+     * @return The id of the user.
+     */
     public static int getUserID(){
         DBOps connection = new DBOps();
         int out = Integer.parseInt(connection.exQuery("SELECT user_id FROM User WHERE username = '" + USERNAME + "';", 1).get(0));
         return out;
     }
 
+    /**
+     * Fetch game info from the database table given a username.
+     */
     static void getGameInfo(){
         DBOps connection = new DBOps();
-        //DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT gamesPlayed, gamesWon, gamesLost, gamesRemis, ELOrating FROM User WHERE username=\"" + USERNAME + "\"",5);
         if(result.size() > 0){
             gamesPlayed = Integer.parseInt(result.get(0));
@@ -264,6 +330,9 @@ public class Login{
         }
     }
 
+    /**
+     * Fetch the relevant settings from the database given the username.
+     */
     static void getSettings(){
         DBOps connection = new DBOps();
         ArrayList<String> result = connection.exQuery("SELECT darkTileColor, lightTileColor, skinName FROM UserSettings WHERE username=\"" + USERNAME + "\"",3);
@@ -274,12 +343,14 @@ public class Login{
         }
     }
 
+    /**
+     * method to update the database with the settings of a user.
+     * @return A boolean value describing if the update was successful.
+     */
     public static boolean storeSettings(){
         DBOps connection = new DBOps();
         int rowsAffected = connection.exUpdate("UPDATE UserSettings SET darkTileColor = '" + Settings.darkTileColor + "', lightTileColor = '" + Settings.lightTileColor + "', skinName = '" + ChessGame.skin + "' WHERE username = '" + USERNAME + "';");
         if(rowsAffected==1) return true;
         return false;
     }
-
-
 }
