@@ -6,11 +6,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/**
+ * This class is used for setting up the Leaderboard scene.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 public class LeaderboardFX {
     private static GridPane gridPane;
     private static LeaderboardDB leaderboard;
     private static Label label, positionLabel, nameLabel, eloLabel;
 
+    /**
+     * Method for setting up the Leaderboard.
+     * @return Returns a gridpane of the Leaderboard.
+     */
     public static GridPane setupLeaderboard(){
         leaderboard = new LeaderboardDB();
         gridPane = new GridPane();

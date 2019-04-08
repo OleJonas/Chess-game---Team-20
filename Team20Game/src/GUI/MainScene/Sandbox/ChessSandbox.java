@@ -14,7 +14,6 @@ import Game.GameEngine;
 import javafx.scene.transform.Rotate;
 
 public class ChessSandbox {
-
     public static int TILE_SIZE = ChessGame.TILE_SIZE;
     public static final double imageSize = ChessGame.imageSize;
     public static boolean color = true;

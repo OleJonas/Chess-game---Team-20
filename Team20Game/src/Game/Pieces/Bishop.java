@@ -26,7 +26,7 @@ public class Bishop extends Piece {
 
     /**
      * Returns notation for the bishop class
-     * @return
+     * @return notation
      */
     public char getNotation() {
         return 'B';
@@ -34,7 +34,7 @@ public class Bishop extends Piece {
 
     /**
      * This method returns the photo of the bishop
-     * @return
+     * @return image
      */
     public ImageView getImageView(){
         try {
@@ -51,7 +51,7 @@ public class Bishop extends Piece {
 
     /**
      * This method inherits the toString()-method from the superclass.
-     * @return
+     * @return notation with (x,y)-position
      */
     public String toString() {
         return super.toString();

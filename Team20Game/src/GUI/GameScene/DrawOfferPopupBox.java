@@ -1,8 +1,15 @@
-package GUI.GameScene;
+/**
+ * <h1>DrawOfferPopupBox</h1>
+ * The purpose of this class is to create the draw popup-box when a draw is offered..
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
+package JavaFX.GameScene;
 
 import Database.Game;
 import Database.User;
-import GUI.MainScene.MainScene;
+import JavaFX.MainScene.MainScene;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -17,6 +24,9 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * This methods creates the draw pop-up box with the buttons when a player offers a draw.
+ */
 public class DrawOfferPopupBox {
     static Stage window = new Stage();
     public static void Display() {
@@ -66,6 +76,7 @@ public class DrawOfferPopupBox {
         bottomLayout.add(acceptDrawButton, 0,0);
         bottomLayout.setHalignment(acceptDrawButton, HPos.LEFT);
         bottomLayout.add(declineDrawButton, 1, 0);
+        //bottomLayout.setHalignment(declineDrawButton, HPos.LEFT);
         windowLayout.setCenter(mainLayout);
         windowLayout.setBottom(bottomLayout);
         windowLayout.setStyle("-fx-background-color: #404144;");
@@ -79,10 +90,17 @@ public class DrawOfferPopupBox {
         window.setScene(scene);
         window.showAndWait();
     }
+
+    /**
+     * This method closes the popup draw window.
+     */
     public static void close(){
         window.close();
     }
 
+    /**
+     * This methods runs when a player accepts the draw given from another player.
+     */
     static void acceptButtonPressed(){
         MainScene.inGame = false;
         ChessGame.isDone = true;

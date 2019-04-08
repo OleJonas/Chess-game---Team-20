@@ -16,13 +16,22 @@ import javafx.scene.chart.XYChart;
 
 import static GUI.LoginScreen.Login.*;
 
+/**
+ * <h1>UserProfile</h1>
+ * This class is used for setting the "User Profile" scene.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 
 @SuppressWarnings("Duplicates")
 class UserProfile{
     static Image avatar;
     static ImageView avatarImageview;
 
-
+    /**
+     * Displays the "User Profile" scene.
+     */
     static void showUserProfileScene(){
         User.updateUser();
         updateStats();
@@ -108,6 +117,9 @@ class UserProfile{
         MainScene.leftGrid.add(lineChart, 0, 0);
     }
 
+    /**
+     * Method for changing avatar.
+     */
     static void increaseAvatar(){
         if(AVATAR.equals("avatar1.jpg")) {
             AVATAR = "avatar2.png";
@@ -132,6 +144,9 @@ class UserProfile{
         }
     }
 
+    /**
+     * Method for changing avatar.
+     */
     static void decreaseAvatar(){
         if(AVATAR.equals("avatar1.jpg")){
             AVATAR = "avatar10.png";
@@ -157,6 +172,9 @@ class UserProfile{
 
     }
 
+    /**
+     * Method for updating the stats for user.
+     */
     static void updateStats(){
         gamesPlayed = User.getGamesPlayed(Login.userID);
         gamesLost = User.getGamesLost(Login.userID);
@@ -165,6 +183,10 @@ class UserProfile{
         ELOrating = User.getElo(Login.userID);
     }
 
+    /**
+     * Method for changing avatar.
+     * @param avatar Parameter says what avatar to change to.
+     */
     static void setAvatar(String avatar){
         AVATAR = avatar;
         DBOps conncetion = new DBOps();

@@ -1,5 +1,4 @@
 package GUI.MainScene;
-
 import GUI.GameScene.ChessGame;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -13,7 +12,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import static GUI.LoginScreen.Login.storeSettings;
+//import static JavaFX.MainScene.MainScene.showMainScene;
+
+/**
+ * <h|>Settings</h|>
+ * This class is used for the Settings popup box.
+ * @since 08.04.2019
+ * @author Team 20
+ */
+
 
 @SuppressWarnings("Duplicates")
 public class Settings{
@@ -25,7 +34,9 @@ public class Settings{
     public static String darkTileColor = "#8B4513";
     public static String lightTileColor = "#FFEBCD";
 
-
+    /**
+     * Method for showing the Settings menu.
+     */
     static void showSettings(){
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -151,6 +162,7 @@ public class Settings{
 
         BorderPane layout = new BorderPane();
         layout.setStyle("-fx-background-color: #404144;");
+        //layout.setTop(new WindowMenuBar(true).getWindowMenuBar());
         layout.setCenter(mainLayout);
         layout.setBottom(bottomLayout);
         settingsScene = new Scene(layout, 455, 500);
@@ -163,6 +175,9 @@ public class Settings{
         window.showAndWait();
     }
 
+    /**
+     * Method for what happens when you press the Apply button.
+     */
     static void applyButtonPressed(){
         //Apply colorchanges
         String colorchoice = boardColorChoiceBox.getValue();
