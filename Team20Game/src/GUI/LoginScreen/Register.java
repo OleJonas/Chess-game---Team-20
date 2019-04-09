@@ -129,6 +129,7 @@ class Register {
                 registerPasswordAgainField.clear();
                 registerComment.setText(""); //CLearing the label for next time
                 Login.loginComment.setText("");
+                Login.loginUsernameField.setText(registerUsernameInput);
                 Login.runLogin();
             } else {
                 System.out.println("User already exist!");

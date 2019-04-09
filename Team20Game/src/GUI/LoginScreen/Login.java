@@ -47,7 +47,7 @@ public class Login{
 
     static Scene startScene;
     static Button loginButton, signUpButton;
-    static TextField loginUsernameField;
+    static TextField loginUsernameField = new TextField();
     static PasswordField loginPasswordField;
     static Label loginComment;
     public static int userID;
@@ -57,12 +57,7 @@ public class Login{
      */
     public static void runLogin() {
         //Textfields
-        loginUsernameField = new TextField();
         loginPasswordField = new PasswordField();
-
-        // Allows user to bypass login screen for testing purposes. Remove before final product is released.
-        loginUsernameField.setText("Knodde");
-        loginPasswordField.setText("12345");
 
         //Label
         Label loginLabel = new Label("Login");
@@ -79,6 +74,7 @@ public class Login{
         //signupButton
         signUpButton = new Button("Not registered?");
         signUpButton.setOnAction(e -> {
+            loginUsernameField.setText("");
             loginComment.setText("");
             runRegistration();
         });
