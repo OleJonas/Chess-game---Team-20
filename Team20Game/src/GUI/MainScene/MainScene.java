@@ -332,7 +332,7 @@ public class MainScene {
         //layout.setTop(new WindowMenuBar().getWindowMenuBar()); //WindowMenuBar has to be fixed if we're going to use it
         layout.setCenter(mainLayout);
 
-        mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.80, primaryScreenBounds.getHeight()*0.90);
+        mainScene = new Scene(layout, primaryScreenBounds.getWidth()*0.82, primaryScreenBounds.getHeight()*0.90);
 
         Main.window.setScene(mainScene);
         Main.window.setX((primaryScreenBounds.getWidth()- Main.window.getWidth())/2);
