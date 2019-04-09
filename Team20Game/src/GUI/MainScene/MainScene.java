@@ -323,7 +323,7 @@ public class MainScene {
 
         //Set image as background
         BackgroundImage myBI = new BackgroundImage(new Image("Images/Backgrounds/darkwood.jpg", 1200, 1200, false, true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         mainLayout.setBackground(new Background(myBI));
 
