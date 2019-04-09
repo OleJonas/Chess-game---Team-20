@@ -13,6 +13,13 @@ import javafx.scene.image.ImageView;
 import Game.GameEngine;
 import javafx.scene.transform.Rotate;
 
+/**
+ * <h1>ChessSandbox</h1>
+ * The purpose of this class is to create the board used in mainScene.
+ * @since 05.04.2019
+ * @author Team 20
+ */
+
 public class ChessSandbox {
     public static int TILE_SIZE = ChessGame.TILE_SIZE;
     public static final double imageSize = ChessGame.imageSize;
@@ -31,6 +38,11 @@ public class ChessSandbox {
     private Group hboxGroup = new Group();
     private Group selectedPieceGroup = new Group();
     private Group lastMoveGroup = new Group();
+
+    /**
+     * This method creates the board in the sandbox used in mainScene.
+     * @return the pane containing the board.
+     */
 
     public Parent createContent() {
         Pane root = new Pane();
@@ -79,9 +91,12 @@ public class ChessSandbox {
         return root;
     }
 
-    public static boolean setUpSkin(){
+    /**
+     * Method that decides the "skin" variable based on what skinName the user has in the table "UserSettings".
+     */
+
+    public static void setUpSkin(){
         DBOps db = new DBOps();
         ChessGame.skin = db.exQuery("SELECT skinName FROM UserSettings WHERE user_id = " + Login.userID + ";", 1).get(0);
-        return true;
     }
 }
