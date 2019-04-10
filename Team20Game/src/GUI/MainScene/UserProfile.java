@@ -126,8 +126,8 @@ class UserProfile{
         }else if(AVATAR.equals("avatar2.png")) {
             AVATAR = "avatar3.png";
         }else if(AVATAR.equals("avatar3.png")) {
-            AVATAR = "avatar4.jpg";
-        }else if(AVATAR.equals("avatar4.jpg")) {
+            AVATAR = "avatar4.gif";
+        }else if(AVATAR.equals("avatar4.gif")) {
             AVATAR = "avatar5.png";
         }else if(AVATAR.equals("avatar5.png")) {
             AVATAR = "avatar6.png";
@@ -154,10 +154,10 @@ class UserProfile{
             AVATAR = "avatar1.jpg";
         }else if(AVATAR.equals("avatar3.png")) {
             AVATAR = "avatar2.png";
-        }else if(AVATAR.equals("avatar4.jpg")) {
+        }else if(AVATAR.equals("avatar4.gif")) {
             AVATAR = "avatar3.png";
         }else if(AVATAR.equals("avatar5.png")) {
-            AVATAR = "avatar4.jpg";
+            AVATAR = "avatar4.gif";
         }else if(AVATAR.equals("avatar6.png")) {
             AVATAR = "avatar5.png";
         }else if(AVATAR.equals("avatar7.png")) {

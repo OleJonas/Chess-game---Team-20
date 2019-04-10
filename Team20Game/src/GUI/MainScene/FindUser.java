@@ -125,7 +125,7 @@ class FindUser{
     static void setUserPane(){
         gamesInfoString = "User: " + findUser_USERNAME + "\nGames Played: " + findUser_gamesPlayed
                 + "\nGames Won: " + findUser_gamesWon + "\nGames Lost: " + findUser_gamesLost +
-                "\nRemis: " + findUser_gamesRemis + "\nElo-rating: " + findUser_ELOrating;
+                "\nGames Drawn: " + findUser_gamesRemis + "\nElo-rating: " + findUser_ELOrating;
         gamesInfoLabel.setText(gamesInfoString);
         findAvatarImageView.setImage(new Image("Images/Avatars/" + findUser_AvatarString));
     }
