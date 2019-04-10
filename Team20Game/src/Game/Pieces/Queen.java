@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
+ *
  * @see Game.Pieces.Piece
  */
 public class Queen extends Piece {

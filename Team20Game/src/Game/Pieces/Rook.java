@@ -11,6 +11,7 @@ import GUI.GameScene.ChessGame;
 import javafx.scene.image.*;
 
 /**
+ *
  * @see Game.Pieces.Piece
  */
 public class Rook extends Piece {
