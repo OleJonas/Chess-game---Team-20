@@ -11,6 +11,9 @@ import GUI.GameScene.ChessGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * @see Game.Pieces.Piece
+ */
 public class Queen extends Piece {
     private ImageView imageView;
     public Queen(boolean color, int x, int y) {

@@ -1,4 +1,4 @@
-package Tests;
+/*package Tests;
 
 import Game.GameEngine;
 import GUI.GameScene.ChessGame;
@@ -298,4 +298,4 @@ public class JUnitGameEngine {
     public static void main(String[] args){
         org.junit.runner.JUnitCore.main(JUnitGameEngine.class.getName());
     }
-}
+}*/
