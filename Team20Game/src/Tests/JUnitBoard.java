@@ -1,4 +1,4 @@
-/*package Tests;
+package Tests;
 
 import Game.Board;
 import Game.Pieces.*;
@@ -10,7 +10,7 @@ public class JUnitBoard {
 
     @Before
     public void beforeTest(){
-        board = new Board();
+        board = new Board(0);
     }
 
     @After
@@ -18,28 +18,22 @@ public class JUnitBoard {
         board = null;
     }
 
-    // Tests for Board class
-    @Test
-    public void testBoardAndState(){
-        assertArrayEquals(board.getPosition(), board.getBoardState());
-    }
-
     @Test
     public void testMove(){
-        Board helper = new Board();
+        Board helper = new Board(0);
         Piece[][] help = helper.getBoardState();
 
         // White
         // Moving pawn 2 tiles, rook follows right behind, then moving pawn one tile
-        board.move(0, 1, 0, 3);
-        board.move(0, 0, 0, 2);
-        board.move(1, 1, 1, 2);
+        board.move(0, 1, 0, 3,true);
+        board.move(0, 0, 0, 2,true);
+        board.move(1, 1, 1, 2,true);
 
         // Trying to take own piece, should work with this method
-        board.move(1,0,2,0);
+        board.move(1,0,2,0,true);
 
         // Testing to see if a piece can be moved wherever we want. Should work with this method...
-        board.move(4,0,5,5);
+        board.move(4,0,5,5,true);
 
         // Setting up help board
         help[0][0] = null;
@@ -70,4 +64,4 @@ public class JUnitBoard {
     public static void main(String[] args){
         org.junit.runner.JUnitCore.main(JUnitBoard.class.getName());
     }
-}*/
+}
