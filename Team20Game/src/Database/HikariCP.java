@@ -29,7 +29,7 @@ public class HikariCP {
     static{
 
         Properties p = new Properties();
-        String path = "./.properties";
+        String path = "./config.properties";
         try{
             FileInputStream in = new FileInputStream(path);
             p.load(in);
