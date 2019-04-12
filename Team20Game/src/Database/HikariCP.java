@@ -32,7 +32,8 @@ public class HikariCP {
     static{
         FileReader reader = null;
         try {
-            reader = new FileReader(".properties");
+            File file = new File("Resources/.properties");
+            reader = new FileReader(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
