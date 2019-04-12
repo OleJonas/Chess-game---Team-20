@@ -11,6 +11,10 @@ import GUI.GameScene.ChessGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ *
+ * @see Game.Pieces.Piece
+ */
 public class Bishop extends Piece {
     private ImageView imageView;
 

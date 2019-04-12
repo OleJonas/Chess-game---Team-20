@@ -4,9 +4,7 @@ import Game.GameEngine;
 import GUI.GameScene.ChessGame;
 import Game.Pieces.*;
 import org.junit.*;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 
@@ -18,36 +16,10 @@ public class JUnitGameEngine {
     private GameEngine ge;
 
     @Before
-    public void beforeTest(){ this.ge = new GameEngine(1);}
+    public void beforeTest(){ this.ge = new GameEngine(0);}
 
     @After
     public void afterTest(){ this.ge = null;}
-
-    @Test
-    public void testMove(){
-        Pawn pawn = (Pawn)ge.getBoard().getBoardState()[0][1];
-        // Should return false before moving
-        assertFalse(pawn.getEnPassant());
-        // Should return true after moving 2 tiles
-        ge.move(0,1,0,3, ChessGame.lastMove);
-        pawn = (Pawn)ge.getBoard().getBoardState()[0][3];
-        assertTrue(pawn.getEnPassant());
-
-        // Checking castling for rook and king
-        Rook rook = (Rook)ge.getBoard().getBoardState()[0][0];
-        assertTrue(rook.getCanCastle());
-
-        ge.move(0,0,0,3, ChessGame.lastMove);
-        rook = (Rook)ge.getBoard().getBoardState()[0][3];
-        assertFalse(rook.getCanCastle());
-
-        King king = (King)ge.getBoard().getBoardState()[4][0];
-        assertTrue(king.getCanCastle());
-
-        ge.move(4,0,4,3, ChessGame.lastMove);
-        king = (King)ge.getBoard().getBoardState()[4][3];
-        assertFalse(king.getCanCastle());
-    }
 
     @Test
     public void testRemovePiece(){
@@ -189,23 +161,20 @@ public class JUnitGameEngine {
 
     @Test
     public void testValidMoves(){
-        //ge = new GameEngine(5, true);
-        System.out.println(ge.getBoard().toString());
-        // Checking for rook
-        Integer[] test = null;
+        int[] test = null;
         ArrayList<Integer> validMoves = ge.validMoves(0,0);
         assertTrue(validMoves.size() == 0);
 
         // Testing for pawn
         validMoves = ge.validMoves(0,1);
-        test = new Integer[] {0,2,0,3};
+        test = new int[] {0,2,0,3};
         for(int i = 0; i < test.length; i++){
             assertTrue(validMoves.get(i) == test[i]);
         }
 
         //Knight
         validMoves = ge.validMoves(1,0);
-        test = new Integer[] {0,2,2,2};
+        test = new int[] {0,2,2,2};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // Bishop
@@ -230,42 +199,49 @@ public class JUnitGameEngine {
         ge.move(3,7,5,2, ChessGame.lastMove);
         ge.move(3,6,3,4, ChessGame.lastMove);
 
+        //Setting en passant
+        Pawn pawn = (Pawn)ge.getBoard().getBoardState()[3][4];
+        pawn.setEnPassant(true);
+
         // Checking if valid moves are correctly set:
         // Pawn with en passant opportunity
         validMoves = ge.validMoves(2,4);
-        test = new Integer[] {2,5,3,5};
+        test = new int[] {2,5,3,5};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // Bishop at c1
         validMoves = ge.validMoves(2,0);
-        test = new Integer[] {3,1,4,2,5,3,6,4,7,5};
+        test = new int[] {3,1,4,2,5,3,6,4,7,5};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // White queen at d1
         validMoves = ge.validMoves(3,0);
-        test = new Integer[] {0,3,1,2,2,1,3,1,4,1,5,2};
+        test = new int[] {0,3,1,2,2,1,3,1,4,1,5,2};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // White king at e1
         validMoves = ge.validMoves(4,0);
-        test = new Integer[] {3,1};
+        test = new int[] {3,1};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // White pawn at e4
         validMoves = ge.validMoves(4,3);
-        test = new Integer[] {3,4,4,4};
+        test = new int[] {3,4,4,4};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // White pawn at g2
-        System.out.println(ge.getBoard().toString());
+        //System.out.println(ge.getBoard().toString());
         validMoves = ge.validMoves(6,1);
-        System.out.println(validMoves.size());
-        test = new Integer[] {5,2,6,2,6,3};
+        //System.out.println(validMoves.size());
+        test = new int[] {5,2,6,2,6,3};
+        for(int i = 0; i < validMoves.size(); ++i){
+            System.out.println(validMoves.get(i));
+        }
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // White rook at h1
         validMoves = ge.validMoves(7,0);
-        test = new Integer[] {6,0,7,1,7,2};
+        test = new int[] {6,0,7,1,7,2};
         assertTrue(isItTheSameThingQuestionMark(test, validMoves));
 
         // Testing discovered check:
@@ -275,24 +251,43 @@ public class JUnitGameEngine {
         assertTrue(validMoves.size() == 0);
     }
 
-    private boolean isItTheSameThingQuestionMark(Integer[] test, ArrayList<Integer> validMoves){
-        int x = 0;
-        int y = 0;
-        int count = 0;
-        while(count < validMoves.size()){
-            x = validMoves.get(count);
-            y = validMoves.get(count + 1);
-            for(int i = 0; i < test.length; i++){
-                if(x == test[i] && i%2 == 0){
-                    if(!(y == test[i+1])){
-                        return false;
-                    }
-                    count += 2;
+    @Test
+    public void testCastling(){
+        int[] test = null;
+
+        //Removing all pieces other than king and rooks
+        ge.removePiece(1,0);
+        ge.removePiece(2,0);
+        ge.removePiece(3,0);
+        ge.removePiece(5,0);
+        ge.removePiece(6,0);
+
+        //Testing for king
+        test = new int[] {2,0,3,0,5,0,6,0};
+        ArrayList<Integer> validMoves = ge.validMoves(4,0);
+        assertTrue(isItTheSameThingQuestionMark(test,validMoves));
+    }
+
+    private boolean isItTheSameThingQuestionMark(int[] test, ArrayList<Integer> validMoves){
+        int[] liste = test;
+        ArrayList<Integer> ny_liste = validMoves;
+        int counter = 0;
+        for (int i = 0; i < liste.length - 1; i +=2) {
+            int x = liste[i];
+            int y = liste[i + 1];
+            for (int j = 0; j < ny_liste.size() - 1; j += 2) {
+                if (x == ny_liste.get(j) && y == ny_liste.get(j+1)) {
+                    ++counter;
                     break;
                 }
             }
         }
-        return true;
+
+        if (counter == liste.length/2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void main(String[] args){

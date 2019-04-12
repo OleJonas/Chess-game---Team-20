@@ -3,6 +3,7 @@ package GUI;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 import static GUI.LoginScreen.Login.runLogin;
 
 /**
