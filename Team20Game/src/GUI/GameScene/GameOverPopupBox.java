@@ -1,10 +1,3 @@
-/**
- * <h1>GameOverPopupBox</h1>
- * The purpose of this class is to create the pop-up box when the game is over, indicating who won and the change in the ELO-rating
- * @since 08.04.2019
- * @author Team 20
- */
-
 package GUI.GameScene;
 
 import Database.Game;
@@ -33,8 +26,12 @@ import static GUI.GameScene.GameScene.yourTimer;
 import static GUI.LoginScreen.Login.userID;
 
 /**
- * The constructor for the GameOverPopupBox which initializes the game over window.
+ * <h1>GameOverPopupBox</h1>
+ * The purpose of this class is to create the pop-up box when the game is over, indicating who won and the change in the ELO-rating
+ * @since 08.04.2019
+ * @author Team 20
  */
+
 public class GameOverPopupBox {
     static Stage window;
 

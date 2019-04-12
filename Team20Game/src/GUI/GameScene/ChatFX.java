@@ -1,10 +1,3 @@
-/**
- * <h1>ChatFX</h1>
- * The purpose of this class is to create the JavaFX for chatting with other players.
- * @since 05.04.2019
- * @author Team 20
- */
-
 package GUI.GameScene;
 import Database.ChatDB;
 import javafx.application.Platform;
@@ -32,8 +25,12 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * The ChatFX . Declares JavaFX components to be used in the methods below.
+ * <h1>ChatFX</h1>
+ * The purpose of this class is to create the JavaFX for chatting with other players.
+ * @since 05.04.2019
+ * @author Team 20
  */
+
 public class ChatFX{
     static Scene scene;
     static TextField inText;
@@ -48,6 +45,7 @@ public class ChatFX{
 
     /**
      * Method for creating the scene where the chat is.
+     * @return A gridpane with the chat UI
      */
 
     public static GridPane createChat(){

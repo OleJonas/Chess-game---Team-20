@@ -1,10 +1,3 @@
-/**
- * <h1>DrawOfferPopupBox</h1>
- * The purpose of this class is to create the draw popup-box when a draw is offered..
- * @since 08.04.2019
- * @author Team 20
- */
-
 package GUI.GameScene;
 
 import Database.Game;
@@ -25,8 +18,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * This methods creates the draw pop-up box with the buttons when a player offers a draw.
+ * <h1>DrawOfferPopupBox</h1>
+ * The purpose of this class is to create the draw popup-box when a draw is offered..
+ * @since 08.04.2019
+ * @author Team 20
  */
+
 public class DrawOfferPopupBox {
     static Stage window = new Stage();
     public static void Display() {

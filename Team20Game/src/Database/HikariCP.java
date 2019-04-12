@@ -2,8 +2,21 @@ package Database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
+
+/**
+ * <h1>HikariCP</h1>
+ * This class is used for connection pooling.
+ * @since 10.04.2019
+ * @author Team 20
+ */
 
 public class HikariCP {
 
@@ -14,11 +27,26 @@ public class HikariCP {
      * -- max prepared stmt size that will be cached, connection-pool name and finally max lifetime for --
      * -- each connection before they are returned to the pool by timeout.
      */
+
+    // For reading username and password from config-file https://www.javatpoint.com/properties-class-in-java
     static{
+        FileReader reader = null;
+        try {
+            reader = new FileReader(".properties");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Properties p = new Properties();
+        try {
+            p.load(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         HikariConfig config1 = new HikariConfig();
         config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni");
-        config1.setUsername("martijni");
-        config1.setPassword("wrq71s2w");
+        config1.setUsername(p.getProperty("username"));
+        config1.setPassword(p.getProperty("password"));
         config1.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config1.addDataSourceProperty("cachePrepStmts", "true");
         config1.addDataSourceProperty("prepStmtCacheSize", "250");

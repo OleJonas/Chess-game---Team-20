@@ -1,12 +1,5 @@
 package GUI.LoginScreen;
 
-/**
- * <h1>Login</h1>
- * The login scene is the first window to face the user.
- * @author Team20
- * @since 08.04.2019
- */
-
 import Database.DBOps;
 import GUI.GameScene.ChessGame;
 import GUI.Main;
@@ -33,7 +26,12 @@ import static GUI.LoginScreen.Register.runRegistration;
 import static GUI.MainScene.Sandbox.ChessSandbox.setUpSkin;
 import static javafx.geometry.Pos.CENTER;
 
-
+/**
+ * <h1>Login</h1>
+ * The login scene is the first window to face the user.
+ * @author Team20
+ * @since 08.04.2019
+ */
 @SuppressWarnings("Duplicates")
 public class Login{
     public static String USERNAME;

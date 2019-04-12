@@ -1,10 +1,3 @@
-/**
- * <h1>PawnChangeChoiceBox</h1>
- * This class is used when a pawn wants to promote to another piece
- * @since 08.04.2019
- * @author Team 20
- */
-
 package GUI.GameScene;
 
 import javafx.geometry.HPos;
@@ -20,6 +13,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+/**
+ * <h1>PawnChangeChoiceBox</h1>
+ * This class is used when a pawn wants to promote to another piece
+ * @since 08.04.2019
+ * @author Team 20
+ */
 
 @SuppressWarnings("Duplicates")
 public class PawnChangeChoiceBox{

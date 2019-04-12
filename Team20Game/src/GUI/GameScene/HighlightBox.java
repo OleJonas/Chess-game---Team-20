@@ -1,10 +1,3 @@
-/**
- * <h1>HighlightBox</h1>
- * The purpose of this class is to have the logic for what happens on the chessboard for every move that is made through the game.
- * @since 08.04.2019
- * @author Team 20
- */
-
 package GUI.GameScene;
 
 import Database.Game;
@@ -22,6 +15,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
+
+/**
+ * <h1>HighlightBox</h1>
+ * The purpose of this class is to have the logic for what happens on the chessboard for every move that is made through the game.
+ * @since 08.04.2019
+ * @author Team 20
+ */
 
 public class HighlightBox extends Pane{
     int x;

@@ -1,10 +1,3 @@
-/**
- * <h1>GameScene</h1>
- * The purpose of this class is to create the Game Scene with the board, timer, chat, draw and resign-buttons and to display moves
- * @since 08.04.2019
- * @author Team 20
- */
-
 package GUI.GameScene;
 import Database.Game;
 import Database.User;
@@ -32,8 +25,12 @@ import java.util.concurrent.CountDownLatch;
 //import sun.security.pkcs11.Secmod;
 
 /**
- * The constructor for the GameScene class. Initiates the variables for the different components in the game scene.
+ * <h1>GameScene</h1>
+ * The purpose of this class is to create the Game Scene with the board, timer, chat, draw and resign-buttons and to display moves
+ * @since 08.04.2019
+ * @author Team 20
  */
+
 @SuppressWarnings("Duplicates")
 public class GameScene {
     static Scene gameScene;

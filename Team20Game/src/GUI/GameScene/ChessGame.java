@@ -1,11 +1,3 @@
-/**
- * <h1>ChessGame</h1>
- * The purpose of this class is to create the board used in GameScene.
- * @since 05.04.2019
- * @author Team 20
- */
-
-
 package GUI.GameScene;
 
 import Database.DBOps;
@@ -33,6 +25,13 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+
+/**
+ * <h1>ChessGame</h1>
+ * The purpose of this class is to create the board used in GameScene.
+ * @since 05.04.2019
+ * @author Team 20
+ */
 
 public class ChessGame{
     public static Timer timer;

@@ -1,11 +1,3 @@
-/**
- * <h1>Tile</h1>
- * The purpose of this method is to store the logic for the tiles on the chessboard.
- * @since 08.04.2019
- * @author Team 20
- *
- */
-
 package GUI.GameScene;
 
 import Game.GameEngine;
@@ -16,6 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
+/**
+ * <h1>Tile</h1>
+ * The purpose of this method is to store the logic for the tiles on the chessboard.
+ * @since 08.04.2019
+ * @author Team 20
+ *
+ */
 public class Tile extends StackPane {
     private GameEngine gameEngine;
     private int height;

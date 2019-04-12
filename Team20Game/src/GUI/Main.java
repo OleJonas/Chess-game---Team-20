@@ -8,6 +8,8 @@ import static GUI.LoginScreen.Login.runLogin;
 /**
  * <h1>Main</h1>
  * This class contains the main method and is used to start the program.
+ * @since 10.04.2019
+ * @author Team 20
  */
 
 public class Main extends Application {

@@ -1,3 +1,10 @@
+package Database;
+
+import java.util.ArrayList;
+import GUI.GameScene.ChatFX;
+import GUI.GameScene.ChessGame;
+import GUI.LoginScreen.Login;
+
 /**
  * <h1>ChatDB/h1>
  * The purpose of this class is to provide methods for communication via the in-game chat.
@@ -6,12 +13,6 @@
  * @since 08.04.2019
  * @author Team 20
  */
-package Database;
-
-import java.util.ArrayList;
-import GUI.GameScene.ChatFX;
-import GUI.GameScene.ChessGame;
-import GUI.LoginScreen.Login;
 
 public class ChatDB{
     private DBOps db;
