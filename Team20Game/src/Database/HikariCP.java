@@ -3,10 +3,7 @@ package Database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -30,22 +27,21 @@ public class HikariCP {
 
     // For reading username and password from config-file https://www.javatpoint.com/properties-class-in-java
     static{
-        FileReader reader = null;
-        try {
-            File file = new File("Resources/.properties");
-            reader = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
         Properties p = new Properties();
-        try {
-            p.load(reader);
-        } catch (IOException e) {
+        String path = "./.properties";
+        try{
+            FileInputStream in = new FileInputStream(path);
+            p.load(in);
+            in.close();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
             e.printStackTrace();
         }
 
         HikariConfig config1 = new HikariConfig();
-        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/martijni");
+        config1.setJdbcUrl("jdbc:mysql://mysql.stud.idi.ntnu.no:3306/"+p.getProperty("username"));
         config1.setUsername(p.getProperty("username"));
         config1.setPassword(p.getProperty("password"));
         config1.setDriverClassName("com.mysql.cj.jdbc.Driver");
